@@ -5,12 +5,12 @@
  "heroes": [
   "cyclone",
   "stone",
-  "bomb",
+  "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Release Twister among the thin towers to fling the guards off.",
+ "strategy": "The iron strongroom only breaks to a blast. Slam the beam to throw the keg onto it.",
  "cinematic": [
   {
    "t": "title"
@@ -27,182 +27,195 @@
   },
   {
    "t": "focus",
-   "target": "mech:0",
-   "label": "MOVING!"
+   "target": "1099,-192",
+   "label": "THROWING BEAM!"
+  },
+  {
+   "t": "say",
+   "who": "wizard",
+   "text": "Slam the high end of that beam and it hurls the powder keg!"
   },
   {
    "t": "demo",
-   "target": "top",
-   "hero": "cyclone"
+   "target": "1099,-192",
+   "hero": "stone"
   }
  ],
- "callouts": [
-  {
-   "target": "mech:0",
-   "label": "MOVING!"
-  }
- ],
+ "callouts": [],
  "boss": false,
  "star_scores": [
   20000,
-  23000,
-  37000
+  24000,
+  39000
  ],
- "camera_right": 1650,
- "camera_top": -530,
+ "camera_right": 2220,
+ "camera_top": -410,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 945,
-    "x1": 1155,
+    "x0": 730,
+    "x1": 1438,
     "top": 0.0
    },
    {
-    "x0": 1295,
-    "x1": 1505,
-    "top": 0.0
+    "x0": 1552,
+    "x1": 2085,
+    "top": -140
    }
   ]
  },
  "blocks": [
   {
    "type": "post",
-   "x": 1008,
+   "x": 1215.0,
    "y": -60.0
   },
   {
    "type": "post",
-   "x": 1092,
+   "x": 1375.0,
    "y": -60.0
   },
   {
-   "type": "plank_short",
-   "x": 1050,
+   "type": "plank_long",
+   "x": 1295.0,
    "y": -133.0
   },
   {
    "type": "post",
-   "x": 1008,
+   "x": 1215.0,
    "y": -206.0
   },
   {
    "type": "post",
-   "x": 1092,
+   "x": 1375.0,
    "y": -206.0
   },
   {
-   "type": "plank_short",
-   "x": 1050,
+   "type": "plank_long",
+   "x": 1295.0,
    "y": -279.0
   },
   {
-   "type": "post",
-   "x": 1008,
-   "y": -352.0
-  },
-  {
-   "type": "post",
-   "x": 1092,
-   "y": -352.0
-  },
-  {
-   "type": "plank_short",
-   "x": 1050,
-   "y": -425.0
-  },
-  {
-   "type": "roof",
-   "x": 1050,
-   "y": -473.0,
+   "type": "roof_tile",
+   "x": 1295.0,
+   "y": -342.0,
    "flag": true
   },
   {
-   "type": "post",
-   "x": 1358,
-   "y": -60.0
+   "type": "plank_xl",
+   "x": 957.9,
+   "y": -63.7,
+   "rot": -17.76
+  },
+  {
+   "type": "barrel",
+   "x": 829.9,
+   "y": -70.0,
+   "rot": -17.76
   },
   {
    "type": "post",
-   "x": 1442,
-   "y": -60.0
-  },
-  {
-   "type": "plank_short",
-   "x": 1400,
-   "y": -133.0
+   "x": 1615.0,
+   "y": -200.0
   },
   {
    "type": "post",
-   "x": 1358,
-   "y": -206.0
+   "x": 1775.0,
+   "y": -200.0
   },
   {
-   "type": "post",
-   "x": 1442,
-   "y": -206.0
+   "type": "plank_long",
+   "x": 1695.0,
+   "y": -273.0
   },
   {
-   "type": "plank_short",
-   "x": 1400,
-   "y": -279.0
-  },
-  {
-   "type": "post",
-   "x": 1358,
-   "y": -352.0
-  },
-  {
-   "type": "post",
-   "x": 1442,
-   "y": -352.0
-  },
-  {
-   "type": "plank_short",
-   "x": 1400,
-   "y": -425.0
-  },
-  {
-   "type": "roof",
-   "x": 1400,
-   "y": -473.0,
+   "type": "roof_tile",
+   "x": 1695.0,
+   "y": -336.0,
    "flag": true
+  },
+  {
+   "type": "iron_block",
+   "x": 1847.0,
+   "y": -172
+  },
+  {
+   "type": "iron_block",
+   "x": 1847.0,
+   "y": -236
+  },
+  {
+   "type": "iron_block",
+   "x": 2003.0,
+   "y": -172
+  },
+  {
+   "type": "iron_block",
+   "x": 2003.0,
+   "y": -236
+  },
+  {
+   "type": "iron_beam",
+   "x": 1925.0,
+   "y": -281
   }
  ],
  "archers": [
   {
-   "x": 1050,
-   "y": -321.5
-  },
-  {
-   "x": 1050,
+   "x": 1295.0,
    "y": -175.5
   },
   {
-   "x": 1400,
-   "y": -321.5
+   "x": 1295.0,
+   "y": -29.5
   },
   {
-   "x": 1400,
-   "y": -29.5
+   "x": 1695.0,
+   "y": -169.5
+  },
+  {
+   "x": 1925.0,
+   "y": -169.5
   }
  ],
  "bolts": [],
- "mechanisms": [
+ "mechanisms": [],
+ "captives": [],
+ "ramps": [
   {
-   "type": "moving_platform",
-   "x": 1225,
-   "y": -590,
-   "size": [
-    240,
-    36
+   "points": [
+    [
+     969.0,
+     0
+    ],
+    [
+     1015.0,
+     -68.0
+    ],
+    [
+     1061.0,
+     0
+    ]
    ],
-   "travel_x": 90,
-   "travel_y": 0,
-   "period_s": 4.4,
-   "phase": 0.0
+   "kind": "wood"
   }
  ],
- "captives": []
+ "tethers": [
+  {
+   "kind": "pin",
+   "a": 7,
+   "x": 1015.0,
+   "y": -82.0,
+   "launch": {
+    "payload": 8,
+    "kick": [
+     630.0,
+     -1150.0
+    ],
+    "dir": 1.0
+   }
+  }
+ ]
 }

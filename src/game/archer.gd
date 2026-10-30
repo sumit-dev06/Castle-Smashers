@@ -65,6 +65,16 @@ func setup(p_level: Level, pos: Vector2) -> void:
 	max_hp = hp
 
 
+## Highest world y of what is drawn for this unit (head, boss crown and shield bubble).
+func visual_top() -> float:
+	var top: float = _sprite.position.y - _h * (Data.bf("boss", "scale") if is_boss else 1.0)
+	if is_boss:
+		top -= 34.0
+		var sh: float = Art.svg_size("boss_shield").y * 0.9 * Data.bf("boss", "scale")
+		top = minf(top, -_h * 0.35 - sh * 0.5)
+	return global_position.y + top
+
+
 ## Turns this archer into the realm boss.
 func make_boss(p_name: String, p_hp: float) -> void:
 	is_boss = true

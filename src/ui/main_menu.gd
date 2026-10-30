@@ -367,7 +367,7 @@ func _open_mail() -> void:
 	head.add_child(UIKit.tex_rect("icon_mail", 48))
 	head.add_child(UIKit.label(String(cfg["title"]) if not claimed else "Mailbox", 38, Color("#ffd23a"), 9))
 	v.add_child(head)
-	var body: Label = UIKit.label(String(cfg["body"]) if not claimed else "No new letters. Check back after the next update!", 22, Color("#ffe8c0"), 4, false)
+	var body: Label = UIKit.body(String(cfg["body"]) if not claimed else "No new letters. Check back after the next update!", 23)
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body.custom_minimum_size.x = 520
 	v.add_child(body)

@@ -51,11 +51,11 @@
  "boss": false,
  "star_scores": [
   15000,
-  16000,
-  28000
+  17000,
+  30000
  ],
  "camera_right": 1430,
- "camera_top": -670,
+ "camera_top": -790,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
@@ -77,6 +77,21 @@
    "type": "crate",
    "x": 850,
    "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 950,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 950,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 950,
+   "y": -160.0
   },
   {
    "type": "post",
@@ -134,14 +149,14 @@
   {
    "type": "rope_load",
    "x": 1100,
-   "y": -622.0,
-   "length": 100,
+   "y": -742.0,
+   "length": 220,
    "load": "boulder",
    "frame": {
     "posts": [
      1300
     ],
-    "top": -636.0,
+    "top": -756.0,
     "bottom": 0.0,
     "beam": [
      1088,

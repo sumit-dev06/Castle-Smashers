@@ -1,0 +1,293 @@
+{
+ "id": 130,
+ "name": "Master's Chain",
+ "realm": 4,
+ "heroes": [
+  "quake",
+  "cyclone",
+  "fire",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Release the powder cart, topple the dominoes, and fire the throwing beam.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "1077,-312",
+   "label": "CUT THE ROPE!"
+  },
+  {
+   "target": "1380,-220",
+   "label": "DOMINOES!"
+  },
+  {
+   "target": "2324,-192",
+   "label": "SLAM IT!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  25000,
+  31000,
+  50000
+ ],
+ "camera_right": 3000,
+ "camera_top": -590,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 2336,
+    "top": 0.0
+   },
+   {
+    "x0": 2550,
+    "x1": 2870,
+    "top": -170
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "cart",
+   "x": 1077.9,
+   "y": -192.0,
+   "rot": 35.13
+  },
+  {
+   "type": "barrel",
+   "x": 1094.3,
+   "y": -258.8,
+   "rot": 35.13
+  },
+  {
+   "type": "barrel",
+   "x": 1135.2,
+   "y": -230.0,
+   "rot": 35.13
+  },
+  {
+   "type": "domino",
+   "x": 1380.0,
+   "y": -100
+  },
+  {
+   "type": "domino",
+   "x": 1488.0,
+   "y": -100
+  },
+  {
+   "type": "domino",
+   "x": 1596.0,
+   "y": -100
+  },
+  {
+   "type": "domino",
+   "x": 1704.0,
+   "y": -100
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1780.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1920.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1850.0,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 1770.0,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 1930.0,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1850.0,
+   "y": -313.0
+  },
+  {
+   "type": "post",
+   "x": 1770.0,
+   "y": -386.0
+  },
+  {
+   "type": "post",
+   "x": 1930.0,
+   "y": -386.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1850.0,
+   "y": -459.0
+  },
+  {
+   "type": "barrel",
+   "x": 1876.0,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1850.0,
+   "y": -522.0,
+   "flag": true
+  },
+  {
+   "type": "plank_xl",
+   "x": 2182.9,
+   "y": -63.7,
+   "rot": -17.76
+  },
+  {
+   "type": "boulder",
+   "x": 2050.0,
+   "y": -85.2,
+   "rot": -17.76
+  },
+  {
+   "type": "iron_block",
+   "x": 2632.0,
+   "y": -202
+  },
+  {
+   "type": "iron_block",
+   "x": 2632.0,
+   "y": -266
+  },
+  {
+   "type": "iron_block",
+   "x": 2788.0,
+   "y": -202
+  },
+  {
+   "type": "iron_block",
+   "x": 2788.0,
+   "y": -266
+  },
+  {
+   "type": "iron_beam",
+   "x": 2710.0,
+   "y": -311
+  }
+ ],
+ "archers": [
+  {
+   "x": 1850.0,
+   "y": -209.5
+  },
+  {
+   "x": 1850.0,
+   "y": -355.5
+  },
+  {
+   "x": 1823.0,
+   "y": -29.5
+  },
+  {
+   "x": 2710.0,
+   "y": -199.5
+  },
+  {
+   "x": 2710.0,
+   "y": -353.5
+  }
+ ],
+ "bolts": [
+  {
+   "a": 0,
+   "b": 1
+  },
+  {
+   "a": 0,
+   "b": 2
+  }
+ ],
+ "mechanisms": [],
+ "captives": [],
+ "ramps": [
+  {
+   "points": [
+    [
+     780.0,
+     0
+    ],
+    [
+     780.0,
+     -190
+    ],
+    [
+     1020.0,
+     -190
+    ],
+    [
+     1290.0,
+     0
+    ]
+   ],
+   "kind": "rail"
+  },
+  {
+   "points": [
+    [
+     2194.0,
+     0
+    ],
+    [
+     2240.0,
+     -68.0
+    ],
+    [
+     2286.0,
+     0
+    ]
+   ],
+   "kind": "wood"
+  }
+ ],
+ "tethers": [
+  {
+   "kind": "rope",
+   "a": 0,
+   "x": 1000.0,
+   "y": -196,
+   "attach": [
+    1077.9,
+    -192.0
+   ],
+   "lock": true
+  },
+  {
+   "kind": "pin",
+   "a": 18,
+   "x": 2240.0,
+   "y": -82.0,
+   "launch": {
+    "payload": 19,
+    "kick": [
+     760.0,
+     -980.0
+    ],
+    "dir": 1.0
+   }
+  }
+ ],
+ "challenge": true,
+ "special": true,
+ "required_mechanics": [
+  "explosive_cart",
+  "launch_seesaw"
+ ]
+}

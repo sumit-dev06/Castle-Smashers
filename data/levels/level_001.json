@@ -48,60 +48,24 @@
  "callouts": [],
  "boss": false,
  "star_scores": [
-  10000,
-  11000,
-  23000
+  20000,
+  22000,
+  35000
  ],
- "camera_right": 1360,
- "camera_top": -410,
+ "camera_right": 1450,
+ "camera_top": -450,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
     "x0": 778,
-    "x1": 1193,
+    "x1": 1322,
     "top": 0.0
    }
   ]
  },
  "blocks": [
-  {
-   "type": "post",
-   "x": 970,
-   "y": -60.0
-  },
-  {
-   "type": "post",
-   "x": 1130,
-   "y": -60.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1050,
-   "y": -133.0
-  },
-  {
-   "type": "post",
-   "x": 970,
-   "y": -206.0
-  },
-  {
-   "type": "post",
-   "x": 1130,
-   "y": -206.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1050,
-   "y": -279.0
-  },
-  {
-   "type": "roof_tile",
-   "x": 1050,
-   "y": -342.0,
-   "flag": true
-  },
   {
    "type": "crate",
    "x": 860,
@@ -111,16 +75,75 @@
    "type": "crate",
    "x": 860,
    "y": -96.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 980,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1120,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1050,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 970,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 1130,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1050,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "crate",
+   "x": 1240,
+   "y": -32.0
+  },
+  {
+   "type": "crate",
+   "x": 1240,
+   "y": -96.0
+  },
+  {
+   "type": "crate",
+   "x": 1240,
+   "y": -160.0
   }
  ],
  "archers": [
+  {
+   "x": 860,
+   "y": -157.5
+  },
   {
    "x": 1050,
    "y": -29.5
   },
   {
    "x": 1050,
-   "y": -175.5
+   "y": -209.5
+  },
+  {
+   "x": 1240,
+   "y": -221.5
   }
  ],
  "bolts": [],

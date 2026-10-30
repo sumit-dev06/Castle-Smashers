@@ -155,10 +155,11 @@ func _build_cards(root: Control) -> void:
 	for kind: String in _all_kinds():
 		row.add_child(_hero_card(kind))
 	root.add_child(row)
-	_tip = UIKit.label("Tap + to add a hero. They fire in the order you add them.", 20, Color.WHITE, 6, false)
-	_tip.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	UIKit.place(_tip, Vector2(0.5, 0), Vector2(-520, 562), Vector2(1040, 40))
-	root.add_child(_tip)
+	var tip_pill: PanelContainer = UIKit.info_pill("icon_info", "Tap + to add a hero. They fire in the order you add them.", 20)
+	_tip = (tip_pill.get_child(0) as HBoxContainer).get_child(1) as Label
+	UIKit.place(tip_pill, Vector2(0.5, 0), Vector2(-330, 556), Vector2(660, 44))
+	tip_pill.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	root.add_child(tip_pill)
 
 
 func _all_kinds() -> Array[String]:

@@ -84,6 +84,7 @@ func _build() -> void:
 	var scroll: ScrollContainer = ScrollContainer.new()
 	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	sp.add_child(scroll)
+	DragScroll.attach(scroll)
 	_strip = HBoxContainer.new()
 	_strip.add_theme_constant_override("separation", 10)
 	scroll.add_child(_strip)

@@ -82,7 +82,8 @@ func goto_map() -> void:
 func goto_level_entry(id: int) -> void:
 	var safe_id: int = clampi(id, 1, Data.level_count())
 	var c: Variant = Data.level(safe_id).get("cinematic", [])
-	if c is Array and not (c as Array).is_empty():
+	# Story scenes introduce something new: play each one once, never on replays.
+	if c is Array and not (c as Array).is_empty() and not Save.seen("story:%d" % safe_id):
 		goto_story(safe_id)
 	else:
 		goto_level(safe_id)
@@ -108,7 +109,14 @@ func goto_workshop(back_to_level: int = 0) -> void:
 	_switch(w)
 
 
+func can_enter_level(id: int) -> bool:
+	return not Data.is_special(id) or Save.special_pack_unlocked()
+
+
 func goto_level(id: int) -> void:
+	if not can_enter_level(id) and not (OS.is_debug_build() and args.has("preview-special")):
+		goto_challenges()
+		return
 	var lvl: Node = LevelScript.new()
 	lvl.set("level_id", id if id > Data.CHALLENGE_BASE else clampi(id, 1, Data.level_count()))
 	_switch(lvl)

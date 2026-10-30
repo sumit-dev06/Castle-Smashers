@@ -50,6 +50,7 @@ func _ready() -> void:
 	scroll.anchor_right = 1.0
 	scroll.offset_right = -24
 	root.add_child(scroll)
+	DragScroll.attach(scroll)
 	var row: HBoxContainer = HBoxContainer.new()
 	row.add_theme_constant_override("separation", 18)
 	scroll.add_child(row)
@@ -61,21 +62,37 @@ func _ready() -> void:
 		row.add_child(card)
 		_cards.append(card)
 	row.add_child(_rush_card())
+	var special_open: bool = Save.special_pack_unlocked() or (OS.is_debug_build() and Game.args.has("preview-special"))
+	if special_open:
+		for special: Dictionary in Data.special_list():
+			var special_card: Control = _card(special, false, true)
+			row.add_child(special_card)
+			_cards.append(special_card)
+	else:
+		var gate_card: Control = _special_gate_card()
+		row.add_child(gate_card)
+		_cards.append(gate_card)
 	for i: int in _cards.size():
 		UIFx.pop_in(_cards[i], 0.05 * i)
-	var hint: Label = UIKit.label("Daily challenge pays +%d coins once a day" % int(Data.b("modes", "daily_coins")), 22, Color.WHITE, 7, false)
-	UIKit.place(hint, Vector2(0.5, 1), Vector2(-300, -48), Vector2(600, 36))
+	if OS.is_debug_build() and Game.args.has("preview-special"):
+		get_tree().create_timer(0.15).timeout.connect(func() -> void:
+			scroll.scroll_horizontal = int(scroll.get_h_scroll_bar().max_value))
+	var hint: Control = UIKit.info_pill("coin", "Daily challenge: +%d coins once a day" % int(Data.b("modes", "daily_coins")))
+	UIKit.place(hint, Vector2(0.5, 1), Vector2(-260, -58), Vector2(520, 48))
+	hint.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	root.add_child(hint)
 	Sound.set_music("menu", "menu")
 	Sound.set_surroundings(Sound.realm if not Sound.realm.is_empty() else "blossom", true)
 
 
-func _card(c: Dictionary, daily: bool) -> Control:
+func _card(c: Dictionary, daily: bool, special: bool = false) -> Control:
 	var id: int = int(c["id"])
 	var p: PanelContainer = UIKit.panel()
 	p.custom_minimum_size = Vector2(250, 440)
 	if daily:
 		p.modulate = Color(1.12, 1.05, 0.85)
+	elif special:
+		p.modulate = Color(1.08, 0.96, 1.14)
 	var v: VBoxContainer = VBoxContainer.new()
 	v.alignment = BoxContainer.ALIGNMENT_CENTER
 	v.add_theme_constant_override("separation", 6)
@@ -84,6 +101,8 @@ func _card(c: Dictionary, daily: bool) -> Control:
 		v.add_child(UIKit.label("DAILY", 26, Color("#c46a0a"), 0))
 		_countdown = UIKit.label("", 18, UIKit.TEXT_DARK, 0, false)
 		v.add_child(_countdown)
+	elif special:
+		v.add_child(UIKit.label("MASTER SIEGE %d / %d" % [int(c.get("order", 1)), Data.special_list().size()], 21, Color("#7b3fb2"), 0))
 	var icon: TextureRect = UIKit.tex_rect(String(ModeRules.ICONS.get(String(c["mode"]), "icon_mode_siege")), 92)
 	v.add_child(icon)
 	v.add_child(UIKit.label(String(c["name"]), 28, UIKit.TEXT_DARK, 0))
@@ -115,6 +134,33 @@ func _card(c: Dictionary, daily: bool) -> Control:
 	return p
 
 
+
+
+func _special_gate_card() -> Control:
+	var gate: int = int(Data.b("special_pack", "star_gate"))
+	var p: PanelContainer = UIKit.panel()
+	p.custom_minimum_size = Vector2(280, 440)
+	p.modulate = Color(0.78, 0.74, 0.86)
+	var v: VBoxContainer = VBoxContainer.new()
+	v.alignment = BoxContainer.ALIGNMENT_CENTER
+	v.add_theme_constant_override("separation", 12)
+	p.add_child(v)
+	v.add_child(UIKit.label("MASTER SIEGES", 29, Color("#7b3fb2"), 0))
+	v.add_child(UIKit.tex_rect("icon_lock", 92))
+	v.add_child(UIKit.label("10 HARD LEVELS", 23, UIKit.TEXT_DARK, 0))
+	var rule: Label = UIKit.label("Mechanics are the only way through. Master every contraption.", 18, UIKit.TEXT_DARK, 0, false)
+	rule.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	rule.custom_minimum_size = Vector2(240, 74)
+	v.add_child(rule)
+	v.add_child(UIKit.label("%d / %d CAMPAIGN STARS" % [Save.total_stars(), gate], 22, Color("#7a3a10"), 0))
+	var progress: ProgressBar = ProgressBar.new()
+	progress.custom_minimum_size = Vector2(220, 24)
+	progress.max_value = gate
+	progress.value = mini(Save.total_stars(), gate)
+	progress.show_percentage = false
+	v.add_child(progress)
+	v.add_child(UIKit.label("Earn %d more stars" % maxi(0, gate - Save.total_stars()), 18, UIKit.TEXT_DARK, 0, false))
+	return p
 func _rush_card() -> Control:
 	var p: PanelContainer = UIKit.panel()
 	p.custom_minimum_size = Vector2(250, 440)

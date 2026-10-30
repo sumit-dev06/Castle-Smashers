@@ -1,28 +1,48 @@
 {
  "id": 32,
- "name": "Mine Cart Run",
+ "name": "Powder Express",
  "realm": 4,
  "heroes": [
-  "quake",
-  "bomb",
+  "fire",
+  "cyclone",
   "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Shove the cart off the top of the rails. It smashes the crystal keep below.",
- "cinematic": [],
+ "strategy": "Cut the brake rope. The powder cart rolls into the crystal mine and explodes on impact.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "focus",
+   "target": "1136,-314",
+   "label": "POWDER CART!"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "Cut the brake rope. Those kegs will do the smashing for us."
+  }
+ ],
  "callouts": [
   {
-   "target": "930,-300",
-   "label": "PUSH THE CART!"
+   "target": "bolt:0",
+   "label": "BOLTED"
   }
  ],
  "boss": false,
  "star_scores": [
   25000,
   28000,
-  42000
+  43000
  ],
  "camera_right": 2070,
  "camera_top": -450,
@@ -40,8 +60,21 @@
  "blocks": [
   {
    "type": "cart",
-   "x": 930.0,
-   "y": -235
+   "x": 1136.1,
+   "y": -193.7,
+   "rot": 32.01
+  },
+  {
+   "type": "barrel",
+   "x": 1148.9,
+   "y": -261.2,
+   "rot": 32.01
+  },
+  {
+   "type": "barrel",
+   "x": 1191.3,
+   "y": -234.7,
+   "rot": 32.01
   },
   {
    "type": "crystal_pillar",
@@ -132,7 +165,16 @@
    "y": -389.5
   }
  ],
- "bolts": [],
+ "bolts": [
+  {
+   "a": 0,
+   "b": 1
+  },
+  {
+   "a": 0,
+   "b": 2
+  }
+ ],
  "mechanisms": [],
  "captives": [],
  "ramps": [
@@ -156,6 +198,19 @@
     ]
    ],
    "kind": "rail"
+  }
+ ],
+ "tethers": [
+  {
+   "kind": "rope",
+   "a": 0,
+   "x": 1040.0,
+   "y": -206,
+   "attach": [
+    1136.1,
+    -193.7
+   ],
+   "lock": true
   }
  ]
 }

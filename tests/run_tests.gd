@@ -44,6 +44,16 @@ func _run() -> void:
 	if str(Game.args.get("run-tests", "")) == "contraptions":  # --run-tests=contraptions: quick set-piece check
 		await _contraption_tests()
 		return
+	if str(Game.args.get("run-tests", "")) == "specials":
+		await _special_pack_tests()
+		return
+	var only: String = str(Game.args.get("run-tests", ""))
+	var lo: int = 1
+	var hi: int = Data.level_count()
+	if only.begins_with("stability:"):  # --run-tests=stability:1-6 : stability + framing for a range
+		var span: PackedStringArray = only.trim_prefix("stability:").split("-")
+		lo = int(span[0])
+		hi = int(span[span.size() - 1])
 	print("-- data")
 	for id: int in range(1, Data.level_count() + 1):
 		var d: Dictionary = Data.level(id)
@@ -59,7 +69,7 @@ func _run() -> void:
 		_check(LoadoutRules.valid(recommended, id, d), "level %d recommended four-shot loadout is legal" % id)
 		for mechanism_data: Dictionary in d.get("mechanisms", []):
 			_check(String(mechanism_data.get("type", "")) in ["gate", "drawbridge", "moving_platform", "swing", "spikes", "lava",
-					"rope_load", "hanging_platform", "crusher", "geyser", "lever", "windmill", "shield_ring", "rune_switch", "trapdoor"], "level %d has a known mechanism type" % id)
+					"rope_load", "hanging_platform", "crusher", "geyser", "lever", "windmill", "shield_ring", "rune_switch", "trapdoor", "flood"], "level %d has a known mechanism type" % id)
 		for bolt_data: Dictionary in d.get("bolts", []):
 			_check(int(bolt_data["a"]) < d["blocks"].size() and int(bolt_data["b"]) < d["blocks"].size(), "level %d bolt indices are valid" % id)
 		for td: Dictionary in d.get("tethers", []):
@@ -77,7 +87,7 @@ func _run() -> void:
 		_check(bool(d.get("boss", false)) == d.has("boss_unit"), "level %d boss flag matches boss unit" % id)
 
 	print("-- stability (%.0f s, all bodies awake)" % STAND_S)
-	for id: int in range(1, Data.level_count() + 1):
+	for id: int in range(lo, hi + 1):
 		var l: Level = _make(id)
 		await _wait(0.05)
 		for b: Block in l.blocks:
@@ -91,6 +101,8 @@ func _run() -> void:
 			if b.held:
 				continue
 			worst_move = maxf(worst_move, b.global_position.distance_to(b.start_pos))
+			if Game.args.has("debug-drift") and (b.global_position.distance_to(b.start_pos) > 6.0 or absf(angle_difference(b.rotation, b.start_rot)) > 0.035):
+				print("DRIFT %d %s from %s to %s" % [id, b.shape_id, b.start_pos, b.global_position])
 			worst_rot = maxf(worst_rot, absf(rad_to_deg(angle_difference(b.rotation, b.start_rot))))
 		var archer_move: float = 0.0
 		for a: Archer in l.archers:
@@ -114,6 +126,13 @@ func _run() -> void:
 		if not Data.level(id).get("bolts", []).is_empty():
 			move_limit += BOLT_SAG_PX
 		var rot_limit: float = MOVING_PLATFORM_MAX_ROT_DEG if platform_travel > 0.0 else MAX_ROT_DEG
+		# Framing: the whole fortress (boss crown and shield included) sits below the HUD band on
+		# 20:9 and 16:9 phones, and inside the right edge.
+		var fitted: Array = l.fit_camera()
+		for view: Vector2 in [Vector2(1600, 720), Vector2(1280, 720)]:
+			var zf: Vector2 = GameCamera.fit(view, l.camera.left, float(fitted[1]), float(fitted[0]), l.camera.hud_top)
+			var top_y: float = zf.y * view.y + float(fitted[0]) * zf.x
+			_check(top_y >= l.camera.hud_top - 1.0, "level %d: fortress top below the HUD at %dx%d (y %.0f, zoom %.2f)" % [id, view.x, view.y, top_y, zf.x])
 		_check(l.blocks.size() == total, "level %d: no block broke on its own (%d/%d)" % [id, l.blocks.size(), total])
 		_check(l.archers.size() == expected_archers, "level %d: no archer died on its own" % id)
 		_check(worst_move < move_limit and worst_rot < rot_limit,
@@ -122,6 +141,8 @@ func _run() -> void:
 		l.queue_free()
 		await _wait(0.1)
 
+	if only.begins_with("stability:"):
+		return
 	print("-- shots")
 	# Each hero is tested on the first level that recommends it, aimed at that level's first base.
 	await _shot_test(1, "stone", -200.0, -1.0, INF, "stone hit on level 1")
@@ -281,8 +302,8 @@ func _contraption_tests() -> void:
 	l.queue_free()
 	await _wait(0.1)
 
-	# Rollers: a nudge sends the boulder, wheel and carts down their slopes.
-	for case: Array in [[11, "log"], [15, "boulder"], [35, "wheel"], [32, "cart"], [49, "cart"]]:
+	# Rollers: a nudge sends the free boulder, wheel and cart down their slopes.
+	for case: Array in [[11, "log"], [15, "boulder"], [35, "wheel"], [49, "cart"]]:
 		l = _make(int(case[0]))
 		await _wait(0.1)
 		var r: Block = null  # the front-most one (nearest the fort)
@@ -360,6 +381,118 @@ func _contraption_tests() -> void:
 		l.cut_ropes_near(trap.hook_point().lerp(trap.attach_point(), 0.5), 8.0)
 		await _wait(3.0)
 		_check(trap.cut and (not is_instance_valid(boulder) or boulder.global_position.x > bx1 + 250.0), "cut boulder rolls down the hill")
+	l.queue_free()
+	await _wait(0.1)
+
+	# Level 19: either suspension rope releases one side of the guarded bridge.
+	l = _make(19)
+	await _wait(0.2)
+	var rope_bridge: CastleMechanism = _mech(l, "hanging_platform")
+	var bridge_y: float = rope_bridge.body.global_position.y
+	rope_bridge.cut_rope(0)
+	await _wait(1.2)
+	_check(absf(rad_to_deg(rope_bridge.body.rotation)) > 45.0 and rope_bridge.body.global_position.y > bridge_y,
+			"level 19: one cut collapses the rope bridge (%.0f deg)" % absf(rad_to_deg(rope_bridge.body.rotation)))
+	l.queue_free()
+	await _wait(0.1)
+
+	# Level 18: the drawbridge has a visible pulley and moving counterweight rig.
+	l = _make(18)
+	await _wait(0.1)
+	var pulley_bridge: CastleMechanism = _mech(l, "drawbridge")
+	var weight_y: float = pulley_bridge._counterweight.position.y
+	pulley_bridge.activate(false)
+	await _wait(1.0)
+	_check(pulley_bridge.get_node_or_null("Pulley") != null and pulley_bridge._counterweight.position.y > weight_y + 50.0,
+			"level 18: pulley raises the bridge counterweight")
+	l.queue_free()
+	await _wait(0.1)
+
+	# Level 38: the mill wheel waits jammed until its brake trigger breaks, then turns.
+	l = _make(38)
+	await _wait(0.2)
+	var water_wheel: CastleMechanism = _mech(l, "windmill")
+	var wheel_angle: float = water_wheel.body.rotation
+	var waits: bool = water_wheel.jammed and not water_wheel.active
+	l.activate_trigger("mill")
+	await _wait(0.5)
+	_check(waits and water_wheel.active and not water_wheel.jammed and absf(angle_difference(wheel_angle, water_wheel.body.rotation)) > 0.05,
+			"level 38: breaking the brake starts the water wheel")
+	l.queue_free()
+	await _wait(0.1)
+
+	# Level 32: cutting the brake sends its bolted powder barrels into the crystal mine.
+	l = _make(32)
+	await _wait(0.2)
+	var cart_rope: Tether = _tether_of(l, func(t: Tether) -> bool: return bool(t.cfg.get("lock", false)) and t.a.shape_id == "cart")
+	var powder_cart: Block = cart_rope.a
+	var cart_x: float = powder_cart.global_position.x
+	var barrels_before: int = 0
+	for b32: Block in l.blocks:
+		if b32.shape_id == "barrel":
+			barrels_before += 1
+	cart_rope.release(true)
+	await _wait(4.0)
+	var barrels_after: int = 0
+	for b32b: Block in l.blocks:
+		if b32b.shape_id == "barrel":
+			barrels_after += 1
+	_check(cart_rope.cut and (not is_instance_valid(powder_cart) or powder_cart.global_position.x > cart_x + 250.0) and barrels_after < barrels_before,
+			"level 32: the released powder cart rolls and explodes (%d/%d kegs left)" % [barrels_after, barrels_before])
+	l.queue_free()
+	await _wait(0.1)
+
+	# Level 12: slamming the short arm throws the powder keg onto the iron strongroom.
+	l = _make(12)
+	await _wait(1.3)
+	var beam: Tether = _tether_of(l, func(t: Tether) -> bool: return t.payload != null)
+	var keg: Block = beam.payload
+	var g12: int = l.archers.size()
+	beam.a.angular_velocity = 3.0
+	var keg_path: Array[Vector2] = []
+	for i: int in 30:
+		await _wait(0.1)
+		if is_instance_valid(keg) and not keg.dead:
+			keg_path.append(keg.global_position)
+	if Game.args.has("debug-launch"):
+		print("KEG path ", keg_path)
+	_check(beam.launched and (not is_instance_valid(keg) or keg.dead) and l.archers.size() <= g12 - 1,
+			"level 12: the beam throws the keg and it blows the strongroom (%d guards down)" % (g12 - l.archers.size()))
+	l.queue_free()
+	await _wait(0.1)
+
+	# Level 21: hitting the sluice gate floods the dock and drowns the guards in the iron sheds.
+	l = _make(21)
+	await _wait(0.3)
+	var g21: int = l.archers.size()
+	_mech(l, "flood")._hit()
+	await _wait(5.0)
+	_check(l.archers.size() <= g21 - 2, "level 21: the flood washes out the iron sheds (%d guards down)" % (g21 - l.archers.size()))
+	l.queue_free()
+	await _wait(0.1)
+
+	# Level 22: breaking the keystone drops the shelf and the strongroom into the sea.
+	l = _make(22)
+	await _wait(0.3)
+	var g22: int = l.archers.size()
+	for b22: Block in l.blocks:
+		if b22.is_weak_point():
+			b22.take_damage(99999.0)
+	await _wait(3.5)
+	_check(l.archers.size() <= g22 - 2, "level 22: the cracked shelf drops the strongroom (%d guards down)" % (g22 - l.archers.size()))
+	l.queue_free()
+	await _wait(0.1)
+
+	# Level 2: the hanging rock crushes the wooden watchtower under it.
+	l = _make(2)
+	await _wait(0.1)
+	var rl: CastleMechanism = _mech(l, "rope_load")
+	var before: int = l.blocks.size()
+	var guards: int = l.archers.size()
+	rl.cut_rope(0)
+	await _wait(2.5)
+	_check(before - l.blocks.size() >= 3 and l.archers.size() < guards,
+			"level 2: the dropped rock smashes the tower (%d pieces, %d guards down)" % [before - l.blocks.size(), guards - l.archers.size()])
 	l.queue_free()
 	await _wait(0.1)
 
@@ -517,6 +650,7 @@ func _phase_d_tests() -> void:
 	_wallet_tests()
 	await _mechanism_d_tests()
 	await _boss_rig_tests()
+	await _special_pack_tests()
 	await _mode_tests()
 	await _progression_tests()
 	await _meta_tests()
@@ -688,6 +822,98 @@ func _boss_rig_tests() -> void:
 	await _wait(0.1)
 
 
+func _special_has(d: Dictionary, required: String) -> bool:
+	var mechanisms: Array = d.get("mechanisms", [])
+	var tethers_data: Array = d.get("tethers", [])
+	match required:
+		"flood":
+			return mechanisms.any(func(m: Dictionary) -> bool: return String(m.get("type", "")) == "flood")
+		"water_wheel":
+			return mechanisms.any(func(m: Dictionary) -> bool: return String(m.get("type", "")) == "windmill" and String(m.get("style", "")) == "wheel" and m.has("start_on"))
+		"rope_bridge":
+			return mechanisms.any(func(m: Dictionary) -> bool: return String(m.get("type", "")) == "hanging_platform")
+		"breakable_ledge":
+			return mechanisms.any(func(m: Dictionary) -> bool: return String(m.get("type", "")) == "trapdoor" and String(m.get("style", "")) in ["rock", "timber"])
+		"pulley":
+			return mechanisms.any(func(m: Dictionary) -> bool: return String(m.get("type", "")) == "drawbridge" and m.has("counterweight_travel"))
+		"launch_seesaw":
+			return tethers_data.any(func(t: Dictionary) -> bool: return String(t.get("kind", "")) == "pin" and t.has("launch"))
+		"explosive_cart":
+			var cart_i: int = -1
+			for i: int in (d.get("blocks", []) as Array).size():
+				if String(d["blocks"][i].get("type", "")) == "cart":
+					cart_i = i
+					break
+			return cart_i >= 0 and tethers_data.any(func(t: Dictionary) -> bool: return int(t.get("a", -1)) == cart_i and bool(t.get("lock", false))) \
+					and not (d.get("bolts", []) as Array).is_empty()
+	return false
+
+
+## Master Sieges: ten stable, hard mechanic puzzles, unlocked by 25 campaign stars and excluded
+## from the daily challenge rotation.
+func _special_pack_tests() -> void:
+	print("-- master sieges special pack")
+	var specials: Array = Data.special_list()
+	var first: int = int(Data.b("special_pack", "first_id"))
+	var last: int = int(Data.b("special_pack", "last_id"))
+	_check(specials.size() == 10 and int(specials[0]["id"]) == first and int(specials[-1]["id"]) == last,
+			"special pack has ten ordered levels (%d-%d)" % [first, last])
+	var daily_ids: Array[int] = []
+	for challenge: Dictionary in Data.challenge_list():
+		daily_ids.append(int(challenge["id"]))
+	var ids: Array[int] = []
+	for card: Dictionary in specials:
+		var id: int = int(card["id"])
+		ids.append(id)
+		var d: Dictionary = Data.challenge(id)
+		_check(not d.is_empty() and bool(d.get("special", false)) and bool(d.get("challenge", false)),
+				"special %d loads as challenge data" % id)
+		_check((d.get("heroes", []) as Array).size() == 4 and (d.get("archers", []) as Array).size() >= 3,
+				"special %d is a hard fixed four-shot siege (%d guards)" % [id, (d.get("archers", []) as Array).size()])
+		var required: Array = d.get("required_mechanics", [])
+		var all_present: bool = not required.is_empty()
+		for mechanic: Variant in required:
+			all_present = all_present and _special_has(d, String(mechanic))
+		_check(all_present, "special %d contains every required mechanic: %s" % [id, ", ".join(required)])
+	_check(ids.all(func(id: int) -> bool: return not daily_ids.has(id)), "specials stay out of daily challenge rotation")
+
+	var saved: Dictionary = Save.data.duplicate(true)
+	Save.data["stars"] = {}
+	Save.data["challenges"] = {str(first): {"stars": 3, "best": 99999}}
+	_check(not Save.special_pack_unlocked() and not Game.can_enter_level(first), "special pack stays locked below 25 campaign stars")
+	for id: int in range(1, 9):
+		Save.data["stars"][str(id)] = 3
+	Save.data["stars"]["9"] = 1
+	_check(Save.total_stars() == int(Data.b("special_pack", "star_gate")) and Save.special_pack_unlocked() and Game.can_enter_level(first),
+			"25 campaign stars unlock every Master Siege")
+	Save.data = saved
+	Save.write()
+
+	# Every special starts at rest for the full campaign stability window and fits common phones.
+	for id: int in ids:
+		var l: Level = _make(id)
+		await _wait(0.1)
+		var total_blocks: int = l.blocks.size()
+		var total_guards: int = l.archers.size()
+		for b: Block in l.blocks:
+			b.sleeping = false
+		for a: Archer in l.archers:
+			a.sleeping = false
+		await _wait(STAND_S)
+		var worst: float = 0.0
+		for b: Block in l.blocks:
+			if not b.held:
+				worst = maxf(worst, b.global_position.distance_to(b.start_pos))
+		var fitted: Array = l.fit_camera()
+		var framed: bool = true
+		for view: Vector2 in [Vector2(1600, 720), Vector2(1280, 720)]:
+			var zf: Vector2 = GameCamera.fit(view, l.camera.left, float(fitted[1]), float(fitted[0]), l.camera.hud_top)
+			framed = framed and zf.y * view.y + float(fitted[0]) * zf.x >= l.camera.hud_top - 1.0
+		_check(l.blocks.size() == total_blocks and l.archers.size() == total_guards and worst < MAX_MOVE_PX and framed,
+				"special %d stands for 10 s and fits 20:9/16:9 (drift %.1f px)" % [id, worst])
+		l.queue_free()
+		await _wait(0.1)
+
 ## Game modes: heist, time attack, one shot, survival, reverse siege, boss rush, daily challenge.
 func _mode_tests() -> void:
 	print("-- phase D: modes")
@@ -746,6 +972,8 @@ func _mode_tests() -> void:
 	_check(ls.state == Level.State.PLAY and ls.mode.wave == 2 and not ls.archers.is_empty(), "survival sends wave 2 (%d guards)" % ls.archers.size())
 	ls.queue_free()
 	await _wait(0.1)
+
+
 	# Reverse siege: engines sail toward the player; defeating a crew sinks the engine.
 	var lr: Level = _make(107)
 	await _wait(1.5)

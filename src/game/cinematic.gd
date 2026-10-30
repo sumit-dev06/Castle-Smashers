@@ -121,7 +121,7 @@ func _target(name: String) -> Vector2:
 			var ropes: Array = m.ropes()
 			if not ropes.is_empty():
 				return ((ropes[0][0] as Vector2) + (ropes[0][1] as Vector2)) * 0.5
-			if m.kind in ["lever", "windmill", "shield_ring", "rune_switch", "trapdoor"]:
+			if m.kind in ["lever", "windmill", "shield_ring", "rune_switch", "trapdoor", "flood"]:
 				return m.hit_point()
 			if m.kind == "geyser":
 				return m.global_position + Vector2(0, -float(m.cfg["height"]) * 0.5)

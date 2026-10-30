@@ -71,13 +71,17 @@
   "camera": {
     "ground_screen_frac": 0.72,
     "left": -360.0,
-    "min_zoom": 0.38,
+    "min_zoom": 0.32,
     "max_zoom": 1.0,
     "top_margin_px": 120.0,
     "smooth": 3.5,
     "shake_decay": 7.0,
     "shake_max_px": 24.0,
-    "menu_ground_screen_frac": 0.84
+    "menu_ground_screen_frac": 0.84,
+    "hud_top_px": 100.0,
+    "boss_hud_top_px": 170.0,
+    "content_margin_px": 26.0,
+    "max_ground_screen_frac": 0.8
   },
   "archers": {
     "hp": 30.0,
@@ -701,7 +705,8 @@
     "arrow_miss_fall_px": 400.0,
     "wide_base_min_px": 300.0,
     "front_offset_px": 10.0,
-    "fg_ai_height_frac": 0.42
+    "fg_ai_height_frac": 0.42,
+    "fg_ai_left_height_frac": 0.26
   },
   "gaps": {
     "water": {
@@ -779,7 +784,15 @@
     "tip_angle_deg": 78.0,
     "tip_s": 0.7,
     "drop_s": 1.1,
-    "drop_px": 900.0
+    "drop_px": 900.0,
+    "crush": {
+      "_doc": "A released rope load (and wrecking balls/cages) smashes what it lands on: damage = speed * damage_per_speed to each block/archer it touches while faster than min_speed.",
+      "min_speed": 220.0,
+      "damage_per_speed": 0.35,
+      "archer_damage_per_speed": 0.12,
+      "push_mult": 0.6,
+      "active_s": 2.5
+    }
   },
   "crusher": {
     "slam_damage": 160.0,
@@ -1004,7 +1017,9 @@
     "_doc": "Floor panel on a hinge; opens when triggered so what stands on it falls.",
     "open_deg": 100,
     "open_s": 0.45,
-    "score": 1000
+    "score": 1000,
+    "ledge_drop_px": 700.0,
+    "ledge_drop_s": 1.1
   },
   "boss_rig": {
     "_doc": "Boss stages (src/game/boss_rig.gd): cores shield the boss, cannons shoot soldiers, engineers rebuild.",
@@ -1080,6 +1095,12 @@
       ]
     },
     "sink_speed": 90.0
+  },
+  "special_pack": {
+    "_doc": "Master Sieges: ten hard fixed-loadout mechanic puzzles shown on Challenges, unlocked by campaign stars.",
+    "star_gate": 25,
+    "first_id": 121,
+    "last_id": 130
   },
   "siege_weapons": {
     "_doc": "Pick on the loadout screen (src/game/progression.gd). Multipliers apply to every hero fired.",
@@ -1993,6 +2014,48 @@
     "spring_color": "#8a96a3",
     "spring_coils": 6,
     "spring_radius": 12.0,
-    "snap_score": 1500
+    "snap_score": 1500,
+    "launch_min_dps": 40.0,
+    "launch_score": 1500,
+    "launch_arm_s": 1.0,
+    "launch_grace_s": 0.3,
+    "launch_blast_mult": 1.6
+  },
+  "ui": {
+    "_doc": "Menu feel: finger-drag scrolling of card lists (DragScroll).",
+    "drag_scroll_px": 14.0,
+    "drag_scroll_friction": 5.0
+  },
+  "friendly_fire": {
+    "_doc": "Our own blasts, flames and heroes that land short hurt the Vanguard (Level.hurt_soldiers).",
+    "blast_radius_mult": 0.85,
+    "blast_hits_inner": 2,
+    "blast_hits_outer": 1,
+    "fire_hits": 1,
+    "landing_radius_px": 80.0,
+    "landing_min_speed": 320.0
+  },
+  "flood": {
+    "_doc": "Sluice gate + flood wave (src/game/flood.gd). push_accel px/s^2 downstream, buoyancy = 1/density capped, guards in the water drown at drown_dps (archer hp 30).",
+    "color": "#2f9fe0c8",
+    "foam_color": "#f2fdffe6",
+    "foam_width": 7.0,
+    "depth": 80.0,
+    "speed": 520.0,
+    "rise_s": 0.9,
+    "hold_s": 3.2,
+    "drain_s": 2.0,
+    "push_accel": 900.0,
+    "drag": 1.6,
+    "max_buoyancy": 2.2,
+    "archer_buoyancy": 1.1,
+    "archer_half_h": 30.0,
+    "drown_dps": 14.0,
+    "wave_px": 5.0,
+    "splash_every_s": 0.18,
+    "gate_sensor_r": 46.0,
+    "gate_rise_px": 0.0,
+    "gate_open_s": 0.45,
+    "score": 2500
   }
 }

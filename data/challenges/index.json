@@ -101,5 +101,180 @@
     "stone"
    ]
   }
+ ],
+ "specials": [
+  {
+   "id": 121,
+   "order": 1,
+   "name": "Flooded Foundry",
+   "realm": 3,
+   "mode": "",
+   "rule": "Iron protects the low guards. Open the sluice, then clear the high keep.",
+   "heroes": [
+    "stone",
+    "cyclone",
+    "quake",
+    "stone"
+   ],
+   "required_mechanics": [
+    "flood"
+   ]
+  },
+  {
+   "id": 122,
+   "order": 2,
+   "name": "Mill of Teeth",
+   "realm": 4,
+   "mode": "",
+   "rule": "Break the mill brake. The wheel must batter the iron room loose.",
+   "heroes": [
+    "quake",
+    "stone",
+    "cyclone",
+    "stone"
+   ],
+   "required_mechanics": [
+    "water_wheel"
+   ]
+  },
+  {
+   "id": 123,
+   "order": 3,
+   "name": "The Last Rope",
+   "realm": 2,
+   "mode": "",
+   "rule": "Cut one suspension rope to tip three guards into the canyon.",
+   "heroes": [
+    "fire",
+    "cyclone",
+    "stone",
+    "stone"
+   ],
+   "required_mechanics": [
+    "rope_bridge"
+   ]
+  },
+  {
+   "id": 124,
+   "order": 4,
+   "name": "Faultline Vault",
+   "realm": 3,
+   "mode": "",
+   "rule": "Break the keystone. The iron vault and everyone in it must fall.",
+   "heroes": [
+    "quake",
+    "stone",
+    "fire",
+    "stone"
+   ],
+   "required_mechanics": [
+    "breakable_ledge"
+   ]
+  },
+  {
+   "id": 125,
+   "order": 5,
+   "name": "Counterweight Hall",
+   "realm": 2,
+   "mode": "",
+   "rule": "Hit the lever to run the pulley and lower the counterweighted span.",
+   "heroes": [
+    "cyclone",
+    "stone",
+    "fire",
+    "stone"
+   ],
+   "required_mechanics": [
+    "pulley"
+   ]
+  },
+  {
+   "id": 126,
+   "order": 6,
+   "name": "Powder Express II",
+   "realm": 4,
+   "mode": "",
+   "rule": "Cut the brake rope. The powder cart is your only bomb.",
+   "heroes": [
+    "fire",
+    "cyclone",
+    "quake",
+    "stone"
+   ],
+   "required_mechanics": [
+    "explosive_cart"
+   ]
+  },
+  {
+   "id": 127,
+   "order": 7,
+   "name": "The Siege Pitcher",
+   "realm": 5,
+   "mode": "",
+   "rule": "Slam the beam to throw its keg into the high iron vault.",
+   "heroes": [
+    "quake",
+    "stone",
+    "cyclone",
+    "stone"
+   ],
+   "required_mechanics": [
+    "launch_seesaw"
+   ]
+  },
+  {
+   "id": 128,
+   "order": 8,
+   "name": "Clockwork Deluge",
+   "realm": 3,
+   "mode": "",
+   "rule": "One lever starts the wheel and opens the sluice. Time the chain reaction.",
+   "heroes": [
+    "stone",
+    "cyclone",
+    "quake",
+    "stone"
+   ],
+   "required_mechanics": [
+    "water_wheel",
+    "flood"
+   ]
+  },
+  {
+   "id": 129,
+   "order": 9,
+   "name": "Bridge at World's End",
+   "realm": 5,
+   "mode": "",
+   "rule": "Collapse the rope bridge, then break the cliff beneath the last vault.",
+   "heroes": [
+    "fire",
+    "quake",
+    "cyclone",
+    "stone"
+   ],
+   "required_mechanics": [
+    "rope_bridge",
+    "breakable_ledge"
+   ]
+  },
+  {
+   "id": 130,
+   "order": 10,
+   "name": "Master's Chain",
+   "realm": 4,
+   "mode": "",
+   "rule": "Release the powder cart, topple the dominoes, and fire the throwing beam.",
+   "heroes": [
+    "quake",
+    "cyclone",
+    "fire",
+    "stone"
+   ],
+   "required_mechanics": [
+    "explosive_cart",
+    "launch_seesaw"
+   ]
+  }
  ]
 }

@@ -61,9 +61,12 @@ with a short flyover (fortress pan, up to 3 `callouts`, the boss).
   `triggers`), `windmill` (rotating `AnimatableBody2D`; hub sensor jams it), `shield_ring` (plates on
   the **shield** physics layer 16, which only projectiles collide with), `rune_switch` (polls
   `is_covered()` every `rune_switch.check_s`; uncovered it glows and a hit fires `triggers`),
-  `trapdoor` (hinged panel, opened by its `trigger`, wakes what rests on it each step).
-  Blasts, fire, quakes and rune beams call `Level.hit_mechanisms_near()`. Points and float text come
-  from `CastleMechanism.callout_text()` via `Level.on_mechanism_activated(m, pts)`.
+  `trapdoor` (hinged panel, opened by its `trigger`, wakes what rests on it each step). A trapdoor
+  with `style: rock|timber` becomes a breakable cliff ledge: it tips, then drops away with its load.
+  `flood` owns a `Flood` wave: opening its sluice pushes and floats blocks and drowns covered guards.
+  A `windmill` with `start_on` and `style: wheel` is a jammed water wheel that starts when its brake
+  trigger fires. Blasts, fire, quakes and rune beams call `Level.hit_mechanisms_near()`. Points and
+  float text come from `CastleMechanism.callout_text()` via `Level.on_mechanism_activated(m, pts)`.
 - **Rule:** an `AnimatableBody2D` with `sync_to_physics` must get exactly one transform/position
   assignment per physics frame. Two setters read a stale transform and the body jitters.
 - Contraptions (level keys `ramps`, `tethers`):
@@ -73,8 +76,11 @@ with a short flyover (fortress pan, up to 3 `callouts`, the boss).
     from a hook: bells, cages, wrecking balls; cut by shots, fire and blasts through
     `Level.cut_ropes_near`, scored by `Level.on_tether_cut`), `spring` (damped spring). A rope with
     `lock` freezes its block until cut; `kick` then flings it (spring traps). Optional `frame` draws a
-    wooden gantry. Built by the `tools/gen_levels.py` helpers (`seesaw`, `dominoes`, `plateau`,
-    `roller`, `bell`, `cage`, `pendulum`, `crane`, `spring_trap`).
+    wooden gantry. Pins can carry `launch` data: when a heavy seesaw turns fast enough, its held
+    payload is thrown with an impact grace period and then becomes a crushing load. Released rope
+    loads and carts damage what they strike; a powder cart detonates its bolted kegs on impact.
+    Built by the `tools/gen_levels.py` helpers (`seesaw`, `dominoes`, `plateau`, `roller`, `bell`,
+    `cage`, `pendulum`, `crane`, `spring_trap`, `rope_bridge`, `launch_seesaw`, `powder_cart`).
 - `Bolt` (`bolt.gd`) pins two blocks with two `PinJoint2D`s and snaps on `bolts.break_damage`,
   an explosion or quake in range, or when either block is destroyed.
 - Wind (level `wind`) pushes heroes in flight; the HUD shows the gust. Tide (level `tide`) moves
@@ -162,7 +168,11 @@ rebuild queued broken blocks at their deck-adjusted home. `status()` feeds `Hud.
   `blocks_win` (holds the default "all guards down" win), `on_block_destroyed`, `stars`,
   `chip_text` → `Hud.set_mode`, `result_rows` → results breakdown.
 - Level ids above `Data.CHALLENGE_BASE` (100) are challenges: `Data.challenge(id)`, fixed heroes,
-  results in `Save.data.challenges`, no campaign unlocks, daily bonus via `Save.daily_challenge_id()`.
+  results in `Save.data.challenges`, and no campaign unlocks. `Data.challenge_list()` contains only
+  ids 101–108 used by `Save.daily_challenge_id()`.
+- Master Sieges are special challenge ids 121–130. `Data.special_list()` reads their separate index;
+  `Save.special_pack_unlocked()` requires 25 campaign stars, and `Game.can_enter_level()` enforces
+  the gate. They use normal challenge results/rewards but can never become the daily challenge.
 - Reverse siege engines are `moving_platform`s with `approach: {speed, dock_x}`; `sink()` drops them.
 - Boss rush: `Game.start_rush()` → `Game.rush_advance()` carries heroes, soldier HP and time between
   fights; `Save.record_rush()` keeps the best time.

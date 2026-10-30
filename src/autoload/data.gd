@@ -53,6 +53,18 @@ func challenge_list() -> Array:
 	return challenges.get("challenges", [])
 
 
+## Hard mechanic-puzzle cards, kept out of daily challenge rotation.
+func special_list() -> Array:
+	return challenges.get("specials", [])
+
+
+func is_special(id: int) -> bool:
+	for item: Dictionary in special_list():
+		if int(item.get("id", 0)) == id:
+			return true
+	return false
+
+
 ## Shortcut: Data.b("camera", "smooth") -> balance.camera.smooth
 func b(section: String, key: String) -> Variant:
 	var s: Dictionary = balance.get(section, {})

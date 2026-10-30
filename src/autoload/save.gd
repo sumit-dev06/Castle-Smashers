@@ -39,6 +39,22 @@ func write() -> void:
 	DirAccess.rename_absolute(tmp, PATH)
 
 
+## One-time introductions: story scenes ("story:7"), flyover callouts ("callout:SEESAW!"), boss
+## reveals ("boss:10") and hero ability hints ("hint:quake"). Shown only until seen once.
+func seen(key: String) -> bool:
+	return (data.get("seen", {}) as Dictionary).has(key)
+
+
+func mark_seen(key: String, save_now: bool = true) -> void:
+	if not data.has("seen") or not data["seen"] is Dictionary:
+		data["seen"] = {}
+	if (data["seen"] as Dictionary).has(key):
+		return
+	data["seen"][key] = true
+	if save_now:
+		write()
+
+
 func stars(level_id: int) -> int:
 	return int(data["stars"].get(str(level_id), 0))
 
@@ -46,6 +62,11 @@ func stars(level_id: int) -> int:
 func is_unlocked(level_id: int) -> bool:
 	return level_id <= int(data["unlocked"])
 
+
+
+## The Master Sieges pack uses campaign stars only; challenge and secret stars live separately.
+func special_pack_unlocked() -> bool:
+	return total_stars() >= int(Data.b("special_pack", "star_gate"))
 
 func total_stars() -> int:
 	var t: int = 0

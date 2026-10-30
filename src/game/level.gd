@@ -157,6 +157,8 @@ func _ready() -> void:
 		if ta < data_blocks.size() and tb < data_blocks.size():
 			var tether: Tether = Tether.new()
 			tether.setup(self, td, data_blocks[ta], data_blocks[tb] if tb >= 0 else null)
+			if td.has("launch") and int(td["launch"]["payload"]) < data_blocks.size():
+				tether.payload = data_blocks[int(td["launch"]["payload"])]
 			world.add_child(tether)
 			tethers.append(tether)
 	for ad: Dictionary in data.get("archers", []):
@@ -186,6 +188,7 @@ func _ready() -> void:
 		world.add_child(w)
 		_waiting.append(w)
 	_layout_waiting()
+	fit_camera()
 	fx = Fx.new()
 	if not test_mode:
 		fx.trail_color = Progression.trail_color()
@@ -225,6 +228,7 @@ func _ready() -> void:
 		hud.visible = false
 		_play_cinematic(data.get("cinematic", []), false)
 		cine.finished.connect(func() -> void:
+			Save.mark_seen("story:%d" % level_id)
 			Game.skip_flyover = true
 			Game.goto_level(level_id))
 		return
@@ -236,7 +240,13 @@ func _ready() -> void:
 			get_tree().create_timer(Data.bf("loadout", "plan_delay_s")).timeout.connect(_open_plan)
 		return
 	hud.banner("Level %d" % level_id, String(data.get("name", "")))
-	_play_cinematic(_flyover_beats(), true)
+	var fly: Array = _flyover_beats()
+	if fly.size() <= 1:
+		# Nothing new to point out: no camera tour, straight to planning (or to play).
+		if _planning:
+			get_tree().create_timer(Data.bf("loadout", "plan_delay_s")).timeout.connect(_open_plan)
+		return
+	_play_cinematic(fly, true)
 	if _planning:
 		cine.finished.connect(_open_plan)
 
@@ -280,6 +290,65 @@ func apply_weapon() -> void:
 		catapult.apply_tints(tints[0], tints[1])
 
 
+## Ammo tray tap: hero `i` (still waiting) goes into the bucket next; the one that was loaded takes
+## its place in the queue. Ignored mid-hop, while aiming, or for heroes already fired.
+func choose_hero(i: int) -> bool:
+	if is_finished() or _aiming or i < hero_index or i >= heroes.size():
+		return false
+	if i == hero_index:
+		return true
+	if _waiting[hero_index].has_meta("hopping"):
+		return false
+	var a: String = heroes[hero_index]
+	heroes[hero_index] = heroes[i]
+	heroes[i] = a
+	var w: Sprite2D = _waiting[hero_index]
+	_waiting[hero_index] = _waiting[i]
+	_waiting[i] = w
+	var sh: Sprite2D = _waiting_shadows[hero_index]
+	_waiting_shadows[hero_index] = _waiting_shadows[i]
+	_waiting_shadows[i] = sh
+	for k: int in [hero_index, i]:
+		var base: Sprite2D = Projectile.make_sprite(heroes[k])
+		_waiting[k].scale = base.scale
+		_waiting[k].set_meta("base_scale", base.scale)
+		base.free()
+	if _loaded:
+		catapult.load_hero(heroes[hero_index])
+		Sound.play("pop", 0.6)
+	_layout_waiting()
+	_update_hud()
+	return true
+
+
+## Frames the whole fortress: the highest block, unit (boss crown and shield), gantry or mechanism
+## must sit below the HUD band, and the furthest piece inside the right edge. Uses the live bodies,
+## so it can't drift from the level data. Returns [content_top, right].
+func fit_camera() -> Array:
+	var top: float = minf(0.0, float(data.get("camera_top", 0.0)))
+	var right: float = world_right
+	for b: Block in blocks:
+		var r: float = b.size.length() * 0.5
+		top = minf(top, b.global_position.y - r)
+		right = maxf(right, b.global_position.x + r + 60.0)
+	for a: Archer in archers:
+		top = minf(top, a.visual_top())
+		right = maxf(right, a.global_position.x + 90.0)
+	for t: Tether in tethers:
+		if t.cfg.has("frame"):
+			top = minf(top, float(t.cfg["frame"]["top"]) - 30.0)
+		top = minf(top, t.hook_point().y - 30.0)
+	top -= Data.bf("camera", "content_margin_px")
+	camera.content_top = top
+	camera.right = right
+	world_right = right
+	camera.hud_top = Data.bf("camera", "boss_hud_top_px" if boss != null else "hud_top_px")
+	if Game.args.has("debug-fit"):
+		var bz: float = camera.base_zoom()
+		print("FIT level %d top %.0f right %.0f zoom %.3f frac %.3f view %s hud %.0f" % [level_id, top, right, bz, camera._frac, camera.get_viewport_rect().size, camera.hud_top])
+	return [top, right]
+
+
 ## Replaces the ammo queue before the first shot (plan screen).
 func set_heroes(kinds: Array[String]) -> void:
 	for w: Sprite2D in _waiting:
@@ -305,12 +374,20 @@ func _play_cinematic(beats: Array, quick: bool) -> void:
 
 ## Every level opens on its fortress: the camera starts there, points out what is new or dangerous
 ## (level JSON "callouts": [{"target", "label"}]), then sweeps back to the catapult.
+## Only what the player has not met before is pointed out (Save.seen); a level with nothing new
+## returns just the opening pan, which the caller skips.
 func _flyover_beats() -> Array:
 	var beats: Array = [{"t": "pan", "to": "fortress", "zoom": 0.0, "s": 0.9}]
+	var fresh: bool = not Save.seen("level:%d" % level_id)
 	for c: Variant in data.get("callouts", []):
-		beats.append({"t": "focus", "target": String(c["target"]), "label": String(c["label"])})
-	if is_instance_valid(boss):
+		var key: String = "callout:" + String(c["label"])
+		if fresh and not Save.seen(key):
+			beats.append({"t": "focus", "target": String(c["target"]), "label": String(c["label"])})
+			Save.mark_seen(key, false)
+	if is_instance_valid(boss) and not Save.seen("boss:%d" % level_id):
 		beats.append({"t": "focus", "target": "boss", "label": boss.boss_name.to_upper()})
+		Save.mark_seen("boss:%d" % level_id, false)
+	Save.mark_seen("level:%d" % level_id)
 	return beats
 
 
@@ -327,8 +404,9 @@ func _build_foreground() -> void:
 	layer_fg.add_child(root)
 	var key: String = String(realm_info.get("key", ""))
 	if Art.has_ai("fg_%s_left" % key) or Art.has_ai("fg_%s_right" % key):
-		var h: float = get_viewport_rect().size.y * Data.bf("stage", "fg_ai_height_frac")
 		for side: int in 2:
+			# The left corner sits over the waiting heroes: keep it low so they stay in view.
+			var h: float = get_viewport_rect().size.y * Data.bf("stage", "fg_ai_left_height_frac" if side == 0 else "fg_ai_height_frac")
 			var art_name: String = "fg_%s_%s" % [key, "left" if side == 0 else "right"]
 			if not Art.has_ai(art_name):
 				continue
@@ -443,7 +521,7 @@ func _physics_process(delta: float) -> void:
 				_reload_t = 0.0
 				if boss == null:
 					Sound.stinger("siege_start")
-				if level_id == 1 or not bool(Save.data.get("tutorial_done", false)):
+				if not bool(Save.data.get("tutorial_done", false)):
 					_show_tutorial()
 		State.PLAY:
 			_play_t += delta
@@ -505,8 +583,10 @@ func _load_now() -> void:
 	Sound.play("pop", 0.6)
 	if not test_mode and (Sound.state == "destruction" or Sound.state == "flight"):
 		Sound.music_state("aim")
-	if not test_mode and not _hinted.has(kind) and kind != "stone":
-		hud.hint("%s: %s" % [String(Data.projectiles[kind]["name"]), String(Data.projectiles[kind]["ability"])], 3.5)
+	if not test_mode and not _hinted.has(kind) and kind != "stone" and not Save.seen("hint:" + kind):
+		hud.hint("%s: %s" % [String(Data.projectiles[kind]["name"]), String(Data.projectiles[kind]["ability"])], 3.5,
+				String(Data.projectiles[kind]["texture"]))
+		Save.mark_seen("hint:" + kind)
 	_hinted[kind] = true
 	# Debug capture: --force-win=seconds ends the level as a win (results screen screenshots).
 	if OS.is_debug_build() and Game.args.has("force-win") and not _autoshot_done and not Game.args.has("autoshot"):
@@ -650,6 +730,9 @@ func fire_hero(vel: Vector2) -> void:
 	_reload_t = Data.bf("catapult", "reload_s") * _w_reload
 	_update_hud()
 	_hide_tutorial()
+	if not test_mode and not bool(Save.data.get("tutorial_done", false)):
+		Save.data["tutorial_done"] = true
+		Save.write()
 	Sound.play("launch")
 	Game.haptic()
 	Events.projectile_launched.emit(kind)
@@ -982,7 +1065,9 @@ func on_block_destroyed(b: Block, scored: bool) -> void:
 	_wake_near(pos, maxf(b.size.x, b.size.y) + Data.bf("physics", "wake_margin_px"))
 	if bool(m["explodes"]):
 		var e: Dictionary = m["explosion"]
-		explode.call_deferred(pos, float(e["radius"]), float(e["impulse"]), float(e["damage"]))
+		# Thrown kegs and cart loads are packed tighter than a barrel in a cellar (Block meta).
+		var bm: float = float(b.get_meta("blast_mult", 1.0))
+		explode.call_deferred(pos, float(e["radius"]) * sqrt(bm), float(e["impulse"]) * bm, float(e["damage"]) * bm)
 	if m.has("shatter"):
 		shatter.call_deferred(pos, m["shatter"])
 	for bolt: Bolt in bolts.duplicate():
@@ -1062,6 +1147,8 @@ func activate_trigger(trigger: String) -> void:
 
 
 func on_mechanism_activated(mechanism: CastleMechanism, pts: int = -1) -> void:
+	if Game.args.has("debug-mech"):
+		print("MECH %s at %d ms" % [mechanism.kind, Time.get_ticks_msec()])
 	if pts < 0:
 		pts = int(Data.b("mechanics", "trigger_score"))
 	score += pts
@@ -1133,6 +1220,9 @@ func explode(pos: Vector2, radius: float, impulse: float, damage: float) -> void
 			var dir: Vector2 = ((b.global_position - pos).normalized() + Vector2(0, -0.35)).normalized()
 			b.push(dir * impulse * f)
 			b.take_damage(damage * f)
+	var ffr: float = radius * Data.bf("friendly_fire", "blast_radius_mult")
+	hurt_soldiers(pos, ffr * 0.5, int(Data.b("friendly_fire", "blast_hits_inner")))
+	hurt_soldiers(pos, ffr, int(Data.b("friendly_fire", "blast_hits_outer")))
 	for a: Archer in archers.duplicate():
 		if not is_instance_valid(a) or a.dead:
 			continue
@@ -1166,6 +1256,24 @@ func fire_burst(pos: Vector2, radius: float, damage: float) -> void:
 		if is_instance_valid(a) and a.global_position.distance_to(pos) < radius:
 			a.ignite(burn)
 			a.take_damage(damage * 0.5)
+	hurt_soldiers(pos, radius, int(Data.b("friendly_fire", "fire_hits")))
+
+
+## Friendly fire: our soldiers within `radius` of `pos` take `hits` unblockable hits each. Explosions
+## and flames that go off on our ledge, or a hero that drops back onto it, hurt the Vanguard.
+## Each soldier is hit once per call (inner/outer rings call twice).
+func hurt_soldiers(pos: Vector2, radius: float, hits: int) -> int:
+	var n: int = 0
+	for s: Soldier in soldiers:
+		if not is_instance_valid(s) or s.knocked_out:
+			continue
+		if s.body_center().distance_to(pos) < radius:
+			for k: int in hits:
+				s.hit(true)
+			n += 1
+	if n > 0 and not test_mode:
+		hud.hint("Careful! Your own shot hit the Vanguard.", 2.0, "soldier_idle")
+	return n
 
 
 func spread_fire(src: Block) -> void:
@@ -1178,11 +1286,15 @@ func spread_fire(src: Block) -> void:
 			b.ignite(t)
 
 
-func quake(pos: Vector2, quake_cfg: Dictionary) -> void:
-	var radius: float = float(quake_cfg["shockwave_radius"])
+## Quaky's shockwave. Low pieces (within shockwave_height of the ground) take the full hit; everything
+## higher in range is shaken loose with a weaker jolt (upper_damage_mult), so the whole structure
+## rocks. `power` scales it (an undived landing is weaker).
+func quake(pos: Vector2, quake_cfg: Dictionary, power: float = 1.0) -> void:
+	var radius: float = float(quake_cfg["shockwave_radius"]) * lerpf(0.7, 1.0, power)
 	var height: float = float(quake_cfg["shockwave_height"])
-	var damage: float = float(quake_cfg["shockwave_damage"])
-	var impulse: float = float(quake_cfg["shockwave_impulse"])
+	var damage: float = float(quake_cfg["shockwave_damage"]) * power
+	var impulse: float = float(quake_cfg["shockwave_impulse"]) * power
+	var upper: float = float(quake_cfg.get("upper_damage_mult", 0.45))
 	var ground_y: float = stage.top_at(pos.x) if stage else 0.0
 	if ground_y > 0.0:
 		ground_y = 0.0
@@ -1196,18 +1308,22 @@ func quake(pos: Vector2, quake_cfg: Dictionary) -> void:
 		if not is_instance_valid(b) or b.dead:
 			continue
 		var dx: float = absf(b.global_position.x - pos.x)
-		if dx > radius or b.global_position.y < ground_y - height:
+		if dx > radius or b.held:
 			continue
 		if b.absorb("quake"):
 			continue
-		var strength: float = 1.0 - dx / radius
+		var low: bool = b.global_position.y >= ground_y - height
+		var strength: float = (1.0 - dx / radius) * (1.0 if low else upper)
 		var weak_mult: float = float(quake_cfg["weak_point_mult"]) if b.is_weak_point() else 1.0
-		b.push(Vector2(signf(b.global_position.x - pos.x) * impulse * 0.2, -impulse) * strength)
-		b.take_damage(damage * strength * weak_mult)
+		var mat_mult: float = float((quake_cfg.get("material_mult", {}) as Dictionary).get(b.mat_id, 1.0))
+		var side: float = signf(b.global_position.x - pos.x) if dx > 1.0 else (1.0 if randf() < 0.5 else -1.0)
+		b.push(Vector2(side * impulse * (0.2 if low else 0.3), -impulse * (1.0 if low else 0.3)) * strength)
+		b.take_damage(damage * strength * weak_mult * mat_mult)
 	for a: Archer in archers.duplicate():
-		if is_instance_valid(a) and absf(a.global_position.x - pos.x) < radius and a.global_position.y > ground_y - height:
+		if is_instance_valid(a) and not a.dead and absf(a.global_position.x - pos.x) < radius:
 			var strength_a: float = 1.0 - absf(a.global_position.x - pos.x) / radius
-			a.push(Vector2(0, -impulse * 0.35 * strength_a))
+			a.push(Vector2(signf(a.global_position.x - pos.x) * impulse * 0.15, -impulse * 0.35) * strength_a)
+			a.take_damage(float(quake_cfg.get("archer_damage", 18.0)) * strength_a * power)
 	Events.quake.emit(Vector2(pos.x, ground_y), radius)
 
 
@@ -1360,10 +1476,13 @@ func on_rope_cut(m: CastleMechanism) -> void:
 
 ## A contraption rope (Tether) was cut: points, SNAP! and a chain link.
 func on_tether_cut(t: Tether) -> void:
-	var pts: int = int(Data.b("tethers", "snap_score"))
+	on_contraption(t.hook_point().lerp(t.attach_point(), 0.5), "SNAP!", int(Data.b("tethers", "snap_score")))
+
+
+## Score, callout and a chain link for a contraption firing (rope snap, seesaw launch).
+func on_contraption(at: Vector2, text: String, pts: int) -> void:
 	score += pts
-	var at: Vector2 = t.hook_point().lerp(t.attach_point(), 0.5)
-	fx.float_text(at, "SNAP!", Color("#ffe27a"), 30)
+	fx.float_text(at, text, Color("#ffe27a"), 30)
 	_chain_link(at, pts, "rope")
 	_stat("mechanisms")
 	_update_hud()

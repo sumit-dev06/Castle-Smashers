@@ -1,6 +1,6 @@
 {
  "id": 19,
- "name": "Mesa Bridge",
+ "name": "Ropebridge Ambush",
  "realm": 2,
  "heroes": [
   "cyclone",
@@ -10,15 +10,15 @@
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "The bridge only holds while both mesas stand.",
+ "strategy": "Cut either suspension rope. The bridge tips and throws its guards into the canyon.",
  "cinematic": [
   {
    "t": "title"
   },
   {
    "t": "focus",
-   "target": "bolt:0",
-   "label": "BOLTED BRIDGE"
+   "target": "mech:0",
+   "label": "CUT A ROPE!"
   },
   {
    "t": "enter",
@@ -29,40 +29,35 @@
   {
    "t": "say",
    "who": "captain",
-   "text": "Break a tower and the bridge goes swimming!"
+   "text": "One cut tips the whole bridge into the canyon."
   }
  ],
  "callouts": [
   {
-   "target": "bolt:0",
-   "label": "BOLTED"
+   "target": "mech:0",
+   "label": "CUT A ROPE!"
   }
  ],
  "boss": false,
  "star_scores": [
-  30000,
-  34000,
-  50000
+  25000,
+  28000,
+  42000
  ],
- "camera_right": 1820,
- "camera_top": -540,
+ "camera_right": 1960,
+ "camera_top": -610,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 795,
-    "x1": 1005,
+    "x0": 775,
+    "x1": 985,
     "top": 0.0
    },
    {
-    "x0": 1135,
-    "x1": 1345,
-    "top": 0.0
-   },
-   {
-    "x0": 1475,
-    "x1": 1685,
+    "x0": 1615,
+    "x1": 1825,
     "top": 0.0
    }
   ]
@@ -70,173 +65,142 @@
  "blocks": [
   {
    "type": "post",
-   "x": 858,
+   "x": 838,
    "y": -60.0
   },
   {
    "type": "post",
-   "x": 942,
+   "x": 922,
    "y": -60.0
   },
   {
    "type": "plank_short",
-   "x": 900,
+   "x": 880,
    "y": -133.0
   },
   {
    "type": "post",
-   "x": 858,
+   "x": 838,
    "y": -206.0
   },
   {
    "type": "post",
-   "x": 942,
-   "y": -206.0
-  },
-  {
-   "type": "plank_short",
-   "x": 900,
-   "y": -279.0
-  },
-  {
-   "type": "roof",
-   "x": 900,
-   "y": -327.0,
-   "flag": true
-  },
-  {
-   "type": "post",
-   "x": 1198,
-   "y": -60.0
-  },
-  {
-   "type": "post",
-   "x": 1282,
-   "y": -60.0
-  },
-  {
-   "type": "plank_short",
-   "x": 1240,
-   "y": -133.0
-  },
-  {
-   "type": "post",
-   "x": 1198,
-   "y": -206.0
-  },
-  {
-   "type": "post",
-   "x": 1282,
+   "x": 922,
    "y": -206.0
   },
   {
    "type": "plank_short",
-   "x": 1240,
+   "x": 880,
    "y": -279.0
   },
   {
    "type": "post",
-   "x": 1198,
+   "x": 838,
    "y": -352.0
   },
   {
    "type": "post",
-   "x": 1282,
+   "x": 922,
    "y": -352.0
   },
   {
    "type": "plank_short",
-   "x": 1240,
+   "x": 880,
    "y": -425.0
   },
   {
    "type": "post",
-   "x": 1538,
+   "x": 1678,
    "y": -60.0
   },
   {
    "type": "post",
-   "x": 1622,
+   "x": 1762,
    "y": -60.0
   },
   {
    "type": "plank_short",
-   "x": 1580,
+   "x": 1720,
    "y": -133.0
   },
   {
    "type": "post",
-   "x": 1538,
+   "x": 1678,
    "y": -206.0
   },
   {
    "type": "post",
-   "x": 1622,
+   "x": 1762,
    "y": -206.0
   },
   {
    "type": "plank_short",
-   "x": 1580,
+   "x": 1720,
    "y": -279.0
   },
   {
    "type": "post",
-   "x": 1538,
+   "x": 1678,
    "y": -352.0
   },
   {
    "type": "post",
-   "x": 1622,
+   "x": 1762,
    "y": -352.0
   },
   {
    "type": "plank_short",
-   "x": 1580,
+   "x": 1720,
    "y": -425.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1300,
-   "y": -451
-  },
-  {
-   "type": "plank_long",
-   "x": 1520,
-   "y": -451
   }
  ],
  "archers": [
   {
-   "x": 900,
+   "x": 880,
    "y": -175.5
   },
   {
-   "x": 900,
-   "y": -29.5
+   "x": 1235,
+   "y": -484.5
   },
   {
-   "x": 1240,
+   "x": 1365,
+   "y": -484.5
+  },
+  {
+   "x": 1720,
+   "y": -175.5
+  },
+  {
+   "x": 1720,
    "y": -321.5
-  },
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
   {
-   "x": 1580,
-   "y": -175.5
-  },
-  {
+   "type": "hanging_platform",
    "x": 1300,
-   "y": -493.5
-  },
-  {
-   "x": 1520,
-   "y": -493.5
+   "y": -560,
+   "size": [
+    400,
+    30
+   ],
+   "span": 360,
+   "drop": 120,
+   "frame": {
+    "posts": [
+     1096.0,
+     1504.0
+    ],
+    "top": -574,
+    "bottom": 260,
+    "beam": [
+     1080.0,
+     1520.0
+    ]
+   }
   }
  ],
- "bolts": [
-  {
-   "a": 25,
-   "b": 26
-  }
- ],
- "mechanisms": [],
  "captives": []
 }

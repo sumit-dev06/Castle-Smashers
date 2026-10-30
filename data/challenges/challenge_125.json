@@ -1,0 +1,192 @@
+{
+ "id": 125,
+ "name": "Counterweight Hall",
+ "realm": 2,
+ "heroes": [
+  "cyclone",
+  "stone",
+  "fire",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Hit the lever to run the pulley and lower the counterweighted span.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "HIT THE LEVER!"
+  },
+  {
+   "target": "mech:1",
+   "label": "DRAWBRIDGE"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  20000,
+  24000,
+  40000
+ ],
+ "camera_right": 1990,
+ "camera_top": -470,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 1164,
+    "top": 0.0
+   },
+   {
+    "x0": 1540,
+    "x1": 1860,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 800.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 940.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 870.0,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 790.0,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 950.0,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 870.0,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 870.0,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "iron_block",
+   "x": 1622.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1622.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1778.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1778.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1700.0,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 1620.0,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1780.0,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1700.0,
+   "y": -287.0
+  },
+  {
+   "type": "post",
+   "x": 1620.0,
+   "y": -360.0
+  },
+  {
+   "type": "post",
+   "x": 1780.0,
+   "y": -360.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1700.0,
+   "y": -433.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 870.0,
+   "y": -209.5
+  },
+  {
+   "x": 870.0,
+   "y": -29.5
+  },
+  {
+   "x": 1700.0,
+   "y": -183.5
+  },
+  {
+   "x": 1700.0,
+   "y": -329.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "lever",
+   "x": 1080.0,
+   "y": 0,
+   "triggers": [
+    "master_span"
+   ],
+   "facing": -1
+  },
+  {
+   "type": "drawbridge",
+   "x": 1200.0,
+   "y": -168,
+   "size": [
+    380,
+    36
+   ],
+   "trigger": "master_span",
+   "start_angle": -82,
+   "end_angle": 0,
+   "duration_s": 0.95,
+   "counterweight_travel": 115
+  }
+ ],
+ "captives": [],
+ "challenge": true,
+ "special": true,
+ "required_mechanics": [
+  "pulley"
+ ]
+}

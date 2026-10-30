@@ -10,7 +10,7 @@
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Earthbreak reaches every low foundation, including the weak stone.",
+ "strategy": "The iron strongroom stands on a cracked shelf. Break the keystone and the shelf drops into the sea.",
  "cinematic": [
   {
    "t": "title"
@@ -28,7 +28,12 @@
   {
    "t": "say",
    "who": "wizard",
-   "text": "Drive Rumbler down and the ground breaks!"
+   "text": "Drive Quaky down and the ground breaks!"
+  },
+  {
+   "t": "focus",
+   "target": "mech:0",
+   "label": "CRACKED LEDGE!"
   },
   {
    "t": "demo",
@@ -39,16 +44,16 @@
  "callouts": [
   {
    "target": "mech:0",
-   "label": "SPIKES"
+   "label": "TRAP DOOR"
   }
  ],
  "boss": false,
  "star_scores": [
-  15000,
-  19000,
-  34000
+  25000,
+  31000,
+  50000
  ],
- "camera_right": 1920,
+ "camera_right": 2040,
  "camera_top": -630,
  "bg_variant": 1,
  "stage": {
@@ -56,7 +61,7 @@
   "bases": [
    {
     "x0": 860,
-    "x1": 1790,
+    "x1": 1562,
     "top": 0.0
    }
   ]
@@ -106,59 +111,90 @@
   {
    "type": "stone_block",
    "x": 1180,
-   "y": -96.0,
-   "weak_point": true
+   "y": -96.0
   },
   {
    "type": "stone_pillar",
-   "x": 1290,
+   "x": 1250,
    "y": -70.0
   },
   {
    "type": "stone_pillar",
-   "x": 1430,
+   "x": 1390,
    "y": -70.0
   },
   {
    "type": "stone_slab",
-   "x": 1360,
+   "x": 1320,
    "y": -160.0
   },
   {
    "type": "stone_pillar",
-   "x": 1290,
+   "x": 1250,
    "y": -250.0
   },
   {
    "type": "stone_pillar",
-   "x": 1430,
+   "x": 1390,
    "y": -250.0
   },
   {
    "type": "stone_slab",
-   "x": 1360,
+   "x": 1320,
    "y": -340.0
   },
   {
    "type": "post",
-   "x": 1280,
+   "x": 1240,
    "y": -420.0
   },
   {
    "type": "post",
-   "x": 1440,
+   "x": 1400,
    "y": -420.0
   },
   {
    "type": "plank_long",
-   "x": 1360,
+   "x": 1320,
    "y": -493.0
   },
   {
    "type": "roof_tile",
-   "x": 1360,
+   "x": 1320,
    "y": -556.0,
    "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1480,
+   "y": -32,
+   "weak_point": true,
+   "trigger": "shelf"
+  },
+  {
+   "type": "iron_block",
+   "x": 1622,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1622,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1778,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1778,
+   "y": -96
+  },
+  {
+   "type": "iron_beam",
+   "x": 1700,
+   "y": -141
   }
  ],
  "archers": [
@@ -167,24 +203,35 @@
    "y": -209.5
   },
   {
-   "x": 1360,
+   "x": 1320,
    "y": -209.5
   },
   {
-   "x": 1360,
+   "x": 1320,
    "y": -389.5
+  },
+  {
+   "x": 1700,
+   "y": -29.5
+  },
+  {
+   "x": 1700,
+   "y": -183.5
   }
  ],
  "bolts": [],
  "mechanisms": [
   {
-   "type": "spikes",
-   "x": 1650,
-   "y": -22,
+   "type": "trapdoor",
+   "x": 1710.0,
+   "y": 25.0,
    "size": [
-    180,
-    44
-   ]
+    300,
+    50
+   ],
+   "trigger": "shelf",
+   "hinge": -1,
+   "style": "timber"
   }
  ],
  "captives": []

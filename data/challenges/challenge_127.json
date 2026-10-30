@@ -1,0 +1,231 @@
+{
+ "id": 127,
+ "name": "The Siege Pitcher",
+ "realm": 5,
+ "heroes": [
+  "quake",
+  "stone",
+  "cyclone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Slam the beam to throw its keg into the high iron vault.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "1099,-192",
+   "label": "SLAM IT!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  30000,
+  34000,
+  51000
+ ],
+ "camera_right": 2260,
+ "camera_top": -560,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 1438,
+    "top": 0.0
+   },
+   {
+    "x0": 1552,
+    "x1": 2135,
+    "top": -150
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 1215.0,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1375.0,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1295.0,
+   "y": -133.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1225.0,
+   "y": -216.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1365.0,
+   "y": -216.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1295.0,
+   "y": -306.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1295.0,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "plank_xl",
+   "x": 957.9,
+   "y": -63.7,
+   "rot": -17.76
+  },
+  {
+   "type": "barrel",
+   "x": 829.9,
+   "y": -70.0,
+   "rot": -17.76
+  },
+  {
+   "type": "post",
+   "x": 1615.0,
+   "y": -210.0
+  },
+  {
+   "type": "post",
+   "x": 1775.0,
+   "y": -210.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1695.0,
+   "y": -283.0
+  },
+  {
+   "type": "post",
+   "x": 1615.0,
+   "y": -356.0
+  },
+  {
+   "type": "post",
+   "x": 1775.0,
+   "y": -356.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1695.0,
+   "y": -429.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1695.0,
+   "y": -492.0,
+   "flag": true
+  },
+  {
+   "type": "iron_block",
+   "x": 1897.0,
+   "y": -182
+  },
+  {
+   "type": "iron_block",
+   "x": 1897.0,
+   "y": -246
+  },
+  {
+   "type": "iron_block",
+   "x": 2053.0,
+   "y": -182
+  },
+  {
+   "type": "iron_block",
+   "x": 2053.0,
+   "y": -246
+  },
+  {
+   "type": "iron_beam",
+   "x": 1975.0,
+   "y": -291
+  }
+ ],
+ "archers": [
+  {
+   "x": 1295.0,
+   "y": -175.5
+  },
+  {
+   "x": 1295.0,
+   "y": -29.5
+  },
+  {
+   "x": 1695.0,
+   "y": -325.5
+  },
+  {
+   "x": 1695.0,
+   "y": -179.5
+  },
+  {
+   "x": 1975.0,
+   "y": -179.5
+  },
+  {
+   "x": 1975.0,
+   "y": -333.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": [],
+ "ramps": [
+  {
+   "points": [
+    [
+     969.0,
+     0
+    ],
+    [
+     1015.0,
+     -68.0
+    ],
+    [
+     1061.0,
+     0
+    ]
+   ],
+   "kind": "wood"
+  }
+ ],
+ "tethers": [
+  {
+   "kind": "pin",
+   "a": 7,
+   "x": 1015.0,
+   "y": -82.0,
+   "launch": {
+    "payload": 8,
+    "kick": [
+     700.0,
+     -1190.0
+    ],
+    "dir": 1.0
+   }
+  }
+ ],
+ "challenge": true,
+ "wind": {
+  "strength": 200,
+  "period_s": 6.0,
+  "gust_s": 3.0,
+  "dir": 1
+ },
+ "special": true,
+ "required_mechanics": [
+  "launch_seesaw"
+ ]
+}

@@ -220,9 +220,6 @@ func _build_ui() -> void:
 	_bar = CurrencyBar.new(["coins", "gems", "blueprints"], false)
 	right.add_child(_bar)
 	root.add_child(right)
-	var hint: Label = UIKit.label("Drag to explore · Tap a level to play", 22, Color.WHITE, 7, false)
-	UIKit.place(hint, Vector2(0.5, 1), Vector2(-300, -26), Vector2(600, 30))
-	root.add_child(hint)
 
 
 func _scroll_to(x: float) -> void:

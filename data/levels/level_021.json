@@ -3,14 +3,14 @@
  "name": "Dockside Shacks",
  "realm": 3,
  "heroes": [
-  "fire",
-  "bomb",
+  "stone",
+  "cyclone",
   "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Fire spreads along the timber piers. The tide moves the waterline.",
+ "strategy": "Stones bounce off iron. Hit the sluice gate: the flood drowns the guards in the sheds.",
  "cinematic": [
   {
    "t": "title"
@@ -23,124 +23,167 @@
   },
   {
    "t": "focus",
-   "target": "gap",
-   "label": "THE TIDE!"
+   "target": "mech:0",
+   "label": "SLUICE GATE!"
   },
   {
    "t": "say",
    "who": "captain",
-   "text": "The sea rises and falls. Mind the water!"
+   "text": "Their sheds are iron. Smash the sluice gate and let the sea in!"
+  },
+  {
+   "t": "demo",
+   "target": "mech:0",
+   "hero": "stone"
   }
  ],
- "callouts": [],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "OPEN THE SLUICE!"
+  }
+ ],
  "boss": false,
  "star_scores": [
   20000,
-  22000,
-  35000
+  25000,
+  42000
  ],
- "camera_right": 1720,
+ "camera_right": 2060,
  "camera_top": -410,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 807,
-    "x1": 1595,
+    "x0": 730,
+    "x1": 1893,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
+   "type": "iron_block",
+   "x": 1212.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1212.0,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1368.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1368.0,
+   "y": -96
+  },
+  {
+   "type": "iron_beam",
+   "x": 1290.0,
+   "y": -141
+  },
+  {
+   "type": "iron_block",
+   "x": 1442.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1442.0,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1598.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1598.0,
+   "y": -96
+  },
+  {
+   "type": "iron_beam",
+   "x": 1520.0,
+   "y": -141
+  },
+  {
    "type": "post",
-   "x": 870,
+   "x": 1670.0,
    "y": -60.0
   },
   {
    "type": "post",
-   "x": 1030,
+   "x": 1830.0,
    "y": -60.0
   },
   {
    "type": "plank_long",
-   "x": 950,
+   "x": 1750.0,
    "y": -133.0
   },
   {
    "type": "post",
-   "x": 870,
+   "x": 1670.0,
    "y": -206.0
   },
   {
    "type": "post",
-   "x": 1030,
+   "x": 1830.0,
    "y": -206.0
   },
   {
    "type": "plank_long",
-   "x": 950,
+   "x": 1750.0,
    "y": -279.0
   },
   {
    "type": "roof_tile",
-   "x": 950,
+   "x": 1750.0,
    "y": -342.0,
    "flag": true
-  },
-  {
-   "type": "barrel",
-   "x": 1150,
-   "y": -29.0
-  },
-  {
-   "type": "barrel",
-   "x": 1150,
-   "y": -87.0
-  },
-  {
-   "type": "post",
-   "x": 1228,
-   "y": -60
-  },
-  {
-   "type": "post",
-   "x": 1380,
-   "y": -60
-  },
-  {
-   "type": "post",
-   "x": 1532,
-   "y": -60
-  },
-  {
-   "type": "plank_xl",
-   "x": 1380,
-   "y": -133,
-   "banner": true
   }
  ],
  "archers": [
   {
-   "x": 950,
-   "y": -175.5
-  },
-  {
-   "x": 950,
+   "x": 1290.0,
    "y": -29.5
   },
   {
-   "x": 1380,
-   "y": -175.5
+   "x": 1520.0,
+   "y": -29.5
   },
   {
-   "x": 1304,
+   "x": 1750.0,
    "y": -29.5
+  },
+  {
+   "x": 1750.0,
+   "y": -175.5
   }
  ],
  "bolts": [],
- "mechanisms": [],
+ "mechanisms": [
+  {
+   "type": "flood",
+   "x": 1070.0,
+   "y": 0.0,
+   "size": [
+    40,
+    170
+   ],
+   "pool": 250,
+   "pool_h": 150,
+   "reach": 760,
+   "depth": 70
+  }
+ ],
  "captives": [],
  "tide": {
   "amp_px": 45,

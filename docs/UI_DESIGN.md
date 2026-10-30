@@ -145,7 +145,10 @@ haptics, language (English), Replay Tutorial, Credits page, Privacy (balance
 
 ## Challenges screen
 Cards in a row, one per mode, each with a big icon, the mode name, a one-line rule, best result
-and stars. The daily challenge card is first, gold-trimmed, with a countdown.
+and stars. The daily challenge card is first, gold-trimmed, with a countdown. Master Sieges is a
+separate ten-level hard pack. Below 25 campaign stars the row shows one locked pack card with live
+progress; at 25 stars it expands to ten violet-gold `MASTER SIEGE n / 10` cards. Special levels use
+fixed four-shot loadouts and never enter the daily rotation.
 
 ## Armory
 See "Skins (Armory)" below for the full layout. Summary: catapult skins and hero trails. Each item is a card with a preview, its source (realm

@@ -103,6 +103,40 @@ static func label(text: String, size: int = 32, color: Color = Color.WHITE, outl
 	return l
 
 
+## Body copy for cream panels: dark brown on cream, no outline or shadow (outlined light text on a
+## light panel blurs). Wraps; set custom_minimum_size.x for the width.
+static func body(text: String, size: int = 22, color: Color = TEXT_DARK) -> Label:
+	var l: Label = label(text, size, color, 0, false)
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	return l
+
+
+## Dark rounded pill with an icon and a short line: footers and notes over a backdrop
+## (instead of bare text floating on the art).
+static func info_pill(icon: String, text: String, size: int = 22) -> PanelContainer:
+	var p: PanelContainer = PanelContainer.new()
+	var sb: StyleBoxFlat = StyleBoxFlat.new()
+	sb.bg_color = Color(0.1, 0.06, 0.03, 0.78)
+	sb.border_color = Color("#d8a040")
+	sb.set_border_width_all(3)
+	sb.set_corner_radius_all(24)
+	sb.content_margin_left = 16
+	sb.content_margin_right = 20
+	sb.content_margin_top = 4
+	sb.content_margin_bottom = 4
+	p.add_theme_stylebox_override("panel", sb)
+	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var h: HBoxContainer = HBoxContainer.new()
+	h.alignment = BoxContainer.ALIGNMENT_CENTER
+	h.add_theme_constant_override("separation", 10)
+	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if not icon.is_empty():
+		h.add_child(tex_rect(icon, size * 1.5))
+	h.add_child(label(text, size, Color("#ffe27a"), 6))
+	p.add_child(h)
+	return p
+
+
 ## Cream panel with a wooden frame.
 static func panel() -> PanelContainer:
 	var p: PanelContainer = PanelContainer.new()

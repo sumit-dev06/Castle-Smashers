@@ -57,6 +57,7 @@ var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var _stretch: AudioStreamPlayer
 var _stretch_on: bool = false
 var _ratchet_power: float = 0.0
+var _was_paused: bool = false
 
 
 func _ready() -> void:
@@ -442,10 +443,35 @@ func _process(_delta: float) -> void:
 	var dt: float = clampf(float(now - _last_us) / 1000000.0, 0.0, 0.1)
 	_last_us = now
 	_slow_real_s = _slow_real_s + dt if Engine.time_scale < 0.6 else 0.0
+	if get_tree().paused != _was_paused:
+		_was_paused = get_tree().paused
+		_hold_world_audio(_was_paused)
 	_mix_music(dt)
 	_mix_ambience(dt)
 	_mix_filter(dt)
 	_tick_details(dt)
+
+
+## Pause holds the music, ambience and world sounds where they are; resume carries on from there.
+## UI clicks (their own pool) keep working in the pause menu.
+func _hold_world_audio(hold: bool) -> void:
+	var players: Array[AudioStreamPlayer] = []
+	for d: Deck in _decks:
+		players.append(d.base)
+		players.append(d.action)
+	players.append_array(_beds)
+	players.append_array(_amb_pool)
+	players.append_array(_pool)
+	for p: AudioStreamPlayer in [_sting, _stretch]:
+		if p:
+			players.append(p)
+	for p: AudioStreamPlayer in players:
+		if is_instance_valid(p):
+			p.stream_paused = hold
+
+
+func is_holding() -> bool:
+	return _was_paused
 
 
 func _state_cfg() -> Dictionary:

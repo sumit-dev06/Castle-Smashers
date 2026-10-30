@@ -13,7 +13,7 @@ Each hero has a `material_mult` per material (`data/projectiles.json`), so the r
 | Material | Behaviour | Best answer | Status |
 |---|---|---|---|
 | Wood, crate, straw | Burns: fire spreads to touching wood | Blaze | done |
-| Stone | Cracks in 3 stages, heavy | Rocky, Rumbler | done |
+| Stone | Cracks in 3 stages, heavy | Rocky, Quaky | done |
 | Powder barrel | Explodes, chains into other barrels | anything | done |
 | Crystal | Shatters and cuts neighbours | Rocky | done |
 | **Ice** (new) | Slippery (friction 0.05), low HP, shatters into shards; fire melts it fast (×3) | Blaze, Rocky | done |
@@ -51,6 +51,12 @@ Phase D (built, tunables in `balance.json` → `lever`, `rotor`, `rune_switch`, 
   breaks it glows, shows "?", and a hit (3,000 points) springs a trap door under the archers.
   The flyover marks it with "?".
 All five are chain links (`mechanism`) and are tested in `_mechanism_d_tests` (11 checks).
+
+The campaign set-piece pass also adds a flood gate and water simulation, a brake-triggered water
+wheel, a collapsing two-rope bridge, breakaway cliff ledges, a visible pulley/counterweight rig, a
+heavy throwing beam and an explosive cart. They appear in ordinary levels 12, 18, 19, 21, 22, 32
+and 38, with crushing rope loads demonstrated in level 2. `--run-tests=contraptions` exercises each
+trigger and resulting collapse.
 
 ## 3. Spectacular chain-reaction destruction
 Status: **done** (`src/game/chain.gd`, `src/game/replay.gd`, numbers in `balance.json` → `chain`, `replay`).
@@ -119,6 +125,13 @@ Hold the Line (3 survival waves), Sky Raiders and Harbor Assault (reverse siege)
 levels 10–50 with an 18-hero shared pool after level 50 (stars at ≤ 450 / 330 / 240 s). The
 Challenges screen opens after level 10 (map button); the daily card is first with a countdown.
 28 checks in `_mode_tests`.
+
+**Master Sieges:** ten hard fixed-four-shot mechanic puzzles (ids 121–130) appear on the same screen.
+The pack unlocks at 25 campaign stars. Before that, one locked card shows live star progress; after
+that, all ten violet-gold cards appear. Its separate `specials` index keeps it out of daily rotation.
+Every level declares `required_mechanics`, covering flood, water wheel/gears, collapsing bridge,
+breakable cliff, pulley/counterweight, explosive cart and heavy seesaw launch. The focused
+`--run-tests=specials` suite validates the gate, catalog, mechanics, stability and phone framing.
 
 ## 6. Kingdom conquest and progression
 **Status: logic built** (`src/game/progression.gd`, 20 checks in `_progression_tests`; screens in

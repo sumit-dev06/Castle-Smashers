@@ -143,13 +143,13 @@
     "tagline": "Lifts light pieces and exposes guards."
   },
   "quake": {
-    "name": "Rumbler",
+    "name": "Quaky",
     "texture": "hero_quake",
     "radius": 29.0,
     "mass": 10.0,
     "friction": 0.8,
     "bounce": 0.08,
-    "ability": "Earthbreak: dive and send a shockwave through foundations",
+    "ability": "Earthbreak: tap to dive, the landing shakes the whole fort",
     "strategy": "Damages low supports across a wide area. One per assault.",
     "unlock_level": 22,
     "power_cost": 3,
@@ -160,12 +160,12 @@
     "slam_keep_x": 0.18,
     "shockwave_radius": 540.0,
     "shockwave_height": 190.0,
-    "shockwave_damage": 54.0,
+    "shockwave_damage": 75.0,
     "shockwave_impulse": 720.0,
     "weak_point_mult": 2.4,
     "material_mult": {
-      "stone": 1.35,
-      "wood": 1.0,
+      "stone": 1.8,
+      "wood": 1.2,
       "crate": 1.0,
       "straw": 0.8,
       "barrel": 1.0,
@@ -178,7 +178,10 @@
       "cannon": 1.8,
       "chest": 1.0
     },
-    "tagline": "Shakes the whole structure."
+    "tagline": "Shakes the whole structure.",
+    "unpowered_mult": 0.55,
+    "upper_damage_mult": 0.45,
+    "archer_damage": 18.0
   },
   "common": {
     "rest_speed": 18.0,

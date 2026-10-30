@@ -15,6 +15,9 @@ var _destruction: Label
 var _objective: Label
 var _score: Label
 var _hint: Label
+var _hint_box: PanelContainer
+var _hint_icon: TextureRect
+var _hint_tw: Tween
 var _popup: Control
 var _last_stars: int = 0
 var _wind_box: Control
@@ -117,13 +120,23 @@ func _ready() -> void:
 	UIKit.place(_ammo_row, Vector2(0, 1), Vector2(16, -112), Vector2(560, 96))
 	_root.add_child(_ammo_row)
 
-	_hint = UIKit.label("", 28, Color.WHITE, 9)
-	_hint.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
-	_hint.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	_hint.grow_vertical = Control.GROW_DIRECTION_BEGIN
-	_hint.position.y = -46
-	_hint.modulate.a = 0.0
-	_root.add_child(_hint)
+	# Hint line: a dark pill with the hero's face, bottom centre (never bare text over the world).
+	_hint_box = UIKit.info_pill("", "", 24)
+	_hint_box.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	_hint_box.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	_hint_box.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	_hint_box.position.y = -24
+	_hint_box.modulate.a = 0.0
+	var hb: HBoxContainer = _hint_box.get_child(0) as HBoxContainer
+	_hint = hb.get_child(0) as Label
+	_hint_icon = TextureRect.new()
+	_hint_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_hint_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_hint_icon.custom_minimum_size = Vector2(40, 40)
+	_hint_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hb.add_child(_hint_icon)
+	hb.move_child(_hint_icon, 0)
+	_root.add_child(_hint_box)
 
 
 ## [panel, icon, value label]
@@ -237,7 +250,15 @@ func set_ammo(kinds: Array, index: int) -> void:
 		slot.add_theme_stylebox_override("panel", sb)
 		slot.custom_minimum_size = Vector2(side, side)
 		slot.size_flags_vertical = Control.SIZE_SHRINK_END
-		slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		# Tap a waiting hero to fire it next (Level.choose_hero).
+		slot.mouse_filter = Control.MOUSE_FILTER_STOP
+		var pick: int = i
+		slot.gui_input.connect(func(e: InputEvent) -> void:
+			if e is InputEventMouseButton and (e as InputEventMouseButton).pressed and (e as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
+				slot.accept_event()
+				if level and pick != index and level.choose_hero(pick):
+					Sound.play("ui_tap")
+					Game.haptic(20))
 		var ic: TextureRect = UIKit.tex_rect(String(cfg["texture"]), side - 12)
 		slot.add_child(ic)
 		var col: VBoxContainer = VBoxContainer.new()
@@ -304,14 +325,19 @@ func banner(title: String, sub: String) -> void:
 	tw.tween_callback(c.queue_free)
 
 
-func hint(text: String, seconds: float = 4.0) -> void:
+func hint(text: String, seconds: float = 4.0, icon: String = "") -> void:
 	if text.is_empty():
 		return
 	_hint.text = text
-	var tw: Tween = create_tween()
-	tw.tween_property(_hint, "modulate:a", 1.0, 0.3)
-	tw.tween_interval(seconds)
-	tw.tween_property(_hint, "modulate:a", 0.0, 0.5)
+	_hint_icon.texture = Art.tex(icon) if not icon.is_empty() else null
+	_hint_icon.visible = not icon.is_empty()
+	_hint_box.reset_size()
+	if _hint_tw:
+		_hint_tw.kill()
+	_hint_tw = create_tween()
+	_hint_tw.tween_property(_hint_box, "modulate:a", 1.0, 0.3)
+	_hint_tw.tween_interval(seconds)
+	_hint_tw.tween_property(_hint_box, "modulate:a", 0.0, 0.5)
 
 
 static func fmt(n: int) -> String:

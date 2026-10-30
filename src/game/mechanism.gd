@@ -18,6 +18,12 @@ extends Node2D
 ##                    A trigger stops the ring.
 ##   rune_switch      hidden in the fortress; glows once no block covers it, then a hit fires "triggers".
 ##   trapdoor         floor panel ("size") hinged on "hinge" (-1 left, 1 right); a trigger drops it open.
+##                    "style": "rock" draws it as a cracked rock ledge (breakable ground).
+## Round 3 kinds:
+##   flood            sluice gate ("size") holding a pool ("pool" px upstream, "pool_h"). A hit on the
+##                    gate or its trigger opens it: a wave runs "reach" px downstream (see Flood).
+##   windmill + "start_on": a water wheel that stands still until that trigger fires, then turns
+##                    ("style": "wheel" draws a rim and paddles).
 
 var kind: String = ""
 var trigger_id: String = ""
@@ -57,6 +63,8 @@ var revealed: bool = false
 var _check_t: float = 0.0
 var _glyph: Sprite2D
 var _glow_t: float = 0.0
+var flood: Flood
+var _gate_col: CollisionShape2D
 
 
 func setup(p_level: Level, data: Dictionary) -> void:
@@ -95,6 +103,8 @@ func setup(p_level: Level, data: Dictionary) -> void:
 			_build_rune_switch()
 		"trapdoor":
 			_build_trapdoor()
+		"flood":
+			_build_flood()
 		_:
 			push_error("Unknown castle mechanism: %s" % kind)
 
@@ -152,6 +162,7 @@ func _build_drawbridge() -> void:
 	body.rotation_degrees = float(cfg["start_angle"])
 	add_child(body)
 	var pulley: Sprite2D = Art.sprite("mechanism_pulley", 0.8)
+	pulley.name = "Pulley"
 	pulley.position = Vector2(0, -72)
 	add_child(pulley)
 	_counterweight = Art.sprite("mechanism_counterweight", 0.72)
@@ -289,8 +300,14 @@ func _update_bridge_rope() -> void:
 
 
 func activate(scored: bool = true) -> void:
+	if kind == "windmill" and cfg.has("start_on"):
+		_start_wheel(scored)
+		return
 	if kind in ["windmill", "shield_ring"]:
 		jam()
+		return
+	if kind == "flood":
+		_open_flood(scored)
 		return
 	if kind == "trapdoor":
 		_open_trapdoor(scored)
@@ -460,6 +477,7 @@ func cut_rope(i: int) -> void:
 				load_block.held = false
 				load_block.sleeping = false
 				load_block.linear_velocity = v
+				load_block.start_crush()
 			if cfg.has("releases"):
 				level.activate_trigger(String(cfg["releases"]))
 		"hanging_platform":
@@ -681,7 +699,11 @@ func callout_text() -> String:
 		"rune_switch":
 			return "SECRET SWITCH!"
 		"trapdoor":
-			return "TRAP DOOR!"
+			return "THE LEDGE GIVES WAY!" if String(cfg.get("style", "")) in ["rock", "timber"] else "TRAP DOOR!"
+		"flood":
+			return "FLOOD!"
+	if kind == "windmill" and cfg.has("start_on"):
+		return "THE WHEEL TURNS!"
 	return "MECHANISM!"
 
 
@@ -715,6 +737,8 @@ func hit_point() -> Vector2:
 			return global_position
 		"trapdoor":
 			return to_global(Vector2(-float(cfg.get("hinge", -1)) * _size().x * 0.5, 0))
+		"flood":
+			return global_position + Vector2(0, -_size().y * 0.5)
 	return global_position
 
 
@@ -723,9 +747,11 @@ func reacts_to_hits() -> bool:
 		"lever":
 			return not active
 		"windmill":
-			return not jammed
+			return not jammed and not cfg.has("start_on")
 		"rune_switch":
 			return revealed and not active
+		"flood":
+			return not active
 	return false
 
 
@@ -733,7 +759,7 @@ func reacts_to_hits() -> bool:
 func on_blast(pos: Vector2, radius: float) -> void:
 	if not reacts_to_hits():
 		return
-	var reach: float = radius + (Data.bf("rotor", "hub_r") if kind == "windmill" else Data.bf("lever", "sensor_r") * 0.5)
+	var reach: float = radius + (Data.bf("rotor", "hub_r") if kind == "windmill" else Data.bf("flood", "gate_sensor_r") if kind == "flood" else Data.bf("lever", "sensor_r") * 0.5)
 	if pos.distance_to(hit_point()) < reach:
 		_hit()
 
@@ -746,6 +772,53 @@ func _hit() -> void:
 			jam()
 		"rune_switch":
 			_press_switch()
+		"flood":
+			_open_flood(true)
+
+
+# ---- flood gate
+func _build_flood() -> void:
+	var size: Vector2 = _size()
+	flood = Flood.new()
+	flood.setup(level, cfg)
+	add_child(flood)
+	body = _make_body(size, "mechanism_gate")
+	body.position = Vector2(0, -size.y * 0.5)
+	body.z_index = 2
+	_gate_col = body.get_child(0) as CollisionShape2D
+	_sensor = _make_sensor(Data.bf("flood", "gate_sensor_r"), Vector2(0, -size.y * 0.5), int(Data.b("layers", "projectiles")))
+	_sensor.body_entered.connect(func(other: Node) -> void:
+		if other is Projectile and reacts_to_hits():
+			_hit())
+
+
+func _open_flood(scored: bool) -> void:
+	if active:
+		return
+	active = true
+	_gate_col.set_deferred("disabled", true)
+	var h: float = _size().y
+	var tw: Tween = body.create_tween().set_parallel()
+	tw.tween_property(body, "position:y", body.position.y - h * 0.9, Data.bf("flood", "gate_open_s")).set_trans(Tween.TRANS_BACK)
+	tw.tween_property(body, "modulate:a", 0.0, Data.bf("flood", "gate_open_s") * 1.6)
+	level.fx.puff(hit_point(), 6, Color(0.9, 0.97, 1.0, 0.9), 0.9)
+	flood.release()
+	level.camera.add_shake(8.0)
+	if scored:
+		level.on_mechanism_activated(self, int(Data.b("flood", "score")))
+
+
+# ---- water wheel (a windmill that waits for its trigger)
+func _start_wheel(scored: bool) -> void:
+	if not jammed:
+		return
+	jammed = false
+	active = true
+	_time = 0.0
+	Sound.play("gears", 1.0)
+	Sound.play("creak", 0.8)
+	if scored:
+		level.on_mechanism_activated(self)
 
 
 # ---- lever
@@ -819,8 +892,37 @@ func _build_rotor() -> void:
 		for i2: int in n2:
 			var a2: float = TAU * float(i2) / float(n2)
 			_add_rotor_piece("mechanism_shield_plate", Vector2(plate_len, 30), Vector2.from_angle(a2) * radius, a2 + PI * 0.5)
+	if kind == "windmill" and String(cfg.get("style", "")) == "wheel":
+		_dress_wheel()
 	body.rotation = _angle
 	active = true
+	if cfg.has("start_on"):
+		jammed = true
+		active = false
+		trigger_id = String(cfg["start_on"])
+
+
+## Water-wheel look: a timber rim and paddle boards on the arm tips.
+func _dress_wheel() -> void:
+	var r: float = float(cfg.get("arm_len", 240))
+	var rim: Line2D = Line2D.new()
+	var pts: PackedVector2Array = PackedVector2Array()
+	for i: int in 33:
+		pts.append(Vector2.from_angle(TAU * float(i) / 32.0) * r * 0.86)
+	rim.points = pts
+	rim.width = 18.0
+	rim.default_color = Color("#8a5a2a")
+	rim.z_index = -1
+	body.add_child(rim)
+	var edge: Line2D = rim.duplicate() as Line2D
+	edge.width = 24.0
+	edge.default_color = Color("#3a2212")
+	edge.z_index = -2
+	body.add_child(edge)
+	var n: int = int(cfg.get("arms", 8))
+	for i2: int in n:
+		var a: float = TAU * float(i2) / float(n)
+		_add_rotor_piece("block_plank_short_0", Vector2(120, 26), Vector2.from_angle(a) * r, a + PI * 0.5)
 
 
 func _add_rotor_piece(art_name: String, size: Vector2, at: Vector2, rot: float) -> void:
@@ -962,10 +1064,46 @@ func _build_trapdoor() -> void:
 	col.shape = r
 	col.position = Vector2(-hinge * size.x * 0.5, 0)
 	body.add_child(col)
-	var sp: Sprite2D = _sized_sprite("mechanism_trapdoor", size)
-	sp.position = col.position
-	body.add_child(sp)
+	if String(cfg.get("style", "")) in ["rock", "timber"]:
+		_dress_ledge(size, hinge)
+	else:
+		var sp: Sprite2D = _sized_sprite("mechanism_trapdoor", size)
+		sp.position = col.position
+		body.add_child(sp)
 	add_child(body)
+
+
+## Breakable-ground look: a rock shelf, thick at the hinge, tapering under the far end, with cracks.
+func _dress_ledge(size: Vector2, hinge: float) -> void:
+	var rc: Dictionary = Data.balance["ramps"]["rock" if String(cfg.get("style", "")) == "rock" else "wood"]
+	var far: float = -hinge * size.x
+	var hy: float = size.y * 0.5
+	var pts: PackedVector2Array = PackedVector2Array([
+		Vector2(0, -hy), Vector2(far, -hy), Vector2(far, hy * 0.2),
+		Vector2(far * 0.7, hy + 18.0), Vector2(far * 0.35, hy + 40.0), Vector2(0, hy + 70.0)])
+	var fill: Polygon2D = Polygon2D.new()
+	fill.polygon = pts
+	fill.color = Color(String(rc["fill"]))
+	body.add_child(fill)
+	var edge: Line2D = Line2D.new()
+	var loop: PackedVector2Array = pts.duplicate()
+	loop.append(pts[0])
+	edge.points = loop
+	edge.width = 4.0
+	edge.default_color = Color("#3a2212")
+	body.add_child(edge)
+	var top: Line2D = Line2D.new()
+	top.points = PackedVector2Array([Vector2(0, -hy + 4.0), Vector2(far, -hy + 4.0)])
+	top.width = 6.0
+	top.default_color = Color(String(rc["top"]))
+	body.add_child(top)
+	var crack: Line2D = Line2D.new()
+	var s: float = -hinge
+	crack.points = PackedVector2Array([Vector2(s * 14, -hy), Vector2(s * 30, -hy + 18), Vector2(s * 18, 0),
+			Vector2(s * 36, hy + 14), Vector2(s * 26, hy + 46)])
+	crack.width = 4.0
+	crack.default_color = Color("#3a2212")
+	body.add_child(crack)
 
 
 func _open_trapdoor(scored: bool) -> void:
@@ -974,9 +1112,20 @@ func _open_trapdoor(scored: bool) -> void:
 	active = true
 	var hinge: float = float(cfg.get("hinge", -1))
 	var to: float = -hinge * Data.bf("trapdoor", "open_deg")
-	body.create_tween().set_process_mode(Tween.TWEEN_PROCESS_PHYSICS).tween_method(func(deg: float) -> void:
+	var rock: bool = String(cfg.get("style", "")) in ["rock", "timber"]
+	var tw: Tween = body.create_tween().set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
+	tw.tween_method(func(deg: float) -> void:
 		body.rotation_degrees = deg
-		_wake_riders(), 0.0, to, Data.bf("trapdoor", "open_s")).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		_wake_riders(), 0.0, to * (0.45 if rock else 1.0), Data.bf("trapdoor", "open_s")).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	if rock:
+		# The broken shelf snaps off and drops into the gap with everything on it.
+		level.fx.puff(hit_point(), 8, Color(0.75, 0.65, 0.55, 0.9), 1.1)
+		level.camera.add_shake(14.0)
+		Sound.play("stone_break", 1.0)
+		tw.tween_method(func(k: float) -> void:
+			body.position = Vector2(0, Data.bf("trapdoor", "ledge_drop_px") * k * k)
+			body.rotation_degrees = to * lerpf(0.45, 1.0, k)
+			_wake_riders(), 0.0, 1.0, Data.bf("trapdoor", "ledge_drop_s"))
 	Sound.play("trapdoor", 0.9)
 	if scored:
 		level.on_mechanism_activated(self, int(Data.b("trapdoor", "score")))

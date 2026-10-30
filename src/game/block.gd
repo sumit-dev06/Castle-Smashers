@@ -20,6 +20,13 @@ var weak_point: bool = false
 var damage_total: float = 0.0
 ## Held by a rope (frozen, moved by its mechanism) until the rope is cut.
 var held: bool = false
+## Seconds left as a crushing load (released rope loads): it smashes what it falls on.
+var crushing: float = 0.0
+var _crushed: Dictionary = {}
+var _crush_speed: float = 0.0
+## Not crushed by this load (the seesaw beam that throws it).
+var crush_ignore: Node
+var _crush_partners: Array[Block] = []
 ## Iron beam bent into a V by a hard hit (shape swapped to its "bent" shape).
 var bent: bool = false
 ## Rune crystal beam direction in degrees, relative to the block (0 = right).
@@ -30,6 +37,8 @@ var _damage_taken_mult: float = 1.0
 var _sprite: Sprite2D
 var _flame: Sprite2D
 var _prev_vel: Vector2 = Vector2.ZERO
+## Seconds of no impact damage (a thrown payload leaving the beam).
+var _grace: float = 0.0
 var _gravity: Vector2 = Vector2.ZERO
 var _burn_left: float = 0.0
 var _spread_t: float = 0.0
@@ -187,7 +196,9 @@ func _physics_process(delta: float) -> void:
 	if not sleeping:
 		var dv: Vector2 = v - _prev_vel - _gravity * delta
 		var impulse: float = mass * dv.length()
-		if impulse > _min_impulse:
+		if _grace > 0.0:
+			_grace -= delta
+		elif impulse > _min_impulse:
 			var mult: float = 1.0
 			for body: Node in get_colliding_bodies():
 				if body is Projectile:
@@ -197,6 +208,8 @@ func _physics_process(delta: float) -> void:
 			if level.damage_enabled():
 				take_damage((impulse - _min_impulse) * _per_impulse * mult)
 	_prev_vel = v
+	if crushing > 0.0:
+		_tick_crush(delta, v)
 	if _burn_left > 0.0:
 		_tick_fire(delta)
 	if _melt_left > 0.0:
@@ -214,6 +227,65 @@ func _physics_process(delta: float) -> void:
 	if dead:
 		return
 	_check_gap()
+
+
+## Thrown by a contraption: sets the velocity without counting it as an impact.
+func throw(v: Vector2, spin: float) -> void:
+	freeze = false
+	sleeping = false
+	linear_velocity = v
+	angular_velocity = spin
+	_prev_vel = v
+	_grace = Data.bf("tethers", "launch_grace_s")
+
+
+## Starts crushing (Level/CastleMechanism call this when the rope holding it is cut).
+func start_crush() -> void:
+	crushing = float(Data.b("ropes", "crush")["active_s"])
+	_crushed.clear()
+	_crush_speed = 0.0
+	# Pieces bolted to the load ride with it (a cart's powder barrels) and blow when it hits.
+	_crush_partners.clear()
+	for bolt: Bolt in level.bolts:
+		if is_instance_valid(bolt) and not bolt.broken and (bolt.a == self or bolt.b == self):
+			var other: Block = bolt.b if bolt.a == self else bolt.a
+			if is_instance_valid(other):
+				_crush_partners.append(other)
+				_crushed[other] = true
+
+
+func _tick_crush(delta: float, v: Vector2) -> void:
+	crushing -= delta
+	var c: Dictionary = Data.b("ropes", "crush")
+	var touching: Array[Node2D] = get_colliding_bodies()
+	# The contact itself stops the load, so use the fastest speed it reached in free fall.
+	_crush_speed = maxf(_crush_speed * 0.9, v.length()) if not touching.is_empty() else maxf(_crush_speed, v.length())
+	var spd: float = _crush_speed
+	if Game.args.has("debug-crush") and not touching.is_empty():
+		print("CRUSH %s spd %.0f touching %s ignore %s" % [shape_id, spd, touching.map(func(n: Node2D) -> String: return (n as Block).shape_id if n is Block else n.get_class()), crush_ignore])
+	if spd < float(c["min_speed"]):
+		return
+	var struck: bool = false
+	for body: Node in touching:
+		if _crushed.has(body) or not is_instance_valid(body) or body == crush_ignore:
+			continue
+		_crushed[body] = true
+		struck = struck or body is Block or body is Archer or (body is StaticBody2D and bool(mat["explodes"]))
+		if body is Block and not (body as Block).dead:
+			var tb: Block = body
+			tb.push(v.normalized() * spd * mass * float(c["push_mult"]) / maxf(1.0, tb.mass) * 0.1)
+			tb.take_damage(spd * float(c["damage_per_speed"]) * mass / 8.0)
+		elif body is Archer:
+			(body as Archer).take_damage(spd * float(c["archer_damage_per_speed"]))
+	if struck:
+		level.camera.add_shake(minf(18.0, spd * 0.02))
+		for partner: Block in _crush_partners:
+			if is_instance_valid(partner) and not partner.dead and bool(partner.mat["explodes"]):
+				partner.set_meta("blast_mult", Data.bf("tethers", "launch_blast_mult"))
+				partner.destroy(true)
+		if bool(mat["explodes"]):
+			crushing = 0.0
+			destroy(true)
 
 
 ## Knocked into the gap: splash at the surface, then breaks (scored) under the kill line.

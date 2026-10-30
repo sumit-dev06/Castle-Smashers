@@ -21,6 +21,7 @@ var _trail_d: float = 0.0
 var _last_pos: Vector2 = Vector2.ZERO
 var _radius: float = 1.0
 var _splashed: bool = false
+var _speed: float = 0.0
 
 
 func setup(p_kind: String, p_level: Level) -> void:
@@ -88,6 +89,7 @@ func _physics_process(delta: float) -> void:
 			_trail_d = 0.0
 			level.fx.trail(global_position, _dashing)
 	_last_pos = global_position
+	_speed = linear_velocity.length()
 	if _fuse >= 0.0:
 		_fuse -= delta
 		if _fuse < 0.0:
@@ -116,9 +118,13 @@ func _on_body_entered(body: Node) -> void:
 	if first:
 		Art.set_hero_tex(_sprite, String(cfg["texture"]) + "_hit", _radius)
 		level.on_projectile_impact(self)
-		if kind == "quake" and ability_used and not _quake_done:
+		# A hero that drops back onto our own ledge lands on the Vanguard.
+		if level.stage and global_position.x < level.stage.ledge_right and _speed > Data.bf("friendly_fire", "landing_min_speed"):
+			level.hurt_soldiers(global_position, Data.bf("friendly_fire", "landing_radius_px") + _radius, 1)
+		# Quaky always quakes on landing; the dive (ability) makes it full strength.
+		if kind == "quake" and not _quake_done:
 			_quake_done = true
-			level.quake(global_position, cfg)
+			level.quake(global_position, cfg, 1.0 if ability_used else float(cfg.get("unpowered_mult", 0.55)))
 	match kind:
 		"fire":
 			if first:

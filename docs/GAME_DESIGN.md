@@ -38,7 +38,7 @@ Values live in `data/projectiles.json`; the ones below are starting points.
 | **Blaze** (fire pot) | light | Fire dash: speeds up 1.55×. Always bursts into flames on impact (bigger burst after a dash); burning wood loses HP and spreads to touching wood | wood, roofs | stone |
 | **Boomer** (bomb) | medium | Explodes (also explodes 1.5 s after first impact if not tapped). Radial impulse + damage, radius 220. | everything nearby | far targets |
 | **Twister** (cyclone) | light | Turns into a whirlwind for 2.5 s that drifts forward, pulls nearby light bodies in and lifts them, then flings them. | light wood, archers on ledges | heavy stone |
-| **Rumbler** (quake stone) | very heavy | Earthbreak: dives and sends a wide ground shockwave through low supports; marked weak points take extra damage. | foundations, weak points | high targets |
+| **Quaky** (quake stone) | very heavy | Earthbreak: dives and sends a wide ground shockwave through low supports; marked weak points take extra damage. | foundations, weak points | high targets |
 
 ## Enemies
 - **Redcap Archer**: stands on fortress floors. 30 HP. Shoots a ballistic arrow at a random living
@@ -76,7 +76,13 @@ Each block shows 3 damage stages (intact, cracked, badly cracked) and breaks int
 - Captives in levels 6 and 12 must be rescued as well as defeating every archer.
 - **Rope loads**: boulders, crates or cages hang from ropes. Any hero touching a rope, fire within
   120 px or an explosion cuts it and the load drops; it can also trigger another mechanism.
-- **Hanging platforms** (gondolas) hang from two ropes: one cut tips them, two cuts drop them.
+- **Hanging platforms** (gondolas and rope bridges) hang from two ropes: one cut tips them, two cuts
+  drop them. Drawbridges show their working pulley and counterweight.
+- **Flood gates** release a timed wave that pushes and floats blocks and drowns covered guards.
+  **Water wheels** wait for a brake trigger, then their geared paddles sweep nearby structures.
+- **Breakable ledges** tip and drop their entire load when their keystone trigger breaks.
+- **Heavy throwing beams** launch a held boulder or powder keg when the short arm is slammed.
+  **Explosive carts** carry bolted powder barrels down rails after their brake rope is cut.
 - **Crushers** slam down on a cycle or when a trigger fires. **Geysers** burst up and throw heroes
   and pieces; lava geysers also burn.
 - **Bolts** pin two blocks together. They snap after 40 damage, in an explosion or quake, or when
@@ -86,7 +92,7 @@ Each block shows 3 damage stages (intact, cracked, badly cracked) and breaks int
 - **Bosses** (every 10th level): a crowned archer at 1.55× size with 160 HP and 3-arrow volleys.
   At HP thresholds it changes phase: reinforcements drop in, a 4 s shield, faster fire (enrage),
   or its moving castle speeds up 1.7× (charge). Defeat: 15,000 points. HUD boss bar with phase pips.
-- Hero unlocks: Rocky 1, Blaze 3, Boomer 6, Twister 12, Rumbler 22.
+- Hero unlocks: Rocky 1, Blaze 3, Boomer 6, Twister 12, Quaky 22.
 - Realm weather adds petals, leaves, pollen, rain or embers over the five painted environments.
 - The fortress stands on bases across a gap from the catapult ledge. Anything knocked into the
   gap splashes and is gone: blocks count as destroyed (scored), archers as defeated.
@@ -112,7 +118,7 @@ Settling contacts never deal damage. Physics starts in "sleep" for the first 1.0
 ## Economy
 - **Coins**: earned per level (stars × 50, first clear only + 10 on replays) and from rewarded ads.
 - **Wizard's Workshop**: 3 upgrade levels per hero for 150 / 350 / 700 coins (Rocky +15% slam,
-  Blaze +14% burst, Boomer +12% blast, Twister +18% whirl time, Rumbler +12% shockwave reach).
+  Blaze +14% burst, Boomer +12% blast, Twister +18% whirl time, Quaky +12% shockwave reach).
 - **Spend**: extra hero mid-level (+1 bomb, 150 coins), soldier shield upgrade, catapult skins.
 - **Gems**: not in v1. One currency keeps it simple.
 

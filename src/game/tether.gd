@@ -27,6 +27,11 @@ var _hub: Sprite2D
 var _attach_local: Vector2 = Vector2.ZERO
 var _hook_local_b: Vector2 = Vector2.ZERO
 var _hook: Vector2 = Vector2.ZERO
+## Launch seesaw ("launch" on a pin): the payload block waits, frozen, over the low end. When the
+## beam spins fast enough the right way (the light end was hit), it is thrown at "kick" px/s.
+var payload: Block
+var launched: bool = false
+var _age: float = 0.0
 
 
 func setup(p_level: Level, data: Dictionary, block_a: Block, block_b: Block) -> void:
@@ -57,6 +62,10 @@ func _ready() -> void:
 	if bool(cfg.get("lock", false)):
 		a.freeze_mode = RigidBody2D.FREEZE_MODE_STATIC
 		a.set_deferred("freeze", true)
+	if payload:
+		payload.freeze_mode = RigidBody2D.FREEZE_MODE_STATIC
+		payload.set_deferred("freeze", true)
+		payload.held = true
 	match kind:
 		"pin", "rope":
 			var j: PinJoint2D = PinJoint2D.new()
@@ -101,13 +110,34 @@ func _ready() -> void:
 	_update_visual()
 
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	_age += delta
 	if cut:
 		return
 	if not is_instance_valid(a) or a.dead or (b != null and (not is_instance_valid(b) or b.dead)):
 		release(false)
 		return
+	if payload and not launched:
+		var lc: Dictionary = cfg["launch"]
+		if not is_instance_valid(payload) or payload.dead:
+			launched = true
+		elif _age > Data.bf("tethers", "launch_arm_s") and a.angular_velocity * float(lc.get("dir", 1.0)) > deg_to_rad(Data.bf("tethers", "launch_min_dps")):
+			_launch(lc)
 	_update_visual()
+
+
+func _launch(lc: Dictionary) -> void:
+	if Game.args.has("debug-launch"):
+		print("LAUNCH av %.2f t %d" % [a.angular_velocity, Engine.get_physics_frames()])
+	launched = true
+	payload.held = false
+	payload.call_deferred("throw", Vector2(float(lc["kick"][0]), float(lc["kick"][1])), float(lc.get("spin", 4.0)))
+	payload.start_crush()
+	payload.crush_ignore = a
+	payload.set_meta("blast_mult", Data.bf("tethers", "launch_blast_mult"))
+	Sound.play("launch", 1.0)
+	Sound.play("creak", 0.8)
+	level.on_contraption(payload.global_position + Vector2(0, -60), "LAUNCH!", int(Data.b("tethers", "launch_score")))
 
 
 func hook_point() -> Vector2:
@@ -167,6 +197,8 @@ func release(scored: bool = true) -> void:
 			a.set_deferred("linear_velocity", Vector2(float(cfg["kick"][0]), float(cfg["kick"][1])))
 		a.sleeping = false
 		a.held = false
+		if kind == "rope" and scored:
+			a.start_crush()
 	if b != null and is_instance_valid(b):
 		b.sleeping = false
 	if _line:

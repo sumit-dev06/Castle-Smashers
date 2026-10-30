@@ -12,7 +12,7 @@
 - [x] Soldiers march in and charge on win; story briefing before every level
 - [x] Reference-style scene and HUD; interactive world map; 20 levels
 - [x] Four-shot Wizard's Arsenal with unlocks, ordered loadouts, specialist caps and power budget
-- [x] Rumbler earthquake hero, weak points, gates, drawbridges, moving platforms, swings, spikes and lava
+- [x] Quaky earthquake hero, weak points, gates, drawbridges, moving platforms, swings, spikes and lava
 - [x] Rescue objectives and realm weather overlays
 - [x] Safer audio mastering, limiter, quietest-voice allocation and dedicated mechanism/rescue cues
 - [x] Sound redesign: adaptive two-stem music per realm + menu + boss, stingers, layered realm ambience with scattered details and per-realm reverb, smoothed SFX for every action (docs/AUDIO.md)
@@ -42,6 +42,9 @@
 - [x] Progression: siege weapons, Vanguard upgrades, cosmetics, secret levels, realm chests, rank, achievements
 - [x] Screens: icon set, home, map, HUD chips, results, pause, settings, armory, challenges, achievements,
       spin wheel, daily rewards, shop, upgrades (map realm tabs / level cards and the home castle motion later)
+- [x] Campaign set-piece pass: flood gate, water wheel/gears, collapsing bridge, breakable cliff,
+      pulley/counterweight, heavy launch beam and explosive powder cart
+- [x] Master Sieges: 10 hard fixed-loadout special levels, gated at 25 campaign stars
 
 ## Phase 3: Monetisation and services
 - AdMob plugin + UMP consent, rewarded + interstitial

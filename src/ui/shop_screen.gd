@@ -61,6 +61,7 @@ func _build() -> void:
 	_pane.offset_right = -20
 	_pane.offset_bottom = -16
 	body.add_child(_pane)
+	DragScroll.attach(_pane)
 	_show()
 
 

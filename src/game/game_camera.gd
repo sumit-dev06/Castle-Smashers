@@ -7,6 +7,8 @@ var left: float = -440.0
 var right: float = 2000.0
 ## Highest point of the fortress (world y, < 0). The resting view zooms out so it stays on screen.
 var content_top: float = 0.0
+## Screen pixels at the top kept free for the HUD (level sign, counters, boss bar).
+var hud_top: float = 100.0
 ## While true a Cinematic drives position and zoom directly; only shake runs here.
 var cine: bool = false
 var tracked: Array = []
@@ -28,11 +30,28 @@ func _view() -> Vector2:
 	return get_viewport_rect().size
 
 
+## Resting zoom. The fortress top must land below the HUD band. A tall fortress first lowers the
+## ground line (up to max_ground_screen_frac, keeping the ammo tray clear) and only then zooms out.
 func base_zoom() -> float:
-	var z: float = _view().x / (right - left)
-	if content_top < 0.0:
-		z = minf(z, _frac * _view().y / (-content_top + Data.bf("camera", "top_margin_px")))
-	return clampf(z, Data.bf("camera", "min_zoom"), Data.bf("camera", "max_zoom"))
+	var r: Vector2 = fit(_view(), left, right, content_top, hud_top)
+	_frac = r.y
+	return r.x
+
+
+## [zoom, ground screen frac] for a view size, world span and fortress top (pure, used by tests).
+static func fit(view: Vector2, l: float, r: float, top: float, hud: float) -> Vector2:
+	var base_frac: float = Data.bf("camera", "ground_screen_frac")
+	var max_frac: float = Data.bf("camera", "max_ground_screen_frac")
+	var z: float = view.x / (r - l)
+	var frac: float = base_frac
+	if top < 0.0:
+		var need: float = (hud - top * z) / view.y
+		if need <= max_frac:
+			frac = maxf(base_frac, need)
+		else:
+			frac = max_frac
+			z = (max_frac * view.y - hud) / -top
+	return Vector2(clampf(z, Data.bf("camera", "min_zoom"), Data.bf("camera", "max_zoom")), frac)
 
 
 func target_zoom() -> float:

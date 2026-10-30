@@ -76,6 +76,7 @@ func _main() -> void:
 	var tut: Button = UIKit.button("Replay Tutorial", "blue", 22, Vector2(184, 58))
 	tut.pressed.connect(func() -> void:
 		Save.data["tutorial_done"] = false
+		Save.data["seen"] = {}
 		Save.write()
 		UIFx.stamp(_root, tut.get_global_rect().get_center(), "DONE"))
 	var cr: Button = UIKit.button("Credits", "orange", 22, Vector2(150, 58))
@@ -85,7 +86,7 @@ func _main() -> void:
 	for b: Button in [tut, cr, pv]:
 		UIFx.press_juice(b)
 		h.add_child(b)
-	var ver: Label = UIKit.label("Version " + String(ProjectSettings.get_setting("application/config/version", "")), 18, Color("#cdb48a"), 4, false)
+	var ver: Label = UIKit.body("Version " + String(ProjectSettings.get_setting("application/config/version", "")), 18, Color("#8a5a2a"))
 	ver.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(ver)
 
@@ -156,9 +157,9 @@ func _audio_row(v: VBoxContainer, text: String, key: String, vol_key: String, ic
 func _credits() -> void:
 	var v: VBoxContainer = _clear()
 	_header(v, "Credits")
-	v.add_child(UIKit.label("CASTLE SMASHERS", 36, Color.WHITE, 8))
+	v.add_child(UIKit.label("CASTLE SMASHERS", 36, Color("#ffd23a"), 9))
 	for line: Variant in Data.b("settings", "credits"):
-		var l: Label = UIKit.label(String(line), 20, Color("#ffe8c0"), 4, false)
+		var l: Label = UIKit.body(String(line), 21)
 		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		l.custom_minimum_size.x = 580
 		v.add_child(l)

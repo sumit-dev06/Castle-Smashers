@@ -464,6 +464,93 @@ class Fort:
         self.archer(x + 60, py - 13)
         self.note(x, py + 60, "CUT THE LATCH!")
 
+    # ---- round 3 set pieces
+    def flood(self, x, reach, pool=260, pool_h=150, depth=70, gate_h=170, trigger=""):
+        """Sluice gate at x holding a pool `pool` px wide upstream. Hit the gate (or fire `trigger`)
+        and a wave runs `reach` px downstream: it shoves pieces, floats timber and drowns guards."""
+        self.mechanism("flood", x, 0.0, [40, gate_h], trigger, pool=pool, pool_h=pool_h, reach=reach, depth=depth)
+        self.extra_spans.append((x - pool - 40, x + 20))
+        self.note(x - pool / 2, -pool_h - 40, "OPEN THE SLUICE!")
+        return len(self.mechanisms) - 1
+
+    def water_wheel(self, x, y, start_on, radius=200, paddles=8, dps=70, mast_ground=0.0):
+        """Big timber wheel that stands jammed until `start_on` fires; then its paddles sweep pieces."""
+        self.mechanism("windmill", x, y, None, arms=paddles, arm_len=radius, arm_w=34, dps=dps, hits_blocks=True,
+                       start_on=start_on, style="wheel", phase_deg=180.0 / paddles,
+                       frame={"posts": [x], "top": y, "bottom": mast_ground})
+        self.extra_spans.append((x - 30, x + 30))
+        return len(self.mechanisms) - 1
+
+    def ledge(self, hinge_x, width, build, trigger, thick=50, style="rock"):
+        """Rock shelf sticking out over the gap from an island edge at hinge_x (the island must end
+        there). build() places its load with y = 0 at the shelf top. Fire `trigger` (a cracked support
+        block) and the shelf snaps off into the gap with everything on it."""
+        b0, a0 = len(self.blocks), len(self.archers)
+        build()
+        for item in self.blocks[b0:] + self.archers[a0:]:
+            item["_deck"] = True
+        self.mechanism("trapdoor", hinge_x + width / 2, thick / 2, [width, thick], trigger=trigger, hinge=-1, style=style)
+        for item in self.blocks[b0:] + self.archers[a0:]:
+            item["y"] = round(item["y"], 1)
+        self.extra_spans.append((hinge_x - BASE_MARGIN - 40, hinge_x - BASE_MARGIN))
+        return len(self.mechanisms) - 1
+
+    def rope_bridge(self, x, span, hook_y, build, drop=120):
+        """Plank bridge over a gap hung from two ropes on tall posts. Cut either rope and it tips."""
+        self.hanging(x, hook_y, span, drop, build, post_bottom=260)
+        self.note(x - span / 2, hook_y + drop / 2, "CUT A ROPE!")
+
+    def launch_seesaw(self, x, payload="boulder", kick=(700.0, -900.0), side=-1, offset=60):
+        """Throwing beam pinned off-centre on a fulcrum at x: its long arm (side) rests on the ground with
+        a heavy payload waiting over it; the short arm points up. Slam the short arm and the payload is
+        thrown at `kick` px/s."""
+        import math
+        py = -82.0
+        hw = SIZE["plank_xl"][0] / 2
+        long_arm = hw + offset
+        al = math.asin((-1 - py - 13) / long_arm)
+        for _ in range(3):
+            al = math.asin((-1 - py - 13 * math.cos(al)) / long_arm)
+        th = -al if side < 0 else al  # rotation: left end down is negative in y-down space
+        ax = (math.cos(th), math.sin(th))
+        cx = x + side * offset * ax[0]
+        cy = py + side * offset * ax[1]
+        self.ramp([(x - 46, 0), (x, py + 14), (x + 46, 0)], "wood")
+        reach = x + side * (long_arm + 10)
+        self.extra_spans.append((min(x, reach), max(x, reach)))
+        self.b("plank_xl", round(cx, 1), round(cy, 1), rot=round(math.degrees(th), 2))
+        beam = self._bi()
+        k = long_arm - 45
+        ex, ey = x + side * k * ax[0], py + side * k * ax[1]
+        nx, ny = math.sin(th), -math.cos(th)  # beam's upward normal
+        r = SIZE[payload][1] / 2
+        px, pyy = ex + nx * (13 + r + 3), ey + ny * (13 + r + 3)
+        self.b(payload, round(px, 1), round(pyy, 1), rot=round(math.degrees(th), 2))
+        self.tether("pin", beam, x, py, launch={"payload": self._bi(), "kick": list(kick), "dir": float(-side)})
+        self.note(x - side * (hw - offset) * 0.8, py - 110, "SLAM IT!")
+
+    def powder_cart(self, x0, x1, x2, h, at=0.25, barrels=2):
+        """Mine cart loaded with bolted powder barrels, roped on a rail slope. Cut it loose: it rolls
+        down and the barrels blow on impact."""
+        import math
+        self.plateau(x0, x1, x2, h, "rail")
+        w, ch = SIZE["cart"]
+        sx = x1 + (x2 - x1) * at
+        sy = -h * (x2 - sx) / (x2 - x1)
+        th = math.atan2(h, x2 - x1)
+        cx, cy = sx + math.sin(th) * ch / 2, sy - math.cos(th) * ch / 2
+        self.b("cart", round(cx, 1), round(cy, 1), rot=round(math.degrees(th), 2))
+        cart = self._bi()
+        bw, bh = SIZE["barrel"]
+        for k in range(barrels):
+            off = (k - (barrels - 1) / 2) * (bw + 4)
+            bx = cx + math.cos(th) * off + math.sin(th) * (ch / 2 + bh / 2)
+            by = cy + math.sin(th) * off - math.cos(th) * (ch / 2 + bh / 2)
+            self.b("barrel", round(bx, 1), round(by, 1), rot=round(math.degrees(th), 2))
+            self.bolt(cart, self._bi())
+        self.tether("rope", cart, x1 - 20, -h - 6, attach=[round(cx, 1), round(cy, 1)], lock=True)
+        self.note(cx, cy - 120, "CUT THE ROPE!")
+
     def right_edge(self):
         xs = [b["x"] + SIZE[b["type"]][0] / 2 for b in self.blocks] + [a["x"] + ARCHER_W / 2 for a in self.archers]
         xs += [m["x"] + m.get("arm_len", m.get("radius", 0)) for m in self.mechanisms if m["type"] in ("windmill", "shield_ring")]
@@ -501,7 +588,7 @@ CALLOUT_LABELS = {"rope_load": "CUT THE ROPE!", "hanging_platform": "CUT A ROPE!
                   "geyser": "GEYSER!", "drawbridge": "DRAWBRIDGE", "gate": "GATE", "moving_platform": "MOVING!",
                   "swing": "WRECKING BALL", "spikes": "SPIKES", "lever": "HIT THE LEVER!",
                   "windmill": "JAM THE HUB!", "shield_ring": "TIME THE GAP!", "rune_switch": "?",
-                  "trapdoor": "TRAP DOOR"}
+                  "trapdoor": "TRAP DOOR", "flood": "OPEN THE SLUICE!"}
 GEYSER_LABELS = {1: "GEYSER!", 2: "GEYSER!", 3: "WATER SPOUT!", 4: "LAVA PLUME!", 5: "UPDRAFT!"}
 
 
@@ -638,6 +725,11 @@ def resolve_target(t, f):
             if m["type"] == t[1:]:
                 return "mech:%d" % i
         raise ValueError("scene target %s: no such mechanism" % t)
+    if t.startswith("note:"):
+        for n in f.notes:
+            if n["label"] == t[5:]:
+                return "%d,%d" % (round(n["x"]), round(n["y"]))
+        raise ValueError("scene target %s: no such note" % t)
     return t
 
 
@@ -782,7 +874,7 @@ def build(lid, entry=None):
 
 
 def write_challenges():
-    from campaign import CHALLENGES  # noqa: E402
+    from campaign import CHALLENGES, SECRETS, SPECIALS, SPECIAL_REQUIRED  # noqa: E402
     out = os.path.join(ROOT, "data", "challenges")
     os.makedirs(out, exist_ok=True)
     index = []
@@ -793,7 +885,19 @@ def write_challenges():
             json.dump(d, fh, indent=1)
         index.append({"id": cid, "name": e[0], "realm": e[1], "mode": e[5], "rule": e[7], "heroes": e[3]})
         print(f"challenge {cid} {e[0]:20s} {e[5]:14s} b{len(d['blocks']):2d} a{len(d['archers'])}")
-    from campaign import SECRETS  # noqa: E402
+    specials = []
+    expected = list(range(int(BAL["special_pack"]["first_id"]), int(BAL["special_pack"]["last_id"]) + 1))
+    assert sorted(SPECIALS) == expected, "special-pack ids must match balance.special_pack"
+    for order, sid in enumerate(sorted(SPECIALS), 1):
+        e = SPECIALS[sid]
+        d = build(sid, e)
+        d["special"] = True
+        d["required_mechanics"] = SPECIAL_REQUIRED[sid]
+        with open(os.path.join(out, "challenge_%03d.json" % sid), "w") as fh:
+            json.dump(d, fh, indent=1)
+        specials.append({"id": sid, "order": order, "name": e[0], "realm": e[1], "mode": e[5],
+                         "rule": e[7], "heroes": e[3], "required_mechanics": SPECIAL_REQUIRED[sid]})
+        print(f"special   {sid} {e[0]:20s} {(e[5] or 'siege'):14s} b{len(d['blocks']):2d} a{len(d['archers'])}")
     for sid in sorted(SECRETS):
         e = SECRETS[sid]
         d = build(sid, e)
@@ -802,7 +906,7 @@ def write_challenges():
             json.dump(d, fh, indent=1)
         print(f"secret    {sid} {e[0]:20s} {e[5] or 'siege':14s} b{len(d['blocks']):2d} a{len(d['archers'])}")
     with open(os.path.join(out, "index.json"), "w") as fh:
-        json.dump({"challenges": index}, fh, indent=1)
+        json.dump({"challenges": index, "specials": specials}, fh, indent=1)
 
 
 if __name__ == "__main__":

@@ -55,6 +55,7 @@ func _build() -> void:
 	scroll.offset_right = -20
 	scroll.offset_bottom = -16
 	body.add_child(scroll)
+	DragScroll.attach(scroll)
 	_list = VBoxContainer.new()
 	_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_list.add_theme_constant_override("separation", 8)
