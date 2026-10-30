@@ -327,12 +327,12 @@ func _build_weapon(root: Control) -> void:
 	var show: Callable = func() -> void:
 		var w: String = Progression.weapon()
 		b.icon = Art.tex("icon_weapon_" + w)
-		b.text = String(Progression.weapon_cfg(w)["name"]).to_upper()
+		b.text = String(Progression.weapon_cfg(w)["short_name"]).to_upper()
 	show.call()
 	b.pressed.connect(func() -> void:
 		var list: Array = Progression.weapons().filter(func(id: Variant) -> bool: return Progression.weapon_unlocked(String(id)))
 		if list.size() <= 1:
-			_tip.text = "Ballista unlocks after level %d, Trebuchet after level %d." % [
+			_tip.text = "Master Orin reveals Ballista after Level %d and Trebuchet after Level %d. Forge them with coins in Upgrades." % [
 				int(Progression.weapon_cfg("ballista")["unlock_level"]) - 1, int(Progression.weapon_cfg("trebuchet")["unlock_level"]) - 1]
 			return
 		var i: int = list.find(Progression.weapon())

@@ -175,14 +175,36 @@ def hero_stone(d, kind="open"):
 
 
 def hero_quake(d, kind="open"):
-    W, H, b = hero_stone(d, kind)
-    glow = "#74e4ff"
-    b += path("M18 48 L28 43 L34 51 L43 35 L50 47 L62 38", stroke="#18384a", sw=5.4, op=0.85)
-    b += path("M18 48 L28 43 L34 51 L43 35 L50 47 L62 38", stroke=glow, sw=2.3, op=0.95)
-    b += path("M30 67 L37 57 L43 63 L50 52", stroke=glow, sw=2.0, op=0.8)
-    b += poly([(31, 17), (38, 3), (44, 18)], d.lin([(0, "#d6fbff"), (0.5, "#69d9f8"), (1, "#2b789e")]),
-              extra='stroke="#29485a" stroke-width="1.6" stroke-linejoin="round"')
-    b += ellipse(31, 33, 10, 5, "#ffffff", 0.32, -28)
+    """Quaky: an ancient tectonic guardian, not Rocky with blue cracks."""
+    W, H = 88, 92
+    rock = d.rad([(0, "#75879a"), (0.38, "#3d4b5b"), (0.78, "#1d2732"), (1, "#101720")], 0.34, 0.27, 0.82)
+    glow = d.lin([(0, "#e9ffff"), (0.4, "#65e8ff"), (1, "#197ea8")], 0, 0, 1, 1)
+    b = path("M13 48 Q15 24 31 16 Q44 8 60 17 Q76 28 77 51 Q78 72 61 84 Q44 93 25 82 Q9 70 13 48 Z", rock,
+             extra='stroke="#3a2212" stroke-width="2.8" stroke-linejoin="round"')
+    # Massive shoulder plates make his silhouette wider and lower than Rocky.
+    b += poly([(13, 46), (2, 55), (8, 72), (22, 68), (27, 50)], "#293747", extra=ol(2.2))
+    b += poly([(75, 45), (86, 54), (80, 72), (66, 68), (61, 50)], "#293747", extra=ol(2.2))
+    # Crystal crown and small side shards.
+    b += poly([(25, 22), (31, 3), (39, 20), (45, 0), (52, 21), (61, 7), (64, 28)], glow, extra=ol(2.1))
+    b += poly([(8, 43), (2, 32), (15, 35)], glow, extra=ol(1.6)) + poly([(78, 42), (86, 30), (73, 34)], glow, extra=ol(1.6))
+    # Bright tectonic fault forms a central Y, readable at small size.
+    fault = "M44 18 L39 37 L47 47 L39 60 L46 83 M39 37 L26 48 M47 47 L62 37 M39 60 L23 68 M39 60 L61 70"
+    b += path(fault, stroke="#0a2430", sw=8, op=.95)
+    b += path(fault, stroke="#72efff", sw=3.2, op=1)
+    b += path("M23 75 Q44 84 65 74", stroke="#18222d", sw=7)
+    for x in (27, 37, 49, 60):
+        b += path(f"M{x} {76} L{x+3} {81} L{x+6} 75", stroke="#62dff2", sw=1.8)
+    # White eyes with amber cores contrast the cyan body rune.
+    b += eye(d, 33, 46, 8, 9, (0.25, 0.08), kind, lid=0.25).replace("{lidcolor}", "#344454")
+    b += eye(d, 56, 46, 8, 9, (0.25, 0.08), kind, lid=0.25).replace("{lidcolor}", "#344454")
+    b += circle(35, 47, 2.2, "#ffbd32") + circle(58, 47, 2.2, "#ffbd32")
+    b += path("M22 34 L39 39", stroke="#101820", sw=6) + path("M49 39 L67 33", stroke="#101820", sw=6)
+    if kind == "dizzy":
+        b += path("M33 67 Q39 62 45 68 Q51 73 57 66", stroke="#081018", sw=3)
+        b += ko_stars(44, 7, 20)
+    else:
+        b += path("M34 67 Q44 61 55 67", stroke="#081018", sw=3.4)
+    b += ellipse(27, 29, 10, 5, "#ffffff", .2, -25)
     return W, H, b
 
 
@@ -973,6 +995,236 @@ def periodic(W, base, terms):
     return y
 
 
+
+
+
+def siege_weapon_assets():
+    """Distinct gameplay rigs. Arm canvases share the Catapult script's pivot/cradle contract."""
+    # Ironbolt Ballista: low armored chassis, huge horizontal bow, central launch rail and ratchet.
+    d = Doc("wbb")
+    wood = d.lin([(0, "#e9b36c"), (0.48, "#a9622d"), (1, "#593116")], 0, 0, 0, 1)
+    iron = d.lin([(0, "#edf3f7"), (0.45, "#8997a5"), (1, "#303944")], 0, 0, 1, 1)
+    b = rect(12, 92, 216, 28, 9, wood, extra=ol(3))
+    b += poly([(28, 92), (54, 55), (185, 55), (214, 92)], "#596571", extra=ol(3))
+    b += rect(52, 62, 136, 24, 6, iron, extra=ol(2.4))
+    b += rect(65, 67, 110, 6, 3, "#ffffff", 0.28)
+    b += circle(120, 69, 18, iron, extra=ol(2.6)) + circle(120, 69, 7, "#27303a", extra=ol(1.5))
+    for wx in (48, 192):
+        b += circle(wx, 125, 23, "#3c4650", extra=ol(3)) + circle(wx, 125, 15, iron, extra=ol(2))
+        for k in range(8):
+            a = k * math.pi / 4
+            b += path(f"M{wx} 125 L{f(wx + 13 * math.cos(a))} {f(125 + 13 * math.sin(a))}", stroke="#3a2212", sw=2.2)
+        b += circle(wx, 125, 5, "#f0c46a", extra=ol(1.4))
+    # Front pavise and crank make the silhouette unmistakably mechanical.
+    b += path("M198 42 L228 52 L224 101 L194 96 Z", d.lin([(0, "#9fb0bf"), (1, "#43505c")]), extra=ol(2.8))
+    b += poly([(211, 54), (219, 70), (208, 87), (201, 70)], "#3d7fe0", extra=ol(1.8))
+    b += circle(32, 80, 12, iron, extra=ol(2)) + path("M32 68 L22 56 M32 68 L44 56", stroke="#d8b06a", sw=4)
+    write("weapon_ballista_base", d.svg(240, 150, b))
+
+    d = Doc("wba")
+    wood = d.lin([(0, "#f0bd76"), (0.55, "#a9622d"), (1, "#583015")], 0, 0, 0, 1)
+    iron = d.lin([(0, "#eef3f7"), (0.5, "#84929f"), (1, "#303944")], 0, 0, 1, 1)
+    b = rect(14, 23, 174, 11, 5, iron, extra=ol(2.4))
+    b += path("M44 27 Q88 -8 142 11 Q165 20 177 28", stroke=OL, sw=12)
+    b += path("M44 27 Q88 -8 142 11 Q165 20 177 28", stroke="#bd7438", sw=7)
+    b += path("M44 29 Q90 65 143 47 Q164 40 177 28", stroke=OL, sw=12)
+    b += path("M44 29 Q90 65 143 47 Q164 40 177 28", stroke="#bd7438", sw=7)
+    b += path("M47 27 L177 28 M47 29 L177 28", stroke="#f7e6bd", sw=2.2)
+    b += rect(57, 19, 109, 5, 2, wood, extra=ol(1.4))
+    b += circle(18, 28, 8, iron, extra=ol(2))
+    # Rear cradle/interior. The near cup is a separate overlay.
+    b += path("M163 18 Q188 7 204 24 L203 39 Q182 31 163 38 Z", "#4b2a14", extra=ol(2.2))
+    write("weapon_ballista_arm", d.svg(210, 60, b))
+    d = Doc("wbc")
+    b = path("M164 17 Q185 8 204 23 L203 40 Q184 32 164 39", stroke=OL, sw=9)
+    b += path("M164 17 Q185 8 204 23 L203 40 Q184 32 164 39", stroke="#8d99a5", sw=5)
+    b += circle(181, 28, 4, "#f3c34e", extra=ol(1.2))
+    write("weapon_ballista_cup", d.svg(210, 60, b))
+
+    # War Trebuchet: towering braced frame and huge stone counterweight.
+    d = Doc("wtb")
+    wood = d.lin([(0, "#efb86e"), (0.5, "#ad652f"), (1, "#5d3317")], 0, 0, 0, 1)
+    iron = d.lin([(0, "#e4e9ee"), (0.5, "#788590"), (1, "#303841")], 0, 0, 1, 1)
+    b = rect(10, 174, 240, 25, 8, wood, extra=ol(3))
+    # Tall A-frame, cross braces and top axle.
+    for x0, x1 in ((44, 126), (216, 134)):
+        b += path(f"M{x0} 178 L{x1} 64", stroke=OL, sw=20) + path(f"M{x0} 178 L{x1} 64", stroke="#b86f34", sw=13)
+    b += path("M58 165 L201 92 M202 165 L59 92", stroke=OL, sw=12)
+    b += path("M58 165 L201 92 M202 165 L59 92", stroke="#d18b48", sw=7)
+    b += rect(78, 150, 105, 13, 5, wood, extra=ol(2.4))
+    b += circle(130, 65, 19, iron, extra=ol(3)) + circle(130, 65, 7, "#26303a", extra=ol(1.4))
+    # Winch drum and rope coils.
+    b += circle(74, 151, 18, "#74421f", extra=ol(2.4))
+    for yy in (143, 149, 155):
+        b += path(f"M58 {yy} Q74 {yy-5} 90 {yy}", stroke="#e1c28e", sw=3)
+    for wx in (47, 213):
+        b += circle(wx, 202, 24, "#50301a", extra=ol(3)) + circle(wx, 202, 15, wood, extra=ol(2)) + circle(wx, 202, 5, iron)
+    b += rect(18, 185, 224, 7, 3, "#ffffff", 0.2)
+    write("weapon_trebuchet_base", d.svg(260, 220, b))
+
+    d = Doc("wta")
+    wood = d.lin([(0, "#f1bd73"), (0.5, "#ae642f"), (1, "#5a3015")], 0, 0, 0, 1)
+    stone = d.rad([(0, "#d5dae0"), (0.55, "#7d8792"), (1, "#39414a")], 0.35, 0.3, 0.8)
+    # Long asymmetrical throwing beam: short weighted tail and long sling arm.
+    b = path("M8 43 L240 58", stroke=OL, sw=18) + path("M8 43 L240 58", stroke="#b86e33", sw=12)
+    b += path("M45 43 L235 55", stroke="#ffffff", sw=3, op=0.25)
+    b += path("M8 28 L56 31 L54 70 L7 67 Z", stone, extra=ol(3))
+    b += rect(13, 34, 36, 7, 3, "#ffffff", 0.22)
+    b += path("M224 57 Q244 71 248 88", stroke=OL, sw=6) + path("M224 57 Q244 71 248 88", stroke="#e6c892", sw=3)
+    b += path("M203 58 Q221 48 240 61 L244 78 Q222 70 204 76 Z", "#4c2a15", extra=ol(2.2))
+    b += circle(34, 50, 9, "#9ba5ae", extra=ol(2))
+    write("weapon_trebuchet_arm", d.svg(260, 100, b))
+    d = Doc("wtc")
+    b = path("M204 57 Q221 48 240 61 L244 79 Q223 70 204 76", stroke=OL, sw=9)
+    b += path("M204 57 Q221 48 240 61 L244 79 Q223 70 204 76", stroke="#d1aa70", sw=5)
+    b += path("M211 58 L236 73 M218 53 L242 68", stroke="#f3dfb7", sw=1.6, op=0.8)
+    write("weapon_trebuchet_cup", d.svg(260, 100, b))
+
+
+
+def siege_skin_assets():
+    """Silhouette-changing cosmetic overlays. Base canvases sit on y=190; arm canvases share pivots."""
+    # Sakura Shrine: torii roof, curved cherry branch and flower wheel hubs.
+    d = Doc("ssb")
+    pink = d.lin([(0, "#fff0f6"), (0.45, "#f58bb4"), (1, "#a83268")], 0, 0, 0, 1)
+    b = path("M36 98 Q130 39 224 98 L211 110 Q130 76 49 110 Z", pink, extra=ol(3))
+    b += rect(53, 102, 14, 67, 6, "#8f3b2d", extra=ol(2.4)) + rect(193, 102, 14, 67, 6, "#8f3b2d", extra=ol(2.4))
+    b += path("M55 81 Q88 40 132 65 Q170 82 216 43", stroke=OL, sw=10) + path("M55 81 Q88 40 132 65 Q170 82 216 43", stroke="#774129", sw=6)
+    for x, y in ((76, 62), (102, 52), (133, 65), (169, 66), (205, 47)):
+        for k in range(5):
+            a = k * math.tau / 5
+            b += circle(x + math.cos(a) * 5, y + math.sin(a) * 5, 4, "#ffb7d1", extra=ol(1))
+        b += circle(x, y, 3, "#ffd45a")
+    for x in (72, 188):
+        b += circle(x, 163, 17, pink, extra=ol(2.6)) + poly(star_points(x, 163, 10, 4, 6), "#fff1a8", extra=ol(1.4))
+    write("skin_sakura_base", d.svg(260, 190, b))
+    d = Doc("ssa")
+    b = path("M28 17 Q89 4 157 31", stroke=OL, sw=9) + path("M28 17 Q89 4 157 31", stroke="#87452c", sw=5)
+    for x, y in ((68, 10), (105, 14), (143, 27), (191, 49)):
+        b += circle(x, y, 7, "#f792b8", extra=ol(1.5)) + circle(x + 4, y - 4, 4, "#fff0f6")
+    b += path("M158 31 Q185 25 211 48 L207 71 Q184 61 162 69 Z", pink, extra=ol(2.4))
+    write("skin_sakura_arm", d.svg(260, 100, b))
+
+    # Sunforged: broad gold fenders, sun-disc shield and scorpion crest.
+    d = Doc("sgb")
+    goldg = d.lin([(0, "#fff2a0"), (0.48, "#e6a51e"), (1, "#8d4d08")], 0, 0, 1, 1)
+    b = path("M18 143 Q52 112 94 132 L91 174 L20 174 Z", goldg, extra=ol(3))
+    b += path("M169 132 Q210 111 242 143 L240 174 L171 174 Z", goldg, extra=ol(3))
+    b += circle(130, 125, 34, goldg, extra=ol(3)) + circle(130, 125, 21, "#e96f1c", extra=ol(2))
+    for k in range(12):
+        a = k * math.tau / 12
+        b += poly([(130 + math.cos(a) * 36, 125 + math.sin(a) * 36), (130 + math.cos(a - .09) * 48, 125 + math.sin(a - .09) * 48), (130 + math.cos(a + .09) * 48, 125 + math.sin(a + .09) * 48)], "#ffc83d", extra=ol(1))
+    b += path("M42 112 Q28 71 56 48 Q72 35 76 15 Q95 45 74 63 Q55 78 70 105", stroke=OL, sw=13)
+    b += path("M42 112 Q28 71 56 48 Q72 35 76 15 Q95 45 74 63 Q55 78 70 105", stroke="#c87913", sw=8)
+    b += poly([(71, 17), (91, 5), (83, 29)], goldg, extra=ol(2))
+    write("skin_desert_gold_base", d.svg(260, 190, b))
+    d = Doc("sga")
+    b = path("M18 19 L187 48", stroke=OL, sw=12) + path("M18 19 L187 48", stroke="#d99619", sw=7)
+    for x in (54, 91, 128, 165):
+        b += circle(x, 31 + (x - 54) * .17, 6, "#fff0a0", extra=ol(1.4))
+    b += path("M166 34 Q197 25 226 51 L220 77 Q194 66 169 73 Z", goldg, extra=ol(2.8))
+    write("skin_desert_gold_arm", d.svg(260, 100, b))
+
+    # Dread Corsair: tall black sail, skull badge, anchor and rope-net silhouette.
+    d = Doc("spb")
+    sail = d.lin([(0, "#4d5260"), (0.55, "#202634"), (1, "#090d16")], 0, 0, 1, 1)
+    b = path("M68 152 L71 24 Q121 42 166 95 Q118 112 68 152 Z", sail, extra=ol(3))
+    b += path("M72 31 Q111 55 151 92", stroke="#e9d6ac", sw=3, op=.75)
+    b += circle(109, 76, 16, "#f1e5c8", extra=ol(2)) + circle(103, 73, 4, "#222631") + circle(115, 73, 4, "#222631")
+    b += path("M102 85 L116 85 M106 84 L106 91 M112 84 L112 91", stroke="#222631", sw=2)
+    b += path("M190 92 L190 157 M174 118 Q190 139 206 118 M179 150 Q190 169 201 150", stroke=OL, sw=10)
+    b += path("M190 92 L190 157 M174 118 Q190 139 206 118 M179 150 Q190 169 201 150", stroke="#aeb7c0", sw=5)
+    for y in range(109, 168, 15):
+        b += path(f"M34 {y} Q87 {y-13} 140 {y}", stroke="#d2b889", sw=2.2, op=.8)
+    write("skin_pirate_base", d.svg(260, 190, b))
+    d = Doc("spa")
+    b = path("M20 19 L207 58", stroke=OL, sw=12) + path("M20 19 L207 58", stroke="#50301d", sw=7)
+    for k in range(8):
+        x = 38 + k * 22
+        b += path(f"M{x} {20 + k*4.5} L{x+10} {37 + k*4.5}", stroke="#e4c798", sw=2.2)
+    b += path("M166 38 Q197 26 229 52 L222 80 Q195 66 169 76 Z", sail, extra=ol(2.8))
+    write("skin_pirate_arm", d.svg(260, 100, b))
+
+    # Magma Foundry: armored side shell, twin stacks, hot channels and spikes.
+    d = Doc("sfb")
+    iron = d.lin([(0, "#d5dce2"), (0.45, "#697581"), (1, "#252d36")], 0, 0, 1, 1)
+    b = path("M24 123 L238 123 L226 176 L32 176 Z", iron, extra=ol(3))
+    b += path("M45 151 Q88 130 129 153 Q171 176 215 145", stroke=OL, sw=12) + path("M45 151 Q88 130 129 153 Q171 176 215 145", stroke="#ff6b1c", sw=6)
+    for x in (49, 211):
+        b += rect(x - 10, 56, 20, 75, 5, iron, extra=ol(2.5)) + rect(x - 15, 48, 30, 14, 5, "#333b44", extra=ol(2))
+        b += ellipse(x, 44, 18, 9, "#7a7d83", .5)
+    for x in range(62, 215, 38):
+        b += poly([(x, 123), (x + 13, 98), (x + 25, 123)], iron, extra=ol(2))
+    for x in (72, 188):
+        b += circle(x, 163, 18, "#222a31", extra=ol(3)) + circle(x, 163, 9, "#ff7a1f", extra=ol(1.5))
+    write("skin_forge_base", d.svg(260, 190, b))
+    d = Doc("sfa")
+    b = path("M16 18 L206 57", stroke=OL, sw=15) + path("M16 18 L206 57", stroke="#5f6871", sw=9)
+    b += path("M37 21 Q80 44 122 38 Q167 34 204 59", stroke="#ff6a18", sw=4)
+    for x in (62, 108, 154):
+        b += rect(x, 27 + (x-62)*.2, 12, 14, 2, iron, extra=ol(1.6))
+    b += path("M168 36 Q199 24 228 51 L221 80 Q195 65 170 75 Z", iron, extra=ol(2.8))
+    write("skin_forge_arm", d.svg(260, 100, b))
+
+    # King's Parade: crown canopy, royal shield, banners and gold wheel caps.
+    d = Doc("srb")
+    royal = d.lin([(0, "#78b7ff"), (0.5, "#356ed0"), (1, "#183b86")], 0, 0, 0, 1)
+    goldg = d.lin([(0, "#fff2a0"), (0.5, "#ffc638"), (1, "#a8660a")], 0, 0, 1, 1)
+    b = path("M54 94 L64 43 L91 73 L130 17 L169 73 L196 43 L206 94 Z", goldg, extra=ol(3))
+    b += rect(51, 89, 158, 20, 6, royal, extra=ol(2.6))
+    b += path("M108 119 L130 108 L152 119 L148 157 Q130 172 112 157 Z", royal, extra=ol(2.6))
+    b += poly(star_points(130, 138, 14, 6), goldg, extra=ol(1.5))
+    for x in (45, 215):
+        b += rect(x-3, 94, 6, 64, 2, goldg, extra=ol(1.4))
+        b += path(f"M{x+3} 99 Q{x+22} 91 {x+31} 105 L{x+31} 132 Q{x+18} 125 {x+3} 134 Z", royal, extra=ol(2))
+    for x in (72, 188):
+        b += circle(x, 163, 17, goldg, extra=ol(2.4)) + circle(x, 163, 7, royal, extra=ol(1.4))
+    write("skin_royal_base", d.svg(260, 190, b))
+    d = Doc("sra")
+    b = path("M18 18 L204 58", stroke=OL, sw=14) + path("M18 18 L204 58", stroke="#e9ad31", sw=8)
+    b += path("M52 20 L68 8 L84 27 L100 14 L112 37", royal, extra=ol(2))
+    b += path("M168 37 Q198 23 230 50 L223 80 Q196 65 169 76 Z", royal, extra=ol(2.8))
+    b += poly(star_points(199, 56, 10, 4), goldg, extra=ol(1.4))
+    write("skin_royal_arm", d.svg(260, 100, b))
+
+    # Stormwing: broad feather fins and a cloud/lightning crest.
+    d = Doc("sskyb")
+    sky = d.lin([(0, "#f3fcff"), (0.45, "#8fdcff"), (1, "#3e78d8")], 0, 0, 1, 1)
+    left = [(126, 129), (73, 73), (84, 121), (30, 91), (65, 138), (14, 133), (76, 160)]
+    right = [(134, 129)] + [(260-x, y) for x, y in left[1:]]
+    b = poly(left, sky, extra=ol(3)) + poly(right, sky, extra=ol(3))
+    for y in (112, 134, 153):
+        b += path(f"M55 {y} Q94 {y-13} 126 {y}", stroke="#ffffff", sw=3, op=.55)
+        b += path(f"M134 {y} Q166 {y-13} 205 {y}", stroke="#ffffff", sw=3, op=.55)
+    b += ellipse(130, 103, 38, 17, "#f7fdff", extra=ol(2.4))
+    b += poly([(130, 104), (112, 139), (130, 134), (119, 166), (151, 124), (134, 128)], "#ffe14f", extra=ol(2))
+    write("skin_sky_base", d.svg(260, 190, b))
+    d = Doc("sskya")
+    b = path("M18 18 L196 55", stroke=OL, sw=13) + path("M18 18 L196 55", stroke="#74c5ef", sw=7)
+    for x in (52, 82, 112, 142):
+        b += poly([(x, 25), (x+20, 13), (x+14, 34)], sky, extra=ol(1.5))
+    b += path("M166 37 Q197 21 230 49 L222 80 Q194 63 169 76 Z", sky, extra=ol(2.8))
+    b += poly([(201, 43), (188, 65), (201, 61), (193, 78), (215, 55), (203, 58)], "#ffe14f", extra=ol(1.5))
+    write("skin_sky_arm", d.svg(260, 100, b))
+
+    # Night Wraith: bat-wing armor, tall hood and glowing rune plates.
+    d = Doc("sshb")
+    dark = d.lin([(0, "#66518f"), (0.5, "#29213f"), (1, "#090814")], 0, 0, 1, 1)
+    b = poly([(128, 151), (88, 79), (76, 122), (24, 88), (49, 143), (9, 151), (78, 174)], dark, extra=ol(3))
+    b += poly([(132, 151), (172, 79), (184, 122), (236, 88), (211, 143), (251, 151), (182, 174)], dark, extra=ol(3))
+    b += path("M98 137 Q130 73 162 137 L151 169 L109 169 Z", dark, extra=ol(3))
+    for x in (72, 130, 188):
+        b += circle(x, 153, 14, "#161020", extra=ol(2.4))
+        b += path(f"M{x-7} {153} L{x} {143} L{x+7} 153 L{x} 164 Z", "#aa65ff", extra=ol(1.2))
+    b += path("M118 112 Q130 98 142 112", stroke="#d9b1ff", sw=4)
+    write("skin_shadow_base", d.svg(260, 190, b))
+    d = Doc("ssha")
+    b = path("M16 20 L205 57", stroke=OL, sw=15) + path("M16 20 L205 57", stroke="#302341", sw=9)
+    for x in (55, 96, 137):
+        b += poly([(x, 27), (x+12, 11), (x+22, 34)], dark, extra=ol(1.8))
+    b += path("M164 42 Q181 12 203 20 Q226 26 234 53 L223 84 Q197 65 168 78 Z", dark, extra=ol(3))
+    b += path("M187 52 L198 40 L209 53 L198 69 Z", "#ae62ff", extra=ol(1.4))
+    write("skin_shadow_arm", d.svg(260, 100, b))
 def ground():
     d = Doc("g")
     W, H = 256, 330
@@ -2187,6 +2439,36 @@ def reference_pack():
     ui_pack()
 
 
+def hellfire_assets():
+    """Hellfire (paid strike): shop/HUD icon and the falling fire boulder."""
+    def boulder(d, cx, cy, r):
+        rock = d.rad([(0, "#ffb15a"), (0.35, "#c2461c"), (0.8, "#5a1a0a"), (1, "#2a0a04")], 0.38, 0.32, 0.8)
+        b = circle(cx, cy, r, rock, extra=ol(3))
+        for (a0, a1) in ((-0.6, 0.4), (1.2, 2.3), (2.8, 3.7), (4.2, 5.2)):
+            x0, y0 = cx + math.cos(a0) * r * 0.25, cy + math.sin(a0) * r * 0.25
+            x1, y1 = cx + math.cos(a1) * r * 0.85, cy + math.sin(a1) * r * 0.85
+            b += path(f"M{f(x0)} {f(y0)} L{f((x0+x1)/2 + 4)} {f((y0+y1)/2 - 3)} L{f(x1)} {f(y1)}", stroke="#ffe27a", sw=3.2)
+        b += ellipse(cx - r * 0.35, cy - r * 0.4, r * 0.3, r * 0.17, "#fff1b0", 0.5, -30)
+        return b
+
+    def tail(d, cx, cy, r, length):
+        fire = d.lin([(0, "#fff6b0", 0.95), (0.35, "#ffb02e", 0.9), (0.75, "#ff5a1f", 0.7), (1, "#c01a0a", 0)], 0, 1, 0, 0)
+        return path(f"M{f(cx - r)} {f(cy)} Q{f(cx - r * 0.6)} {f(cy - length * 0.6)} {f(cx)} {f(cy - length)} "
+                    f"Q{f(cx + r * 0.6)} {f(cy - length * 0.6)} {f(cx + r)} {f(cy)} Z", fire)
+
+    d = Doc("hfi")
+    b = circle(64, 64, 60, d.rad([(0, "#ff8a2a", 0.55), (0.7, "#ff3a0a", 0.2), (1, "#ff3a0a", 0)], 0.5, 0.5, 0.5))
+    b += f'<g transform="rotate(-35 64 64)">' + tail(d, 64, 78, 26, 66) + "</g>"
+    b += boulder(d, 70, 74, 30)
+    for x, y, s in ((24, 30, 7), (104, 34, 6), (100, 104, 5)):
+        b += poly(star_points(x, y, s, s * 0.4), "#ffe27a", extra=ol(1.2))
+    write("icon_hellfire", d.svg(128, 128, b))
+
+    d = Doc("hfb")
+    b = tail(d, 40, 118, 30, 108) + boulder(d, 40, 118, 32)
+    write("fx_hellfire_boulder", d.svg(80, 156, b))
+
+
 # ------------------------------------------------------------------------------------ Phase D icons
 def phase_d_icons():
     """Colour icons (128x128, thin dark outline) for HUD chips and menus, plus white button glyphs."""
@@ -2231,6 +2513,8 @@ if __name__ == "__main__":
     blocks()
     debris()
     catapult()
+    siege_weapon_assets()
+    siege_skin_assets()
     ground()
     mountains()
     hills()
@@ -2249,4 +2533,5 @@ if __name__ == "__main__":
     mode_icons()
     weapon_icons()
     meta_icons()
+    hellfire_assets()
     print("wrote", len([n for n in os.listdir(OUT) if n.endswith(".svg")]), "svg files to", OUT)

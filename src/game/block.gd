@@ -156,7 +156,7 @@ func _finish_setup(decor: Dictionary) -> void:
 		pulse.tween_property(weak_mark, "modulate", Color.WHITE, 0.55).set_trans(Tween.TRANS_SINE)
 	if bool(decor.get("scroll", false)):
 		set_meta("scroll", true)
-		var sc: Sprite2D = Art.sprite("blueprint", 0.5)
+		var sc: Sprite2D = Art.sprite("icon_secret", 0.5)
 		sc.position = Vector2(size.x * 0.22, -size.y * 0.22)
 		sc.rotation = 0.3
 		sc.modulate = Color(1, 1, 1, 0.85)

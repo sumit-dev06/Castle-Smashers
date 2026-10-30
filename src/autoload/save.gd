@@ -2,26 +2,63 @@ extends Node
 ## Player progress + settings, stored in user://save.json (versioned, atomic write).
 
 const PATH: String = "user://save.json"
-const VERSION: int = 3
+## v4: blueprints retired (converted to coins), hero upgrades refunded, per-engine upgrades.
+const VERSION: int = 4
+## The two wallet currencies, in display order.
+const WALLET: Array[String] = ["coins", "gems"]
 
 var data: Dictionary = {}
 
 
 func _ready() -> void:
 	data = _defaults()
+	var old_version: int = VERSION
 	if FileAccess.file_exists(PATH):
 		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(PATH))
 		if parsed is Dictionary:
+			old_version = int((parsed as Dictionary).get("version", 1))
 			data.merge(parsed, true)
+	if old_version < 4:
+		migrate_v4(data)
 	data["version"] = VERSION
 	data["sessions"] = int(data["sessions"]) + 1
 	write()
 
 
+## v3 -> v4. Pure on `d` so tests can run it on a copy. Never takes anything away: blueprints become
+## coins, coins spent on removed hero / old weapon upgrades come back, and engines the old rules had
+## already unlocked by level stay owned.
+static func migrate_v4(d: Dictionary) -> void:
+	var c: Dictionary = Data.balance["currencies"]
+	var refund: Dictionary = c["legacy_refund"]
+	var coins: int = int(d.get("coins", 0)) + int(d.get("blueprints", 0)) * int(c["blueprint_to_coins"])
+	d.erase("blueprints")
+	var heroes: Variant = d.get("upgrades", {})
+	if heroes is Dictionary:
+		for kind: Variant in heroes:
+			for i: int in mini(int(heroes[kind]), (refund["hero_level"] as Array).size()):
+				coins += int(refund["hero_level"][i])
+	d.erase("upgrades")
+	var old_w: Variant = d.get("ups_weapon", {})
+	if old_w is Dictionary:
+		for track: String in ["power", "reload"]:
+			var lv: Variant = (old_w as Dictionary).get(track, 0)
+			if lv is float or lv is int:
+				for i: int in mini(int(lv), (refund["weapon_" + track] as Array).size()):
+					coins += int(refund["weapon_" + track][i])
+				(old_w as Dictionary).erase(track)
+	d["coins"] = coins
+	var owned: Dictionary = d.get("owned_weapons", {}) if d.get("owned_weapons", {}) is Dictionary else {}
+	for id: String in ["ballista", "trebuchet"]:
+		if int(d.get("unlocked", 1)) >= int(Data.balance["siege_weapons"][id]["unlock_level"]):
+			owned[id] = true
+	d["owned_weapons"] = owned
+
+
 func _defaults() -> Dictionary:
 	return {
 		"version": VERSION, "unlocked": 1, "stars": {}, "best": {}, "coins": 0,
-		"gems": int(Data.b("currencies", "start")["gems"]), "blueprints": 0,
+		"gems": int(Data.b("currencies", "start")["gems"]),
 		"sessions": 0, "levels_played": 0, "no_ads": false,
 		"music": true, "sfx": true, "haptics": true, "loadouts": {},
 		"challenges": {}, "daily_paid": "", "rush_best": 0.0,
@@ -83,7 +120,7 @@ func add_coins(amount: int) -> void:
 	add("coins", amount)
 
 
-## Wallet: "coins", "gems", "blueprints".
+## Wallet: "coins", "gems" (Save.WALLET).
 func amount(kind: String) -> int:
 	return int(data.get(kind, 0))
 
@@ -99,7 +136,7 @@ func add(kind: String, n: int, save_now: bool = true, emit: bool = true) -> void
 		write()
 
 
-## cost: {"coins": 500, "blueprints": 1}
+## cost: {"coins": 500} or {"gems": 120}
 func can_afford(cost: Dictionary) -> bool:
 	for k: String in cost:
 		if amount(k) < int(cost[k]):
@@ -116,7 +153,7 @@ func spend(cost: Dictionary) -> bool:
 	return true
 
 
-## Returns what was earned: {"coins": n, "gems": n, "blueprints": n} (zero kinds left out).
+## Returns what was earned: {"coins": n, "gems": n} (zero kinds left out).
 func record_result(level_id: int, won: bool, stars_got: int, score: int, boss: bool = false) -> Dictionary:
 	data["levels_played"] = int(data["levels_played"]) + 1
 	var out: Dictionary = {}
@@ -142,13 +179,11 @@ func rewards_for(level_id: int, stars_got: int, boss: bool) -> Dictionary:
 	var out: Dictionary = {"coins": int(Data.b("coins", "replay_win"))}
 	if stars_got > old:
 		out["coins"] = int(out["coins"]) + (stars_got - old) * int(Data.b("coins", "per_star_first_clear"))
-	if stars_got == 3 and old < 3:
+	if stars_got == 3 and old < 3 and int(c["gems_three_star_first"]) > 0:
 		out["gems"] = int(c["gems_three_star_first"])
 	if boss and first:
+		out["coins"] = int(out["coins"]) + int(Data.b("coins", "boss_first_clear"))
 		out["gems"] = int(out.get("gems", 0)) + int(c["gems_boss_first_clear"])
-		out["blueprints"] = int(c["blueprints_boss_first_clear"])
-	elif first and level_id % int(c["blueprints_realm_every"]) == 0:
-		out["blueprints"] = 1
 	return out
 
 
@@ -161,7 +196,7 @@ func _record_challenge(id: int, stars_got: int, score: int) -> Dictionary:
 	var old: int = int(rec["stars"])
 	if stars_got > old:
 		out["coins"] = int(out["coins"]) + (stars_got - old) * int(Data.b("coins", "per_star_first_clear"))
-	if stars_got == 3 and old < 3:
+	if stars_got == 3 and old < 3 and int(Data.b("currencies", "gems_three_star_first")) > 0:
 		out["gems"] = int(Data.b("currencies", "gems_three_star_first"))
 	if id == daily_challenge_id() and not daily_paid_today():
 		out["coins"] = int(out["coins"]) + int(Data.b("modes", "daily_coins"))

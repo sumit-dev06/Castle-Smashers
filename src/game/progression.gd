@@ -43,9 +43,35 @@ static func weapons() -> Array:
 	return Data.balance["siege_weapons"]["order"]
 
 
-static func weapon_unlocked(id: String) -> bool:
+## The campaign milestone reveals the engine in Master Orin's workshop; it does not grant it.
+static func weapon_level_met(id: String) -> bool:
 	var need: int = int(weapon_cfg(id)["unlock_level"])
 	return need <= 1 or Save.is_unlocked(need)
+
+
+static func weapon_owned(id: String) -> bool:
+	return id == "catapult" or bool(_dict("owned_weapons").get(id, false))
+
+
+static func weapon_unlocked(id: String) -> bool:
+	return weapon_level_met(id) and weapon_owned(id)
+
+
+static func weapon_unlock_cost(id: String) -> Dictionary:
+	if weapon_owned(id) or not weapon_level_met(id):
+		return {}
+	return (weapon_cfg(id).get("unlock_cost", {}) as Dictionary).duplicate()
+
+
+static func buy_weapon(id: String) -> bool:
+	var cost: Dictionary = weapon_unlock_cost(id)
+	if cost.is_empty() or not Save.spend(cost):
+		return false
+	_dict("owned_weapons")[id] = true
+	Save.data["weapon"] = id
+	Save.write()
+	Analytics.event("engine_forged", {"weapon": id, "cost": int(cost.get("coins", 0))})
+	return true
 
 
 static func weapon() -> String:
@@ -53,29 +79,89 @@ static func weapon() -> String:
 	return w if weapon_unlocked(w) else "catapult"
 
 
-static func set_weapon(id: String) -> void:
-	if weapon_unlocked(id):
-		Save.data["weapon"] = id
-		Save.write()
+static func set_weapon(id: String) -> bool:
+	if not weapon_unlocked(id):
+		return false
+	Save.data["weapon"] = id
+	Save.write()
+	return true
+
+
+static func weapon_tracks(id: String = "") -> Dictionary:
+	return weapon_cfg(weapon() if id.is_empty() else id).get("tracks", {})
+
+
+static func weapon_up_level(id: String, track: String) -> int:
+	var all: Dictionary = _dict("ups_weapon")
+	var per_weapon: Dictionary = all.get(id, {}) if all.get(id, {}) is Dictionary else {}
+	return int(per_weapon.get(track, 0))
+
+
+static func weapon_up_cost(id: String, track: String) -> Dictionary:
+	var cfg: Dictionary = weapon_tracks(id).get(track, {})
+	var level: int = weapon_up_level(id, track)
+	if cfg.is_empty() or level >= int(cfg["max"]):
+		return {}
+	return ((cfg["cost"] as Array)[level] as Dictionary).duplicate()
+
+
+static func buy_weapon_up(id: String, track: String) -> bool:
+	if not weapon_unlocked(id):
+		return false
+	var cost: Dictionary = weapon_up_cost(id, track)
+	if cost.is_empty() or not Save.spend(cost):
+		return false
+	var all: Dictionary = _dict("ups_weapon")
+	var per_weapon: Dictionary = all.get(id, {}) if all.get(id, {}) is Dictionary else {}
+	per_weapon[track] = weapon_up_level(id, track) + 1
+	all[id] = per_weapon
+	Save.write()
+	Analytics.event("upgrade_bought", {"weapon": id, "track": track, "level": int(per_weapon[track]), "cost": int(cost.get("coins", 0))})
+	return true
+
+
+static func weapon_total_level(id: String = "") -> int:
+	var wid: String = weapon() if id.is_empty() else id
+	var total: int = 0
+	for track: String in weapon_tracks(wid):
+		total += weapon_up_level(wid, track)
+	return total
+
+
+## Adds all per-level effects for one engine. Values are fractional multipliers around 1.0.
+static func _weapon_effect(id: String, effect: String) -> float:
+	var amount: float = 0.0
+	for track: String in weapon_tracks(id):
+		var cfg: Dictionary = weapon_tracks(id)[track]
+		amount += weapon_up_level(id, track) * float((cfg.get("effects", {}) as Dictionary).get(effect, 0.0))
+	return 1.0 + amount
 
 
 # ---------------------------------------------------------------------------------- upgrades
-## group: "vanguard" or "weapon"; track: armor, shields, power, reload.
-static func up_cfg(group: String, track: String) -> Dictionary:
+## Vanguard compatibility API. Siege engines use weapon_up_* above.
+static func up_cfg(group: String, track: String, id: String = "") -> Dictionary:
+	if group == "weapon":
+		return weapon_tracks(weapon() if id.is_empty() else id).get(track, {})
 	return Data.balance["upgrades"][group][track]
 
 
-static func up_level(group: String, track: String) -> int:
+static func up_level(group: String, track: String, id: String = "") -> int:
+	if group == "weapon":
+		return weapon_up_level(weapon() if id.is_empty() else id, track)
 	return int(_dict("ups_" + group).get(track, 0))
 
 
-static func up_cost(group: String, track: String) -> Dictionary:
-	var c: Dictionary = up_cfg(group, track)
-	var lv: int = up_level(group, track)
-	return {} if lv >= int(c["max"]) else (c["cost"] as Array)[lv]
+static func up_cost(group: String, track: String, id: String = "") -> Dictionary:
+	if group == "weapon":
+		return weapon_up_cost(weapon() if id.is_empty() else id, track)
+	var cfg: Dictionary = up_cfg(group, track)
+	var level: int = up_level(group, track)
+	return {} if level >= int(cfg["max"]) else ((cfg["cost"] as Array)[level] as Dictionary).duplicate()
 
 
-static func buy_up(group: String, track: String) -> bool:
+static func buy_up(group: String, track: String, id: String = "") -> bool:
+	if group == "weapon":
+		return buy_weapon_up(weapon() if id.is_empty() else id, track)
 	var cost: Dictionary = up_cost(group, track)
 	if cost.is_empty() or not Save.spend(cost):
 		return false
@@ -92,21 +178,34 @@ static func shield_chance() -> float:
 	return Data.bf("soldiers", "shield_block_chance") + up_level("vanguard", "shields") * float(up_cfg("vanguard", "shields")["per_level"])
 
 
-## Launch speed multiplier from the weapon and its power upgrade.
 static func speed_mult() -> float:
-	return float(weapon_cfg()["speed_mult"]) * (1.0 + up_level("weapon", "power") * float(up_cfg("weapon", "power")["per_level"]))
+	var id: String = weapon()
+	return float(weapon_cfg(id)["speed_mult"]) * _weapon_effect(id, "speed_mult")
 
 
 static func reload_mult() -> float:
-	return float(weapon_cfg()["reload_mult"]) * (1.0 - up_level("weapon", "reload") * float(up_cfg("weapon", "reload")["per_level"]))
+	var id: String = weapon()
+	return maxf(0.35, float(weapon_cfg(id)["reload_mult"]) * _weapon_effect(id, "reload_mult"))
 
 
 static func gravity_scale() -> float:
-	return float(weapon_cfg()["gravity_scale"])
+	var id: String = weapon()
+	return float(weapon_cfg(id)["gravity_scale"]) * _weapon_effect(id, "gravity_scale")
 
 
 static func mass_mult() -> float:
-	return float(weapon_cfg()["mass_mult"])
+	var id: String = weapon()
+	return float(weapon_cfg(id)["mass_mult"]) * _weapon_effect(id, "mass_mult")
+
+
+static func damage_mult() -> float:
+	var id: String = weapon()
+	return float(weapon_cfg(id)["damage_mult"]) * _weapon_effect(id, "damage_mult")
+
+
+static func ability_mult() -> float:
+	var id: String = weapon()
+	return float(weapon_cfg(id)["ability_mult"]) * _weapon_effect(id, "ability_mult")
 
 
 # ---------------------------------------------------------------------------------- cosmetics
@@ -140,6 +239,8 @@ static func buy_cosmetic(kind: String, id: String) -> bool:
 		return false
 	grant(kind, id)
 	Save.write()
+	if kind == "skins":
+		Analytics.event("skin_bought", {"skin_id": id, "cost": int((c["price"] as Dictionary).get("gems", (c["price"] as Dictionary).get("coins", 0)))})
 	return true
 
 
@@ -161,10 +262,12 @@ static func _col(a: Array) -> Color:
 	return Color(float(a[0]), float(a[1]), float(a[2]), float(a[3]) if a.size() > 3 else 1.0)
 
 
-## Catapult tints: weapon look times skin look. [base, arm]
-static func catapult_tints() -> Array:
-	var w: Dictionary = weapon_cfg()
-	var s: Dictionary = cosmetic("skins", equipped("skins"))
+## Engine and skin colours. Geometry overlays make skins distinct; these colours finish the theme.
+static func catapult_tints(weapon_id: String = "", skin_id: String = "") -> Array:
+	var wid: String = weapon() if weapon_id.is_empty() else weapon_id
+	var sid: String = equipped("skins") if skin_id.is_empty() else skin_id
+	var w: Dictionary = weapon_cfg(wid)
+	var s: Dictionary = cosmetic("skins", sid)
 	return [_col(w["tint_base"]) * _col(s["tint_base"]), _col(w["tint_arm"]) * _col(s["tint_arm"])]
 
 
@@ -265,7 +368,7 @@ static func claim_achievement(id: String) -> Dictionary:
 
 
 static func _pay(reward: Dictionary) -> void:
-	for k: String in ["coins", "gems", "blueprints"]:
+	for k: String in Save.WALLET:
 		if reward.has(k):
 			Save.add(k, int(reward[k]), false, false)
 	Save.write()

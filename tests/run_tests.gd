@@ -47,6 +47,9 @@ func _run() -> void:
 	if str(Game.args.get("run-tests", "")) == "specials":
 		await _special_pack_tests()
 		return
+	if str(Game.args.get("run-tests", "")) == "billing":
+		await _billing_tests()
+		return
 	var only: String = str(Game.args.get("run-tests", ""))
 	var lo: int = 1
 	var hi: int = Data.level_count()
@@ -654,6 +657,7 @@ func _phase_d_tests() -> void:
 	await _mode_tests()
 	await _progression_tests()
 	await _meta_tests()
+	await _billing_tests()
 	await _audio_tests()
 
 
@@ -668,23 +672,43 @@ func _wallet_tests() -> void:
 	var saved: Dictionary = Save.data.duplicate(true)
 	Save.data["coins"] = 500
 	Save.data["gems"] = 5
-	Save.data["blueprints"] = 0
 	Save.data["stars"] = {}
-	_check(not Save.spend({"coins": 100, "blueprints": 1}) and Save.coins() == 500,
+	_check(not Save.spend({"coins": 100, "gems": 6}) and Save.coins() == 500,
 			"wallet: spend fails whole when one currency is short")
 	_check(Save.spend({"coins": 100, "gems": 5}) and Save.coins() == 400 and Save.amount("gems") == 0,
 			"wallet: spend takes every currency in the cost")
+	_check(Save.WALLET == ["coins", "gems"] and not Save.data.has("blueprints"), "wallet: only coins and gems exist")
 	var c: Dictionary = Data.balance["currencies"]
 	var r3: Dictionary = Save.rewards_for(7, 3, false)
-	_check(int(r3.get("gems", 0)) == int(c["gems_three_star_first"]), "wallet: first 3-star clear gives gems")
+	_check(not r3.has("gems") and int(r3["coins"]) == 3 * int(Data.b("coins", "per_star_first_clear")) + int(Data.b("coins", "replay_win")),
+			"wallet: a first 3-star clear pays coins, not gems")
 	var rb: Dictionary = Save.rewards_for(10, 1, true)
-	_check(int(rb.get("gems", 0)) == int(c["gems_boss_first_clear"]) and int(rb.get("blueprints", 0)) == int(c["blueprints_boss_first_clear"]),
-			"wallet: first boss clear gives gems and blueprints")
+	_check(int(rb.get("gems", 0)) == int(c["gems_boss_first_clear"]) and int(rb["coins"]) > int(Data.b("coins", "boss_first_clear")),
+			"wallet: a first boss clear is the rare free gem source")
 	Save.data["stars"] = {"7": 3, "10": 1}
 	var again: Dictionary = Save.rewards_for(7, 3, false)
 	var boss_again: Dictionary = Save.rewards_for(10, 1, true)
-	_check(not again.has("gems") and not boss_again.has("gems") and not boss_again.has("blueprints") and int(again["coins"]) > 0,
+	_check(not again.has("gems") and not boss_again.has("gems") and int(again["coins"]) > 0,
 			"wallet: replays give coins only (no premium farming)")
+	# Free gems in a full playthrough stay small next to skin prices.
+	var free_gems: int = 5 * int(c["gems_boss_first_clear"])
+	for a: Dictionary in Data.balance["achievements"]:
+		free_gems += int(a["reward"].get("gems", 0))
+	for r: Dictionary in Data.balance["realm_chests"]["rewards"]:
+		free_gems += 5 * int(r.get("gems", 0))
+	_check(free_gems < int(Data.balance["cosmetics"]["skins"]["shadow"]["price"]["gems"]),
+			"wallet: all free gems (%d) buy less than the legendary skin" % free_gems)
+	# v3 -> v4 migration: nothing is lost.
+	var old: Dictionary = {"coins": 100, "blueprints": 2, "unlocked": 25, "upgrades": {"bomb": 2},
+			"ups_weapon": {"power": 1, "reload": 1}}
+	Save.migrate_v4(old)
+	var refund: Dictionary = c["legacy_refund"]
+	var want: int = 100 + 2 * int(c["blueprint_to_coins"]) + int(refund["hero_level"][0]) + int(refund["hero_level"][1]) \
+			+ int(refund["weapon_power"][0]) + int(refund["weapon_reload"][0])
+	_check(int(old["coins"]) == want and not old.has("blueprints") and not old.has("upgrades"),
+			"migration: blueprints and old upgrades become coins (%d)" % int(old["coins"]))
+	_check(bool(old["owned_weapons"].get("ballista", false)) and not old["owned_weapons"].has("trebuchet"),
+			"migration: engines already unlocked by level stay owned")
 	Save.data = saved
 	Save.write()
 
@@ -1025,23 +1049,33 @@ func _progression_tests() -> void:
 	for k: String in ["stats", "owned", "ups_vanguard", "ups_weapon", "realm_chests", "ach_claimed", "secrets"]:
 		Save.data[k] = {}
 	Save.data["weapon"] = "trebuchet"
+	Save.data["owned_weapons"] = {}
 	_check(Progression.weapon() == "catapult", "a locked siege weapon falls back to the catapult")
 	Save.data["unlocked"] = 31
-	Progression.set_weapon("trebuchet")
-	_check(Progression.weapon() == "trebuchet" and Progression.mass_mult() > 1.3 and Progression.reload_mult() > 1.0,
-			"the trebuchet unlocks after level 30 (heavier, slower reload)")
-	Progression.set_weapon("ballista")
-	_check(Progression.gravity_scale() < 1.0 and Progression.speed_mult() > 1.0, "the ballista shoots flat and fast")
+	_check(not Progression.set_weapon("trebuchet") and Progression.weapon() == "catapult",
+			"reaching level 31 only reveals the trebuchet; it still has to be forged")
+	Save.data["coins"] = int(Progression.weapon_cfg("trebuchet")["unlock_cost"]["coins"]) - 1
+	_check(not Progression.buy_weapon("trebuchet"), "forging the trebuchet needs its full coin cost")
+	Save.data["coins"] = 200000
+	_check(Progression.buy_weapon("trebuchet") and Progression.weapon() == "trebuchet" and Progression.mass_mult() > 1.3
+			and Progression.reload_mult() > 1.0 and Progression.ability_mult() > 1.0,
+			"a forged trebuchet is heavier, reloads slower and boosts abilities")
+	var ab0: float = Progression.ability_mult()
+	_check(Progression.buy_weapon_up("trebuchet", "sling") and Progression.ability_mult() > ab0, "the sling upgrade raises ability power")
+	var cw0: float = Progression.mass_mult()
+	_check(Progression.buy_weapon_up("trebuchet", "counterweight") and Progression.mass_mult() > cw0, "the counterweight raises hero mass")
+	_check(Progression.buy_weapon("ballista") and Progression.gravity_scale() < 1.0 and Progression.speed_mult() > 1.0
+			and Progression.damage_mult() > 1.0, "the ballista shoots flat, fast and hits harder")
+	var dm0: float = Progression.damage_mult()
+	_check(Progression.buy_weapon_up("ballista", "piercing") and Progression.damage_mult() > dm0, "piercing rail raises direct damage")
+	_check(Progression.weapon_up_level("trebuchet", "sling") == 1 and Progression.weapon_up_level("ballista", "sling") == 0,
+			"upgrades belong to one engine")
+	var cost_steps: Array = Progression.weapon_cfg("catapult")["tracks"]["torsion"]["cost"]
+	_check(int(cost_steps[-1]["coins"]) >= 5 * int(cost_steps[0]["coins"]), "upgrade costs climb steeply (heavy coin sink)")
 	Save.data["coins"] = 5000
-	Save.data["blueprints"] = 0
 	var hp0: int = Progression.soldier_hp()
 	_check(Progression.buy_up("vanguard", "armor") and Progression.soldier_hp() == hp0 + 1, "Vanguard armor adds soldier HP")
-	_check(not Progression.buy_up("vanguard", "armor"), "the second armor level needs a blueprint")
-	Save.data["blueprints"] = 1
-	_check(Progression.buy_up("vanguard", "armor") and Save.amount("blueprints") == 0, "blueprints unlock the next upgrade")
-	var sp: float = Progression.speed_mult()
-	Progression.buy_up("weapon", "power")
-	_check(Progression.speed_mult() > sp, "the power upgrade raises launch speed")
+	_check(not Progression.buy_up("vanguard", "armor"), "the next armor level costs more coins than are left")
 	# Cosmetics: buy, equip, gems; locked ones refuse.
 	Save.data["gems"] = 0
 	_check(not Progression.buy_cosmetic("skins", "royal") and not Progression.equip("skins", "royal"), "a gem skin needs gems")
@@ -1054,9 +1088,9 @@ func _progression_tests() -> void:
 	for id: int in range(1, 11):
 		Save.data["stars"][str(id)] = 3
 	_check(Progression.realm_stars(1) == 30 and Progression.chest_state(1, 2) == "ready", "realm 1 chests open with 30 stars")
-	var g0: int = Save.amount("gems")
+	var c0: int = Save.coins()
 	var r: Dictionary = Progression.claim_chest(1, 0)
-	_check(not r.is_empty() and Save.amount("gems") > g0 and Progression.chest_state(1, 0) == "claimed", "claiming a realm chest pays once")
+	_check(not r.is_empty() and Save.coins() > c0 and Progression.chest_state(1, 0) == "claimed", "claiming a realm chest pays once")
 	_check(Progression.claim_chest(1, 0).is_empty(), "a claimed chest cannot be claimed again")
 	_check(Progression.rank_name() == "Knight", "30 stars makes you a Knight (%s)" % Progression.rank_name())
 	# Achievements from stats.
@@ -1288,16 +1322,16 @@ func _phase_c_tests() -> void:
 	_check(lsh.boss == b2 and b2.dead, "the boss can be defeated")
 	lsh.queue_free()
 	await _wait(0.1)
-	# Workshop: buying an upgrade spends coins and boosts the hero config.
+	# Heroes are not upgradable: fixed power, introduced at authored campaign levels.
 	var saved: Dictionary = Save.data.duplicate(true)
-	Save.data["coins"] = 1000
-	Save.data["upgrades"] = {}
 	var base_r: float = float(Data.projectiles["bomb"]["explosion"]["radius"])
-	var ok: bool = Workshop.buy("bomb")
-	_check(ok and Save.coins() == 1000 - int(Data.b("workshop", "costs")[0]) and Workshop.level_of("bomb") == 1,
-			"workshop upgrade costs coins and raises the level")
-	_check(float(Workshop.config("bomb")["explosion"]["radius"]) > base_r and float(Data.projectiles["bomb"]["explosion"]["radius"]) == base_r,
-			"upgrades boost the hero copy, not the base data")
+	var ws_methods: Array = (load("res://src/game/workshop.gd") as GDScript).get_script_method_list().map(func(m: Dictionary) -> String: return String(m["name"]))
+	_check(float(Workshop.config("bomb")["explosion"]["radius"]) == base_r and not ws_methods.has("buy"),
+			"hero power is fixed (no hero upgrades)")
+	Save.data["unlocked"] = Workshop.intro_level("quake") - 1
+	_check(not Workshop.introduced("quake") and Workshop.introduced("stone"), "Quaky stays locked before his introduction level")
+	Save.data["unlocked"] = Workshop.intro_level("quake")
+	_check(Workshop.introduced("quake"), "Quaky is introduced at level %d" % Workshop.intro_level("quake"))
 	Save.data = saved
 	Save.write()
 	# Cinematics play to the end without errors (a scene with actors, focus, demo, hero and boss).
@@ -1340,20 +1374,13 @@ func _meta_tests() -> void:
 	_check(SpinWheel.pick(0.0) == 0 and SpinWheel.pick(1.0) == SpinWheel.slices().size() - 1, "spin pick maps roll 0 and 1 to the ends")
 	Save.data["spin_free"] = ""
 	Save.data["spin_ads"] = {}
-	var g0: int = Save.amount("gems") + Save.amount("coins") + Save.amount("blueprints")
-	_check(SpinWheel.use_spin(false, 0.0) == 0 and Save.amount("gems") + Save.amount("coins") + Save.amount("blueprints") > g0, "the free spin pays its slice")
+	var g0: int = Save.amount("gems") + Save.amount("coins")
+	_check(SpinWheel.use_spin(false, 0.0) == 0 and Save.amount("gems") + Save.amount("coins") > g0, "the free spin pays its slice")
 	_check(SpinWheel.use_spin(false, 0.5) == -1, "only one free spin a day")
 	for i: int in int(Data.b("spin", "ads_per_day")):
 		SpinWheel.use_spin(true, 0.5)
 	_check(SpinWheel.use_spin(true, 0.5) == -1 and SpinWheel.spins_left() == 0, "ad spins stop at ads_per_day")
-	# Store grants + in-game shop spend.
-	Save.data["iap_owned"] = []
-	Save.data["no_ads"] = false
-	var gm: int = Save.amount("gems")
-	Store._grant(String(Data.balance["shop"]["gems"][0].get("iap", Data.balance["shop"]["gems"][0]["id"])))
-	_check(Save.amount("gems") > gm, "a gem pack grant adds gems")
-	Store._grant("starter_pack")
-	_check(bool(Save.data["no_ads"]) and Store.owns("starter_pack"), "the starter pack removes ads and is one-time")
+	# In-game shop: gold costs gems, a broke wallet cannot buy.
 	var gold: Dictionary = Data.balance["shop"]["gold"][0]
 	Save.data["gems"] = int(gold["cost"]["gems"])
 	var cc: int = Save.amount("coins")
@@ -1378,6 +1405,243 @@ func _meta_tests() -> void:
 	Save.data = saved
 	Save.write()
 
+
+
+# ------------------------------------------------------------------------------------ billing
+func _fake_store(cfg: Dictionary = {}) -> RefCounted:
+	var fake: RefCounted = (load(Store.FAKE_BACKEND) as GDScript).new()
+	for k: String in cfg:
+		fake.set(k, cfg[k])
+	Store.use_backend(fake)
+	await _wait(0.1)
+	return fake
+
+
+func _billing_tests() -> void:
+	print("-- billing")
+	var saved: Dictionary = Save.data.duplicate(true)
+	Save.data["iap"] = {}
+	Save.data["no_ads"] = false
+	Save.data["coins"] = 0
+	Save.data["gems"] = 0
+	Save.data["hellfire"] = 0
+	var fake: RefCounted = await _fake_store()
+	_check(Store.available() and not Store.price_text("coin_crate").is_empty(), "store connects and loads Play prices")
+	_check(Data.balance["shop"]["order"].size() == 4 and Store.product("remove_ads")["type"] == "non_consumable"
+			and Store.product("hellfire_crate")["gives"]["hellfire"] == 3, "catalog: Remove Ads + 3 crates (Hellfire gives 3)")
+	# Every product delivers exactly its contents once.
+	var expect: Dictionary = {"coin_crate": ["coins", 30000], "gem_crate": ["gems", 400], "hellfire_crate": ["hellfire", 3]}
+	for id: String in expect:
+		var k: String = expect[id][0]
+		var before: int = Save.amount(k)
+		_check(Store.buy(id), "%s purchase starts" % id)
+		await _wait(0.2)
+		_check(Save.amount(k) == before + int(expect[id][1]) and fake.get("play_purchases").is_empty(),
+				"%s grants %d %s and is consumed" % [id, int(expect[id][1]), k])
+	# Repeat purchase of the same crate works.
+	var c0: int = Save.coins()
+	Store.buy("coin_crate")
+	await _wait(0.2)
+	_check(Save.coins() == c0 + 30000, "the same crate can be bought again")
+	# Busy guard: only one purchase at a time.
+	fake.set("next_outcome", "pending")
+	_check(Store.buy("coin_crate") and not Store.buy("gem_crate"), "a second purchase is refused while one runs")
+	await _wait(0.2)
+	_check(Save.coins() == c0 + 30000 and Store.busy_product.is_empty(), "a pending purchase grants nothing yet")
+	fake.call("complete_pending")
+	await _wait(0.2)
+	_check(Save.coins() == c0 + 60000, "the pending purchase is granted once Play confirms it")
+	# Cancel and failure grant nothing.
+	var c1: int = Save.coins()
+	fake.set("next_outcome", "cancel")
+	Store.buy("coin_crate")
+	await _wait(0.2)
+	fake.set("next_outcome", "fail")
+	Store.buy("coin_crate")
+	await _wait(0.2)
+	_check(Save.coins() == c1 and Store.busy_product.is_empty(), "cancelled and failed purchases grant nothing")
+	# Duplicate callbacks for one token grant once.
+	fake.set("next_outcome", "purchased")
+	fake.set("duplicate_callbacks", true)
+	Store.buy("coin_crate")
+	await _wait(0.3)
+	_check(Save.coins() == c1 + 30000, "duplicate purchase callbacks grant only once")
+	fake.set("duplicate_callbacks", false)
+	# Consume fails: reward kept, never granted again, consume retried on reconnect / restart.
+	fake.set("fail_consume", true)
+	var g0: int = Save.amount("gems")
+	Store.buy("gem_crate")
+	await _wait(0.2)
+	_check(Save.amount("gems") == g0 + 400 and fake.get("play_purchases").size() == 1, "a failed consume keeps the saved reward")
+	fake.set("fail_consume", false)
+	var fake2: RefCounted = (load(Store.FAKE_BACKEND) as GDScript).new()
+	fake2.set("play_purchases", fake.get("play_purchases"))
+	Store.use_backend(fake2)  # app restart / reconnect: Play still reports the unconsumed token
+	await _wait(0.3)
+	_check(Save.amount("gems") == g0 + 400 and fake2.get("play_purchases").is_empty(),
+			"recovery consumes the token without granting twice")
+	# A purchase made while the app was closed is granted on the next start.
+	var orphan: Dictionary = {"purchase_token": "orphan-1", "product_ids": ["hellfire_crate"], "purchase_state": 1, "is_acknowledged": false}
+	var h0: int = Save.amount("hellfire")
+	fake2.set("play_purchases", [orphan])
+	Store.restore()
+	await _wait(0.3)
+	_check(Save.amount("hellfire") == h0 + 3, "an unfinished purchase from a crash is recovered")
+	# Never grant for an unknown product or a non-purchased state.
+	fake2.set("play_purchases", [{"purchase_token": "x1", "product_ids": ["hacked_pack"], "purchase_state": 1},
+			{"purchase_token": "x2", "product_ids": ["coin_crate"], "purchase_state": 0}])
+	var c2: int = Save.coins()
+	Store.restore()
+	await _wait(0.3)
+	_check(Save.coins() == c2, "unknown products and non-purchased states are ignored")
+	fake2.set("play_purchases", [])
+	# Remove Ads: acknowledged (never consumed), disables ads, restored from Play, revoked on refund.
+	_check(Store.buy("remove_ads"), "remove ads purchase starts")
+	await _wait(0.3)
+	var ra: Array = fake2.get("play_purchases")
+	_check(Store.owns("remove_ads") and Ads.ads_removed() and ra.size() == 1 and bool(ra[0]["is_acknowledged"]),
+			"Remove Ads is granted, acknowledged and not consumed")
+	_check(not Store.buy("remove_ads") and Ads.rewarded_ready() and not Ads.interstitial_due(99),
+			"owned Remove Ads cannot be rebought and turns off every ad format")
+	Save.data["iap"] = {}
+	Save.data["no_ads"] = false
+	Store.restore()
+	await _wait(0.3)
+	_check(Store.owns("remove_ads") and Ads.ads_removed(), "Remove Ads is restored from Google Play (reinstall / new device)")
+	fake2.set("play_purchases", [])
+	Store.restore()
+	await _wait(0.3)
+	_check(not Store.owns("remove_ads") and not Ads.ads_removed(), "a refunded Remove Ads is revoked")
+	# Acknowledge failure keeps the entitlement and retries.
+	fake2.set("fail_ack", true)
+	Store.buy("remove_ads")
+	await _wait(0.3)
+	_check(Store.owns("remove_ads") and not bool(fake2.get("play_purchases")[0]["is_acknowledged"]), "a failed acknowledge keeps Remove Ads")
+	fake2.set("fail_ack", false)
+	Store.restore()
+	await _wait(0.3)
+	_check(bool(fake2.get("play_purchases")[0]["is_acknowledged"]), "the acknowledge is retried on the next query")
+	# Store offline: buy is refused, nothing breaks.
+	var off: RefCounted = await _fake_store({"connect_ok": false})
+	_check(not Store.available() and not Store.buy("coin_crate"), "offline store refuses purchases")
+	_check(PurchaseProcessor.mask("abcdefghijkl") == "abcdef…", "purchase tokens are masked in logs")
+	Save.data = saved
+	Save.write()
+	await _fake_store()
+	await _ad_flow_tests()
+
+
+## Rewarded ads, interstitial pacing, second chance (+1 Rocky once), Hellfire, analytics privacy.
+func _ad_flow_tests() -> void:
+	print("-- ads, second chance, hellfire, analytics")
+	var saved: Dictionary = Save.data.duplicate(true)
+	Save.data["no_ads"] = false
+	Save.data["iap"] = {}
+	Save.data["sessions"] = 5
+	Ads.levels_since = 0
+	var every: int = int(Data.b("ads", "interstitial_every_levels"))
+	for i: int in every - 1:
+		Ads.level_finished()
+	_check(not Ads.interstitial_due(10), "no interstitial before %d finished levels" % every)
+	Ads.level_finished()
+	_check(Ads.interstitial_due(10) and not Ads.interstitial_due(int(Data.b("ads", "interstitial_min_level")) - 1),
+			"interstitial is due after %d levels, never before the minimum level" % every)
+	var went: Array = [false]
+	Ads.next_level_break(10, func() -> void: went[0] = true)
+	_check(went[0], "NEXT always continues (no ad backend: straight on)")
+	Save.data["sessions"] = 1
+	_check(not Ads.interstitial_due(10), "no interstitial in the first session")
+	Save.data["sessions"] = 5
+	Save.data["no_ads"] = true
+	_check(not Ads.interstitial_due(10) and Ads.rewarded_ready(), "Remove Ads: no interstitial, bonuses still available")
+	var got: Array = [""]
+	var cb: Callable = func(id: String) -> void: got[0] = id
+	Ads.rewarded_earned.connect(cb)
+	Ads.show_rewarded("extra_rocky")
+	await _wait(0.05)
+	Ads.rewarded_earned.disconnect(cb)
+	_check(got[0] == "extra_rocky", "Remove Ads grants ad bonuses instantly (no video)")
+	Save.data["no_ads"] = false
+	# Second chance: out of boulders opens the offer, +1 Rocky works once, then Hellfire wins.
+	var l: Level = _make(1)
+	await _wait(0.2)
+	l.test_mode = false
+	l.hero_index = l.heroes.size()
+	l._out_of_heroes()
+	_check(l.second_chance_open and l.state == Level.State.PLAY, "out of boulders opens the second chance (not a loss yet)")
+	var n: int = l.heroes.size()
+	l.second_chance_rocky()
+	_check(not l.second_chance_open and l.heroes.size() == n + 1 and String(l.heroes[-1]) == "stone", "the ad gives exactly one extra Rocky")
+	l.second_chance_open = true
+	l.second_chance_rocky()
+	_check(l.heroes.size() == n + 1, "the extra Rocky is only given once per attempt")
+	Save.data["hellfire"] = 0
+	_check(not l.use_hellfire(), "Hellfire cannot be used without owning a strike")
+	Save.data["hellfire"] = 2
+	l.test_mode = true
+	_check(l.use_hellfire() and Save.amount("hellfire") == 1, "using Hellfire spends one strike")
+	await _wait(float(Data.balance["hellfire"]["spread_s"]) + float(Data.balance["hellfire"]["fall_s"]) + float(Data.balance["hellfire"]["settle_s"]) + 0.6)
+	_check(l.state == Level.State.WON and l.blocks.is_empty() and l.archers.is_empty(), "Hellfire destroys every structure and wins the level")
+	l.queue_free()
+	await _wait(0.1)
+	# Boss level: Hellfire also beats a shielded boss.
+	var lb: Level = _make(10)
+	await _wait(0.2)
+	Save.data["hellfire"] = 1
+	lb.use_hellfire()
+	await _wait(float(Data.balance["hellfire"]["spread_s"]) + float(Data.balance["hellfire"]["fall_s"]) + float(Data.balance["hellfire"]["settle_s"]) + 0.6)
+	_check(lb.state == Level.State.WON and lb.archers.is_empty(), "Hellfire beats a boss level too")
+	lb.queue_free()
+	await _wait(0.1)
+	# Analytics: whitelisted names and keys only.
+	Analytics.event("purchase_success", {"product_id": "coin_crate", "reward_amount": 30000, "email": "a@b.c", "purchase_token": "secret"})
+	var p: Dictionary = Analytics.last("purchase_success")
+	_check(p.has("product_id") and not p.has("email") and not p.has("purchase_token"), "analytics drops non-whitelisted (personal) fields")
+	var before: int = Analytics.log.size()
+	Analytics.event("made_up_event", {})
+	_check(Analytics.log.size() == before, "analytics ignores unknown events")
+	Save.data = saved
+	Save.write()
+	_notification_tests()
+
+
+func _notification_tests() -> void:
+	print("-- notifications")
+	var saved: Dictionary = Save.data.duplicate(true)
+	var cfg: Dictionary = Notifications.cfg
+	Save.data["spin_free"] = Save.today()
+	Save.data["daily_last"] = Save.today()
+	var now: int = int(Time.get_unix_time_from_system())
+	var plan: Array = Notifications.plan(now)
+	var kinds: Array = plan.map(func(n: Dictionary) -> String: return String(n["kind"]))
+	_check(kinds.has("spin_ready") or kinds.has("daily_reward"), "a spin/daily reminder is planned after today's spin was used (%s)" % ", ".join(kinds))
+	var bias: int = int(Time.get_time_zone_from_system().get("bias", 0)) * 60
+	var qs: int = int(cfg["quiet_start_hour"])
+	var qe: int = int(cfg["quiet_end_hour"])
+	var days: Dictionary = {}
+	var ok_quiet: bool = true
+	var ok_text: bool = true
+	for n: Dictionary in plan:
+		var h: int = int(Time.get_datetime_dict_from_unix_time(int(n["at"]) + bias)["hour"])
+		ok_quiet = ok_quiet and not (h >= qs or h < qe)
+		var d: int = int(n["at"]) / 86400
+		days[d] = int(days.get(d, 0)) + 1
+		ok_text = ok_text and not String(n["title"]).contains("{") and not String(n["body"]).contains("{") and int(n["delay"]) > 0
+	_check(ok_quiet, "no reminder is scheduled in quiet hours (%d-%d)" % [qs, qe])
+	_check(days.values().all(func(c: int) -> bool: return c <= int(cfg["max_per_day"])), "at most %d reminder per day" % int(cfg["max_per_day"]))
+	_check(ok_text, "every reminder has its placeholders filled")
+	_check(kinds.has("idle_2d") or kinds.has("idle_5d"), "idle reminders are planned for players who stop playing")
+	Save.data["spin_free"] = ""
+	Save.data["daily_last"] = ""
+	var fresh: Array = Notifications.plan(now).map(func(n: Dictionary) -> String: return String(n["kind"]))
+	_check(not fresh.has("spin_ready") and not fresh.has("daily_reward"), "no spin/daily reminder while today's free one is still unclaimed")
+	var a: Array = Notifications._pick("idle_2d", cfg["kinds"]["idle_2d"]["lines"])
+	var b: Array = Notifications._pick("idle_2d", cfg["kinds"]["idle_2d"]["lines"])
+	_check(a != b, "the same reminder line is never sent twice in a row")
+	Notifications.set_enabled(false)
+	_check(not Notifications.enabled(), "players can turn reminders off")
+	Save.data = saved
+	Save.write()
 
 
 # ------------------------------------------------------------------------------------ audio

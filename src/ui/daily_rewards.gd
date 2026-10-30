@@ -30,7 +30,7 @@ static func claim() -> Dictionary:
 	var r: Dictionary = (days()[next_day()] as Dictionary).duplicate()
 	Save.data["daily_streak"] = int(Save.data.get("daily_streak", 0)) + 1
 	Save.data["daily_last"] = Save.today()
-	for k: String in ["coins", "gems", "blueprints"]:
+	for k: String in Save.WALLET:
 		if r.has(k):
 			Save.add(k, int(r[k]), false, false)
 	Save.write()
@@ -99,7 +99,7 @@ func _build() -> void:
 	ph.add_theme_constant_override("separation", 26)
 	prev.add_child(ph)
 	ph.add_child(UIKit.label("Reward Preview", 22, Color("#ffe27a"), 6))
-	for it: Array in [["coin", "Gold 500 - 2,000"], ["gem", "Gems 50 - 150"], ["blueprint", "Blueprints 2 - 5"], ["chest_closed", "Epic Chest"]]:
+	for it: Array in [["coin", "Gold 200 - 1,500"], ["gem", "5 Gems on day 7"], ["chest_closed", "Weekly Chest"]]:
 		var h: HBoxContainer = HBoxContainer.new()
 		h.add_child(UIKit.tex_rect(String(it[0]), 36))
 		h.add_child(UIKit.label(String(it[1]), 18, Color.WHITE, 5, false))
@@ -125,7 +125,7 @@ func _day_card(i: int, today: bool, claimed: bool) -> PanelContainer:
 		v.add_child(UIKit.label("Epic Chest", 26, Color.WHITE, 7))
 	else:
 		var kind: String = "coins"
-		for k: String in ["gems", "blueprints", "coins"]:
+		for k: String in ["gems", "coins"]:
 			if r.has(k):
 				kind = k
 				break

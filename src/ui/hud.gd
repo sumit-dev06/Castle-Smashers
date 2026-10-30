@@ -460,29 +460,30 @@ func show_result(won: bool, stars: int, score: int, earned: Dictionary, has_next
 	var wallet_box: PanelContainer = PanelContainer.new()
 	wallet_box.add_theme_stylebox_override("panel", MetaFrame.card_box(Color("#2a180c"), Color("#c8a060")))
 	UIKit.place(wallet_box, Vector2(1, 0), Vector2(-500, 8), Vector2(486, 72))
-	var wallet: CurrencyBar = CurrencyBar.new(["coins", "gems", "blueprints"], false)
+	var wallet: CurrencyBar = CurrencyBar.new(Save.WALLET, false)
 	wallet_box.add_child(wallet)
 	_popup.add_child(wallet_box)
 	var cr: HBoxContainer = HBoxContainer.new()
 	if not earned.is_empty():
 		cr.alignment = BoxContainer.ALIGNMENT_CENTER
 		cr.add_theme_constant_override("separation", 10)
-		for k: String in ["coins", "gems", "blueprints"]:
+		for k: String in Save.WALLET:
 			if int(earned.get(k, 0)) > 0:
 				wallet.show_amount(k, Save.amount(k) - int(earned[k]), false)
 				cr.add_child(UIKit.tex_rect(UIKit.CURRENCY_ICON[k], 40))
 				cr.add_child(UIKit.label("+%d" % int(earned[k]), 34, UIKit.CURRENCY_COLOR[k], 0))
 		v.add_child(cr)
+	if won and int(earned.get("coins", 0)) > 0 and Game.rush.is_empty():
+		v.add_child(_double_coins_button(int(earned["coins"]), wallet))
+	Ads.level_finished()
 	var btns: HBoxContainer = HBoxContainer.new()
 	btns.alignment = BoxContainer.ALIGNMENT_CENTER
 	btns.add_theme_constant_override("separation", 18)
 	var mp: Button = UIKit.icon_button("icon_levels", "blue", 84)
-	mp.pressed.connect(func() -> void:
-		Ads.maybe_show_interstitial(level.level_id)
-		Game.goto_back_from(level.level_id))
+	mp.pressed.connect(func() -> void: Game.goto_back_from(level.level_id))
 	var rs: Button = UIKit.icon_button("icon_restart", "orange", 84)
 	rs.pressed.connect(func() -> void:
-		Ads.maybe_show_interstitial(level.level_id)
+		Analytics.event("level_retry", {"level_id": level.level_id})
 		level.restart())
 	btns.add_child(mp)
 	btns.add_child(rs)
@@ -493,8 +494,9 @@ func show_result(won: bool, stars: int, score: int, earned: Dictionary, has_next
 	if won and has_next:
 		var nx: Button = UIKit.button("NEXT", "green", 40, Vector2(200, 84))
 		nx.pressed.connect(func() -> void:
-			Ads.maybe_show_interstitial(level.level_id)
-			Game.goto_level_entry(level.level_id + 1))
+			nx.disabled = true
+			var next_id: int = level.level_id + 1
+			Ads.next_level_break(level.level_id, func() -> void: Game.goto_level_entry(next_id)))
 		btns.add_child(nx)
 	v.add_child(btns)
 	_celebrate_result(won, stars, score, earned, info, star_nodes, score_l, cr, wallet)
@@ -532,7 +534,7 @@ func _celebrate_result(won: bool, stars: int, score: int, earned: Dictionary, in
 	if won:
 		tw.tween_callback(func() -> void:
 			var from: Vector2 = cr.get_global_rect().get_center() if cr.is_inside_tree() else get_viewport().get_visible_rect().get_center()
-			for k: String in ["coins", "gems", "blueprints"]:
+			for k: String in Save.WALLET:
 				if int(earned.get(k, 0)) > 0:
 					UIFx.fly_reward(from, k, int(earned[k]), wallet, false)
 			if stars == 3:
@@ -760,3 +762,107 @@ func boss_callout(text: String) -> void:
 	if text.is_empty():
 		return
 	banner("BOSS", text)
+
+
+# ------------------------------------------------------------------------------------ ad + Hellfire offers
+## Label for a rewarded-ad button. With Remove Ads the bonus is free and says so.
+static func ad_label(what: String) -> String:
+	return ("FREE: " if Ads.ads_removed() else "WATCH AD: ") + what
+
+
+func _ad_button(text: String, color: String, size: Vector2) -> Button:
+	var b: Button = UIKit.button("  " + text, color, 26, size)
+	if not Ads.ads_removed():
+		b.icon = Art.tex("icon_video")
+		b.expand_icon = true
+		b.add_theme_constant_override("icon_max_width", 40)
+	UIFx.press_juice(b)
+	return b
+
+
+## Win screen: optional rewarded ad that pays the level's coins again (once).
+func _double_coins_button(coins: int, wallet: CurrencyBar) -> Button:
+	var bonus: int = coins * (int(Data.b("coins", "post_win_ad_mult")) - 1)
+	var b: Button = _ad_button(ad_label("+%s coins" % fmt(bonus)), "green", Vector2(420, 70))
+	b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	var on_reward: Callable = func(id: String) -> void:
+		if id != "double_coins" or not is_instance_valid(b) or b.disabled:
+			return
+		b.disabled = true
+		b.text = "COINS DOUBLED!"
+		b.icon = null
+		Save.add("coins", bonus, true, false)
+		Analytics.event("rewarded_ad_watched", {"placement": "double_coins", "reward_amount": bonus, "level_id": level.level_id})
+		UIFx.fly_reward(b.get_global_rect().get_center(), "coins", bonus, wallet, false)
+	Ads.rewarded_earned.connect(on_reward)
+	b.tree_exiting.connect(func() -> void: Ads.rewarded_earned.disconnect(on_reward))
+	b.pressed.connect(func() -> void:
+		if not Ads.rewarded_ready():
+			hint("No video available right now. Try again in a moment.", 2.5)
+			return
+		Ads.show_rewarded("double_coins"))
+	return b
+
+
+## Out of boulders, fortress still standing: one free extra Rocky per attempt (rewarded ad),
+## a paid Hellfire strike, or give up (normal fail screen).
+func show_second_chance(rocky_available: bool) -> void:
+	var v: VBoxContainer = _open_popup()
+	v.add_child(UIKit.label("OUT OF BOULDERS!", 50, Color("#ff8a7a"), 12))
+	v.add_child(UIKit.label("The fortress is still standing.", 26, UIKit.TEXT_DARK, 0, false))
+	if rocky_available:
+		var rocky: Button = _ad_button(ad_label("+1 Rocky"), "green", Vector2(440, 76))
+		rocky.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		var on_reward: Callable = func(id: String) -> void:
+			if id == "extra_rocky" and level.second_chance_open:
+				Analytics.event("rewarded_ad_watched", {"placement": "extra_rocky", "reward_amount": 1, "level_id": level.level_id})
+				close_popup()
+				level.second_chance_rocky()
+		Ads.rewarded_earned.connect(on_reward)
+		rocky.tree_exiting.connect(func() -> void: Ads.rewarded_earned.disconnect(on_reward))
+		rocky.pressed.connect(func() -> void:
+			if not Ads.rewarded_ready():
+				hint("No video available right now. Try again in a moment.", 2.5)
+				return
+			Ads.show_rewarded("extra_rocky"))
+		v.add_child(rocky)
+	else:
+		v.add_child(UIKit.label("Extra Rocky already used on this attempt.", 20, UIKit.TEXT_DARK, 0, false))
+	var have: int = Save.amount("hellfire")
+	var hf: Button
+	if have > 0:
+		hf = UIKit.button("  USE HELLFIRE  (%d left)" % have, "orange", 26, Vector2(440, 76))
+		hf.pressed.connect(func() -> void:
+			close_popup()
+			level.use_hellfire())
+	else:
+		var price: String = Store.price_text("hellfire_crate")
+		hf = UIKit.button("  BUY HELLFIRE x3  " + (price if not price.is_empty() else ""), "orange", 24, Vector2(440, 76))
+		hf.disabled = Store.status != Store.Status.READY or price.is_empty() or not Store.busy_product.is_empty()
+		hf.pressed.connect(func() -> void:
+			if Store.buy("hellfire_crate"):
+				hf.disabled = true
+				hf.text = "  Opening Google Play…")
+		var refresh: Callable = func(_a: Variant = null, _b: Variant = null) -> void:
+			if level.second_chance_open and _popup:
+				show_second_chance(rocky_available)
+		for sig: Signal in [Store.granted, Store.purchase_pending, Store.purchase_cancelled, Store.purchase_failed]:
+			sig.connect(refresh, CONNECT_ONE_SHOT)
+	hf.icon = Art.tex("icon_hellfire")
+	hf.expand_icon = true
+	hf.add_theme_constant_override("icon_max_width", 46)
+	hf.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	UIFx.press_juice(hf)
+	v.add_child(hf)
+	var info: Label = UIKit.label("Hellfire rains fire boulders and destroys every enemy structure.", 18, UIKit.TEXT_DARK, 0, false)
+	info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	info.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	info.custom_minimum_size.x = 480
+	v.add_child(info)
+	var quit: Button = UIKit.button("GIVE UP", "dark", 24, Vector2(220, 60))
+	quit.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	quit.pressed.connect(func() -> void:
+		close_popup()
+		level.decline_second_chance())
+	UIFx.press_juice(quit)
+	v.add_child(quit)

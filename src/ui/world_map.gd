@@ -217,7 +217,7 @@ func _build_ui() -> void:
 		h.add_child(UIKit.label(String(pair[1]), 28))
 		chip.add_child(h)
 		right.add_child(chip)
-	_bar = CurrencyBar.new(["coins", "gems", "blueprints"], false)
+	_bar = CurrencyBar.new(Save.WALLET, false)
 	right.add_child(_bar)
 	root.add_child(right)
 
@@ -391,7 +391,7 @@ func _tap_extra(e: Dictionary) -> void:
 	var screen: Vector2 = (e["pos"] as Vector2) - _camera.position
 	UIFx.rays(UIFx.overlay(), screen, 360.0, 1.0)
 	UIFx.confetti(screen)
-	for k: String in ["coins", "gems", "blueprints"]:
+	for k: String in Save.WALLET:
 		if int(reward.get(k, 0)) > 0:
 			UIFx.fly_reward(screen, k, int(reward[k]), _bar, false)
 	if reward.has("skin"):

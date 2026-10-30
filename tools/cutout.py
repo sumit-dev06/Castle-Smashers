@@ -39,6 +39,8 @@ BG_HEIGHT = 900
 # so trim them tight: their outline must fill the image.
 PIECE_PREFIXES = ("stage_", "fg_", "boss_", "block_", "mechanism_")
 PIECE_MAX = {"stage_": 1400, "fg_": 900, "boss_": 1200, "block_": 512, "mechanism_": 700}
+UI_PREFIXES = ("icon_", "logo_", "gem", "blueprint", "cannonball", "engineer_", "chest_")
+UI_MAX = 512
 TOP_ROW_FILL = 0.6
 # Units stand partway into the painted top surface (grass, sand, deck) instead of on its back edge:
 # walk_y = top_y + WALK_FRAC * piece height.
@@ -53,6 +55,9 @@ FAMILIES = {
     "archer": {"kind": "unit", "idle": "archer_idle", "height": 300, "outline": 5, "flip": True},
     "hero": {"kind": "hero", "radius": 120, "outline": 5, "flip": False},
 }
+# Boss characters are unit families too (one pixel scale per boss across idle/shoot/ko).
+for _boss in ("warlord", "sultan", "ironhook", "forgemaster", "baron"):
+    FAMILIES["boss_" + _boss] = {"kind": "unit", "idle": f"boss_{_boss}_idle", "height": 300, "outline": 5, "flip": True}
 # Per-image tweaks. tol = how far from the background colour still counts as background.
 OVERRIDES = {
     "hero_cyclone_idle": {"tol": 16, "fit": "bbox"},
@@ -280,6 +285,25 @@ def process_piece(name, path):
     return img, m
 
 
+
+
+def process_ui_piece(name, path):
+    src = Image.open(path).convert("RGBA")
+    alpha = np.asarray(src.getchannel("A"))
+    if alpha.min() < 245:
+        img = src
+    else:
+        rgb = np.asarray(src.convert("RGB")).astype(float)
+        border = np.concatenate([rgb[0], rgb[-1], rgb[:, 0], rgb[:, -1]])
+        if np.median(border, axis=0).min() < WHITE_MIN:
+            return None, None
+        fg, cut_alpha = remove_background(rgb, tol=OVERRIDES.get(name, {}).get("tol", 28.0))
+        img = to_image(fg, cut_alpha)
+    img = trim(grade(img), 4)
+    k = min(1.0, UI_MAX / max(img.width, img.height))
+    if k < 1.0:
+        img = sharpen(resize_rgba(img, (round(img.width * k), round(img.height * k))))
+    return img, {"w": img.width, "h": img.height, "kind": "ui"}
 def preview(names):
     tiles = []
     for n in names:
@@ -346,6 +370,10 @@ def main():
         if name.startswith("bg_"):
             img, m = process_background(path)
             img.save(os.path.join(OUT, out_name + ".png"), optimize=True)
+        elif family_of(name):
+            img, m = process_character(name, path, scales)
+            img.save(os.path.join(OUT, out_name + ".png"), optimize=True)
+            chars.append(out_name)
         elif name.startswith(PIECE_PREFIXES):
             img, m = process_piece(name, path)
             if img is None:
@@ -353,6 +381,13 @@ def main():
                 stale = os.path.join(OUT, out_name + ".png")
                 if os.path.exists(stale):
                     os.remove(stale)
+                continue
+            img.save(os.path.join(OUT, out_name + ".png"), optimize=True)
+            chars.append(out_name)
+        elif name.startswith(UI_PREFIXES):
+            img, m = process_ui_piece(name, path)
+            if img is None:
+                print("skip (UI art needs transparency or a white background):", name)
                 continue
             img.save(os.path.join(OUT, out_name + ".png"), optimize=True)
             chars.append(out_name)

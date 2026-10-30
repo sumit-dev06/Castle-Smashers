@@ -13,13 +13,15 @@ const SVG_SCALE: float = 0.5
 const SVG_META: Dictionary = {
 	"hero_stone": {"body_c": [40, 44], "body_r": 30}, "hero_fire": {"body_c": [40, 60], "body_r": 29},
 	"hero_bomb": {"body_c": [40, 59], "body_r": 29}, "hero_cyclone": {"body_c": [45, 45], "body_r": 30},
-	"hero_quake": {"body_c": [40, 44], "body_r": 30},
+	"hero_quake": {"body_c": [44, 50], "body_r": 33},
 	"soldier": {"feet_x": 42, "feet_y": 95, "unit_h": 92}, "archer": {"feet_x": 50, "feet_y": 95, "unit_h": 92},
 	"wizard_idle": {"feet_x": 55, "feet_y": 136, "unit_h": 132}, "captive_idle": {"feet_x": 42, "feet_y": 95, "unit_h": 92},
 }
 
 ## AI images with these prefixes keep the SVG's world size (see is_fit).
 const FIT_PREFIXES: Array[String] = ["block_", "mechanism_", "boss_crown", "boss_shield"]
+## AI UI/props keep the SVG's footprint but scale uniformly (no squash): icons, currency, props.
+const UI_FIT_PREFIXES: Array[String] = ["icon_", "logo_", "gem", "blueprint", "cannonball", "engineer_", "chest_"]
 
 static var _cache: Dictionary = {}
 static var _svg_size: Dictionary = {}
@@ -75,12 +77,22 @@ static func is_fit(art_name: String) -> bool:
 
 ## Sprite scale at world_scale 1 (texture px -> world px), per axis.
 static func base_scale(art_name: String) -> Vector2:
-	if is_fit(art_name):
+	if is_fit(art_name) or _is_ui_fit(art_name):
 		var svg: String = SVG_DIR % art_name
 		if not _svg_size.has(art_name):
 			_svg_size[art_name] = (load(svg) as Texture2D).get_size() * SVG_SCALE if ResourceLoader.exists(svg) else tex(art_name).get_size()
-		return (_svg_size[art_name] as Vector2) / tex(art_name).get_size()
+		var k: Vector2 = (_svg_size[art_name] as Vector2) / tex(art_name).get_size()
+		return Vector2.ONE * minf(k.x, k.y) if _is_ui_fit(art_name) else k
 	return Vector2.ONE * (1.0 if has_ai(resolve(art_name)) else SVG_SCALE)
+
+
+static func _is_ui_fit(art_name: String) -> bool:
+	if not has_ai(art_name):
+		return false
+	for p: String in UI_FIT_PREFIXES:
+		if art_name.begins_with(p):
+			return true
+	return false
 
 
 static func tex(art_name: String) -> Texture2D:

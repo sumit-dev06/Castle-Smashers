@@ -22,12 +22,15 @@ var _last_pos: Vector2 = Vector2.ZERO
 var _radius: float = 1.0
 var _splashed: bool = false
 var _speed: float = 0.0
+var _weapon_damage_mult: float = 1.0
 
 
-func setup(p_kind: String, p_level: Level) -> void:
+func setup(p_kind: String, p_level: Level, damage_mult: float = 1.0, ability_mult: float = 1.0) -> void:
 	kind = p_kind
 	level = p_level
+	_weapon_damage_mult = damage_mult
 	cfg = Workshop.config(kind)
+	_apply_ability_mult(ability_mult)
 	_radius = float(cfg["radius"])
 	var col: CollisionShape2D = CollisionShape2D.new()
 	var c: CircleShape2D = CircleShape2D.new()
@@ -51,6 +54,28 @@ func setup(p_kind: String, p_level: Level) -> void:
 	z_index = 2
 
 
+
+
+func _apply_ability_mult(mult: float) -> void:
+	if is_equal_approx(mult, 1.0):
+		return
+	match kind:
+		"stone":
+			cfg["slam_mass_mult"] = float(cfg["slam_mass_mult"]) * mult
+		"fire":
+			for key: String in ["burst_radius", "burst_radius_dashed", "burst_damage"]:
+				cfg[key] = float(cfg[key]) * mult
+		"bomb":
+			var explosion: Dictionary = cfg["explosion"]
+			for key: String in ["radius", "impulse", "damage"]:
+				explosion[key] = float(explosion[key]) * mult
+		"cyclone":
+			for key: String in ["whirl_s", "whirl_radius", "lift_accel", "pull_accel", "swirl_accel", "fling_impulse"]:
+				cfg[key] = float(cfg[key]) * mult
+		"quake":
+			cfg["slam_mass_mult"] = float(cfg["slam_mass_mult"]) * mult
+			for key: String in ["shockwave_radius", "shockwave_height", "shockwave_damage", "shockwave_impulse", "archer_damage"]:
+				cfg[key] = float(cfg[key]) * mult
 ## Sprite of a hero sized to its physics radius. Shared with the catapult and waiting queue.
 static func make_sprite(hero_kind: String, suffix: String = "") -> Sprite2D:
 	var c: Dictionary = Data.projectiles[hero_kind]
@@ -71,7 +96,7 @@ func radius() -> float:
 func material_mult(mat_id: String) -> float:
 	var m: Dictionary = cfg.get("material_mult", {})
 	var v: float = float(m.get(mat_id, 1.0))
-	return v * (float(cfg["slam_mass_mult"]) if kind in ["stone", "quake"] and ability_used else 1.0)
+	return v * _weapon_damage_mult * (float(cfg["slam_mass_mult"]) if kind in ["stone", "quake"] and ability_used else 1.0)
 
 
 func _physics_process(delta: float) -> void:

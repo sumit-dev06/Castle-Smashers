@@ -1,6 +1,6 @@
 class_name CurrencyBar
 extends HBoxContainer
-## Top-right wallet pills (coins, gems, blueprints) with a green "+" each. Counts roll up and the
+## Top-right wallet pills (coins, gems) with a green "+" each. Counts roll up and the
 ## pill pops when the amount changes. UIFx.fly_reward() targets pill_center(kind).
 
 signal plus_pressed(kind: String)
@@ -11,7 +11,7 @@ var _shown: Dictionary = {}
 var _tweens: Dictionary = {}
 
 
-func _init(kinds: Array = ["coins", "gems", "blueprints"], with_plus: bool = true) -> void:
+func _init(kinds: Array = Save.WALLET, with_plus: bool = true) -> void:
 	alignment = BoxContainer.ALIGNMENT_END
 	add_theme_constant_override("separation", 12)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE

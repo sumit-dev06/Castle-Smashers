@@ -30,6 +30,8 @@ var _tint: Color = Color.WHITE
 ## Engineer (boss rig): never shoots, rebuilds broken blocks.
 var is_engineer: bool = false
 var _hammer: Sprite2D
+## "archer", or "boss_warlord" etc. when a boss has its own AI poses.
+var _pose_prefix: String = "archer"
 
 
 func setup(p_level: Level, pos: Vector2) -> void:
@@ -83,8 +85,15 @@ func make_boss(p_name: String, p_hp: float) -> void:
 	max_hp = p_hp
 	mass *= 2.0
 	_base_scale *= Data.bf("boss", "scale")
+	var key: String = "boss_" + String((Data.b("boss", "art_keys") as Dictionary).get(p_name, ""))
+	if Art.has_ai(key + "_idle"):
+		_pose_prefix = key
+		_pose("archer_idle")
+		_base_scale = _sprite.scale.x * Data.bf("boss", "scale")
+		_tint = Color.WHITE
+	else:
+		_tint = Color(0.85, 0.75, 1.0)
 	_sprite.scale = Vector2.ONE * _base_scale
-	_tint = Color(0.85, 0.75, 1.0)
 	_sprite.modulate = _tint
 	var crown: Sprite2D = Art.sprite("boss_crown", 0.9)
 	crown.position = Vector2(-4, _sprite.position.y - _h * Data.bf("boss", "scale") - 6)
@@ -239,6 +248,9 @@ func defeat() -> void:
 
 
 func _pose(art: String) -> void:
+	if _pose_prefix != "archer":
+		var want: String = art.replace("archer", _pose_prefix)
+		art = want if Art.has_ai(want) else _pose_prefix + "_idle"
 	Art.set_unit_tex(_sprite, art, _h)
 
 

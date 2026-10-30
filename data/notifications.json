@@ -1,0 +1,161 @@
+{
+ "_doc": "Local notifications (src/autoload/notifications.gd). Each kind has a delay rule and several lines; one is picked without repeating the last one. {level}, {realm}, {boss}, {hero}, {coins} are filled from the save. Voice: the game's own characters, short, specific, a little cheeky. Never guilt, fake urgency or fake rewards. priority: lower wins when two reminders fall on the same day.",
+ "enabled_default": true,
+ "max_per_day": 1,
+ "quiet_start_hour": 22,
+ "quiet_end_hour": 9,
+ "ask_after_level": 3,
+ "kinds": {
+  "spin_ready": {
+   "id": 11,
+   "rule": "next_local_time",
+   "hour": 18,
+   "needs": "spin_used_today",
+   "lines": [
+    [
+     "The wheel is spinning itself out of boredom",
+     "Your free spin is back. Master Orin swears he did not oil it for you."
+    ],
+    [
+     "Fresh spin, still warm",
+     "A new free spin just landed. Go see what the wheel coughs up today."
+    ],
+    [
+     "Spin. It. Again.",
+     "Today's free spin is ready, Commander. The coins are not going to fling themselves."
+    ],
+    [
+     "Wheel status: ready",
+     "One free spin, zero excuses. Tap to spin."
+    ]
+   ],
+   "priority": 1
+  },
+  "daily_reward": {
+   "id": 12,
+   "rule": "next_local_time",
+   "hour": 12,
+   "needs": "daily_claimed_today",
+   "lines": [
+    [
+     "Day {streak_next} chest is packed",
+     "Your daily reward is waiting in the courtyard. Rocky is guarding it. Badly."
+    ],
+    [
+     "The quartermaster has your loot",
+     "Day {streak_next} of your login rewards is ready to claim."
+    ],
+    [
+     "Free coins. Seriously.",
+     "Your daily reward has arrived. It is literally just sitting there."
+    ]
+   ],
+   "priority": 2
+  },
+  "chest_almost": {
+   "id": 13,
+   "rule": "after_hours",
+   "hours": 30,
+   "needs": "chest_within_3",
+   "lines": [
+    [
+     "{stars_short} stars from a realm chest",
+     "So close. Three good shots and the {realm} chest opens."
+    ],
+    [
+     "The chest is rattling",
+     "You are {stars_short} stars away from the next realm chest in {realm}."
+    ]
+   ],
+   "priority": 4
+  },
+  "idle_2d": {
+   "id": 21,
+   "rule": "after_days",
+   "days": 2,
+   "lines": [
+    [
+     "The archers are getting cocky",
+     "Level {level} is still standing. Rumour says they are building a second floor."
+    ],
+    [
+     "Rocky misses you",
+     "He has been staring at the catapult for two days. It is getting weird. Level {level} awaits."
+    ],
+    [
+     "Fortress report",
+     "Level {level}: still intact. Morale: insufferable. Your move, Commander."
+    ],
+    [
+     "Hey, siege person",
+     "That castle on level {level} will not knock itself down. Probably."
+    ]
+   ],
+   "priority": 7
+  },
+  "idle_5d": {
+   "id": 22,
+   "rule": "after_days",
+   "days": 5,
+   "lines": [
+    [
+     "The {boss} is giving speeches now",
+     "Five days without a siege and he thinks he won. Prove him wrong on level {level}."
+    ],
+    [
+     "Blaze is lighting things out of boredom",
+     "Mostly harmless things. Give him a fortress before it gets serious."
+    ],
+    [
+     "The Vanguard took up knitting",
+     "Five days off. They made a scarf for the catapult. Please send them back to work."
+    ]
+   ],
+   "priority": 8
+  },
+  "idle_10d": {
+   "id": 23,
+   "rule": "after_days",
+   "days": 10,
+   "lines": [
+    [
+     "We kept your catapult loaded",
+     "No pressure. Level {level} is right where you left it whenever you are ready."
+    ],
+    [
+     "The kingdom still needs you",
+     "Master Orin has new upgrades on the bench and {coins} of your coins are gathering dust."
+    ]
+   ],
+   "priority": 9
+  },
+  "update": {
+   "id": 31,
+   "rule": "on_version_change",
+   "lines": [
+    [
+     "New in the kingdom",
+     "Fresh castles, new contraptions and a few rude surprises. Come smash them."
+    ],
+    [
+     "Patch notes, but louder",
+     "The update is in. New things to break. You know what to do."
+    ]
+   ],
+   "priority": 6
+  },
+  "special_unlocked": {
+   "id": 32,
+   "rule": "after_hours",
+   "hours": 20,
+   "needs": "special_pack_new",
+   "lines": [
+    [
+     "Master Sieges unlocked",
+     "You earned 25 stars. Ten nasty castles that only fall to clever contraptions are open."
+    ]
+   ],
+   "priority": 3
+  }
+ }
+}

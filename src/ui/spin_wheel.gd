@@ -58,7 +58,7 @@ static func use_spin(ad: bool, roll: float) -> int:
 		Save.data["spin_free"] = Save.today()
 	var i: int = pick(roll)
 	var r: Dictionary = slices()[i]["reward"]
-	for k: String in ["coins", "gems", "blueprints"]:
+	for k: String in Save.WALLET:
 		if r.has(k):
 			Save.add(k, int(r[k]), false, false)
 	Save.write()
@@ -142,7 +142,7 @@ func _make_wheel(r: float) -> Node2D:
 		var mid: float = (a0 + a1) * 0.5
 		var reward: Dictionary = slices()[i]["reward"]
 		var kind: String = "coins"
-		for k2: String in ["gems", "blueprints", "coins"]:
+		for k2: String in ["gems", "coins"]:
 			if reward.has(k2):
 				kind = k2
 				break
@@ -210,8 +210,8 @@ func _build_rewards_panel() -> void:
 		for k: String in s["reward"]:
 			var a: Array = ranges.get(k, [1 << 30, 0])
 			ranges[k] = [mini(int(a[0]), int(s["reward"][k])), maxi(int(a[1]), int(s["reward"][k]))]
-	var labels: Dictionary = {"coins": "Gold", "gems": "Gems", "blueprints": "Blueprints"}
-	for k3: String in ["coins", "gems", "blueprints"]:
+	var labels: Dictionary = {"coins": "Gold", "gems": "Gems"}
+	for k3: String in Save.WALLET:
 		if not ranges.has(k3):
 			continue
 		var cell: PanelContainer = PanelContainer.new()
@@ -229,7 +229,7 @@ func _build_rewards_panel() -> void:
 	var jv: VBoxContainer = VBoxContainer.new()
 	jv.add_child(UIKit.tex_rect("icon_crown", 54))
 	jv.add_child(UIKit.label("Jackpot", 20, Color.WHITE, 5))
-	jv.add_child(UIKit.label("100 gems", 18, Color("#ffe27a"), 5))
+	jv.add_child(UIKit.label("Rare: 3 gems", 18, Color("#ffe27a"), 5))
 	jack.add_child(jv)
 	jack.custom_minimum_size = Vector2(170, 120)
 	g.add_child(jack)
@@ -239,12 +239,19 @@ func _build_rewards_panel() -> void:
 func _refresh() -> void:
 	var free: bool = free_spin_ready()
 	var left: int = spins_left()
-	_spin_btn.text = "SPIN" if free else "  WATCH AD"
-	_spin_btn.icon = null if free else Art.tex("icon_video")
+	# One free spin a day; every extra spin is a rewarded video (granted without the video with Remove Ads).
+	_spin_btn.text = "FREE SPIN" if free else ("  SPIN AGAIN" if Ads.ads_removed() else "  WATCH AD: SPIN")
+	_spin_btn.icon = null if free or Ads.ads_removed() else Art.tex("icon_video")
 	_spin_btn.expand_icon = true
 	_spin_btn.add_theme_constant_override("icon_max_width", 48)
 	_spin_btn.disabled = left <= 0 or _spinning
-	_left.text = ("%d Spins Left Today" % left) if left > 0 else "Come back tomorrow!"
+	var ad_left: int = left - (1 if free else 0)
+	if free:
+		_left.text = "1 free spin today, then %d more with a video" % ad_left
+	elif left > 0:
+		_left.text = "Free spin used. %d video spin%s left today" % [ad_left, "" if ad_left == 1 else "s"]
+	else:
+		_left.text = "All spins used. A new free spin comes tomorrow!"
 	if left > 0 and not _spinning:
 		UIFx.breathe(_spin_btn)
 
@@ -254,12 +261,15 @@ func _on_spin() -> void:
 		return
 	if free_spin_ready():
 		_run(use_spin(false, randf()))
+	elif not Ads.rewarded_ready():
+		_left.text = "No video available right now. Try again soon."
 	else:
 		Ads.show_rewarded("spin")
 
 
 func _on_ad(reward_id: String) -> void:
 	if reward_id == "spin" and not _spinning:
+		Analytics.event("rewarded_ad_watched", {"placement": "spin", "reward_amount": 1})
 		_run(use_spin(true, randf()))
 
 

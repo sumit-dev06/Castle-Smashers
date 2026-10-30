@@ -3,13 +3,14 @@ extends Node
 ## User args come after "--":  --level=N  --screenshot=path.png  --shot-delay=3
 ##                             --autoshot=angle_deg,power[,ability_delay_s]  --run-tests
 ##                             --force-win=seconds (debug: win the level for results screenshots)
-##                             --map  --story=N
+##                             --map  --story=N  --intro (play the studio intro)  --no-intro
 
 const LevelScript: GDScript = preload("res://src/game/level.gd")
 const MenuScript: GDScript = preload("res://src/ui/main_menu.gd")
 const MapScript: GDScript = preload("res://src/ui/world_map.gd")
 const WorkshopScript: GDScript = preload("res://src/ui/upgrades_screen.gd")
 const ChallengesScript: GDScript = preload("res://src/ui/challenges_screen.gd")
+const IntroScript: GDScript = preload("res://src/ui/intro_screen.gd")
 
 var args: Dictionary = {}
 ## Boss rush run: {levels, index, pool, soldier_hp, time}. Empty = no rush.
@@ -55,8 +56,19 @@ func boot(root: Node) -> void:
 		goto_meta(String(args["meta"]))
 	elif args.has("challenge"):
 		goto_level(Data.CHALLENGE_BASE + int(args["challenge"]))
+	elif args.has("intro") or (IntroScript.due() and not args.has("no-intro")):
+		goto_intro()
 	else:
 		goto_menu()
+
+
+## Studio intro: on first launch after install and after each update, then the home screen.
+func goto_intro() -> void:
+	var intro: Node = IntroScript.new()
+	# A fresh install must watch it once; after an update a tap skips it.
+	intro.set("skippable", Save.data.has("intro_version") or args.has("intro"))
+	intro.connect("finished", goto_menu, CONNECT_ONE_SHOT)
+	_switch(intro)
 
 
 func _switch(node: Node) -> void:
@@ -96,6 +108,7 @@ func goto_loadout(id: int) -> void:
 
 ## Authored cinematic, then the level (flyover skipped, plan screen opens).
 func goto_story(id: int) -> void:
+	Analytics.set_crash_key("phase", "loading")
 	var lvl: Node = LevelScript.new()
 	lvl.set("level_id", clampi(id, 1, Data.level_count()))
 	lvl.set("cinematic_mode", true)
@@ -117,6 +130,7 @@ func goto_level(id: int) -> void:
 	if not can_enter_level(id) and not (OS.is_debug_build() and args.has("preview-special")):
 		goto_challenges()
 		return
+	Analytics.set_crash_key("phase", "loading")
 	var lvl: Node = LevelScript.new()
 	lvl.set("level_id", id if id > Data.CHALLENGE_BASE else clampi(id, 1, Data.level_count()))
 	_switch(lvl)
@@ -132,6 +146,10 @@ const META: Dictionary = {
 ## Meta screens by key (spin, daily, shop, upgrades, skins, achievements, challenges, events).
 ## `props` are set on the screen before it enters the tree (e.g. {"kind": "trails"} for Skins).
 func goto_meta(key: String, props: Dictionary = {}) -> void:
+	if key == "settings":
+		goto_menu()
+		SettingsPopup.open.call_deferred(current)
+		return
 	if key in ["challenges", "events"]:
 		goto_challenges()
 		return

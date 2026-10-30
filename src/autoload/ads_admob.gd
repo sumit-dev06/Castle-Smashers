@@ -6,10 +6,13 @@ extends RefCounted
 
 signal rewarded_earned(reward_id: String)
 signal rewarded_failed(reward_id: String)
+signal interstitial_closed
 
 var interstitial_id: String = ""
 var rewarded_id: String = ""
 var ready: bool = false
+## Remove Ads owned: nothing loads or shows any more.
+var stopped: bool = false
 
 var _interstitial: InterstitialAd
 var _rewarded: RewardedAd
@@ -46,7 +49,7 @@ func _init_sdk() -> void:
 
 
 func load_interstitial() -> void:
-	if _interstitial or interstitial_id.is_empty():
+	if stopped or _interstitial or interstitial_id.is_empty():
 		return
 	var cb: InterstitialAdLoadCallback = InterstitialAdLoadCallback.new()
 	cb.on_ad_loaded = func(ad: InterstitialAd) -> void:
@@ -64,11 +67,23 @@ func _drop_interstitial() -> void:
 	if _interstitial:
 		_interstitial.destroy()
 	_interstitial = null
+	interstitial_closed.emit()
 	load_interstitial()
 
 
 func has_interstitial() -> bool:
 	return _interstitial != null
+
+
+## Remove Ads: destroy what is loaded and never load again.
+func shutdown() -> void:
+	stopped = true
+	if _interstitial:
+		_interstitial.destroy()
+	_interstitial = null
+	if _rewarded:
+		_rewarded.destroy()
+	_rewarded = null
 
 
 ## True when an interstitial was shown.
@@ -81,7 +96,7 @@ func show_interstitial() -> bool:
 
 
 func load_rewarded() -> void:
-	if _rewarded or rewarded_id.is_empty():
+	if stopped or _rewarded or rewarded_id.is_empty():
 		return
 	var cb: RewardedAdLoadCallback = RewardedAdLoadCallback.new()
 	cb.on_ad_loaded = func(ad: RewardedAd) -> void:

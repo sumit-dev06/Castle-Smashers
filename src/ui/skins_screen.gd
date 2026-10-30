@@ -111,7 +111,7 @@ func _refresh() -> void:
 		if _cat == null:
 			_cat = preview_catapult(Vector2(610, 456), 1.1)
 		_cat.get_parent().visible = true
-		_cat.apply_tints(Progression._col(c["tint_base"]), Progression._col(c["tint_arm"]))
+		_cat.set_appearance(Progression.weapon(), _sel)
 	else:
 		if _cat:
 			_cat.get_parent().visible = false
@@ -125,7 +125,9 @@ func _refresh() -> void:
 	_info.add_child(UIKit.label(String(c["name"]) + (" Catapult" if kind == "skins" else " Trail"), 34, Color("#ffd23a"), 9))
 	var rar: String = String(c.get("rarity", "common"))
 	_info.add_child(_pill(rar.capitalize(), RARITY.get(rar, RARITY["common"])))
-	var perks: Array = ["Unique colours"] if kind == "skins" else ["Coloured flight trail"]
+	var perks: Array = (c.get("features", ["Distinct silhouette"]) as Array).duplicate() if kind == "skins" else ["Coloured flight trail"]
+	if kind == "skins":
+		perks.push_front(String(c.get("silhouette", "Custom siege rig")))
 	if c.has("trail"):
 		perks.append("%s flight trail" % String(Data.balance["cosmetics"]["trails"][String(c["trail"])]["name"]))
 	perks.append("Looks only, never stronger")
@@ -199,8 +201,12 @@ func _tile(id: String, c: Dictionary) -> Control:
 	v.alignment = BoxContainer.ALIGNMENT_CENTER
 	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	b.add_child(v)
-	var icon: TextureRect = UIKit.tex_rect("icon_weapon_catapult" if kind == "skins" else "icon_trail", 64)
-	icon.modulate = _tint(c)
+	var art_name: String = "icon_trail"
+	if kind == "skins":
+		var candidate: String = "skin_%s_base" % id
+		art_name = candidate if ResourceLoader.exists("res://assets/art/svg/%s.svg" % candidate) else "icon_weapon_catapult"
+	var icon: TextureRect = UIKit.tex_rect(art_name, 64)
+	icon.modulate = _tint(c) if kind != "skins" or art_name == "icon_weapon_catapult" else Color.WHITE
 	if not Progression.owns(kind, id):
 		icon.modulate = icon.modulate.darkened(0.45)
 	v.add_child(icon)

@@ -2,6 +2,8 @@ extends Node
 ## Ads wrapper. Gameplay and UI call only this (docs/MONETIZATION.md).
 ## On Android with the AdMob plugin (addons/admob) it drives src/autoload/ads_admob.gd. Everywhere
 ## else it is a stub: debug builds grant rewarded ads so flows can be tested, release builds fail.
+## Remove Ads (Store entitlement) turns off EVERY format: nothing loads or shows, and opt-in ad
+## bonuses (extra Rocky, spins, double coins) are granted instantly instead.
 ## Unit IDs: debug builds always use Google's public test units. Release builds read the real ones
 ## from res://ad_ids.cfg (git-ignored, see docs/MONETIZATION.md) and fall back to the test units.
 
@@ -15,12 +17,20 @@ const TEST_INTERSTITIAL: String = "ca-app-pub-3940256099942544/1033173712"
 const TEST_REWARDED: String = "ca-app-pub-3940256099942544/5224354917"
 
 var _last_interstitial_ms: int = -1000000000
-var _levels_since: int = 0
+## Levels finished (win or lose) since the last interstitial.
+var levels_since: int = 0
 var _backend: RefCounted = null
 
 
 func _ready() -> void:
-	if not available():
+	Store.entitlements_changed.connect(_on_entitlements)
+	if not available() or ads_removed():
+		return
+	_start_backend()
+
+
+func _start_backend() -> void:
+	if _backend != null:
 		return
 	_backend = (load(BACKEND) as GDScript).new()
 	var ids: Array[String] = unit_ids()
@@ -33,6 +43,20 @@ func _ready() -> void:
 
 func available() -> bool:
 	return OS.get_name() == "Android" and Engine.has_singleton("PoingGodotAdMob")
+
+
+func ads_removed() -> bool:
+	return bool(Save.data.get("no_ads", false))
+
+
+## Remove Ads restored or bought: unload and stop everything. Refunded: ads may start again.
+func _on_entitlements() -> void:
+	if ads_removed():
+		if _backend:
+			_backend.call("shutdown")
+			_backend = null
+	elif available():
+		_start_backend()
 
 
 ## [interstitial, rewarded] unit ids for this build.
@@ -49,37 +73,53 @@ func unit_ids() -> Array[String]:
 	return ids
 
 
-## True when the level-end flow may show an interstitial now (every frequency rule).
+## Results screen: a level ended (win or lose).
+func level_finished() -> void:
+	levels_since += 1
+
+
+## True when tapping NEXT may show an interstitial now (every frequency rule).
 func interstitial_due(level_id: int) -> bool:
-	if bool(Save.data.get("no_ads", false)):
+	if ads_removed():
 		return false
 	if bool(Data.b("ads", "skip_first_session")) and int(Save.data["sessions"]) <= 1:
 		return false
 	if level_id < int(Data.b("ads", "interstitial_min_level")):
 		return false
-	if _levels_since < int(Data.b("ads", "interstitial_every_levels")):
+	if levels_since < int(Data.b("ads", "interstitial_every_levels")):
 		return false
 	return Time.get_ticks_msec() - _last_interstitial_ms >= int(Data.b("ads", "interstitial_min_gap_s")) * 1000
 
 
-## Called by the result screen when the player continues. Respects every frequency rule.
-func maybe_show_interstitial(level_id: int) -> void:
-	_levels_since += 1
-	if not interstitial_due(level_id):
+## NEXT button: show the interstitial if due, then run `then` once it closes (or right away).
+func next_level_break(level_id: int, then: Callable) -> void:
+	if not interstitial_due(level_id) or _backend == null or not bool(_backend.call("has_interstitial")):
+		then.call()
 		return
-	if _backend and bool(_backend.call("show_interstitial")):
-		_levels_since = 0
-		_last_interstitial_ms = Time.get_ticks_msec()
+	levels_since = 0
+	_last_interstitial_ms = Time.get_ticks_msec()
+	Analytics.event("interstitial_shown", {"level_id": level_id})
+	Analytics.set_crash_key("phase", "ad_interstitial")
+	_backend.connect("interstitial_closed", then, CONNECT_ONE_SHOT)
+	if not bool(_backend.call("show_interstitial")):
+		_backend.disconnect("interstitial_closed", then)
+		then.call()
 
 
 func rewarded_ready() -> bool:
+	if ads_removed():
+		return true
 	if _backend:
 		return bool(_backend.call("has_rewarded"))
 	return OS.is_debug_build()
 
 
 func show_rewarded(reward_id: String) -> void:
-	if _backend:
+	Analytics.set_crash_key("phase", "ad_rewarded")
+	Analytics.breadcrumb("rewarded:" + reward_id)
+	if ads_removed():
+		rewarded_earned.emit.call_deferred(reward_id)
+	elif _backend:
 		_backend.call("show_rewarded", reward_id)
 	elif OS.is_debug_build():
 		rewarded_earned.emit.call_deferred(reward_id)

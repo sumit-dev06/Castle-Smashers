@@ -276,50 +276,51 @@ func _play_plank() -> void:
 	tw.tween_property(b, "scale", Vector2.ONE, 0.6).set_trans(Tween.TRANS_SINE)
 
 
-## The hero that is cheapest to level up next (affordable first), else the configured default.
-func _featured_hero() -> String:
-	var best: String = String(Data.b("home", "hero_card_kind"))
-	var best_cost: int = 1 << 30
-	for kind: String in ["stone", "fire", "bomb", "cyclone", "quake"]:
-		var cfg: Dictionary = Data.projectiles[kind]
-		if int(cfg["unlock_level"]) > 1 and not Save.is_unlocked(int(cfg["unlock_level"])):
-			continue
-		var c: int = Workshop.next_cost(kind)
-		if c >= 0 and c < best_cost:
-			best_cost = c
-			best = kind
-	return best
+## True when Master Orin can forge or improve something with the current coin balance.
+func _workshop_ready() -> bool:
+	for wid: Variant in Progression.weapons():
+		var id: String = String(wid)
+		var unlock_cost: Dictionary = Progression.weapon_unlock_cost(id)
+		if not unlock_cost.is_empty() and Save.can_afford(unlock_cost):
+			return true
+		if Progression.weapon_owned(id):
+			for track: String in Progression.weapon_tracks(id):
+				var cost: Dictionary = Progression.weapon_up_cost(id, track)
+				if not cost.is_empty() and Save.can_afford(cost):
+					return true
+	for track: String in Data.balance["upgrades"]["vanguard"]:
+		var vanguard_cost: Dictionary = Progression.up_cost("vanguard", track)
+		if not vanguard_cost.is_empty() and Save.can_afford(vanguard_cost):
+			return true
+	return false
 
 
 func _hero_card() -> void:
-	var kind: String = _featured_hero()
-	var cfg: Dictionary = Data.projectiles[kind]
 	var p: PanelContainer = _card(Color("#3a2414"))
 	UIKit.place(p, Vector2(0, 1), Vector2(14, -118), Vector2(380, 104))
 	var h: HBoxContainer = HBoxContainer.new()
 	h.add_theme_constant_override("separation", 10)
 	p.add_child(h)
-	h.add_child(UIKit.tex_rect(String(cfg["texture"]), 80))
+	h.add_child(UIKit.tex_rect("wizard_idle", 82))
 	var v: VBoxContainer = VBoxContainer.new()
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	v.alignment = BoxContainer.ALIGNMENT_CENTER
-	v.add_theme_constant_override("separation", 2)
+	v.add_theme_constant_override("separation", 1)
 	h.add_child(v)
-	v.add_child(UIKit.label(String(cfg["name"]), 26, Color.WHITE, 6))
-	var lv: int = Workshop.level_of(kind)
-	v.add_child(UIKit.label("Lv. %d / %d" % [lv, Workshop.max_level()], 18, Color("#ffe27a"), 4))
-	v.add_child(_bar(float(lv) / float(maxi(Workshop.max_level(), 1)), 150, 16, Color("#ffb52a")))
-	var up: Button = UIKit.button("UPGRADE", "green", 20, Vector2(110, 76))
-	up.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	up.pressed.connect(func() -> void:
+	v.add_child(UIKit.label("Master Orin", 26, Color.WHITE, 6))
+	var current: String = Progression.weapon()
+	v.add_child(UIKit.label("%s · Forge Lv. %d / 12" % [String(Progression.weapon_cfg(current)["short_name"]), Progression.weapon_total_level(current)], 16, Color("#ffe27a"), 4, false))
+	v.add_child(UIKit.label("Heroes unlock through campaign levels", 13, Color("#d9c8aa"), 3, false))
+	var open: Button = UIKit.button("WORKSHOP", "green", 18, Vector2(118, 76))
+	open.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	open.pressed.connect(func() -> void:
 		Sound.play("ui_tap")
-		Game.goto_meta("upgrades", {"focus_hero": kind}))
-	var cost: int = Workshop.next_cost(kind)
-	if cost >= 0 and Save.coins() >= cost:
-		up.add_child(MetaFrame._red_dot(Vector2(94, -4)))
-		UIFx.breathe(up)
-	UIFx.press_juice(up)
-	h.add_child(up)
+		Game.goto_meta("upgrades"))
+	if _workshop_ready():
+		open.add_child(MetaFrame._red_dot(Vector2(102, -4)))
+		UIFx.breathe(open)
+	UIFx.press_juice(open)
+	h.add_child(open)
 	root.add_child(p)
 	UIFx.slide_in(p, Vector2(-1, 0), 0.2)
 
@@ -379,13 +380,13 @@ func _open_mail() -> void:
 	b.pressed.connect(func() -> void:
 		if not bool(Save.data.get("mail_claimed", false)):
 			Save.data["mail_claimed"] = true
-			for kk: String in ["coins", "gems", "blueprints"]:
+			for kk: String in Save.WALLET:
 				if int(reward.get(kk, 0)) > 0:
 					Save.add(kk, int(reward[kk]), false, false)
 			Save.write()
 			Sound.play("chest_open")
 			var from: Vector2 = b.get_global_rect().get_center()
-			for kk: String in ["coins", "gems", "blueprints"]:
+			for kk: String in Save.WALLET:
 				if int(reward.get(kk, 0)) > 0:
 					UIFx.fly_reward(from, kk, int(reward[kk]), bar, false)
 			UIFx.confetti(from)

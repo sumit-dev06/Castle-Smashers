@@ -67,18 +67,21 @@ func _main() -> void:
 	_audio_row(v, "Music", "music", "music_volume", "icon_music")
 	_audio_row(v, "Sound FX", "sfx", "sfx_volume", "icon_sound")
 	_toggle_row(v, "Haptics", "haptics", "icon_check")
-	var lang: HBoxContainer = _row(v, "Language", "icon_info")
-	lang.add_child(UIKit.label("English", 26, Color("#ffe27a"), 6))
+	_flag_row(v, "Reminders", Notifications.enabled(), func(on: bool) -> void: Notifications.set_enabled(on), "icon_mail")
+	_flag_row(v, "Analytics", bool(Save.data.get("analytics_on", true)), func(on: bool) -> void: Analytics.set_enabled(on), "icon_info")
 	var h: HBoxContainer = HBoxContainer.new()
 	h.alignment = BoxContainer.ALIGNMENT_CENTER
 	h.add_theme_constant_override("separation", 12)
 	v.add_child(h)
+	var note: Label = UIKit.body("", 18, Color("#2f7a1c"))
+	note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	var tut: Button = UIKit.button("Replay Tutorial", "blue", 22, Vector2(184, 58))
 	tut.pressed.connect(func() -> void:
 		Save.data["tutorial_done"] = false
 		Save.data["seen"] = {}
 		Save.write()
-		UIFx.stamp(_root, tut.get_global_rect().get_center(), "DONE"))
+		Sound.play("switch_click")
+		note.text = "Tutorial and story scenes will play again from your next level.")
 	var cr: Button = UIKit.button("Credits", "orange", 22, Vector2(150, 58))
 	cr.pressed.connect(_credits)
 	var pv: Button = UIKit.button("Privacy", "dark", 22, Vector2(150, 58))
@@ -86,15 +89,33 @@ func _main() -> void:
 	for b: Button in [tut, cr, pv]:
 		UIFx.press_juice(b)
 		h.add_child(b)
+	v.add_child(note)
 	var ver: Label = UIKit.body("Version " + String(ProjectSettings.get_setting("application/config/version", "")), 18, Color("#8a5a2a"))
 	ver.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(ver)
+
+
+## On/off row for a setting stored elsewhere (notifications, analytics).
+func _flag_row(v: VBoxContainer, text: String, on: bool, apply: Callable, icon: String) -> void:
+	var h: HBoxContainer = _row(v, text, icon)
+	var sp: Control = Control.new()
+	sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	h.add_child(sp)
+	var b: Button = _switch(on)
+	b.pressed.connect(func() -> void:
+		apply.call(not on)
+		Sound.play("switch_click")
+		_main())
+	h.add_child(b)
 
 
 func _row(v: VBoxContainer, text: String, icon: String) -> HBoxContainer:
 	var h: HBoxContainer = HBoxContainer.new()
 	h.add_theme_constant_override("separation", 12)
 	var ic: TextureRect = UIKit.tex_rect(icon, 40)
+	# White glyph icons (music, sound) vanish on the cream panel: draw them in the outline brown.
+	if icon in ["icon_music", "icon_sound"]:
+		ic.modulate = Color("#5a3416")
 	h.add_child(ic)
 	var l: Label = UIKit.label(text, 28, Color.WHITE, 6)
 	l.custom_minimum_size.x = 170

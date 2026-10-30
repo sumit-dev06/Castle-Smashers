@@ -77,6 +77,8 @@ var _w_speed: float = 1.0
 var _w_grav: float = 1.0
 var _w_mass: float = 1.0
 var _w_reload: float = 1.0
+var _w_damage: float = 1.0
+var _w_ability: float = 1.0
 var _guards_total: int = 0
 var _boss_phase: int = 0
 var _fire_mult: float = 1.0
@@ -88,6 +90,10 @@ var archers_defeated: int = 0
 var _chain_slowmo_t: float = -100.0
 ## The plan-the-assault overlay is open: the level waits in INTRO.
 var _planning: bool = false
+## Out of boulders with the fortress standing: the HUD offers +1 Rocky (ad) / Hellfire / give up.
+var second_chance_open: bool = false
+var rocky_ad_used: bool = false
+var hellfire_running: bool = false
 
 
 func _ready() -> void:
@@ -285,9 +291,10 @@ func apply_weapon() -> void:
 	_w_grav = Progression.gravity_scale()
 	_w_mass = Progression.mass_mult()
 	_w_reload = Progression.reload_mult()
+	_w_damage = Progression.damage_mult()
+	_w_ability = Progression.ability_mult()
 	if catapult:
-		var tints: Array = Progression.catapult_tints()
-		catapult.apply_tints(tints[0], tints[1])
+		catapult.set_appearance(Progression.weapon(), Progression.equipped("skins"))
 
 
 ## Ammo tray tap: hero `i` (still waiting) goes into the bucket next; the one that was loaded takes
@@ -519,11 +526,14 @@ func _physics_process(delta: float) -> void:
 			if _state_t > Data.bf("soldiers", "march_s") + 0.5 and not cinematic_mode and not _planning and (cine == null or not cine.running):
 				_enter(State.PLAY)
 				_reload_t = 0.0
+				_log_level_start()
 				if boss == null:
 					Sound.stinger("siege_start")
 				if not bool(Save.data.get("tutorial_done", false)):
 					_show_tutorial()
 		State.PLAY:
+			if second_chance_open or hellfire_running:
+				return
 			_play_t += delta
 			if mode:
 				mode.tick(delta)
@@ -589,6 +599,11 @@ func _load_now() -> void:
 		Save.mark_seen("hint:" + kind)
 	_hinted[kind] = true
 	# Debug capture: --force-win=seconds ends the level as a win (results screen screenshots).
+	if OS.is_debug_build() and Game.args.has("second-chance") and not _autoshot_done:
+		_autoshot_done = true
+		get_tree().create_timer(float(Game.args["second-chance"])).timeout.connect(func() -> void:
+			hero_index = heroes.size()
+			_out_of_heroes())
 	if OS.is_debug_build() and Game.args.has("force-win") and not _autoshot_done and not Game.args.has("autoshot"):
 		_autoshot_done = true
 		get_tree().create_timer(float(Game.args["force-win"])).timeout.connect(func() -> void:
@@ -695,7 +710,7 @@ func _check_end(delta: float) -> void:
 		_out_t += delta
 		if (_out_t > Data.bf("physics", "settle_min_s") and _all_still()) or _out_t > Data.bf("physics", "settle_max_s"):
 			lose_reason = "Out of heroes!"
-			_finish(false)
+			_out_of_heroes()
 	else:
 		_out_t = 0.0
 
@@ -718,7 +733,7 @@ func fire_hero(vel: Vector2) -> void:
 	hero_index += 1
 	_loaded = false
 	projectile = Projectile.new()
-	projectile.setup(kind, self)
+	projectile.setup(kind, self, _w_damage, _w_ability)
 	projectile.position = catapult.launch_point(kind)
 	projectile.gravity_scale *= _w_grav
 	projectile.mass *= _w_mass
@@ -730,9 +745,14 @@ func fire_hero(vel: Vector2) -> void:
 	_reload_t = Data.bf("catapult", "reload_s") * _w_reload
 	_update_hud()
 	_hide_tutorial()
+	if not test_mode:
+		Analytics.set_crash_key("phase", "physics")
+		Analytics.set_crash_key("projectile", kind)
+		Analytics.breadcrumb("shot:%s:%s" % [kind, Progression.weapon()])
 	if not test_mode and not bool(Save.data.get("tutorial_done", false)):
 		Save.data["tutorial_done"] = true
 		Save.write()
+		Analytics.event("tutorial_complete", {"level_id": level_id})
 	Sound.play("launch")
 	Game.haptic()
 	Events.projectile_launched.emit(kind)
@@ -770,7 +790,18 @@ func _finish(won: bool) -> void:
 	var old_best: int = Save.challenge_best(level_id) if level_id > Data.CHALLENGE_BASE else int(Save.data["best"].get(str(level_id), 0))
 	if not test_mode and not (mode and mode.kind == "boss_rush"):
 		earned = Save.record_result(level_id, won, stars, score, boss != null)
+	if not test_mode:
+		var common: Dictionary = {"level_id": level_id, "attempt": _attempt(), "duration_s": int(_play_t),
+				"weapon": Progression.weapon(), "shots_used": hero_index}
+		if won:
+			common.merge({"stars": stars, "score": score, "used_hellfire": hellfire_running or Analytics.last("hellfire_used").get("level_id", -1) == level_id})
+			Analytics.event("level_complete", common)
+		else:
+			common["reason"] = lose_reason
+			Analytics.event("level_failed", common)
 	Events.level_finished.emit(level_id, won, stars, score)
+	if won and not test_mode:
+		Notifications.maybe_ask_permission(level_id)
 	if test_mode:
 		return
 	var t: SceneTreeTimer = get_tree().create_timer(float(Data.balance["result_delay_s"]), true, false, true)
@@ -839,6 +870,111 @@ func play_time() -> float:
 
 func force_finish(won: bool) -> void:
 	_finish(won)
+
+
+## Attempt number for this level (1 = first try), counted when play starts.
+func _attempt() -> int:
+	return int((Save.data.get("attempts", {}) as Dictionary).get(str(level_id), 1))
+
+
+func _log_level_start() -> void:
+	if test_mode:
+		return
+	if not (Save.data.get("attempts", null) is Dictionary):
+		Save.data["attempts"] = {}
+	Save.data["attempts"][str(level_id)] = int(Save.data["attempts"].get(str(level_id), 0)) + 1
+	Analytics.set_crash_key("level", str(level_id))
+	Analytics.set_crash_key("scene", "level")
+	Analytics.set_crash_key("phase", "aiming")
+	Analytics.set_crash_key("weapon", Progression.weapon())
+	Analytics.event("level_start", {"level_id": level_id, "attempt": _attempt(), "weapon": Progression.weapon(),
+			"heroes": ",".join(PackedStringArray(heroes)), "mode": String(data.get("mode", "siege"))})
+
+
+# ------------------------------------------------------------------------------------ second chance
+## Modes where a second chance makes no sense (clock or shared pool) fail straight away.
+func _out_of_heroes() -> void:
+	if test_mode or second_chance_open or not Game.rush.is_empty() or (mode and mode.kind in ["time_attack", "one_shot"]):
+		_finish(false)
+		return
+	second_chance_open = true
+	_out_t = 0.0
+	if hud:
+		hud.show_second_chance(not rocky_ad_used)
+
+
+## Rewarded ad watched: one extra Rocky, once per attempt. Afterwards only Hellfire or a replay.
+func second_chance_rocky() -> void:
+	if not second_chance_open or rocky_ad_used:
+		return
+	rocky_ad_used = true
+	second_chance_open = false
+	_out_t = 0.0
+	add_heroes(["stone"])
+
+
+func decline_second_chance() -> void:
+	second_chance_open = false
+	_finish(false)
+
+
+## Paid Hellfire: spends one strike and destroys the whole fortress. false if none owned.
+func use_hellfire() -> bool:
+	if hellfire_running or is_finished() or Save.amount("hellfire") <= 0:
+		return false
+	Save.add("hellfire", -1)
+	Analytics.event("hellfire_used", {"level_id": level_id, "left": Save.amount("hellfire")})
+	second_chance_open = false
+	_hellfire_strike()
+	return true
+
+
+func _hellfire_strike() -> void:
+	hellfire_running = true
+	var cfg: Dictionary = Data.balance["hellfire"]
+	var targets: Array[Block] = blocks.duplicate()
+	targets.shuffle()
+	var spread: float = float(cfg["spread_s"])
+	var fall: float = float(cfg["fall_s"])
+	Sound.play("boss_roar", 0.5, 0.6)
+	if hud:
+		hud.boss_callout("HELLFIRE!")
+	camera.add_shake(float(cfg["shake"]))
+	for i: int in targets.size():
+		var b: Block = targets[i]
+		var delay: float = spread * float(i) / maxf(1.0, float(targets.size()))
+		get_tree().create_timer(delay, false).timeout.connect(_drop_hellfire.bind(b, fall, cfg))
+	var end_s: float = spread + fall + float(cfg["settle_s"])
+	get_tree().create_timer(end_s * 0.7, false).timeout.connect(func() -> void:
+		for a: Archer in archers.duplicate():
+			if is_instance_valid(a) and not a.dead:
+				a.shield_left = 0.0
+				a.defeat())
+	get_tree().create_timer(end_s, false).timeout.connect(func() -> void:
+		hellfire_running = false
+		if not is_finished():
+			_finish(true))
+
+
+func _drop_hellfire(b: Block, fall: float, cfg: Dictionary) -> void:
+	if not is_instance_valid(b) or b.dead:
+		return
+	var to: Vector2 = b.global_position
+	var rock: Sprite2D = Art.sprite("fx_hellfire_boulder", float(cfg["boulder_scale"]))
+	rock.z_index = 12
+	rock.rotation = deg_to_rad(-25.0)
+	rock.global_position = to + Vector2(float(cfg["from_dx"]), -float(cfg["from_dy"]))
+	world.add_child(rock)
+	var tw: Tween = rock.create_tween()
+	tw.tween_property(rock, "global_position", to, fall).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tw.tween_callback(func() -> void:
+		rock.queue_free()
+		fx.flash(to, 70.0)
+		fx.debris(to, "clay", 4, 380.0)
+		camera.add_shake(4.0)
+		Sound.play("explosion", 0.55)
+		if is_instance_valid(b) and not b.dead:
+			b.destroy(true))
 
 
 ## Mode goals (chests, sunk engines) score and count as chain links.

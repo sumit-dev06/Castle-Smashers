@@ -10,8 +10,8 @@ const COLORS: Dictionary = {
 	"dark": [Color(0.12, 0.1, 0.2, 0.55), Color(0.05, 0.04, 0.1, 0.6)],
 }
 const TEXT_DARK: Color = Color("#3a1f0c")
-const CURRENCY_ICON: Dictionary = {"coins": "coin", "gems": "gem", "blueprints": "blueprint"}
-const CURRENCY_COLOR: Dictionary = {"coins": Color("#c4780a"), "gems": Color("#9a3ad8"), "blueprints": Color("#b0501e")}
+const CURRENCY_ICON: Dictionary = {"coins": "coin", "gems": "gem"}
+const CURRENCY_COLOR: Dictionary = {"coins": Color("#c4780a"), "gems": Color("#9a3ad8")}
 
 static var _title: Font
 static var _body: Font
@@ -239,7 +239,7 @@ static func logo(size: int = 40) -> Control:
 	var h: HBoxContainer = HBoxContainer.new()
 	h.add_theme_constant_override("separation", 4)
 	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	h.add_child(tex_rect("logo_castle", size * 1.6))
+	h.add_child(tex_rect("logo_mark" if Art.has_ai("logo_mark") else "logo_castle", size * 1.7))
 	var v: VBoxContainer = VBoxContainer.new()
 	v.add_theme_constant_override("separation", -int(size * 0.45))
 	v.mouse_filter = Control.MOUSE_FILTER_IGNORE

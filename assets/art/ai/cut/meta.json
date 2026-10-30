@@ -125,6 +125,71 @@
   "kind": "background",
   "w": 2419
  },
+ "block_boulder": {
+  "h": 512,
+  "kind": "block",
+  "w": 511
+ },
+ "block_cannon_turret": {
+  "h": 322,
+  "kind": "block",
+  "w": 512
+ },
+ "block_crystal_block": {
+  "h": 457,
+  "kind": "block",
+  "w": 512
+ },
+ "block_crystal_pillar": {
+  "h": 512,
+  "kind": "block",
+  "w": 226
+ },
+ "block_ice_block": {
+  "h": 500,
+  "kind": "block",
+  "w": 512
+ },
+ "block_ice_pillar": {
+  "h": 512,
+  "kind": "block",
+  "w": 150
+ },
+ "block_ice_slab": {
+  "h": 116,
+  "kind": "block",
+  "w": 512
+ },
+ "block_iron_beam": {
+  "h": 225,
+  "kind": "block",
+  "w": 512
+ },
+ "block_iron_beam_bent": {
+  "h": 149,
+  "kind": "block",
+  "w": 512
+ },
+ "block_iron_block": {
+  "h": 456,
+  "kind": "block",
+  "w": 512
+ },
+ "block_power_core": {
+  "h": 483,
+  "kind": "block",
+  "w": 512
+ },
+ "block_rune_crystal": {
+  "h": 478,
+  "kind": "block",
+  "w": 512
+ },
+ "blueprint": {
+  "h": 460,
+  "kind": "ui",
+  "w": 512
+ },
  "boss_airship_balloon": {
   "h": 490,
   "kind": "boss",
@@ -135,10 +200,134 @@
   "kind": "boss",
   "w": 1200
  },
+ "boss_baron_idle": {
+  "body_c": [
+   263.0,
+   183.0
+  ],
+  "body_r": 90.55385138137417,
+  "bottom": 312,
+  "family": "boss_baron",
+  "feet_x": 244.66646884272998,
+  "feet_y": 312.0,
+  "h": 318,
+  "left": 5,
+  "right": 430,
+  "top": 5,
+  "unit_h": 300,
+  "w": 436
+ },
+ "boss_baron_shoot": {
+  "body_c": [
+   270.0,
+   178.0
+  ],
+  "body_r": 91.2414379544733,
+  "bottom": 308,
+  "family": "boss_baron",
+  "feet_x": 258.5881030606951,
+  "feet_y": 308.0,
+  "h": 314,
+  "left": 6,
+  "right": 461,
+  "top": 5,
+  "unit_h": 300,
+  "w": 467
+ },
+ "boss_crown": {
+  "h": 916,
+  "kind": "boss",
+  "w": 1200
+ },
+ "boss_forgemaster_idle": {
+  "body_c": [
+   141.0,
+   160.0
+  ],
+  "body_r": 72.00694410957877,
+  "bottom": 312,
+  "family": "boss_forgemaster",
+  "feet_x": 146.93218983937786,
+  "feet_y": 312.0,
+  "h": 318,
+  "left": 5,
+  "right": 371,
+  "top": 5,
+  "unit_h": 300,
+  "w": 377
+ },
+ "boss_forgemaster_ko": {
+  "body_c": [
+   169.0,
+   112.0
+  ],
+  "body_r": 82.29823813423954,
+  "bottom": 231,
+  "family": "boss_forgemaster",
+  "feet_x": 227.59692368369159,
+  "feet_y": 231.0,
+  "h": 238,
+  "left": 6,
+  "right": 414,
+  "top": 5,
+  "unit_h": 300,
+  "w": 420
+ },
  "boss_galleon_hull": {
   "h": 427,
   "kind": "boss",
   "w": 1200
+ },
+ "boss_ironhook_idle": {
+  "body_c": [
+   165.0,
+   186.0
+  ],
+  "body_r": 69.31810730249349,
+  "bottom": 312,
+  "family": "boss_ironhook",
+  "feet_x": 153.16489749615104,
+  "feet_y": 312.0,
+  "h": 318,
+  "left": 5,
+  "right": 379,
+  "top": 5,
+  "unit_h": 300,
+  "w": 385
+ },
+ "boss_ironhook_ko": {
+  "body_c": [
+   189.0,
+   112.0
+  ],
+  "body_r": 58.463663928973865,
+  "bottom": 228,
+  "family": "boss_ironhook",
+  "feet_x": 267.018328734726,
+  "feet_y": 228.0,
+  "h": 234,
+  "left": 5,
+  "right": 427,
+  "top": 5,
+  "unit_h": 300,
+  "w": 433
+ },
+ "boss_ironhook_shoot": {
+  "body_c": [
+   142.0,
+   194.0
+  ],
+  "body_r": 67.06713054842886,
+  "bottom": 301,
+  "family": "boss_ironhook",
+  "feet_x": 138.09823281104673,
+  "feet_y": 301.0,
+  "h": 307,
+  "left": 5,
+  "right": 381,
+  "top": 5,
+  "unit_h": 300,
+  "w": 387
  },
  "boss_mine_cart": {
   "h": 308,
@@ -149,6 +338,128 @@
   "h": 273,
   "kind": "boss",
   "w": 1200
+ },
+ "boss_sultan_idle": {
+  "body_c": [
+   156.0,
+   163.0
+  ],
+  "body_r": 61.26989472816156,
+  "bottom": 312,
+  "family": "boss_sultan",
+  "feet_x": 148.4403630690682,
+  "feet_y": 312.0,
+  "h": 318,
+  "left": 5,
+  "right": 305,
+  "top": 5,
+  "unit_h": 300,
+  "w": 311
+ },
+ "boss_sultan_ko": {
+  "body_c": [
+   281.0,
+   99.0
+  ],
+  "body_r": 60.166435825965294,
+  "bottom": 214,
+  "family": "boss_sultan",
+  "feet_x": 226.2531387852053,
+  "feet_y": 214.0,
+  "h": 220,
+  "left": 5,
+  "right": 425,
+  "top": 5,
+  "unit_h": 300,
+  "w": 431
+ },
+ "boss_sultan_shoot": {
+  "body_c": [
+   156.0,
+   159.0
+  ],
+  "body_r": 57.28001396647874,
+  "bottom": 304,
+  "family": "boss_sultan",
+  "feet_x": 166.8300432276657,
+  "feet_y": 304.0,
+  "h": 310,
+  "left": 5,
+  "right": 378,
+  "top": 5,
+  "unit_h": 300,
+  "w": 384
+ },
+ "boss_warlord_idle": {
+  "body_c": [
+   136.0,
+   152.0
+  ],
+  "body_r": 81.12336284942828,
+  "bottom": 312,
+  "family": "boss_warlord",
+  "feet_x": 148.46252420549038,
+  "feet_y": 312.0,
+  "h": 318,
+  "left": 5,
+  "right": 323,
+  "top": 5,
+  "unit_h": 300,
+  "w": 329
+ },
+ "boss_warlord_ko": {
+  "body_c": [
+   253.0,
+   80.0
+  ],
+  "body_r": 72.44308110509934,
+  "bottom": 215,
+  "family": "boss_warlord",
+  "feet_x": 253.66557805355976,
+  "feet_y": 215.0,
+  "h": 221,
+  "left": 5,
+  "right": 418,
+  "top": 5,
+  "unit_h": 300,
+  "w": 424
+ },
+ "boss_warlord_shoot": {
+  "body_c": [
+   138.0,
+   197.0
+  ],
+  "body_r": 78.31347265956222,
+  "bottom": 311,
+  "family": "boss_warlord",
+  "feet_x": 152.9801673944687,
+  "feet_y": 311.0,
+  "h": 317,
+  "left": 5,
+  "right": 381,
+  "top": 5,
+  "unit_h": 300,
+  "w": 387
+ },
+ "cannonball": {
+  "h": 506,
+  "kind": "ui",
+  "w": 512
+ },
+ "chest_open": {
+  "h": 512,
+  "kind": "ui",
+  "w": 490
+ },
+ "engineer_hammer": {
+  "h": 512,
+  "kind": "ui",
+  "w": 360
+ },
+ "engineer_hat": {
+  "h": 346,
+  "kind": "ui",
+  "w": 512
  },
  "fg_blossom_left": {
   "h": 815,
@@ -199,6 +510,11 @@
   "h": 732,
   "kind": "fg",
   "w": 900
+ },
+ "gem": {
+  "h": 439,
+  "kind": "ui",
+  "w": 512
  },
  "hero_bomb": {
   "body_c": [
@@ -279,6 +595,141 @@
   "right": 299,
   "top": 5,
   "w": 305
+ },
+ "icon_achievements": {
+  "h": 492,
+  "kind": "ui",
+  "w": 512
+ },
+ "icon_challenges": {
+  "h": 468,
+  "kind": "ui",
+  "w": 512
+ },
+ "icon_crown": {
+  "h": 450,
+  "kind": "ui",
+  "w": 512
+ },
+ "icon_daily": {
+  "h": 490,
+  "kind": "ui",
+  "w": 512
+ },
+ "icon_events": {
+  "h": 456,
+  "kind": "ui",
+  "w": 512
+ },
+ "icon_mail": {
+  "h": 421,
+  "kind": "ui",
+  "w": 512
+ },
+ "icon_secret": {
+  "h": 464,
+  "kind": "ui",
+  "w": 512
+ },
+ "icon_shop": {
+  "h": 512,
+  "kind": "ui",
+  "w": 512
+ },
+ "icon_skins": {
+  "h": 448,
+  "kind": "ui",
+  "w": 512
+ },
+ "icon_spin": {
+  "h": 512,
+  "kind": "ui",
+  "w": 483
+ },
+ "icon_trail": {
+  "h": 479,
+  "kind": "ui",
+  "w": 512
+ },
+ "icon_upgrades": {
+  "h": 512,
+  "kind": "ui",
+  "w": 476
+ },
+ "icon_weapon_ballista": {
+  "h": 449,
+  "kind": "ui",
+  "w": 512
+ },
+ "icon_weapon_catapult": {
+  "h": 489,
+  "kind": "ui",
+  "w": 512
+ },
+ "icon_weapon_trebuchet": {
+  "h": 479,
+  "kind": "ui",
+  "w": 512
+ },
+ "logo_mark": {
+  "h": 489,
+  "kind": "ui",
+  "w": 512
+ },
+ "mechanism_crusher": {
+  "h": 475,
+  "kind": "mechanism",
+  "w": 700
+ },
+ "mechanism_frame": {
+  "h": 590,
+  "kind": "mechanism",
+  "w": 700
+ },
+ "mechanism_geyser": {
+  "h": 700,
+  "kind": "mechanism",
+  "w": 373
+ },
+ "mechanism_hook": {
+  "h": 700,
+  "kind": "mechanism",
+  "w": 261
+ },
+ "mechanism_lever_base": {
+  "h": 355,
+  "kind": "mechanism",
+  "w": 700
+ },
+ "mechanism_lever_handle": {
+  "h": 700,
+  "kind": "mechanism",
+  "w": 245
+ },
+ "mechanism_rune_switch": {
+  "h": 689,
+  "kind": "mechanism",
+  "w": 700
+ },
+ "mechanism_shield_plate": {
+  "h": 154,
+  "kind": "mechanism",
+  "w": 700
+ },
+ "mechanism_trapdoor": {
+  "h": 131,
+  "kind": "mechanism",
+  "w": 700
+ },
+ "mechanism_windmill_arm": {
+  "h": 222,
+  "kind": "mechanism",
+  "w": 700
+ },
+ "mechanism_windmill_hub": {
+  "h": 677,
+  "kind": "mechanism",
+  "w": 700
  },
  "soldier_cheer": {
   "body_c": [

@@ -123,8 +123,10 @@
     "soldier_ko": -2000
   },
   "coins": {
-    "per_star_first_clear": 50,
-    "replay_win": 10
+    "per_star_first_clear": 120,
+    "replay_win": 25,
+    "boss_first_clear": 1500,
+    "post_win_ad_mult": 2
   },
   "fire": {
     "burn_s": 3.5,
@@ -576,10 +578,12 @@
     ]
   },
   "ads": {
+    "_doc": "Interstitial: only when the player taps NEXT after this many finished levels; never mid-level, never first session, never with Remove Ads.",
     "interstitial_min_level": 4,
-    "interstitial_every_levels": 3,
-    "interstitial_min_gap_s": 180,
-    "skip_first_session": true
+    "interstitial_every_levels": 4,
+    "interstitial_min_gap_s": 90,
+    "skip_first_session": true,
+    "extra_rocky_per_level": 1
   },
   "loadout": {
     "slots": 4,
@@ -837,59 +841,13 @@
     "score": 15000,
     "phase_shake": 18.0,
     "phase_slowmo_s": 0.6,
-    "bar_width": 420.0
-  },
-  "workshop": {
-    "costs": [
-      150,
-      350,
-      700
-    ],
-    "max_level": 3,
-    "tracks": {
-      "stone": {
-        "title": "Heavier Slam",
-        "desc": "+15% slam power",
-        "mult": {
-          "slam_mass_mult": 0.15,
-          "mass": 0.08
-        }
-      },
-      "fire": {
-        "title": "Hotter Flames",
-        "desc": "+14% burst radius and damage",
-        "mult": {
-          "burst_radius": 0.14,
-          "burst_radius_dashed": 0.14,
-          "burst_damage": 0.15
-        }
-      },
-      "bomb": {
-        "title": "Bigger Boom",
-        "desc": "+12% blast radius and damage",
-        "mult": {
-          "explosion.radius": 0.12,
-          "explosion.damage": 0.12,
-          "explosion.impulse": 0.1
-        }
-      },
-      "cyclone": {
-        "title": "Longer Gale",
-        "desc": "+18% whirl time",
-        "mult": {
-          "whirl_s": 0.18,
-          "whirl_radius": 0.08,
-          "fling_impulse": 0.1
-        }
-      },
-      "quake": {
-        "title": "Deeper Rumble",
-        "desc": "+12% shockwave reach",
-        "mult": {
-          "shockwave_radius": 0.12,
-          "shockwave_damage": 0.14
-        }
-      }
+    "bar_width": 420.0,
+    "art_keys": {
+      "Siege Warlord": "warlord",
+      "Sandstone Sultan": "sultan",
+      "Captain Ironhook": "ironhook",
+      "The Forgemaster": "forgemaster",
+      "The Iron Baron": "baron"
     }
   },
   "cinematic": {
@@ -948,20 +906,34 @@
     "speed": 0.5
   },
   "currencies": {
-    "_doc": "Wallet kinds (docs/MONETIZATION.md). Earned amounts are given only on first clears so replays cannot farm premium currency.",
+    "_doc": "Wallet: coins (earned, spent on engines/upgrades) and gems (premium, almost only from purchases). Premium rewards only on first clears.",
     "kinds": [
       "coins",
-      "gems",
-      "blueprints"
+      "gems"
     ],
-    "gems_three_star_first": 3,
-    "gems_boss_first_clear": 20,
-    "blueprints_boss_first_clear": 2,
-    "blueprints_realm_every": 5,
+    "gems_three_star_first": 0,
+    "gems_boss_first_clear": 5,
     "start": {
       "coins": 0,
-      "gems": 10,
-      "blueprints": 0
+      "gems": 0
+    },
+    "blueprint_to_coins": 300,
+    "legacy_refund": {
+      "hero_level": [
+        150,
+        350,
+        700
+      ],
+      "weapon_power": [
+        350,
+        700,
+        1200
+      ],
+      "weapon_reload": [
+        300,
+        650,
+        1100
+      ]
     }
   },
   "ui_fx": {
@@ -1059,7 +1031,7 @@
     "rush_unlock_level": 50,
     "rush_next_s": 2.5,
     "rush_coins": 1500,
-    "rush_gems": 40,
+    "rush_gems": 10,
     "boss_rush": {
       "levels": [
         10,
@@ -1103,20 +1075,47 @@
     "last_id": 130
   },
   "siege_weapons": {
-    "_doc": "Pick on the loadout screen (src/game/progression.gd). Multipliers apply to every hero fired.",
+    "_doc": "Distinct siege engines. Level requirement reveals the engine; unlock_cost buys it. Track effects are real multipliers applied by Progression.",
     "order": [
       "catapult",
       "ballista",
       "trebuchet"
     ],
     "catapult": {
-      "name": "Catapult",
-      "desc": "Balanced arcs for every job.",
+      "name": "Royal Catapult",
+      "short_name": "Catapult",
+      "role": "Balanced demolition",
+      "desc": "Reliable arcs. Torsion power and a reinforced cup make every direct hit count.",
       "unlock_level": 1,
+      "unlock_cost": {},
+      "art": {
+        "base": "catapult_base",
+        "arm": "catapult_arm",
+        "cup": "catapult_cup",
+        "base_ground_y": 149.0,
+        "arm_pivot": [
+          14.0,
+          10.0
+        ],
+        "cup_rim": [
+          172.0,
+          50.0
+        ],
+        "world_pivot": [
+          0,
+          -78
+        ],
+        "visual_scale": 1.0,
+        "rest_angle_deg": 200,
+        "pull_angle_deg": -32,
+        "fire_angle_deg": 282
+      },
       "speed_mult": 1.0,
       "gravity_scale": 1.0,
       "mass_mult": 1.0,
       "reload_mult": 1.0,
+      "damage_mult": 1.0,
+      "ability_mult": 1.0,
       "tint_base": [
         1,
         1,
@@ -1126,120 +1125,352 @@
         1,
         1,
         1
-      ]
+      ],
+      "tracks": {
+        "torsion": {
+          "title": "Torsion Bundles",
+          "desc": "+5% launch speed per level",
+          "icon": "status_cannon",
+          "max": 4,
+          "effects": {
+            "speed_mult": 0.05
+          },
+          "cost": [
+            {
+              "coins": 2500
+            },
+            {
+              "coins": 6000
+            },
+            {
+              "coins": 12500
+            },
+            {
+              "coins": 24000
+            }
+          ]
+        },
+        "cup": {
+          "title": "Reinforced Cup",
+          "desc": "+9% hero mass per level",
+          "icon": "status_armor",
+          "max": 4,
+          "effects": {
+            "mass_mult": 0.09
+          },
+          "cost": [
+            {
+              "coins": 3000
+            },
+            {
+              "coins": 7000
+            },
+            {
+              "coins": 14000
+            },
+            {
+              "coins": 27000
+            }
+          ]
+        },
+        "winch": {
+          "title": "Quick Winch",
+          "desc": "-8% reload time per level",
+          "icon": "icon_restart",
+          "max": 4,
+          "effects": {
+            "reload_mult": -0.08
+          },
+          "cost": [
+            {
+              "coins": 2200
+            },
+            {
+              "coins": 5500
+            },
+            {
+              "coins": 11000
+            },
+            {
+              "coins": 21000
+            }
+          ]
+        }
+      }
     },
     "ballista": {
-      "name": "Ballista",
-      "desc": "Flat, fast shots for front walls and turrets.",
+      "name": "Ironbolt Ballista",
+      "short_name": "Ballista",
+      "role": "Fast armor piercer",
+      "desc": "A low, fast shot for front walls and iron. Its rail sacrifices blast size for direct damage.",
       "unlock_level": 21,
-      "speed_mult": 1.12,
-      "gravity_scale": 0.72,
-      "mass_mult": 0.9,
-      "reload_mult": 0.85,
+      "unlock_cost": {
+        "coins": 18000
+      },
+      "art": {
+        "base": "weapon_ballista_base",
+        "arm": "weapon_ballista_arm",
+        "cup": "weapon_ballista_cup",
+        "base_ground_y": 149.0,
+        "arm_pivot": [
+          18.0,
+          28.0
+        ],
+        "cup_rim": [
+          181.0,
+          28.0
+        ],
+        "world_pivot": [
+          0,
+          -62
+        ],
+        "visual_scale": 0.98,
+        "rest_angle_deg": 186,
+        "pull_angle_deg": -18,
+        "fire_angle_deg": 350
+      },
+      "speed_mult": 1.16,
+      "gravity_scale": 0.68,
+      "mass_mult": 0.92,
+      "reload_mult": 0.82,
+      "damage_mult": 1.18,
+      "ability_mult": 0.88,
       "tint_base": [
-        0.78,
-        0.85,
+        0.9,
+        0.95,
         1.0
       ],
       "tint_arm": [
-        0.7,
-        0.8,
+        0.9,
+        0.95,
         1.0
-      ]
+      ],
+      "tracks": {
+        "steel_bow": {
+          "title": "Steel Bow Limbs",
+          "desc": "+6% launch speed per level",
+          "icon": "status_cannon",
+          "max": 4,
+          "effects": {
+            "speed_mult": 0.06
+          },
+          "cost": [
+            {
+              "coins": 6500
+            },
+            {
+              "coins": 13000
+            },
+            {
+              "coins": 24000
+            },
+            {
+              "coins": 42000
+            }
+          ]
+        },
+        "piercing": {
+          "title": "Piercing Rail",
+          "desc": "+12% direct damage per level",
+          "icon": "status_armor",
+          "max": 4,
+          "effects": {
+            "damage_mult": 0.12
+          },
+          "cost": [
+            {
+              "coins": 7500
+            },
+            {
+              "coins": 15000
+            },
+            {
+              "coins": 28000
+            },
+            {
+              "coins": 48000
+            }
+          ]
+        },
+        "ratchet": {
+          "title": "Twin Ratchet",
+          "desc": "-10% reload time per level",
+          "icon": "icon_restart",
+          "max": 4,
+          "effects": {
+            "reload_mult": -0.1
+          },
+          "cost": [
+            {
+              "coins": 6000
+            },
+            {
+              "coins": 12000
+            },
+            {
+              "coins": 22500
+            },
+            {
+              "coins": 40000
+            }
+          ]
+        }
+      }
     },
     "trebuchet": {
-      "name": "Trebuchet",
-      "desc": "High lobs, +35% hero mass for enclosed keeps. Slower reload.",
+      "name": "War Trebuchet",
+      "short_name": "Trebuchet",
+      "role": "Heavy high-arc siege",
+      "desc": "A towering counterweight engine. Slow to reload, but its heavy lob amplifies every ability.",
       "unlock_level": 31,
+      "unlock_cost": {
+        "coins": 40000
+      },
+      "art": {
+        "base": "weapon_trebuchet_base",
+        "arm": "weapon_trebuchet_arm",
+        "cup": "weapon_trebuchet_cup",
+        "base_ground_y": 219.0,
+        "arm_pivot": [
+          34.0,
+          50.0
+        ],
+        "cup_rim": [
+          222.0,
+          67.0
+        ],
+        "world_pivot": [
+          0,
+          -126
+        ],
+        "visual_scale": 0.9,
+        "rest_angle_deg": 194,
+        "pull_angle_deg": -28,
+        "fire_angle_deg": 286
+      },
       "speed_mult": 1.04,
-      "gravity_scale": 1.12,
-      "mass_mult": 1.35,
-      "reload_mult": 1.3,
+      "gravity_scale": 1.08,
+      "mass_mult": 1.38,
+      "reload_mult": 1.24,
+      "damage_mult": 1.06,
+      "ability_mult": 1.22,
       "tint_base": [
         1.0,
-        0.86,
-        0.7
+        0.93,
+        0.78
       ],
       "tint_arm": [
-        0.95,
-        0.78,
-        0.6
-      ]
+        1.0,
+        0.93,
+        0.78
+      ],
+      "tracks": {
+        "counterweight": {
+          "title": "Granite Counterweight",
+          "desc": "+12% hero mass per level",
+          "icon": "icon_hammer",
+          "max": 4,
+          "effects": {
+            "mass_mult": 0.12
+          },
+          "cost": [
+            {
+              "coins": 10000
+            },
+            {
+              "coins": 20000
+            },
+            {
+              "coins": 36000
+            },
+            {
+              "coins": 60000
+            }
+          ]
+        },
+        "sling": {
+          "title": "Dragonhide Sling",
+          "desc": "+10% ability reach per level",
+          "icon": "icon_upgrades",
+          "max": 4,
+          "effects": {
+            "ability_mult": 0.1
+          },
+          "cost": [
+            {
+              "coins": 11000
+            },
+            {
+              "coins": 22000
+            },
+            {
+              "coins": 40000
+            },
+            {
+              "coins": 68000
+            }
+          ]
+        },
+        "crew": {
+          "title": "Winch Crew",
+          "desc": "-8% reload time per level",
+          "icon": "icon_units",
+          "max": 4,
+          "effects": {
+            "reload_mult": -0.08
+          },
+          "cost": [
+            {
+              "coins": 9000
+            },
+            {
+              "coins": 18000
+            },
+            {
+              "coins": 34000
+            },
+            {
+              "coins": 58000
+            }
+          ]
+        }
+      }
     }
   },
   "upgrades": {
-    "_doc": "Vanguard and siege-weapon tracks (Workshop). cost per level: {coins, blueprints}.",
+    "_doc": "Vanguard tracks. Siege-engine tracks live under siege_weapons.<id>.tracks and cost coins only.",
     "vanguard": {
       "armor": {
         "title": "Vanguard Armor",
         "desc": "+1 soldier HP per level",
-        "max": 2,
+        "max": 3,
         "per_level": 1,
         "cost": [
           {
-            "coins": 400
+            "coins": 3000
           },
           {
-            "coins": 900,
-            "blueprints": 1
+            "coins": 8000
+          },
+          {
+            "coins": 18000
           }
         ]
       },
       "shields": {
         "title": "Tower Shields",
-        "desc": "+8% chance to block an arrow per level",
+        "desc": "+8% block chance per level",
         "max": 3,
         "per_level": 0.08,
         "cost": [
           {
-            "coins": 300
+            "coins": 3500
           },
           {
-            "coins": 600
+            "coins": 9000
           },
           {
-            "coins": 1000,
-            "blueprints": 1
-          }
-        ]
-      }
-    },
-    "weapon": {
-      "power": {
-        "title": "Power",
-        "desc": "+4% launch speed per level",
-        "max": 3,
-        "per_level": 0.04,
-        "cost": [
-          {
-            "coins": 350
-          },
-          {
-            "coins": 700,
-            "blueprints": 1
-          },
-          {
-            "coins": 1200,
-            "blueprints": 2
-          }
-        ]
-      },
-      "reload": {
-        "title": "Reload",
-        "desc": "-8% reload time per level",
-        "max": 3,
-        "per_level": 0.08,
-        "cost": [
-          {
-            "coins": 300
-          },
-          {
-            "coins": 650,
-            "blueprints": 1
-          },
-          {
-            "coins": 1100,
-            "blueprints": 2
+            "coins": 20000
           }
         ]
       }
@@ -1249,7 +1480,7 @@
     "_doc": "Looks only, never stronger. price {coins|gems}; source shown when locked.",
     "skins": {
       "default": {
-        "name": "Default",
+        "name": "Field Issue",
         "rarity": "common",
         "tint_base": [
           1,
@@ -1261,10 +1492,17 @@
           1,
           1
         ],
-        "price": {}
+        "price": {},
+        "silhouette": "Classic timber frame",
+        "description": "The dependable royal workshop build.",
+        "features": [
+          "Carved oak frame",
+          "Iron-rimmed wheels",
+          "Blue Vanguard pennant"
+        ]
       },
       "sakura": {
-        "name": "Sakura",
+        "name": "Sakura Shrine",
         "rarity": "rare",
         "tint_base": [
           1.0,
@@ -1279,10 +1517,17 @@
         "price": {
           "coins": 1500
         },
-        "trail": "petals"
+        "trail": "petals",
+        "silhouette": "Blossom shrine",
+        "description": "A curved shrine canopy, flower hubs and living cherry branches.",
+        "features": [
+          "Torii canopy",
+          "Blossom wheel hubs",
+          "Petal-wrapped throwing arm"
+        ]
       },
       "desert_gold": {
-        "name": "Desert Gold",
+        "name": "Sunforged",
         "rarity": "rare",
         "tint_base": [
           1.15,
@@ -1295,10 +1540,17 @@
           0.5
         ],
         "price": {},
-        "source": "realm_chest_2"
+        "source": "realm_chest_2",
+        "silhouette": "Desert sun chariot",
+        "description": "A radiant sun shield with plated fenders and a scorpion-tail crest.",
+        "features": [
+          "Hammered gold fenders",
+          "Sun-disc shield",
+          "Scorpion crest"
+        ]
       },
       "pirate": {
-        "name": "Pirate",
+        "name": "Dread Corsair",
         "rarity": "rare",
         "tint_base": [
           0.65,
@@ -1312,10 +1564,17 @@
         ],
         "price": {
           "coins": 2500
-        }
+        },
+        "silhouette": "Pirate deck engine",
+        "description": "A black sail, rope netting and an anchor-braced siege deck.",
+        "features": [
+          "Black raider sail",
+          "Anchor brace",
+          "Rope-bound arm"
+        ]
       },
       "forge": {
-        "name": "Forge",
+        "name": "Magma Foundry",
         "rarity": "epic",
         "tint_base": [
           0.62,
@@ -1330,10 +1589,17 @@
         "price": {
           "gems": 120
         },
-        "trail": "sparks"
+        "trail": "sparks",
+        "silhouette": "Mobile iron foundry",
+        "description": "Armored plating, exhaust stacks and molten channels turn it into a rolling forge.",
+        "features": [
+          "Spiked iron armor",
+          "Working smokestack",
+          "Glowing magma channels"
+        ]
       },
       "royal": {
-        "name": "Royal",
+        "name": "King's Parade",
         "rarity": "epic",
         "tint_base": [
           0.62,
@@ -1348,10 +1614,17 @@
         "price": {
           "gems": 200
         },
-        "trail": "stars"
+        "trail": "stars",
+        "silhouette": "Royal tournament engine",
+        "description": "A crowned blue-and-gold war machine with shields and ceremonial banners.",
+        "features": [
+          "Crown canopy",
+          "Royal shield plate",
+          "Twin gold pennants"
+        ]
       },
       "sky": {
-        "name": "Sky",
+        "name": "Stormwing",
         "rarity": "epic",
         "tint_base": [
           0.85,
@@ -1364,10 +1637,17 @@
           1.3
         ],
         "price": {},
-        "source": "achievement_chain_20"
+        "source": "achievement_chain_20",
+        "silhouette": "Sky-island glider",
+        "description": "Feathered wings, cloud vanes and a lightning cradle make it look ready to fly.",
+        "features": [
+          "Wide feather fins",
+          "Cloud vane",
+          "Lightning cradle"
+        ]
       },
       "shadow": {
-        "name": "Shadow",
+        "name": "Night Wraith",
         "rarity": "legendary",
         "tint_base": [
           0.5,
@@ -1382,7 +1662,14 @@
         "price": {
           "gems": 400
         },
-        "trail": "shadow"
+        "trail": "shadow",
+        "silhouette": "Forbidden rune engine",
+        "description": "Bat-wing armor, violet runes and a hooded cradle reshape the whole machine.",
+        "features": [
+          "Bat-wing silhouette",
+          "Animated rune plates",
+          "Hooded shadow cradle"
+        ]
       }
     },
     "trails": {
@@ -1455,18 +1742,14 @@
     ],
     "rewards": [
       {
-        "coins": 300,
-        "gems": 5
+        "coins": 600
       },
       {
-        "coins": 600,
-        "gems": 10,
-        "blueprints": 1
+        "coins": 1200
       },
       {
-        "coins": 1000,
-        "gems": 20,
-        "blueprints": 2
+        "coins": 2500,
+        "gems": 3
       }
     ],
     "skin_at_tier": {
@@ -1540,7 +1823,8 @@
       "stat": "wins",
       "goal": 50,
       "reward": {
-        "gems": 30
+        "gems": 3,
+        "coins": 1200
       }
     },
     {
@@ -1560,7 +1844,8 @@
       "stat": "stars",
       "goal": 150,
       "reward": {
-        "gems": 100
+        "gems": 10,
+        "coins": 4000
       }
     },
     {
@@ -1580,8 +1865,9 @@
       "stat": "chain_best",
       "goal": 20,
       "reward": {
-        "gems": 20,
-        "skin": "sky"
+        "gems": 2,
+        "skin": "sky",
+        "coins": 800
       }
     },
     {
@@ -1601,7 +1887,8 @@
       "stat": "blocks",
       "goal": 3000,
       "reward": {
-        "gems": 40
+        "gems": 4,
+        "coins": 1600
       }
     },
     {
@@ -1641,8 +1928,7 @@
       "stat": "beams",
       "goal": 10,
       "reward": {
-        "coins": 250,
-        "blueprints": 1
+        "coins": 250
       }
     },
     {
@@ -1662,7 +1948,8 @@
       "stat": "cores",
       "goal": 1,
       "reward": {
-        "gems": 15
+        "gems": 2,
+        "coins": 600
       }
     },
     {
@@ -1672,8 +1959,8 @@
       "stat": "bosses",
       "goal": 5,
       "reward": {
-        "gems": 50,
-        "blueprints": 2
+        "gems": 5,
+        "coins": 2000
       }
     },
     {
@@ -1713,7 +2000,8 @@
       "stat": "secrets",
       "goal": 5,
       "reward": {
-        "gems": 60
+        "gems": 6,
+        "coins": 2400
       }
     }
   ],
@@ -1721,104 +2009,102 @@
     "_doc": "7-day login calendar (src/ui/daily_rewards.gd). Missing a day does not reset the streak.",
     "days": [
       {
+        "coins": 200
+      },
+      {
+        "coins": 300
+      },
+      {
+        "coins": 400
+      },
+      {
         "coins": 500
       },
       {
-        "gems": 50
+        "coins": 700
       },
       {
-        "blueprints": 2
+        "coins": 900
       },
       {
-        "coins": 1000
-      },
-      {
-        "coins": 600,
-        "blueprints": 3
-      },
-      {
-        "gems": 100
-      },
-      {
-        "coins": 2000,
-        "gems": 150,
-        "blueprints": 5,
+        "coins": 1500,
+        "gems": 5,
         "chest": true
       }
     ]
   },
   "spin": {
     "_doc": "Spin wheel (src/ui/spin_wheel.gd). First spin each day free, then up to ads_per_day with a rewarded ad. weight = relative odds.",
-    "ads_per_day": 3,
+    "ads_per_day": 5,
     "spin_s": 4.2,
     "turns": 5,
     "slices": [
       {
         "reward": {
-          "coins": 200
+          "coins": 100
         },
-        "weight": 20,
+        "weight": 24,
         "color": "gold"
       },
       {
         "reward": {
-          "gems": 10
+          "coins": 250
         },
-        "weight": 10,
+        "weight": 18,
         "color": "violet"
       },
       {
         "reward": {
-          "coins": 500
+          "coins": 150
         },
-        "weight": 14,
+        "weight": 22,
         "color": "blue"
       },
       {
         "reward": {
-          "blueprints": 1
+          "coins": 400
         },
         "weight": 12,
         "color": "gold"
       },
       {
         "reward": {
-          "coins": 100
+          "coins": 75
         },
-        "weight": 22,
+        "weight": 20,
         "color": "violet"
       },
       {
         "reward": {
-          "gems": 25
+          "coins": 600
         },
-        "weight": 5,
+        "weight": 6,
         "color": "blue"
       },
       {
         "reward": {
           "coins": 1000
         },
-        "weight": 6,
+        "weight": 3,
         "color": "gold"
       },
       {
         "reward": {
-          "blueprints": 3
+          "coins": 200
         },
-        "weight": 5,
+        "weight": 18,
         "color": "violet"
       },
       {
         "reward": {
           "coins": 300
         },
-        "weight": 16,
+        "weight": 14,
         "color": "blue"
       },
       {
         "reward": {
-          "gems": 100
+          "gems": 3
         },
         "weight": 1,
         "color": "gold",
@@ -1827,69 +2113,58 @@
     ]
   },
   "shop": {
-    "_doc": "Shop catalogue. iap = Google Play product id (price comes from Play); gems/coins = in-game price.",
-    "offers": [
-      {
-        "id": "starter_pack",
-        "name": "Starter Pack",
-        "iap": "starter_pack",
-        "sale": "70% OFF",
-        "gives": {
-          "coins": 2000,
-          "gems": 200,
-          "blueprints": 5
-        },
-        "skin": "desert_gold",
-        "price_label": "$1.99"
-      },
-      {
-        "id": "pro_pack",
-        "name": "Pro Pack",
-        "iap": "pro_pack",
-        "gives": {
-          "coins": 6000,
-          "gems": 500,
-          "blueprints": 10
-        },
-        "price_label": "$4.99"
-      },
-      {
-        "id": "castle_pack",
-        "name": "Castle Pack",
-        "iap": "castle_pack",
-        "gives": {
-          "coins": 15000,
-          "gems": 1200,
-          "blueprints": 25
-        },
-        "price_label": "$9.99"
-      }
+    "_doc": "Play Billing catalogue. Product ids must match Play Console exactly. Contents are fixed (no random rewards). price_hint_usd is only for docs and debug builds: the real localized price always comes from Google Play.",
+    "order": [
+      "hellfire_crate",
+      "coin_crate",
+      "gem_crate",
+      "remove_ads"
     ],
-    "gems": [
-      {
-        "id": "gems_small",
-        "gives": {
-          "gems": 80
-        },
-        "price_label": "$0.99"
+    "products": {
+      "remove_ads": {
+        "type": "non_consumable",
+        "name": "Remove Ads",
+        "icon": "icon_noads",
+        "gives": {},
+        "price_hint_usd": 2.99,
+        "desc": "No ads ever again. Ad bonuses (extra Rocky, spins, double coins) are granted instantly.",
+        "perks": [
+          "No interstitial or video ads",
+          "Ad bonuses granted instantly",
+          "Restores on every device"
+        ]
       },
-      {
-        "id": "gems_medium",
+      "coin_crate": {
+        "type": "consumable",
+        "name": "Coin Crate",
+        "icon": "chest_open",
         "gives": {
-          "gems": 500
+          "coins": 30000
         },
-        "extra": "20% EXTRA",
-        "price_label": "$4.99"
+        "price_hint_usd": 1.99,
+        "desc": "30,000 coins for engines and upgrades."
       },
-      {
-        "id": "gems_large",
+      "gem_crate": {
+        "type": "consumable",
+        "name": "Gem Crate",
+        "icon": "gem",
         "gives": {
-          "gems": 1200
+          "gems": 400
         },
-        "extra": "40% EXTRA",
-        "price_label": "$9.99"
+        "price_hint_usd": 4.99,
+        "desc": "400 gems for premium skins and trails."
+      },
+      "hellfire_crate": {
+        "type": "consumable",
+        "name": "Hellfire Crate",
+        "icon": "icon_hellfire",
+        "gives": {
+          "hellfire": 3
+        },
+        "price_hint_usd": 2.99,
+        "desc": "3 Hellfire strikes. Rains fire boulders and destroys every enemy structure. Purchase only."
       }
-    ],
+    },
     "gold": [
       {
         "id": "gold_small",
@@ -1921,48 +2196,19 @@
         "extra": "35% EXTRA"
       }
     ],
-    "resources": [
-      {
-        "id": "bp_small",
-        "gives": {
-          "blueprints": 2
-        },
-        "cost": {
-          "gems": 30
-        }
-      },
-      {
-        "id": "bp_medium",
-        "gives": {
-          "blueprints": 6
-        },
-        "cost": {
-          "gems": 80
-        },
-        "extra": "10% EXTRA"
-      },
-      {
-        "id": "bp_coins",
-        "gives": {
-          "blueprints": 1
-        },
-        "cost": {
-          "coins": 1500
-        }
-      }
+    "verify_url": "",
+    "verify_required": false,
+    "reconnect_s": [
+      2,
+      5,
+      15,
+      30,
+      60
     ],
-    "remove_ads": {
-      "iap": "remove_ads",
-      "price_label": "$2.99",
-      "perks": [
-        "No interstitial ads",
-        "Rewarded ads stay optional",
-        "Supports the developer"
-      ]
-    }
+    "pending_note": "Payment pending. Your reward arrives as soon as Google Play confirms it."
   },
   "settings": {
-    "privacy_url": "https://castlesmashers.github.io/privacy",
+    "privacy_url": "https://sumit-dev06.github.io/Castle-Smashers/privacy/",
     "credits": [
       "Fonts: Lilita One (Juan Montoreano), Fredoka (Milena Brand\u00e3o), SIL OFL 1.1",
       "Engine: Godot Engine, MIT licence, Godot contributors",
@@ -1975,8 +2221,7 @@
       "title": "Welcome, Commander!",
       "body": "The kingdom needs you. Here is a gift to start your siege.",
       "reward": {
-        "coins": 500,
-        "gems": 20
+        "coins": 500
       }
     },
     "hero_card_kind": "stone",
@@ -2057,5 +2302,30 @@
     "gate_rise_px": 0.0,
     "gate_open_s": 0.45,
     "score": 2500
+  },
+  "wizard_workshop": {
+    "name": "Master Orin",
+    "title": "MASTER ORIN\u2019S SIEGE WORKSHOP",
+    "hero_order": [
+      "stone",
+      "fire",
+      "bomb",
+      "cyclone",
+      "quake"
+    ],
+    "intro": "I forge the engines. Heroes master their gifts in battle, not through a shop.",
+    "locked_line": "Complete Level %d and I will reveal this engine.",
+    "available_line": "Level requirement met. Pay the forge cost to make this engine yours.",
+    "owned_line": "Owned. Choose a meaningful upgrade, Commander."
+  },
+  "hellfire": {
+    "_doc": "Paid Hellfire strike (Level._hellfire_strike): one fire boulder per block, then every guard falls and the level is won.",
+    "spread_s": 1.6,
+    "fall_s": 0.45,
+    "settle_s": 1.2,
+    "shake": 14.0,
+    "boulder_scale": 1.1,
+    "from_dx": 260.0,
+    "from_dy": 900.0
   }
 }

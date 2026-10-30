@@ -39,7 +39,7 @@ func _ready() -> void:
 	sign.add_child(sh)
 	UIKit.place(sign, Vector2(0, 0), Vector2(100, 14), Vector2(360, 80))
 	root.add_child(sign)
-	var bar: CurrencyBar = CurrencyBar.new(["coins", "gems", "blueprints"], false)
+	var bar: CurrencyBar = CurrencyBar.new(Save.WALLET, false)
 	UIKit.place(bar, Vector2(1, 0), Vector2(-680, 22), Vector2(660, 56))
 	root.add_child(bar)
 

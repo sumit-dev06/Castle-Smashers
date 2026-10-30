@@ -143,12 +143,14 @@ func _rail_pressed(key: String) -> void:
 	Game.goto_meta(key)
 
 
-## A real catapult (the game's art) for previews, standing with its wheels at `ground` (canvas px).
-func preview_catapult(ground: Vector2, scale_k: float) -> Catapult:
+## A real siege engine (the gameplay rig) for previews, standing with its wheels at `ground`.
+func preview_catapult(ground: Vector2, scale_k: float, weapon_id: String = "", skin_id: String = "") -> Catapult:
 	var holder: Node2D = Node2D.new()
 	holder.position = ground
 	add_child(holder)
 	var c: Catapult = Catapult.new()
+	c.weapon_id = Progression.weapon() if weapon_id.is_empty() else weapon_id
+	c.skin_id = Progression.equipped("skins") if skin_id.is_empty() else skin_id
 	holder.add_child(c)
 	holder.scale = Vector2.ZERO
 	holder.create_tween().tween_property(holder, "scale", Vector2.ONE * scale_k, 0.35).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
@@ -222,7 +224,7 @@ static func reward_row(reward: Dictionary, size: int = 30) -> HBoxContainer:
 	h.alignment = BoxContainer.ALIGNMENT_CENTER
 	h.add_theme_constant_override("separation", 6)
 	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	for k: String in ["coins", "gems", "blueprints"]:
+	for k: String in Save.WALLET:
 		if int(reward.get(k, 0)) > 0:
 			h.add_child(UIKit.tex_rect(UIKit.CURRENCY_ICON[k], size))
 			h.add_child(UIKit.label(CurrencyBar._fmt(int(reward[k])), int(size * 0.8), Color.WHITE, 6))
@@ -234,6 +236,6 @@ static func reward_row(reward: Dictionary, size: int = 30) -> HBoxContainer:
 ## Fly every currency in `reward` from `from` into the bar. The save already holds it (claims
 ## save silently first), so this only animates.
 func pay(reward: Dictionary, from: Vector2) -> void:
-	for k: String in ["coins", "gems", "blueprints"]:
+	for k: String in Save.WALLET:
 		if int(reward.get(k, 0)) > 0:
 			UIFx.fly_reward(from, k, int(reward[k]), bar, false)
