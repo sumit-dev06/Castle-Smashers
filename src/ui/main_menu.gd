@@ -1,11 +1,11 @@
 class_name MainMenu
 extends Node2D
-## Home screen (owner reference docs/reference/home_screen_reference.png, spec in docs/UI_DESIGN.md
-## "Home"). A live valley scene behind: catapult, Vanguard, bobbing heroes and enemy archers. UI on
-## top: profile/rank card, currency bar, mail and settings; left tiles (Campaign, Challenges, Events,
-## Shop); right column (kingdom card, Daily Rewards, Achievements, Spin); the gold PLAY plank; a hero
-## card; the bottom bar (Army, Upgrades, Skins, Trails, Kingdom) and the next-world card. Red dots
-## come from MetaFrame.has_news. The daily-reward screen opens once per day on the first visit.
+## Home screen (spec in docs/UI_DESIGN.md "Home"). A live valley scene behind: catapult, Vanguard,
+## bobbing heroes and enemy archers. Every button opens a different place (no duplicates):
+## top: rank card (→ Achievements), currency bar (+ → matching Shop tab), mail, settings;
+## left: Campaign (world map), Challenges, Shop; right: Daily Rewards, Spin Wheel, Achievements;
+## bottom: hero upgrade card (→ Upgrades), the gold PLAY plank (next level) and Skins.
+## Red dots come from MetaFrame.has_news. The daily-reward screen opens once per day on the first visit.
 
 var _camera: Camera2D
 var _t: float = 0.0
@@ -28,8 +28,7 @@ func _ready() -> void:
 	_right_column()
 	_play_plank()
 	_hero_card()
-	_bottom_bar()
-	_next_world()
+	_skins_tile()
 	Sound.set_music("menu", "menu")
 	Sound.set_surroundings(String(Background.realm_info(_realm()).get("key", "blossom")), true)
 	_daily_popup()
@@ -192,7 +191,7 @@ func _top_bar() -> void:
 	UIFx.slide_in(prof, Vector2(-1, 0))
 	bar = CurrencyBar.new()
 	UIKit.place(bar, Vector2(1, 0), Vector2(-850, 18), Vector2(670, 56))
-	bar.plus_pressed.connect(func(_k: String) -> void: Game.goto_meta("shop"))
+	bar.plus_pressed.connect(func(k: String) -> void: Game.goto_meta("shop", {"tab": ShopScreen.tab_for(k)}))
 	root.add_child(bar)
 	var mail: Button = UIKit.icon_button("icon_mail", "dark", 66)
 	UIKit.place(mail, Vector2(1, 0), Vector2(-166, 12), Vector2(66, 66))
@@ -220,53 +219,17 @@ func _left_tiles() -> void:
 			Game.goto_challenges()
 		else:
 			_toast("Clear Level %d to unlock Challenges" % chal_lv)
-	var ch: Button = _tile("challenges", "Challenges", "icon_challenges", Vector2(14, 246), Vector2(130, 108), Vector2.ZERO, false, open_chal)
-	var ev: Button = _tile("events", "Events", "icon_events", Vector2(14, 362), Vector2(130, 108), Vector2.ZERO, false, open_chal)
-	var sh: Button = _tile("shop", "Shop", "icon_shop", Vector2(14, 478), Vector2(130, 108), Vector2.ZERO, false, func() -> void: Game.goto_meta("shop"))
-	for i: int in 3:
-		UIFx.slide_in([ch, ev, sh][i], Vector2(-1, 0), 0.1 + i * 0.05)
+	var ch: Button = _tile("challenges", "Challenges", "icon_challenges", Vector2(14, 246), Vector2(150, 112), Vector2.ZERO, false, open_chal)
+	var sh: Button = _tile("shop", "Shop", "icon_shop", Vector2(14, 368), Vector2(150, 112), Vector2.ZERO, false, func() -> void: Game.goto_meta("shop"))
+	for i: int in 2:
+		UIFx.slide_in([ch, sh][i], Vector2(-1, 0), 0.1 + i * 0.05)
 
 
 func _right_column() -> void:
-	var k: Button = UIKit.button("", "dark", 20, Vector2(320, 112))
-	for st: String in ["normal", "hover", "pressed"]:
-		k.add_theme_stylebox_override(st, MetaFrame.card_box(Color("#7a1e14"), Color("#2a180c")))
-	UIKit.place(k, Vector2(1, 0), Vector2(-334, 98), Vector2(320, 112))
-	var v: VBoxContainer = VBoxContainer.new()
-	v.set_anchors_preset(Control.PRESET_FULL_RECT)
-	v.offset_left = 14
-	v.offset_right = -14
-	v.offset_top = 8
-	v.offset_bottom = -8
-	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	k.add_child(v)
-	var info: Dictionary = Background.realm_info(_realm())
-	v.add_child(UIKit.label("Kingdom · Realm %d" % _realm(), 22, Color("#ffd23a"), 6))
-	v.add_child(UIKit.label(String(info.get("name", "")), 24, Color.WHITE, 6))
-	var row: HBoxContainer = HBoxContainer.new()
-	row.add_theme_constant_override("separation", 6)
-	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	row.add_child(UIKit.tex_rect("icon_crown", 32))
-	var total: int = Data.level_count() * 3
-	var pb: Control = _bar(float(Save.total_stars()) / float(total), 220, 24, Color("#ffb52a"))
-	var pl: Label = UIKit.label("%d / %d" % [Save.total_stars(), total], 17, Color.WHITE, 4)
-	pl.set_anchors_preset(Control.PRESET_FULL_RECT)
-	pl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	pl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	pb.add_child(pl)
-	row.add_child(pb)
-	row.add_child(UIKit.label("›", 34, Color.WHITE, 6))
-	v.add_child(row)
-	k.pressed.connect(func() -> void:
-		Sound.play("ui_tap")
-		Game.goto_map())
-	UIFx.press_juice(k)
-	root.add_child(k)
-	UIFx.slide_in(k, Vector2(1, 0))
-	var items: Array = [["daily", "Daily Rewards", "icon_daily"], ["achievements", "Achievements", "icon_achievements"], ["spin", "Spin Wheel", "icon_spin"]]
+	var items: Array = [["daily", "Daily Rewards", "icon_daily"], ["spin", "Spin Wheel", "icon_spin"], ["achievements", "Achievements", "icon_achievements"]]
 	for i: int in items.size():
 		var key: String = items[i][0]
-		var t: Button = _tile(key, items[i][1], items[i][2], Vector2(-160, 222 + i * 118), Vector2(146, 108), Vector2(1, 0), false, func() -> void: Game.goto_meta(key))
+		var t: Button = _tile(key, items[i][1], items[i][2], Vector2(-174, 112 + i * 122), Vector2(160, 112), Vector2(1, 0), false, func() -> void: Game.goto_meta(key))
 		UIFx.slide_in(t, Vector2(1, 0), 0.08 + i * 0.05)
 
 
@@ -298,7 +261,7 @@ func _play_plank() -> void:
 	sub.add_theme_stylebox_override("panel", sb)
 	sub.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	sub.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	sub.add_child(UIKit.label("Campaign · Level %d" % lv, 22, Color.WHITE, 4))
+	sub.add_child(UIKit.label("Level %d · %s" % [lv, String(Background.realm_info(_realm()).get("name", ""))], 22, Color.WHITE, 4))
 	v.add_child(sub)
 	b.pivot_offset = Vector2(215, 62)
 	b.pressed.connect(func() -> void:
@@ -332,7 +295,7 @@ func _hero_card() -> void:
 	var kind: String = _featured_hero()
 	var cfg: Dictionary = Data.projectiles[kind]
 	var p: PanelContainer = _card(Color("#3a2414"))
-	UIKit.place(p, Vector2(0, 1), Vector2(14, -118), Vector2(340, 104))
+	UIKit.place(p, Vector2(0, 1), Vector2(14, -118), Vector2(380, 104))
 	var h: HBoxContainer = HBoxContainer.new()
 	h.add_theme_constant_override("separation", 10)
 	p.add_child(h)
@@ -346,14 +309,14 @@ func _hero_card() -> void:
 	var lv: int = Workshop.level_of(kind)
 	v.add_child(UIKit.label("Lv. %d / %d" % [lv, Workshop.max_level()], 18, Color("#ffe27a"), 4))
 	v.add_child(_bar(float(lv) / float(maxi(Workshop.max_level(), 1)), 150, 16, Color("#ffb52a")))
-	var up: Button = UIKit.button("⬆", "green", 34, Vector2(76, 76))
+	var up: Button = UIKit.button("UPGRADE", "green", 20, Vector2(110, 76))
 	up.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	up.pressed.connect(func() -> void:
 		Sound.play("ui_tap")
-		Game.goto_meta("upgrades"))
+		Game.goto_meta("upgrades", {"focus_hero": kind}))
 	var cost: int = Workshop.next_cost(kind)
 	if cost >= 0 and Save.coins() >= cost:
-		up.add_child(MetaFrame._red_dot(Vector2(60, -4)))
+		up.add_child(MetaFrame._red_dot(Vector2(94, -4)))
 		UIFx.breathe(up)
 	UIFx.press_juice(up)
 	h.add_child(up)
@@ -362,65 +325,10 @@ func _hero_card() -> void:
 
 
 # ------------------------------------------------------------------------------------ bottom
-func _bottom_bar() -> void:
-	var items: Array = [
-		["army", "Army", "icon_units", func() -> void: Game.goto_loadout(_next_level())],
-		["upgrades", "Upgrades", "icon_upgrades", func() -> void: Game.goto_meta("upgrades")],
-		["skins", "Skins", "icon_skins", func() -> void: Game.goto_meta("skins")],
-		["trails", "Trails", "icon_trail", func() -> void: Game.goto_meta("skins", {"kind": "trails"})],
-		["kingdom", "Kingdom", "icon_castle", Game.goto_map],
-	]
-	var w: float = 112.0
-	var gap: float = 8.0
-	var x0: float = -(items.size() * w + (items.size() - 1) * gap) / 2.0
-	for i: int in items.size():
-		var t: Button = _tile(items[i][0], items[i][1], items[i][2], Vector2(x0 + i * (w + gap), -112), Vector2(w, 100), Vector2(0.5, 1), false, items[i][3])
-		UIFx.slide_in(t, Vector2(0, 1), 0.1 + i * 0.04)
-
-
-## Next realm card: its painting, name and how to reach it (taps open the map).
-func _next_world() -> void:
-	var cur: int = _realm()
-	var realms: Array = Data.balance["realms"]
-	var nxt: int = mini(cur + 1, realms.size())
-	var b: Button = UIKit.button("", "dark", 20, Vector2(320, 112))
-	for st: String in ["normal", "hover", "pressed"]:
-		b.add_theme_stylebox_override(st, MetaFrame.card_box(Color("#1e3a6a"), Color("#c8a060")))
-	b.clip_contents = true
-	UIKit.place(b, Vector2(1, 1), Vector2(-334, -126), Vector2(320, 112))
-	var bgn: String = Background.bg_name(nxt)
-	if not bgn.is_empty():
-		var pic: TextureRect = TextureRect.new()
-		pic.texture = Art.tex(bgn)
-		pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-		pic.set_anchors_preset(Control.PRESET_FULL_RECT)
-		pic.offset_left = 4
-		pic.offset_top = 4
-		pic.offset_right = -4
-		pic.offset_bottom = -4
-		pic.modulate = Color(0.75, 0.8, 0.95)
-		pic.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		b.add_child(pic)
-	var v: VBoxContainer = VBoxContainer.new()
-	v.position = Vector2(16, 12)
-	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	b.add_child(v)
-	v.add_child(UIKit.label("Next World" if nxt > cur else "Final World", 20, Color("#ffe8c0"), 6))
-	v.add_child(UIKit.label(String(Background.realm_info(nxt).get("name", "")), 30, Color.WHITE, 8))
-	var first: int = 0
-	for id: int in range(1, Data.level_count() + 1):
-		if int(Data.level(id).get("realm", 1)) == nxt:
-			first = id
-			break
-	if nxt > cur and first > 0:
-		v.add_child(UIKit.label("Unlocks at Level %d" % first, 18, Color("#ffd23a"), 5))
-	b.pressed.connect(func() -> void:
-		Sound.play("ui_tap")
-		Game.goto_map())
-	UIFx.press_juice(b)
-	root.add_child(b)
-	UIFx.slide_in(b, Vector2(1, 0), 0.2)
+## Catapult skins and flight trails (trails are a tab inside the Skins screen).
+func _skins_tile() -> void:
+	var t: Button = _tile("skins", "Skins", "icon_skins", Vector2(-174, -126), Vector2(160, 112), Vector2(1, 1), false, func() -> void: Game.goto_meta("skins"))
+	UIFx.slide_in(t, Vector2(1, 0), 0.2)
 
 
 # ------------------------------------------------------------------------------------ popups

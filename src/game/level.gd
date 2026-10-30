@@ -11,7 +11,7 @@ const BREAK_SOUND: Dictionary = {"wood": "wood_break", "stone": "stone_break", "
 
 var level_id: int = 1
 var test_mode: bool = false
-## Story mode: play the level's animated cinematic, then open the loadout screen.
+## Story mode: play the level's animated cinematic, then start the level (plan screen after it).
 var cinematic_mode: bool = false
 var cine: Cinematic
 ## Tests can turn the archers on while keeping the rest of test mode.
@@ -85,6 +85,8 @@ var replay: Replay
 var chain_bonus: int = 0
 var archers_defeated: int = 0
 var _chain_slowmo_t: float = -100.0
+## The plan-the-assault overlay is open: the level waits in INTRO.
+var _planning: bool = false
 
 
 func _ready() -> void:
@@ -93,11 +95,7 @@ func _ready() -> void:
 		heroes = (data.get("heroes", []) as Array).duplicate()
 	else:
 		heroes = LoadoutRules.recommended(data, level_id) if test_mode else LoadoutRules.saved_or_recommended(data, level_id)
-	if not test_mode:
-		_w_speed = Progression.speed_mult()
-		_w_grav = Progression.gravity_scale()
-		_w_mass = Progression.mass_mult()
-		_w_reload = Progression.reload_mult()
+	apply_weapon()
 	mode = ModeRules.make(self)
 	if mode and not mode.heroes_override().is_empty():
 		heroes = mode.heroes_override()
@@ -170,6 +168,8 @@ func _ready() -> void:
 		world.add_child(sh)
 		_waiting_shadows.append(sh)
 		var w: Sprite2D = Projectile.make_sprite(String(heroes[i]))
+		w.z_index = int(Data.b("catapult", "hero_wait_z"))
+		sh.z_index = w.z_index - 1
 		world.add_child(w)
 		_waiting.append(w)
 	_layout_waiting()
@@ -211,10 +211,73 @@ func _ready() -> void:
 	if cinematic_mode:
 		hud.visible = false
 		_play_cinematic(data.get("cinematic", []), false)
-		cine.finished.connect(func() -> void: Game.goto_loadout(level_id))
+		cine.finished.connect(func() -> void:
+			Game.skip_flyover = true
+			Game.goto_level(level_id))
+		return
+	_planning = _wants_plan()
+	var skip: bool = Game.skip_flyover
+	Game.skip_flyover = false
+	if skip:
+		if _planning:
+			get_tree().create_timer(Data.bf("loadout", "plan_delay_s")).timeout.connect(_open_plan)
 		return
 	hud.banner("Level %d" % level_id, String(data.get("name", "")))
 	_play_cinematic(_flyover_beats(), true)
+	if _planning:
+		cine.finished.connect(_open_plan)
+
+
+# ------------------------------------------------------------------------------------ plan the assault
+## Campaign levels let the player choose heroes after seeing the fortress. Challenges, boss rush,
+## modes with fixed heroes and debug autoshots keep their heroes.
+func _wants_plan() -> bool:
+	if test_mode or is_challenge() or not Game.rush.is_empty():
+		return false
+	if mode and not mode.heroes_override().is_empty():
+		return false
+	return not (Game.args.has("autoshot") or Game.args.has("force-win") or Game.args.has("no-plan"))
+
+
+func _open_plan() -> void:
+	if not is_inside_tree() or is_finished():
+		return
+	hud.visible = false
+	var plan: LoadoutScreen = LoadoutScreen.new()
+	plan.level = self
+	plan.level_id = level_id
+	plan.confirmed.connect(func(kinds: Array[String]) -> void:
+		set_heroes(kinds)
+		hud.visible = true
+		_planning = false)
+	add_child(plan)
+
+
+## Siege weapon multipliers (Progression); neutral in test mode. Called again when the plan screen
+## switches weapons.
+func apply_weapon() -> void:
+	if test_mode:
+		return
+	_w_speed = Progression.speed_mult()
+	_w_grav = Progression.gravity_scale()
+	_w_mass = Progression.mass_mult()
+	_w_reload = Progression.reload_mult()
+	if catapult:
+		var tints: Array = Progression.catapult_tints()
+		catapult.apply_tints(tints[0], tints[1])
+
+
+## Replaces the ammo queue before the first shot (plan screen).
+func set_heroes(kinds: Array[String]) -> void:
+	for w: Sprite2D in _waiting:
+		w.queue_free()
+	for sh: Sprite2D in _waiting_shadows:
+		sh.queue_free()
+	_waiting.clear()
+	_waiting_shadows.clear()
+	heroes = []
+	hero_index = 0
+	add_heroes(kinds)
 
 
 # ------------------------------------------------------------------------------------ cinematics
@@ -362,7 +425,7 @@ func _physics_process(delta: float) -> void:
 		_pay_chain(cb)
 	match state:
 		State.INTRO:
-			if _state_t > Data.bf("soldiers", "march_s") + 0.5 and not cinematic_mode and (cine == null or not cine.running):
+			if _state_t > Data.bf("soldiers", "march_s") + 0.5 and not cinematic_mode and not _planning and (cine == null or not cine.running):
 				_enter(State.PLAY)
 				_reload_t = 0.0
 				if boss == null:
@@ -404,7 +467,7 @@ func _tick_reload(delta: float) -> void:
 ## The next waiting hero jumps into the bucket.
 func _hop_next_hero() -> void:
 	var w: Sprite2D = _waiting[hero_index]
-	var target: Vector2 = catapult.bucket_global() - catapult.global_position
+	var target: Vector2 = catapult.bucket_global(String(heroes[hero_index])) - catapult.global_position
 	var hop: float = Data.bf("catapult", "hop_s")
 	w.set_meta("hopping", true)
 	var start: Vector2 = w.position
@@ -647,6 +710,7 @@ func restart() -> void:
 	if mode and mode.kind == "boss_rush":
 		Game.start_rush()
 		return
+	Game.skip_flyover = true
 	Game.goto_level(level_id)
 
 
@@ -697,6 +761,8 @@ func add_heroes(kinds: Array) -> void:
 		world.add_child(sh)
 		_waiting_shadows.append(sh)
 		var w: Sprite2D = Projectile.make_sprite(String(k))
+		w.z_index = int(Data.b("catapult", "hero_wait_z"))
+		sh.z_index = w.z_index - 1
 		world.add_child(w)
 		_waiting.append(w)
 	_layout_waiting()
@@ -709,6 +775,7 @@ func _update_hud() -> void:
 	if hud == null:
 		return
 	hud.set_shots(heroes.size() - hero_index, heroes.size(), String(heroes[mini(hero_index, heroes.size() - 1)]))
+	hud.set_ammo(heroes, hero_index)
 	hud.set_destruction(blocks_total - blocks.size(), blocks_total)
 	# Total = everyone who ever stood in the fortress (boss, engineers and reinforcements included).
 	_guards_total = maxi(_guards_total, archers.size() + archers_defeated)
@@ -761,6 +828,7 @@ func _release(pos: Vector2) -> void:
 	_pressed = false
 	if _aiming:
 		_aiming = false
+		Sound.stretch_stop()
 		if _aim_vel != Vector2.ZERO and state == State.PLAY:
 			fire_hero(_aim_vel)
 		else:
@@ -787,6 +855,7 @@ func _update_aim(pos: Vector2) -> void:
 	if length < Data.bf("catapult", "min_pull_px"):
 		_aim_vel = Vector2.ZERO
 		catapult.set_pull(0.0)
+		Sound.stretch_stop()
 		_hide_dots()
 		return
 	var power: float = clampf(length / Data.bf("catapult", "max_pull_px"), 0.0, 1.0)
@@ -798,9 +867,7 @@ func _update_aim(pos: Vector2) -> void:
 	a = clampf(a, lo, hi)
 	_aim_vel = Vector2.from_angle(a) * power * Data.bf("catapult", "max_speed")
 	catapult.set_pull(power)
-	if absf(power - _last_creak_power) > 0.18:
-		_last_creak_power = power
-		Sound.play("creak", 0.6, 0.85 + power * 0.4)
+	Sound.stretch(power)
 	_show_dots(catapult.launch_point(String(heroes[hero_index])), _aim_vel)
 
 
@@ -1525,3 +1592,4 @@ func play_best_replay() -> bool:
 
 func _exit_tree() -> void:
 	Engine.time_scale = 1.0
+	Sound.stretch_stop()

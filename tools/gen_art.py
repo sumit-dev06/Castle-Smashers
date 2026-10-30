@@ -832,11 +832,28 @@ def catapult():
     b = rect(2, 4, 168, 12, 6, wood, extra='stroke="#3a2212" stroke-width="2.2" stroke-linejoin="round"') + rect(6, 5.5, 160, 3, 1.5, "#ffffff", 0.3)
     for x in (30, 38, 46):
         b += rect(x, 2.5, 4, 15, 2, "#c8a878")
-    b += path("M150 46 Q150 14 174 14 Q198 14 198 46 Z", d.lin([(0, "#e8a860"), (0.4, "#c97f40"), (1, "#8a4f24")], 0, 0, 0, 1), extra='stroke="#3a2212" stroke-width="2.2" stroke-linejoin="round"')
-    b += ellipse(174, 46, 24, 4, "#5a3214") + ellipse(174, 45.5, 19, 2.6, "#2e180a")
-    b += path("M152 30 Q174 34 196 30", stroke="#8a96a3", sw=3, op=0.9)
+    # Bowl: centre x=172, opening (rim) at y=50, bottom at y=10. Big enough that a hero (radius ~20
+    # arm units) sits inside it. The arm sprite carries the bowl's back and dark interior; the
+    # separate catapult_cup sprite (outer wall + near rim) is drawn over the loaded hero.
+    bowl = "M138 50 Q136 12 172 10 Q208 12 206 50 Z"
+    wood_cup = d.lin([(0, "#8a4f24"), (0.55, "#c97f40"), (1, "#f0b468")], 0, 0, 0, 1)
+    b += path(bowl, wood_cup, extra='stroke="#3a2212" stroke-width="2.4" stroke-linejoin="round"')
+    b += ellipse(172, 50, 34, 7, "#5a3214", extra='stroke="#3a2212" stroke-width="2"') + ellipse(172, 49, 29, 4.6, "#2e180a")
     b += circle(14, 10, 7, d.rad([(0, "#e6ebf0"), (1, "#4a5562")], 0.35, 0.3, 0.8))
-    write("catapult_arm", d.svg(200, 50, b))
+    write("catapult_arm", d.svg(210, 60, b))
+
+    d = Doc("mc")
+    wood_cup = d.lin([(0, "#8a4f24"), (0.55, "#c97f40"), (1, "#f0b468")], 0, 0, 0, 1)
+    b = path(bowl, wood_cup, extra='stroke="#3a2212" stroke-width="2.4" stroke-linejoin="round"')
+    # Near half of the rim (screen-lower half when the arm rests with the bowl open upward).
+    b += path("M138 50 A34 7 0 0 0 206 50 L206 47 A34 6 0 0 1 138 47 Z", "#e8a860", extra='stroke="#3a2212" stroke-width="2" stroke-linejoin="round"')
+    for y in (24, 36):
+        b += path(f"M{140 + (50 - y) * 0.05} {y} Q172 {y + 4} {204 - (50 - y) * 0.05} {y}", stroke="#8a96a3", sw=3.2, op=0.95)
+        b += path(f"M{141 + (50 - y) * 0.05} {y - 1} Q172 {y + 3} {203 - (50 - y) * 0.05} {y - 1}", stroke="#ffffff", sw=1, op=0.35)
+    for x in (148, 196):
+        b += circle(x, 30, 2.6, "#e3e8ee", extra='stroke="#2a3038" stroke-width="0.8"')
+    b += path("M146 44 Q144 20 170 16", stroke="#ffffff", sw=2.4, op=0.22)
+    write("catapult_cup", d.svg(210, 60, b))
 
     d = Doc("r")
     b = rect(8, 4.5, 42, 3, 1.5, d.lin([(0, "#e0b07a"), (1, "#8a5226")]))

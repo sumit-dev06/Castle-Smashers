@@ -8,6 +8,8 @@ extends MetaFrame
 
 var weapon_id: String = ""
 var back_to_level: int = 0
+## Hero kind to highlight in the hero strip (set by the home hero card).
+var focus_hero: String = ""
 var _stats: VBoxContainer
 var _hero_strip: HBoxContainer
 var _big: TextureRect
@@ -246,8 +248,10 @@ func _fill_heroes() -> void:
 func _hero_card(kind: String) -> Control:
 	var cfg: Dictionary = Data.projectiles[kind]
 	var p: PanelContainer = PanelContainer.new()
-	p.add_theme_stylebox_override("panel", card_box(Color("#3a2414"), Color("#6a4424")))
+	p.add_theme_stylebox_override("panel", card_box(Color("#3a2414"), Color("#ffd23a") if kind == focus_hero else Color("#6a4424")))
 	p.custom_minimum_size = Vector2(210, 130)
+	if kind == focus_hero:
+		UIFx.breathe(p)
 	var h: HBoxContainer = HBoxContainer.new()
 	p.add_child(h)
 	h.add_child(UIKit.tex_rect(String(cfg["texture"]), 70))

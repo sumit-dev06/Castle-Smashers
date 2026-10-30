@@ -29,7 +29,8 @@
       "core": 0.9,
       "cannon": 0.9,
       "chest": 1.0
-    }
+    },
+    "tagline": "Heavy stone boulder."
   },
   "fire": {
     "name": "Blaze",
@@ -62,7 +63,8 @@
       "core": 0.5,
       "cannon": 0.4,
       "chest": 1.0
-    }
+    },
+    "tagline": "Ignites wooden structures."
   },
   "bomb": {
     "name": "Boomer",
@@ -97,7 +99,8 @@
       "core": 1.4,
       "cannon": 2.0,
       "chest": 1.0
-    }
+    },
+    "tagline": "Explodes on impact."
   },
   "cyclone": {
     "name": "Twister",
@@ -136,7 +139,8 @@
       "core": 0.7,
       "cannon": 0.6,
       "chest": 1.0
-    }
+    },
+    "tagline": "Lifts light pieces and exposes guards."
   },
   "quake": {
     "name": "Rumbler",
@@ -173,7 +177,8 @@
       "core": 1.2,
       "cannon": 1.8,
       "chest": 1.0
-    }
+    },
+    "tagline": "Shakes the whole structure."
   },
   "common": {
     "rest_speed": 18.0,

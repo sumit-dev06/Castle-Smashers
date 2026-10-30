@@ -26,7 +26,7 @@ MASTERING = {
     "soldier_hit": (-10.0, -21.0), "soldier_ko": (-10.0, -21.0),
     "enemy_ko": (-10.0, -21.0), "enemy_laugh": (-12.0, -23.0),
     "arrow_shoot": (-11.0, -24.0), "arrow_hit": (-9.0, -22.0),
-    "creak": (-12.0, -25.0), "fire": (-10.0, -24.0), "wind": (-12.0, -25.0),
+    "fire": (-10.0, -24.0), "wind": (-12.0, -25.0),
     "wood_hit": (-7.0, -20.0), "stone_hit": (-7.0, -20.0),
     "wood_break": (-6.0, -19.0), "stone_break": (-6.0, -19.0),
     "straw_break": (-10.0, -23.0), "launch": (-7.0, -21.0),
@@ -47,7 +47,8 @@ MASTERING = {
     "combo": (-10.0, -22.0), "slowmo": (-8.0, -21.0), "slowmo_out": (-11.0, -24.0), "ui_back": (-14.0, -26.0),
     "tab": (-14.0, -27.0), "popup_open": (-13.0, -25.0), "popup_close": (-14.0, -26.0), "locked": (-12.0, -24.0),
     "deny": (-12.0, -24.0), "count_tick": (-16.0, -29.0), "toast": (-12.0, -24.0), "map_select": (-11.0, -23.0),
-    "play_press": (-9.0, -21.0), "aim_grab": (-13.0, -25.0), "ability": (-11.0, -23.0),
+    "play_press": (-9.0, -21.0), "aim_grab": (-9.0, -21.0), "ability": (-11.0, -23.0),
+    "ratchet": (-8.0, -20.0), "creak": (-9.0, -21.0),
     "screen_whoosh": (-14.0, -26.0), "wallet_land": (-12.0, -24.0),
     "talk_hero": (-12.0, -23.0), "talk_enemy": (-12.0, -23.0), "talk_high": (-12.0, -23.0),
 }
@@ -823,6 +824,35 @@ def aim_grab(i):
     return mix(rope, _knock(240, d, 0.3) * 0.5)
 
 
+def ratchet(i):
+    """One tooth of the catapult's winch ratchet: a short, dry wooden click with a tiny metal pawl."""
+    d = 0.12
+    click = _knock(520 + 60 * i, d, 0.18, i) * 0.9
+    pawl = filt(noise(0.02), "band", (2500, 6500)) * env(0.02, 0.0005, 0.004) * 0.35
+    return mix(click, pawl)
+
+
+def stretch_loop():
+    """Seamless 1.2 s loop: twisted rope fibres under tension (stick-slip crackle) over a low wooden
+    groan. Played continuously while aiming; the game raises its pitch and volume with the pull."""
+    d, loop = 1.6, 1.2
+    t = t_axis(d)
+    D.set_rate(SR, seed=31)
+    groan_f = 72 + 6 * np.sin(2 * np.pi * t / loop * 2)
+    saw = ((np.cumsum(groan_f) / SR) % 1.0) * 2 - 1
+    groan = filt(saw, "band", (180, 1100)) * (0.55 + 0.45 * np.abs(np.sin(2 * np.pi * 9.0 * t)))
+    fibres = filt(D.pink(d), "band", (900, 4200)) * 0.5
+    slips = np.zeros_like(t)
+    for k in range(int(d * 34)):
+        s = int(SR * (k / 34.0 + rng.uniform(0, 0.012)))
+        g = rng.uniform(0.25, 1.0)
+        burst = filt(noise(0.008), "band", (1200, 5200)) * env(0.008, 0.0004, 0.002) * g
+        slips[s:s + len(burst)] += burst[: len(slips) - s]
+    x = mix(groan * 0.55, fibres * 0.35, slips * 0.8)
+    x = filt(filt(x, "high", 90), "low", 7500)
+    return D.loop_crossfade(x, int(SR * loop), 0.35)
+
+
 def ability(i):
     """Hero power trigger: a bright magical swell under the hero's own effect sound."""
     d = 0.6
@@ -898,7 +928,7 @@ SOUNDS = [
     ("combo", 1, combo), ("slowmo", 1, slowmo), ("slowmo_out", 1, slowmo_out), ("ui_back", 1, ui_back),
     ("tab", 1, tab), ("popup_open", 1, popup_open), ("popup_close", 1, popup_close), ("locked", 1, locked),
     ("deny", 1, deny), ("count_tick", 1, count_tick), ("toast", 1, toast), ("map_select", 1, map_select),
-    ("play_press", 1, play_press), ("aim_grab", 2, aim_grab), ("ability", 2, ability),
+    ("play_press", 1, play_press), ("aim_grab", 2, aim_grab), ("ability", 2, ability), ("ratchet", 3, ratchet),
     ("screen_whoosh", 2, screen_whoosh), ("wallet_land", 2, wallet_land),
     ("talk_hero", 4, talk_hero), ("talk_enemy", 4, talk_enemy), ("talk_high", 3, talk_high),
 ]
@@ -908,4 +938,6 @@ if __name__ == "__main__":
     os.makedirs(MUSIC, exist_ok=True)
     for name, n, fn in SOUNDS:
         sfx(name, n, fn)
+    # Looping sounds skip polish() (its room tail would break the loop) and carry a WAV loop point.
+    D.write_wav(os.path.join(SFX, "stretch_loop.wav"), D.master(stretch_loop(), -19.0, -7.0), loop=True, sr=SR)
     print("sfx:", len([f for f in os.listdir(SFX) if f.endswith(".wav")]), "files (music: tools/gen_music.py)")

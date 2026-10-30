@@ -5,8 +5,7 @@ extends CanvasLayer
 ## optional left rail of tabs (selected tab gold). Subclasses fill `body` in _build().
 
 const RAIL_REWARDS: Array = [["spin", "Spin Wheel", "icon_spin"], ["daily", "Daily Rewards", "icon_daily"],
-		["shop", "Shop", "icon_shop"], ["events", "Events", "icon_events"],
-		["challenges", "Challenges", "icon_challenges"], ["achievements", "Achievements", "icon_achievements"]]
+		["shop", "Shop", "icon_shop"], ["challenges", "Challenges", "icon_challenges"], ["achievements", "Achievements", "icon_achievements"]]
 
 var root: Control
 var body: Control
@@ -43,9 +42,11 @@ func _ready() -> void:
 	UIFx.slide_in(sign, Vector2(-1, 0))
 	bar = CurrencyBar.new()
 	UIKit.place(bar, Vector2(1, 0), Vector2(-700, 18), Vector2(684, 56))
-	bar.plus_pressed.connect(func(_k: String) -> void:
-		if not (self is ShopScreen):
-			Game.goto_meta("shop"))
+	bar.plus_pressed.connect(func(k: String) -> void:
+		if self is ShopScreen:
+			_rail_pressed(ShopScreen.tab_for(k))
+		else:
+			Game.goto_meta("shop", {"tab": ShopScreen.tab_for(k)}))
 	root.add_child(bar)
 	body = Control.new()
 	body.set_anchors_preset(Control.PRESET_FULL_RECT)

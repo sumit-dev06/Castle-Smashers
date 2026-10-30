@@ -35,6 +35,8 @@ var _chain_box: PanelContainer
 var _chain_n: Label
 var _chain_mult: Label
 var _chain_shown: int = 0
+var _ammo_row: HBoxContainer
+var _ammo_key: String = ""
 
 
 func _ready() -> void:
@@ -107,6 +109,13 @@ func _ready() -> void:
 		_build_wind()
 	if level and level.boss:
 		_build_boss_bar()
+
+	_ammo_row = HBoxContainer.new()
+	_ammo_row.alignment = BoxContainer.ALIGNMENT_BEGIN
+	_ammo_row.add_theme_constant_override("separation", 8)
+	_ammo_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	UIKit.place(_ammo_row, Vector2(0, 1), Vector2(16, -112), Vector2(560, 96))
+	_root.add_child(_ammo_row)
 
 	_hint = UIKit.label("", 28, Color.WHITE, 9)
 	_hint.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
@@ -201,6 +210,47 @@ func set_mode(icon: String, title: String, value: String, warn: bool = false) ->
 func set_shots(left: int, total: int, kind: String) -> void:
 	_shots.text = "%d / %d" % [left, total]
 	_shot_icon.texture = Art.tex(String(Data.projectiles[kind]["texture"]))
+
+
+## Ammo tray (bottom left): the heroes still to fire, in order. The first one is the hero in the
+## bucket (or the next to hop in), drawn bigger with a gold frame and a NEXT tag.
+func set_ammo(kinds: Array, index: int) -> void:
+	var key: String = "%d:%s" % [index, ",".join(PackedStringArray(kinds.map(func(k: Variant) -> String: return String(k))))]
+	if key == _ammo_key or _ammo_row == null:
+		return
+	var first_build: bool = _ammo_key.is_empty()
+	_ammo_key = key
+	for c: Node in _ammo_row.get_children():
+		c.queue_free()
+	for i: int in range(index, kinds.size()):
+		var kind: String = String(kinds[i])
+		var cfg: Dictionary = Data.projectiles[kind]
+		var now: bool = i == index
+		var side: float = 86.0 if now else 66.0
+		var slot: PanelContainer = PanelContainer.new()
+		var sb: StyleBoxFlat = StyleBoxFlat.new()
+		sb.bg_color = Color(0.1, 0.07, 0.04, 0.72)
+		sb.border_color = Color("#ffd23a") if now else Color("#c8a060")
+		sb.set_border_width_all(4 if now else 2)
+		sb.set_corner_radius_all(int(side / 2))
+		sb.set_content_margin_all(4)
+		slot.add_theme_stylebox_override("panel", sb)
+		slot.custom_minimum_size = Vector2(side, side)
+		slot.size_flags_vertical = Control.SIZE_SHRINK_END
+		slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var ic: TextureRect = UIKit.tex_rect(String(cfg["texture"]), side - 12)
+		slot.add_child(ic)
+		var col: VBoxContainer = VBoxContainer.new()
+		col.add_theme_constant_override("separation", -6)
+		col.alignment = BoxContainer.ALIGNMENT_END
+		col.size_flags_vertical = Control.SIZE_SHRINK_END
+		col.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		if now:
+			col.add_child(UIKit.label("NEXT", 18, Color("#ffd23a"), 6))
+		col.add_child(slot)
+		_ammo_row.add_child(col)
+		if now and not first_build:
+			UIFx.pop_in(col)
 
 
 func set_destruction(destroyed: int, total: int) -> void:

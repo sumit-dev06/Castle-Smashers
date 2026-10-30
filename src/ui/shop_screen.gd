@@ -14,6 +14,11 @@ var _pane: ScrollContainer
 var _pending: Control
 
 
+## Shop tab for a wallet "+" button: coins → Gold, gems → Gems, blueprints → Resources.
+static func tab_for(currency: String) -> String:
+	return {"coins": "gold", "gems": "gems", "blueprints": "resources"}.get(currency, "offers")
+
+
 func _title() -> String:
 	return "Shop"
 

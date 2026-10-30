@@ -6,3 +6,9 @@ export_credentials.cfg
 .DS_Store
 __pycache__/
 assets/art/ai/incoming/
+
+# Production ad ids and per-machine overrides (docs/MONETIZATION.md)
+ad_ids.cfg
+override.cfg
+# Gradle build template (reinstall: godot --headless --path . --install-android-build-template)
+android/

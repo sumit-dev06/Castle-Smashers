@@ -54,6 +54,9 @@ var _last_us: int = 0
 var _filters: Array[AudioEffectLowPassFilter] = []
 var _reverb: AudioEffectReverb
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
+var _stretch: AudioStreamPlayer
+var _stretch_on: bool = false
+var _ratchet_power: float = 0.0
 
 
 func _ready() -> void:
@@ -73,6 +76,10 @@ func _ready() -> void:
 		_decks.append(d)
 		_beds.append(_player("Ambience"))
 	_sting = _player("Music")
+	_stretch = _player("SFX")
+	var loop_path: String = "res://assets/audio/sfx/stretch_loop.wav"
+	if ResourceLoader.exists(loop_path):
+		_stretch.stream = _looped(loop_path)
 	for n: Variant in _cfg("ui_sounds", []):
 		_ui_names[String(n)] = true
 	_last_us = Time.get_ticks_usec()
@@ -81,7 +88,9 @@ func _ready() -> void:
 	Events.projectile_launched.connect(func(_kind: String) -> void:
 		if state == "aim" or state == "destruction":
 			music_state("flight"))
-	Events.big_impact.connect(func(_pos: Vector2, _impulse: float) -> void: _hit("per_impact"))
+	Events.big_impact.connect(func(_pos: Vector2, _impulse: float) -> void:
+		_hit("per_impact")
+		duck(float((_cfg("duck", {}) as Dictionary).get("impact_db", 0.0))))
 	Events.block_destroyed.connect(func(_b: Node2D, _s: int) -> void: _hit("per_block"))
 	Events.archer_defeated.connect(func(_a: Node2D, _s: int) -> void: _hit("per_block"))
 	Events.explosion.connect(func(_pos: Vector2, _r: float) -> void: _boom())
@@ -250,6 +259,32 @@ func _slow_pitch() -> float:
 	if _slow_real_s < float(_cfg("slowmo_pitch_after_s", 0.15)):
 		return 1.0
 	return lerpf(1.0, Engine.time_scale, float(_cfg("slowmo_pitch_follow", 0.45)))
+
+
+## Catapult rope under tension while aiming: a looping creak whose volume and pitch follow the pull,
+## plus a ratchet click every `catapult.ratchet_step` of extra pull. power 0..1.
+func stretch(power: float) -> void:
+	if _stretch.stream == null:
+		return
+	var p: float = clampf(power, 0.0, 1.0)
+	_stretch.volume_db = lerpf(Data.bf("catapult", "stretch_db_min"), Data.bf("catapult", "stretch_db_max"), p)
+	_stretch.pitch_scale = lerpf(Data.bf("catapult", "stretch_pitch_min"), Data.bf("catapult", "stretch_pitch_max"), p)
+	if not _stretch_on:
+		_stretch_on = true
+		_ratchet_power = 0.0
+		_stretch.play()
+	var step: float = Data.bf("catapult", "ratchet_step")
+	if p >= _ratchet_power + step:
+		_ratchet_power = floorf(p / step) * step
+		play("ratchet", 0.6 + 0.4 * p, 0.9 + 0.3 * p)
+	elif p < _ratchet_power - step:
+		_ratchet_power = floorf(p / step) * step
+
+
+func stretch_stop() -> void:
+	_stretch_on = false
+	_ratchet_power = 0.0
+	_stretch.stop()
 
 
 ## Volume for an impact of a given impulse.

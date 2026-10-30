@@ -8,13 +8,14 @@ extends Node
 const LevelScript: GDScript = preload("res://src/game/level.gd")
 const MenuScript: GDScript = preload("res://src/ui/main_menu.gd")
 const MapScript: GDScript = preload("res://src/ui/world_map.gd")
-const LoadoutScript: GDScript = preload("res://src/ui/loadout_screen.gd")
 const WorkshopScript: GDScript = preload("res://src/ui/upgrades_screen.gd")
 const ChallengesScript: GDScript = preload("res://src/ui/challenges_screen.gd")
 
 var args: Dictionary = {}
 ## Boss rush run: {levels, index, pool, soldier_hp, time}. Empty = no rush.
 var rush: Dictionary = {}
+## Next goto_level() skips the fortress flyover (restart, or right after the story scene).
+var skip_flyover: bool = false
 var current: Node
 var _root: Node
 
@@ -76,23 +77,23 @@ func goto_map() -> void:
 	_switch(MapScript.new())
 
 
-## Routes through a cinematic only for authored campaign moments, then opens strategy setup.
+## Routes through a cinematic only for authored campaign moments. The level itself opens the
+## plan-the-assault screen after its fortress flyover.
 func goto_level_entry(id: int) -> void:
 	var safe_id: int = clampi(id, 1, Data.level_count())
 	var c: Variant = Data.level(safe_id).get("cinematic", [])
 	if c is Array and not (c as Array).is_empty():
 		goto_story(safe_id)
 	else:
-		goto_loadout(safe_id)
+		goto_level(safe_id)
 
 
+## Kept for old call sites: the loadout now lives inside the level.
 func goto_loadout(id: int) -> void:
-	var screen: Node = LoadoutScript.new()
-	screen.set("level_id", clampi(id, 1, Data.level_count()))
-	_switch(screen)
+	goto_level(id)
 
 
-## Authored cinematic, then the loadout screen.
+## Authored cinematic, then the level (flyover skipped, plan screen opens).
 func goto_story(id: int) -> void:
 	var lvl: Node = LevelScript.new()
 	lvl.set("level_id", clampi(id, 1, Data.level_count()))
@@ -100,7 +101,7 @@ func goto_story(id: int) -> void:
 	_switch(lvl)
 
 
-## Master Orin's upgrade shop. back_to_level > 0 returns to that level's loadout screen.
+## Master Orin's upgrade shop. back_to_level > 0 returns to that level.
 func goto_workshop(back_to_level: int = 0) -> void:
 	var w: Node = WorkshopScript.new()
 	w.set("back_to_level", back_to_level)
