@@ -1,6 +1,6 @@
 {
  "id": 39,
- "name": "Pendulum Drill",
+ "name": "Wrecking Ball",
  "realm": 4,
  "heroes": [
   "bomb",
@@ -10,156 +10,180 @@
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Fire just after the drill swings past.",
+ "strategy": "Cut the latch rope: the iron ball swings through the keep.",
  "cinematic": [],
  "callouts": [
   {
-   "target": "mech:0",
-   "label": "WRECKING BALL"
-  },
-  {
-   "target": "mech:1",
-   "label": "SPIKES"
+   "target": "910,-459",
+   "label": "CUT THE LATCH!"
   }
  ],
  "boss": false,
  "star_scores": [
-  15000,
-  18000,
-  31000
+  20000,
+  23000,
+  38000
  ],
- "camera_right": 1930,
- "camera_top": -590,
+ "camera_right": 1920,
+ "camera_top": -700,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 885,
-    "x1": 1800,
+    "x0": 730,
+    "x1": 870,
+    "top": 0.0
+   },
+   {
+    "x0": 1160,
+    "x1": 1753,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "post",
-   "x": 948,
-   "y": -60
+   "type": "iron_ball",
+   "x": 980.8,
+   "y": -428.0
   },
   {
-   "type": "post",
-   "x": 1100,
-   "y": -60
+   "type": "stone_block",
+   "x": 1242.0,
+   "y": -32.0
   },
   {
-   "type": "post",
-   "x": 1252,
-   "y": -60
+   "type": "stone_block",
+   "x": 1242.0,
+   "y": -96.0
   },
   {
-   "type": "plank_xl",
-   "x": 1100,
-   "y": -133
+   "type": "stone_block",
+   "x": 1398.0,
+   "y": -32.0
   },
   {
-   "type": "post",
-   "x": 948,
-   "y": -206
-  },
-  {
-   "type": "post",
-   "x": 1100,
-   "y": -206
-  },
-  {
-   "type": "post",
-   "x": 1252,
-   "y": -206
-  },
-  {
-   "type": "plank_xl",
-   "x": 1100,
-   "y": -279,
-   "banner": true
-  },
-  {
-   "type": "roof_tile",
-   "x": 1100,
-   "y": -342,
-   "flag": true
-  },
-  {
-   "type": "crystal_pillar",
-   "x": 1390,
-   "y": -70.0
-  },
-  {
-   "type": "crystal_pillar",
-   "x": 1530,
-   "y": -70.0
-  },
-  {
-   "type": "stone_slab",
-   "x": 1460,
-   "y": -160.0
-  },
-  {
-   "type": "post",
-   "x": 1380,
-   "y": -240.0
-  },
-  {
-   "type": "post",
-   "x": 1540,
-   "y": -240.0
+   "type": "stone_block",
+   "x": 1398.0,
+   "y": -96.0
   },
   {
    "type": "plank_long",
-   "x": 1460,
-   "y": -313.0
+   "x": 1320.0,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 1240.0,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1400.0,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1320.0,
+   "y": -287.0
   },
   {
    "type": "roof_tile",
-   "x": 1460,
-   "y": -376.0,
+   "x": 1320.0,
+   "y": -350.0,
+   "flag": true
+  },
+  {
+   "type": "post",
+   "x": 1530.0,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1690.0,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1610.0,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 1530.0,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1690.0,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1610.0,
+   "y": -279.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1610.0,
+   "y": -342.0,
    "flag": true
   }
  ],
  "archers": [
   {
-   "x": 1050,
+   "x": 1320.0,
+   "y": -183.5
+  },
+  {
+   "x": 1320.0,
    "y": -29.5
   },
   {
-   "x": 1150,
+   "x": 1610.0,
    "y": -175.5
   },
   {
-   "x": 1460,
-   "y": -209.5
+   "x": 1610.0,
+   "y": -29.5
   }
  ],
  "bolts": [],
- "mechanisms": [
+ "mechanisms": [],
+ "captives": [],
+ "tethers": [
   {
-   "type": "swing",
-   "x": 760,
-   "y": -540,
-   "length": 250,
-   "diameter": 80,
-   "arc_deg": 30,
-   "period_s": 3.0
+   "kind": "rope",
+   "a": 0,
+   "x": 1320.0,
+   "y": -640,
+   "attach": [
+    980.8,
+    -428.0
+   ],
+   "cuttable": false,
+   "frame": {
+    "posts": [
+     800.0
+    ],
+    "top": -654,
+    "bottom": 0.0,
+    "beam": [
+     780.0,
+     1350.0
+    ]
+   }
   },
   {
-   "type": "spikes",
-   "x": 1660,
-   "y": -22,
-   "size": [
-    180,
-    44
+   "kind": "rope",
+   "a": 0,
+   "x": 840.0,
+   "y": -470,
+   "attach": [
+    980.8,
+    -428.0
    ]
   }
- ],
- "captives": []
+ ]
 }

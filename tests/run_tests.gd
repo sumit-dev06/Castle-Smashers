@@ -41,6 +41,9 @@ func _make(id: int) -> Level:
 
 
 func _run() -> void:
+	if str(Game.args.get("run-tests", "")) == "contraptions":  # --run-tests=contraptions: quick set-piece check
+		await _contraption_tests()
+		return
 	print("-- data")
 	for id: int in range(1, Data.level_count() + 1):
 		var d: Dictionary = Data.level(id)
@@ -59,6 +62,13 @@ func _run() -> void:
 					"rope_load", "hanging_platform", "crusher", "geyser", "lever", "windmill", "shield_ring", "rune_switch", "trapdoor"], "level %d has a known mechanism type" % id)
 		for bolt_data: Dictionary in d.get("bolts", []):
 			_check(int(bolt_data["a"]) < d["blocks"].size() and int(bolt_data["b"]) < d["blocks"].size(), "level %d bolt indices are valid" % id)
+		for td: Dictionary in d.get("tethers", []):
+			_check(String(td.get("kind", "")) in ["pin", "rope", "spring"], "level %d has a known tether kind" % id)
+			_check(int(td["a"]) >= 0 and int(td["a"]) < d["blocks"].size() and int(td.get("b", -1)) < d["blocks"].size(),
+					"level %d tether indices are valid" % id)
+		for rd: Dictionary in d.get("ramps", []):
+			_check(Data.balance["ramps"].has(String(rd.get("kind", ""))) and (rd.get("points", []) as Array).size() >= 3,
+					"level %d ramp has a known kind and a polygon" % id)
 		var beats: Variant = d.get("cinematic", [])
 		_check(beats is Array, "level %d cinematic is a beat list" % id)
 		for beat: Dictionary in (beats as Array):
@@ -179,6 +189,7 @@ func _run() -> void:
 
 	await _phase_c_tests()
 	await _phase_d_tests()
+	await _contraption_tests()
 
 	print("-- real time")
 	var lr: Level = _make(1)
@@ -214,6 +225,155 @@ func _run() -> void:
 	l2._finish(true)
 	_check(l2.state == Level.State.WON and l2.stars == 3, "win above the 3-star score = 3 stars (score %d, stars %d)" % [l2.score, l2.stars])
 	l2.queue_free()
+	await _wait(0.1)
+
+
+func _block_of(l: Level, shape: String) -> Block:
+	for b: Block in l.blocks:
+		if is_instance_valid(b) and b.shape_id == shape:
+			return b
+	return null
+
+
+func _tether_of(l: Level, pred: Callable) -> Tether:
+	for t: Tether in l.tethers:
+		if pred.call(t):
+			return t
+	return null
+
+
+## Each set-piece does its trick when triggered the way the level hint says.
+func _contraption_tests() -> void:
+	print("-- contraptions")
+	# Seesaw: knock out one support stone and the plank tips.
+	var l: Level = _make(7)
+	await _wait(0.1)
+	var plank: Block = _block_of(l, "plank_xl")
+	var support: Block = null
+	for b: Block in l.blocks:
+		if b.shape_id == "stone_block" and b.global_position.x > plank.global_position.x + 60.0 and absf(b.global_position.x - plank.global_position.x) < 200.0:
+			support = b
+	_check(plank != null and support != null, "level 7 has a seesaw plank and support")
+	if plank and support:
+		support.destroy(false)
+		await _wait(2.0)
+		_check(absf(rad_to_deg(plank.rotation)) > 8.0, "seesaw tips when a support is removed (%.1f deg)" % rad_to_deg(plank.rotation))
+	l.queue_free()
+	await _wait(0.1)
+
+	# Dominoes: tip the first slab and the last one falls too.
+	l = _make(14)
+	await _wait(0.1)
+	var dom: Array[Block] = []
+	for b: Block in l.blocks:
+		if b.shape_id == "domino":
+			dom.append(b)
+	dom.sort_custom(func(p: Block, q: Block) -> bool: return p.global_position.x < q.global_position.x)
+	_check(dom.size() >= 4, "level 14 has a domino row (%d)" % dom.size())
+	if dom.size() >= 4:
+		dom[0].sleeping = false
+		dom[0].apply_impulse(Vector2(dom[0].mass * 160.0, 0.0), Vector2(0.0, -dom[0].size.y * 0.4))
+		await _wait(4.0)
+		var last: Block = dom[dom.size() - 1]
+		# The last slab tips past its balance point (10 deg) and falls against the keep wall.
+		_check(not is_instance_valid(last) or last.dead or absf(rad_to_deg(last.rotation)) > 11.0,
+				"domino chain reaches the last slab (%.0f deg)" % (rad_to_deg(last.rotation) if is_instance_valid(last) else 90.0))
+	l.queue_free()
+	await _wait(0.1)
+
+	# Rollers: a nudge sends the boulder, wheel and carts down their slopes.
+	for case: Array in [[11, "log"], [15, "boulder"], [35, "wheel"], [32, "cart"], [49, "cart"]]:
+		l = _make(int(case[0]))
+		await _wait(0.1)
+		var r: Block = null  # the front-most one (nearest the fort)
+		for rb: Block in l.blocks:
+			if rb.shape_id == String(case[1]) and (r == null or rb.global_position.x > r.global_position.x):
+				r = rb
+		_check(r != null, "level %d has a %s" % [case[0], case[1]])
+		if r:
+			var x0: float = r.global_position.x
+			r.push(Vector2(r.mass * 260.0, 0.0))
+			await _wait(3.0)
+			var moved: float = (r.global_position.x if is_instance_valid(r) and not r.dead else INF) - x0
+			_check(moved > 250.0, "level %d: the %s rolls down the slope (%.0f px)" % [case[0], case[1], moved])
+		l.queue_free()
+		await _wait(0.1)
+
+	# Ropes: cutting a cage rope drops the cage.
+	l = _make(37)
+	await _wait(0.1)
+	var rope: Tether = _tether_of(l, func(t: Tether) -> bool: return t.kind == "rope")
+	_check(rope != null, "level 37 has a rope tether")
+	if rope:
+		var cage: Block = rope.a
+		var y0: float = cage.global_position.y
+		var score0: int = l.score
+		l.cut_ropes_near(rope.hook_point().lerp(rope.attach_point(), 0.5), 8.0)
+		_check(rope.cut and l.score > score0, "cutting a rope snaps the tether and scores")
+		await _wait(1.0)
+		_check(not is_instance_valid(cage) or cage.dead or cage.global_position.y > y0 + 60.0, "the cut cage falls")
+	l.queue_free()
+	await _wait(0.1)
+
+	# Pendulum: cut the latch and the ball swings into the keep.
+	l = _make(39)
+	await _wait(0.1)
+	var ball: Block = _block_of(l, "iron_ball")
+	var latch: Tether = _tether_of(l, func(t: Tether) -> bool: return t.kind == "rope" and t.a == ball and not t.rope_segment().is_empty() and t.hook_point().x < ball.global_position.x)
+	_check(ball != null and latch != null, "level 39 has a latched wrecking ball")
+	if ball and latch:
+		var bx: float = ball.global_position.x
+		latch.release(true)
+		await _wait(1.5)
+		_check(not is_instance_valid(ball) or ball.global_position.x > bx + 250.0, "wrecking ball swings when the latch is cut")
+	l.queue_free()
+	await _wait(0.1)
+
+	# Spring trap: cut the latch and the platform springs up.
+	l = _make(43)
+	await _wait(0.1)
+	var lock: Tether = _tether_of(l, func(t: Tether) -> bool: return bool(t.cfg.get("lock", false)))
+	_check(lock != null and lock.a.freeze, "level 43 spring platform is locked by its latch")
+	if lock:
+		var pl: Block = lock.a
+		var py: float = pl.global_position.y
+		var px: float = pl.global_position.x
+		lock.release(true)
+		var peak: float = py
+		for k: int in 8:
+			await _wait(0.06)
+			if is_instance_valid(pl):
+				peak = minf(peak, pl.global_position.y)
+		_check(py - peak > 60.0 and (not is_instance_valid(pl) or pl.global_position.x > px + 100.0),
+				"spring launches the platform when the latch is cut (rose %.0f px)" % (py - peak))
+	l.queue_free()
+	await _wait(0.1)
+
+	# Boulder trap: cut the latch and the boulder rolls off the hill.
+	l = _make(17)
+	await _wait(0.1)
+	var trap: Tether = _tether_of(l, func(t: Tether) -> bool: return bool(t.cfg.get("lock", false)))
+	_check(trap != null and trap.a.freeze, "level 17 boulder is tied on the slope")
+	if trap:
+		var boulder: Block = trap.a
+		var bx1: float = boulder.global_position.x
+		l.cut_ropes_near(trap.hook_point().lerp(trap.attach_point(), 0.5), 8.0)
+		await _wait(3.0)
+		_check(trap.cut and (not is_instance_valid(boulder) or boulder.global_position.x > bx1 + 250.0), "cut boulder rolls down the hill")
+	l.queue_free()
+	await _wait(0.1)
+
+	# Bell: a hard push swings it, the rope holds.
+	l = _make(23)
+	await _wait(0.1)
+	var bell: Block = _block_of(l, "bell")
+	_check(bell != null, "level 23 has a bell")
+	if bell:
+		var bx0: float = bell.global_position.x
+		bell.push(Vector2(bell.mass * 300.0, 0.0))
+		await _wait(0.4)
+		_check(is_instance_valid(bell) and absf(bell.global_position.x - bx0) > 20.0, "the bell swings when hit")
+	l.queue_free()
 	await _wait(0.1)
 
 

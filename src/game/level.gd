@@ -6,8 +6,8 @@ extends Node2D
 
 enum State { INTRO, PLAY, WON, LOST }
 
-const HIT_SOUND: Dictionary = {"wood": "wood_hit", "stone": "stone_hit", "straw": "wood_hit", "crystal": "ice_hit", "iron": "metal_hit", "ice": "ice_hit"}
-const BREAK_SOUND: Dictionary = {"wood": "wood_break", "stone": "stone_break", "straw": "straw_break", "crystal": "crystal_break", "iron": "metal_hit", "ice": "ice_break"}
+const HIT_SOUND: Dictionary = {"wood": "wood_hit", "stone": "stone_hit", "straw": "wood_hit", "crystal": "ice_hit", "iron": "metal_hit", "ice": "ice_hit", "bell": "bell"}
+const BREAK_SOUND: Dictionary = {"wood": "wood_break", "stone": "stone_break", "straw": "straw_break", "crystal": "crystal_break", "iron": "metal_hit", "ice": "ice_break", "bell": "bell"}
 
 var level_id: int = 1
 var test_mode: bool = false
@@ -64,6 +64,7 @@ var _out_t: float = 0.0
 var _tutorial: Node2D
 var _waiting_shadows: Array[Sprite2D] = []
 var bolts: Array[Bolt] = []
+var tethers: Array[Tether] = []
 var background: Background
 ## Current horizontal wind acceleration on heroes in flight (px/s², + = toward the fortress).
 var wind_now: float = 0.0
@@ -125,6 +126,10 @@ func _ready() -> void:
 	world.add_child(catapult)
 	for md: Dictionary in data.get("mechanisms", []):
 		spawn_mechanism(md)
+	for rd: Dictionary in data.get("ramps", []):
+		var ramp: Ramp = Ramp.new()
+		ramp.setup(rd)
+		world.add_child(ramp)
 	for i: int in int(data.get("soldiers", 4)):
 		var s: Soldier = Soldier.new()
 		s.setup(Vector2(Data.bf("soldiers", "start_x") + i * Data.bf("soldiers", "spacing"), 0), not test_mode)
@@ -146,6 +151,14 @@ func _ready() -> void:
 			bolt.setup(self, data_blocks[ia], data_blocks[ib])
 			world.add_child(bolt)
 			bolts.append(bolt)
+	for td: Dictionary in data.get("tethers", []):
+		var ta: int = int(td["a"])
+		var tb: int = int(td.get("b", -1))
+		if ta < data_blocks.size() and tb < data_blocks.size():
+			var tether: Tether = Tether.new()
+			tether.setup(self, td, data_blocks[ta], data_blocks[tb] if tb >= 0 else null)
+			world.add_child(tether)
+			tethers.append(tether)
 	for ad: Dictionary in data.get("archers", []):
 		spawn_archer(Vector2(float(ad["x"]), float(ad["y"])))
 	var bu: Dictionary = data.get("boss_unit", {})
@@ -1345,8 +1358,23 @@ func on_rope_cut(m: CastleMechanism) -> void:
 	_update_hud()
 
 
+## A contraption rope (Tether) was cut: points, SNAP! and a chain link.
+func on_tether_cut(t: Tether) -> void:
+	var pts: int = int(Data.b("tethers", "snap_score"))
+	score += pts
+	var at: Vector2 = t.hook_point().lerp(t.attach_point(), 0.5)
+	fx.float_text(at, "SNAP!", Color("#ffe27a"), 30)
+	_chain_link(at, pts, "rope")
+	_stat("mechanisms")
+	_update_hud()
+
+
 ## Rope segments near a point are cut (heroes passing, fire, explosions).
 func cut_ropes_near(pos: Vector2, radius: float) -> void:
+	for t: Tether in tethers:
+		var seg: Array = t.rope_segment()
+		if not seg.is_empty() and Geometry2D.get_closest_point_to_segment(pos, seg[0], seg[1]).distance_to(pos) < radius:
+			t.release(true)
 	for m: CastleMechanism in mechanisms:
 		if not is_instance_valid(m):
 			continue

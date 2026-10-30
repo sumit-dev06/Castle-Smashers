@@ -737,10 +737,96 @@ def chest_block(d, w, h, stage, rnd):
     return b
 
 
+def log_block(d, w, h, stage, rnd):
+    """Log seen end-on (rolls): bark ring, pale wood face with growth rings. Also the giant wheel."""
+    r = w / 2 - 1.5
+    b = circle(w / 2, h / 2, r, d.rad([(0, "#8a5a30"), (1, "#4a2c14")], 0.4, 0.35, 0.8), extra=ol(2.6))
+    b += circle(w / 2, h / 2, r * 0.82, d.rad([(0, "#f6d8a0"), (0.7, "#e0b070"), (1, "#c08850")], 0.4, 0.35, 0.8))
+    for k in (0.62, 0.44, 0.26):
+        b += circle(w / 2 + rnd.uniform(-1, 1), h / 2 + rnd.uniform(-1, 1), r * k, "none", 0.8, 'stroke="#a8743a" stroke-width="1.6"')
+    b += circle(w / 2, h / 2, r * 0.08, "#8a5a30")
+    b += ellipse(w * 0.36, h * 0.3, w * 0.12, h * 0.06, "#ffffff", 0.3, -25)
+    b += cracks(rnd, w, h, stage, "#5a3214", "#fff0d0")
+    return b
+
+
+def wheel_block(d, w, h, stage, rnd):
+    """Giant wooden wheel: iron tyre, spokes, hub."""
+    cx, cy, r = w / 2, h / 2, w / 2 - 2
+    b = circle(cx, cy, r, d.lin([(0, "#9aa4ae"), (1, "#4a5562")]), extra=ol(3))
+    b += circle(cx, cy, r - 9, d.rad([(0, "#c88a4c"), (1, "#7a4220")], 0.4, 0.35, 0.8), extra=ol(2))
+    b += circle(cx, cy, r - 24, "#3a2212", 0.85)
+    for k in range(8):
+        a = k * math.pi / 4
+        x1, y1 = cx + (r - 12) * math.cos(a), cy + (r - 12) * math.sin(a)
+        b += path(f"M{f(cx)} {f(cy)} L{f(x1)} {f(y1)}", stroke="#3a2212", sw=13) + path(f"M{f(cx)} {f(cy)} L{f(x1)} {f(y1)}", stroke="#d48d48", sw=8)
+    b += circle(cx, cy, r * 0.18, d.rad([(0, "#e6ebf0"), (1, "#4a5562")], 0.35, 0.3, 0.8), extra=ol(2))
+    b += cracks(rnd, w, h, stage, "#3a2212", "#ffe0b0")
+    return b
+
+
+def cart_block(d, w, h, stage, rnd):
+    """Mine cart: iron tub with rivets, heaped ore, two small wheels."""
+    iron = d.lin([(0, "#b8c2cc"), (0.5, "#6a7682"), (1, "#3a434e")], 0, 0, 0, 1)
+    b = ""
+    for x in (w * 0.24, w * 0.76):
+        b += circle(x, h - 11, 10, "#2a3038", extra=ol(2)) + circle(x, h - 11, 4, "#c9d1da")
+    b += poly([(4, h * 0.3), (w - 4, h * 0.3), (w - 14, h - 14), (14, h - 14)], iron, extra=ol(2.6))
+    for x in range(14, int(w) - 10, 18):
+        b += circle(x, h * 0.4, 2.2, "#e3e8ee", extra='stroke="#2a3038" stroke-width="0.7"')
+    for _ in range(9):
+        x = rnd.uniform(w * 0.15, w * 0.85)
+        y = h * 0.3 - rnd.uniform(2, 14)
+        b += circle(x, y, rnd.uniform(6, 10), rnd.choice(["#7a6a5a", "#9a8a78", "#ffd23a", "#6ad0ff"]), extra=ol(1.4))
+    b += path(f"M8 {f(h*0.33)} L{f(w-8)} {f(h*0.33)}", stroke="#ffffff", sw=2.4, op=0.4)
+    b += cracks(rnd, w, h * 0.8, stage, "#14181c", "#c9d1da")
+    return b
+
+
+def bell_block(d, w, h, stage, rnd):
+    """Bronze bell: crown loop, flared lip, clapper."""
+    bronze = d.lin([(0, "#ffe08a"), (0.45, "#d49a2a"), (1, "#7a4a10")], 0, 0, 1, 0.3)
+    b = rect(w / 2 - 12, 1, 24, 16, 8, "none", 1, f'stroke="{OL}" stroke-width="7"') + rect(w / 2 - 12, 1, 24, 16, 8, "none", 1, 'stroke="#c88a2a" stroke-width="4"')
+    b += path(f"M{f(w*0.3)} 14 Q{f(w*0.22)} {f(h*0.55)} 4 {f(h-10)} L{f(w-4)} {f(h-10)} Q{f(w*0.78)} {f(h*0.55)} {f(w*0.7)} 14 Q{f(w/2)} 6 {f(w*0.3)} 14 Z", bronze, extra=ol(2.6))
+    b += rect(2, h - 14, w - 4, 10, 5, d.lin([(0, "#f0c060"), (1, "#8a5a14")]), extra=ol(2))
+    b += circle(w / 2, h - 4, 7, "#5a3a10", extra=ol(1.6))
+    b += path(f"M{f(w*0.36)} 22 Q{f(w*0.3)} {f(h*0.5)} {f(w*0.2)} {f(h*0.8)}", stroke="#ffffff", sw=4, op=0.35)
+    b += cracks(rnd, w, h * 0.85, stage, "#4a2a08", "#fff0b0")
+    return b
+
+
+def cage_block(d, w, h, stage, rnd):
+    """Iron cage packed with rubble: frame, bars, ring on top."""
+    b = rect(2, 6, w - 4, h - 8, 6, "#3a2c22", 0.85, extra=ol(2.6))
+    for _ in range(7):
+        b += circle(rnd.uniform(16, w - 16), rnd.uniform(h * 0.45, h - 16), rnd.uniform(9, 14), rnd.choice(["#8a7a66", "#a69580", "#6a5c4c"]), extra=ol(1.2))
+    for x in range(12, int(w) - 6, 15):
+        b += rect(x - 2.5, 6, 5, h - 8, 2, d.lin([(0, "#c9d1da"), (1, "#4a5562")], 0, 0, 1, 0), extra=ol(1))
+    for y in (6, h - 10):
+        b += rect(2, y, w - 4, 8, 3, d.lin([(0, "#c9d1da"), (1, "#4a5562")]), extra=ol(1.6))
+    b += circle(w / 2, 6, 6, "none", 1, f'stroke="{OL}" stroke-width="5"')
+    b += cracks(rnd, w, h, stage, "#14181c", "#c9d1da")
+    return b
+
+
+def iron_ball_block(d, w, h, stage, rnd):
+    """Wrecking ball: dark iron sphere, rivet band, eye on top."""
+    r = w / 2 - 2
+    b = circle(w / 2, h / 2, r, d.rad([(0, "#a8b2bc"), (0.5, "#4a5562"), (1, "#1e242b")], 0.35, 0.3, 0.8), extra=ol(3))
+    b += path(f"M{f(w/2 - r)} {f(h/2)} Q{f(w/2)} {f(h/2 + r*0.35)} {f(w/2 + r)} {f(h/2)}", stroke="#2a3038", sw=7)
+    for k in range(7):
+        x = w / 2 - r * 0.8 + k * r * 0.27
+        b += circle(x, h / 2 + r * 0.17 - abs(x - w / 2) * 0.12, 2.6, "#c9d1da")
+    b += ellipse(w * 0.36, h * 0.3, w * 0.13, h * 0.07, "#ffffff", 0.45, -30)
+    b += cracks(rnd, w, h, stage, "#0e1216", "#c9d1da")
+    return b
+
+
 BLOCK_DRAW = {"wood": wood_block, "crate": crate_block, "stone": stone_block, "straw": roof_block, "barrel": barrel_block,
               "tile": lambda *a: tile_roof_block(*a), "crystal": crystal_block, "iron": iron_block,
               "boulder": boulder_block, "ice": ice_block, "rune": rune_block, "iron_bent": iron_bent_block,
-              "core": core_block, "cannon": cannon_block, "chest": chest_block}
+              "core": core_block, "cannon": cannon_block, "chest": chest_block, "log": log_block, "wheel": wheel_block,
+              "cart": cart_block, "bell": bell_block, "cage": cage_block, "iron_ball": iron_ball_block}
 SHAPES = {
     "plank_long": ("wood", 220, 26), "plank_short": ("wood", 110, 26), "post": ("wood", 26, 120),
     "post_tall": ("wood", 26, 200), "crate": ("crate", 64, 64), "stone_block": ("stone", 64, 64),
@@ -752,6 +838,8 @@ SHAPES = {
     "rune_crystal": ("rune", 64, 64), "iron_beam_bent": ("iron_bent", 220, 26),
     "power_core": ("core", 72, 72), "cannon_turret": ("cannon", 90, 60),
     "treasure_chest": ("chest", 70, 56),
+    "log": ("log", 84, 84), "wheel": ("wheel", 180, 180), "cart": ("cart", 130, 70), "bell": ("bell", 110, 120),
+    "domino": ("stone", 36, 200), "cage": ("cage", 100, 100), "iron_ball": ("iron_ball", 110, 110),
 }
 
 
@@ -1151,7 +1239,7 @@ def block_outline(mat, w, h):
         return ""
     if mat == "barrel":
         return path(f"M6 4 Q0 {h/2} 6 {h-4} Q{w/2} {h+2} {w-6} {h-4} Q{w} {h/2} {w-6} 4 Q{w/2} -2 6 4 Z", "none", 1, OL, 2.2)
-    if mat in ("boulder", "iron_bent", "cannon", "chest"):
+    if mat in ("boulder", "iron_bent", "cannon", "chest", "log", "wheel", "cart", "bell", "cage", "iron_ball"):
         return ""
     r = 8 if mat == "stone" else (7 if mat == "crate" else min(7, min(w, h) * 0.3))
     return rect(1.1, 1.1, w - 2.2, h - 2.2, r, "none", 1, ol(2.2))

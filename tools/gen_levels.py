@@ -39,6 +39,9 @@ class Fort:
         self.boss = None
         self.tops = []
         self.markers = []
+        self.ramps = []
+        self.tethers = []
+        self.notes = []
         self._shift = 0.0
 
     def mechanism(self, kind, x, y, size=None, trigger="", **settings):
@@ -330,10 +333,142 @@ class Fort:
         for px, py in reinforce:
             self.markers.append({"x": px, "y": py})
 
+
+    # ---- contraptions (src/game/tether.gd, src/game/ramp.gd). Indices refer to f.blocks.
+    def _bi(self):
+        return len(self.blocks) - 1
+
+    def ramp(self, points, kind="rock"):
+        self.ramps.append({"points": [[round(x, 1), round(y, 1)] for x, y in points], "kind": kind})
+
+    def tether(self, kind, a, x, y, b=-1, **kw):
+        d = {"kind": kind, "a": a, "x": round(x, 1), "y": round(y, 1)}
+        if b >= 0:
+            d["b"] = b
+        d.update(kw)
+        self.tethers.append(d)
+
+    def note(self, x, y, label):
+        """Flyover callout at a world point (contraptions have no mechanism to point at)."""
+        self.notes.append({"x": x, "y": y, "label": label})
+
+    def seesaw(self, x, support="stone_block", archers=2, side=1):
+        """plank_xl on a pinned fulcrum. The guards stand on one end, which rests on a support; the
+        other end is free. Knock out (or melt, or smash) the support and the loaded end drops; slam
+        the free end and the guards are flung off."""
+        self.ramp([(x - 46, 0), (x, -64), (x + 46, 0)], "wood")
+        self.b(support, x + side * 133, -SIZE[support][1] / 2)
+        self.b("plank_xl", x, -77)
+        self.tether("pin", self._bi(), x, -77)
+        for dx in ((135, 70) if archers >= 2 else (125,))[:archers]:
+            self.archer(x + side * dx, -90)
+        self.note(x - side * 120, -110, "SEESAW!")
+
+    def dominoes(self, x0, n, gap=112):
+        """A row of tall stone slabs: topple the first and the rest follow."""
+        for i in range(n):
+            self.b("domino", x0 + i * gap, -100)
+        self.note(x0, -220, "DOMINOES!")
+
+    def plateau(self, x0, x1, x2, h, kind="rock"):
+        """Flat-topped hill from x0 to x1 at height h, sloping down to the ground at x2."""
+        self.ramp([(x0, 0), (x0, -h), (x1, -h), (x2, 0)], kind)
+
+    def roller(self, shape, x, h, label):
+        """A round piece (log, wheel, boulder) resting on a plateau top at height h."""
+        self.b(shape, x, -h - SIZE[shape][1] / 2)
+        if label:
+            self.note(x, -h - SIZE[shape][1] - 20, label)
+
+    def boulder_trap(self, x0, x1, x2, h, at=0.3, shape="boulder"):
+        """Hill (plateau x0..x1 at height h, slope to x2) with a boulder tied on the slope by a latch
+        rope pegged to the hilltop. Cut the rope and it rolls down into the fort."""
+        import math
+        self.plateau(x0, x1, x2, h, "rock")
+        r = SIZE[shape][0] / 2
+        sx = x1 + (x2 - x1) * at
+        sy = -h * (x2 - sx) / (x2 - x1)
+        th = math.atan2(h, x2 - x1)
+        cx, cy = sx + math.sin(th) * r, sy - math.cos(th) * r
+        self.b(shape, round(cx, 1), round(cy, 1))
+        self.tether("rope", self._bi(), x1 - 20, -h - 6, attach=[round(cx, 1), round(cy, 1)], lock=True)
+        self.note(cx, cy - r - 30, "CUT THE ROPE!")
+
+    def bell(self, x, hook_y, rope=110, frame_ground=0.0):
+        """Bronze bell hanging from a gantry. A hit swings it into whatever stands beside it."""
+        w, h = SIZE["bell"]
+        cy = hook_y + rope + h / 2
+        self.b("bell", x, cy)
+        self.tether("rope", self._bi(), x, hook_y, attach=[x, round(cy - h / 2 + 4, 1)], cuttable=False,
+                    frame={"posts": [x - 90, x + 90], "top": hook_y - 14, "bottom": frame_ground, "beam": [x - 110, x + 110]})
+        self.extra_spans.append((x - 100, x + 100))
+        self.note(x, cy, "RING THE BELL!")
+
+    def cage(self, x, hook_y, rope=120, frame_x=None, frame_ground=0.0):
+        """Rubble-filled iron cage on a rope: hit it to swing it, cut the rope to drop it."""
+        h = SIZE["cage"][1]
+        cy = hook_y + rope + h / 2
+        self.b("cage", x, cy)
+        fx = x if frame_x is None else frame_x
+        self.tether("rope", self._bi(), x, hook_y, attach=[x, round(cy - h / 2 + 4, 1)],
+                    frame={"posts": [fx], "top": hook_y - 14, "bottom": frame_ground, "beam": [min(x, fx) - 20, max(x, fx) + 20]})
+        self.extra_spans.append((fx - 20, fx + 20))
+        self.note(x, cy, "CUT OR SWING!")
+
+    def pendulum(self, hook_x, hook_y, length, angle_deg, latch_x, latch_y):
+        """Iron wrecking ball held out to the side by a latch rope. Cut the latch and it swings down."""
+        import math
+        a = math.radians(angle_deg)
+        bx = hook_x - math.sin(a) * length
+        by = hook_y + math.cos(a) * length
+        self.b("iron_ball", bx, by)
+        i = self._bi()
+        self.tether("rope", i, hook_x, hook_y, attach=[round(bx, 1), round(by, 1)], cuttable=False,
+                    frame={"posts": [latch_x - 40], "top": hook_y - 14, "bottom": 0.0, "beam": [latch_x - 60, hook_x + 30]})
+        self.tether("rope", i, latch_x, latch_y, attach=[round(bx, 1), round(by, 1)])
+        self.extra_spans.append((latch_x - 60, latch_x - 20))
+        self.note((bx + latch_x) / 2, (by + latch_y) / 2 - 10, "CUT THE LATCH!")
+
+    def crane(self, x, load_tower_floors=("wood",), archers=(0, 1)):
+        """Crane arm pinned on a mast. Its long end rests on a support tower under two counterweight
+        stones; its short end holds a boulder over a guard tower. Knock the counterweights off and the
+        arm tips, or cut the rope."""
+        sup = self.tower(x - 180, ["tall", "tall"], archers=[1], roof=False, flag=False)
+        arm_y = sup - 13
+        self.b("plank_xl", x - 35, arm_y)
+        arm = self._bi()
+        self.tether("pin", arm, x, arm_y, frame={"posts": [x], "top": arm_y + 14, "bottom": 0.0})
+        self.extra_spans.append((x - 14, x + 14))
+        self.b("stone_block", x - 180, arm_y - 13 - 32)
+        self.b("stone_block", x - 180, arm_y - 13 - 96)
+        lx = x + 105
+        rope = 150
+        by = arm_y + rope
+        self.b("boulder", lx, by)
+        self.tether("rope", self._bi(), lx, arm_y, b=arm, attach=[lx, by - 40])
+        self.tower(lx + 15, list(load_tower_floors), archers=list(archers), roof=False)
+        self.note(x - 180, arm_y - 130, "COUNTERWEIGHT")
+
+    def spring_trap(self, x, h=150, lean=0.0, speed=1350.0):
+        """Guards stand on a platform held down on a coiled spring by a latch rope. Cut the latch."""
+        py = -h
+        self.b("plank_long", x, py)
+        i = self._bi()
+        self.tether("spring", i, x + lean, 0.0, attach=[x, py + 13], rest=h + 260, stiffness=60.0, damping=0.4)
+        import math
+        n = math.hypot(-lean, py) or 1.0
+        kick = [round(-lean / n * speed, 1), round(py / n * speed, 1)]
+        self.tether("rope", i, x, py + 13 + 60, attach=[x, py + 13], lock=True, kick=kick)
+        self.extra_spans.append((x - 120, x + 120))
+        self.archer(x - 60, py - 13)
+        self.archer(x + 60, py - 13)
+        self.note(x, py + 60, "CUT THE LATCH!")
+
     def right_edge(self):
         xs = [b["x"] + SIZE[b["type"]][0] / 2 for b in self.blocks] + [a["x"] + ARCHER_W / 2 for a in self.archers]
         xs += [m["x"] + m.get("arm_len", m.get("radius", 0)) for m in self.mechanisms if m["type"] in ("windmill", "shield_ring")]
         xs += [m["x"] + m["size"][0] / 2 + abs(m.get("travel_x", 0)) for m in self.mechanisms if "size" in m]
+        xs += [p[0] for r in self.ramps for p in r["points"]]
         return max(xs)
 
     def top_edge(self):
@@ -351,6 +486,8 @@ class Fort:
                 ys.append(m["y"] - m["radius"] - 20)
             if m["type"] == "crusher":
                 ys.append(m["y"] - m["size"][1] / 2 - 80)
+        ys += [p[1] for r in self.ramps for p in r["points"]]
+        ys += [t["frame"]["top"] - 30 for t in self.tethers if "frame" in t]
         return min(ys)
 
 
@@ -409,6 +546,10 @@ def grounded_spans(f):
             spans.append((m["x"] - reach, m["x"] + reach, _top(m)))
     for a, b, top in f.extra_spans:
         spans.append((a, b, top))
+    for r in f.ramps:
+        xs = [p[0] for p in r["points"]]
+        if any(abs(p[1]) < 1 for p in r["points"]):
+            spans.append((min(xs), max(xs), 0.0))
     return sorted(spans)
 
 
@@ -439,6 +580,7 @@ def make_stage(f, lid):
         if "approach" in m:
             m["approach"]["dock_x"] = LEDGE_RIGHT + 30
     if shift:
+        shift_extras(f, shift)
         for collection in (f.blocks, f.archers, f.mechanisms, f.captives, f.markers):
             for item in collection:
                 item["x"] = round(item["x"] + shift, 1)
@@ -459,6 +601,19 @@ def make_stage(f, lid):
     on_base = lambda x: any(bs["x0"] <= x <= bs["x1"] for bs in bases)
     f.mechanisms = [m for m in f.mechanisms if not (m["type"] == "lava" and not on_base(m["x"]))]
     return {"ledge_right": LEDGE_RIGHT, "bases": bases}
+
+
+def shift_extras(f, dx):
+    """Moves ramps, tethers and notes (they are not in the generic x-shift loops)."""
+    for r in f.ramps:
+        r["points"] = [[round(x + dx, 1), y] for x, y in r["points"]]
+    for t in f.tethers:
+        t["x"] = round(t["x"] + dx, 1)
+        if "attach" in t:
+            t["attach"] = [round(t["attach"][0] + dx, 1), t["attach"][1]]
+        _shift_frame(t, dx)
+    for n in f.notes:
+        n["x"] = round(n["x"] + dx, 1)
 
 
 def _shift_frame(item, dx):
@@ -563,6 +718,7 @@ def build(lid, entry=None):
             item["x"] = round(item["x"] - 400, 1)
             _shift_frame(item, -400)
     f.extra_spans = [(a - 400, b - 400, t) for a, b, t in f.extra_spans]
+    shift_extras(f, -400)
     stage = make_stage(f, lid)
     if not challenge and lid in [int(v) for v in BAL["secrets"]["scroll_in"].values()]:
         crate = next((b for b in f.blocks if b["type"] == "crate"), None) or next(b for b in f.blocks if b["type"] in ("stone_block", "plank_short", "plank_long"))
@@ -600,6 +756,12 @@ def build(lid, entry=None):
         "blocks": f.blocks, "archers": f.archers, "bolts": f.bolts,
         "mechanisms": f.mechanisms, "captives": f.captives,
     }
+    if f.ramps:
+        d["ramps"] = f.ramps
+    if f.tethers:
+        d["tethers"] = f.tethers
+    if f.notes and not beats:
+        d["callouts"] = ([{"target": "%d,%d" % (n["x"], n["y"]), "label": n["label"]} for n in f.notes] + d["callouts"])[:3]
     if boss_unit:
         d["boss_unit"] = boss_unit
     if engineers:

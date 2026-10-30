@@ -1,6 +1,6 @@
 {
  "id": 14,
- "name": "Spike Pyramid",
+ "name": "Domino Ruins",
  "realm": 2,
  "heroes": [
   "cyclone",
@@ -10,165 +10,141 @@
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Shoot between the windmill sails, then knock the guards onto their spikes.",
+ "strategy": "Topple the first slab: the row falls into the keep.",
  "cinematic": [],
  "callouts": [
   {
-   "target": "mech:0",
-   "label": "JAM THE HUB!"
-  },
-  {
-   "target": "mech:1",
-   "label": "SPIKES"
+   "target": "900,-220",
+   "label": "DOMINOES!"
   }
  ],
  "boss": false,
  "star_scores": [
   15000,
   19000,
-  34000
+  35000
  ],
- "camera_right": 1880,
- "camera_top": -590,
+ "camera_right": 2080,
+ "camera_top": -450,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 872,
-    "x1": 1750,
+    "x0": 832,
+    "x1": 1946,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "stone_block",
-   "x": 954.0,
-   "y": -32
+   "type": "domino",
+   "x": 900,
+   "y": -100
   },
   {
-   "type": "stone_block",
-   "x": 1018.0,
-   "y": -32
+   "type": "domino",
+   "x": 1012,
+   "y": -100
   },
   {
-   "type": "stone_block",
-   "x": 1082.0,
-   "y": -32
+   "type": "domino",
+   "x": 1124,
+   "y": -100
   },
   {
-   "type": "stone_block",
-   "x": 1146.0,
-   "y": -32
+   "type": "domino",
+   "x": 1236,
+   "y": -100
   },
   {
-   "type": "stone_block",
-   "x": 986.0,
-   "y": -96
-  },
-  {
-   "type": "stone_block",
-   "x": 1050.0,
-   "y": -96
-  },
-  {
-   "type": "stone_block",
-   "x": 1114.0,
-   "y": -96
-  },
-  {
-   "type": "stone_block",
-   "x": 1018.0,
-   "y": -160
-  },
-  {
-   "type": "stone_block",
-   "x": 1082.0,
-   "y": -160
-  },
-  {
-   "type": "stone_block",
-   "x": 1050.0,
-   "y": -224
+   "type": "domino",
+   "x": 1348,
+   "y": -100
   },
   {
    "type": "stone_pillar",
-   "x": 1330,
+   "x": 1430,
    "y": -70.0
   },
   {
    "type": "stone_pillar",
-   "x": 1470,
+   "x": 1570,
    "y": -70.0
   },
   {
    "type": "stone_slab",
-   "x": 1400,
+   "x": 1500,
    "y": -160.0
   },
   {
    "type": "post",
-   "x": 1320,
+   "x": 1420,
    "y": -240.0
   },
   {
    "type": "post",
-   "x": 1480,
+   "x": 1580,
    "y": -240.0
   },
   {
    "type": "plank_long",
-   "x": 1400,
+   "x": 1500,
    "y": -313.0
   },
   {
    "type": "roof_tile",
-   "x": 1400,
+   "x": 1500,
    "y": -376.0,
    "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1736.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 1800.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 1864.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 1768.0,
+   "y": -96
+  },
+  {
+   "type": "stone_block",
+   "x": 1832.0,
+   "y": -96
+  },
+  {
+   "type": "stone_block",
+   "x": 1800.0,
+   "y": -160
   }
  ],
  "archers": [
   {
-   "x": 1050,
-   "y": -285.5
-  },
-  {
-   "x": 1400,
+   "x": 1500,
    "y": -209.5
   },
   {
-   "x": 1400,
+   "x": 1500,
    "y": -29.5
+  },
+  {
+   "x": 1800,
+   "y": -221.5
   }
  ],
  "bolts": [],
- "mechanisms": [
-  {
-   "type": "windmill",
-   "x": 1225,
-   "y": -440,
-   "arms": 3,
-   "arm_len": 110,
-   "dps": 40,
-   "frame": {
-    "posts": [
-     1225
-    ],
-    "top": -440,
-    "bottom": 0
-   }
-  },
-  {
-   "type": "spikes",
-   "x": 1610,
-   "y": -22,
-   "size": [
-    180,
-    44
-   ]
-  }
- ],
+ "mechanisms": [],
  "captives": []
 }

@@ -1,6 +1,6 @@
 {
  "id": 7,
- "name": "Hillside Terraces",
+ "name": "Seesaw Watch",
  "realm": 1,
  "heroes": [
   "bomb",
@@ -10,166 +10,158 @@
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "The high tower needs a steeper arc. Or cut its rope.",
+ "strategy": "Two guards stand on one end of the seesaw. Knock out the stone under them and they slide off.",
  "cinematic": [],
  "callouts": [
   {
-   "target": "mech:0",
-   "label": "CUT THE ROPE!"
+   "target": "1103,-110",
+   "label": "SEESAW!"
   }
  ],
  "boss": false,
  "star_scores": [
-  20000,
-  23000,
-  37000
+  25000,
+  27000,
+  40000
  ],
- "camera_right": 1720,
- "camera_top": -830,
+ "camera_right": 1880,
+ "camera_top": -410,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 790,
-    "x1": 1110,
+    "x0": 730,
+    "x1": 1016,
     "top": 0.0
    },
    {
-    "x0": 1257,
-    "x1": 1660,
-    "top": -90
+    "x0": 1127,
+    "x1": 1716,
+    "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "stone_block",
-   "x": 872,
-   "y": -32.0,
+   "type": "post",
+   "x": 793.0,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 953.0,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 873.0,
+   "y": -133.0,
    "scroll": true
   },
   {
-   "type": "stone_block",
-   "x": 872,
-   "y": -96.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1028,
-   "y": -32.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1028,
-   "y": -96.0
-  },
-  {
-   "type": "plank_long",
-   "x": 950,
-   "y": -141.0
-  },
-  {
-   "type": "post",
-   "x": 870,
-   "y": -214.0
-  },
-  {
-   "type": "post",
-   "x": 1030,
-   "y": -214.0
-  },
-  {
-   "type": "plank_long",
-   "x": 950,
-   "y": -287.0
-  },
-  {
-   "type": "barrel",
-   "x": 972.0,
-   "y": -29.0
-  },
-  {
    "type": "roof_tile",
-   "x": 950,
-   "y": -350.0,
+   "x": 873.0,
+   "y": -196.0,
    "flag": true
   },
   {
-   "type": "post",
-   "x": 1320,
-   "y": -150.0
+   "type": "stone_block",
+   "x": 1356.0,
+   "y": -32.0
+  },
+  {
+   "type": "plank_xl",
+   "x": 1223.0,
+   "y": -77
   },
   {
    "type": "post",
-   "x": 1480,
-   "y": -150.0
+   "x": 1493.0,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1653.0,
+   "y": -60.0
   },
   {
    "type": "plank_long",
-   "x": 1400,
-   "y": -223.0
+   "x": 1573.0,
+   "y": -133.0
   },
   {
    "type": "post",
-   "x": 1320,
-   "y": -296.0
+   "x": 1493.0,
+   "y": -206.0
   },
   {
    "type": "post",
-   "x": 1480,
-   "y": -296.0
+   "x": 1653.0,
+   "y": -206.0
   },
   {
    "type": "plank_long",
-   "x": 1400,
-   "y": -369.0
+   "x": 1573.0,
+   "y": -279.0
   },
   {
    "type": "roof_tile",
-   "x": 1400,
-   "y": -432.0,
+   "x": 1573.0,
+   "y": -342.0,
    "flag": true
   }
  ],
  "archers": [
   {
-   "x": 950,
-   "y": -183.5
-  },
-  {
-   "x": 927.0,
+   "x": 873.0,
    "y": -29.5
   },
   {
-   "x": 1400,
-   "y": -265.5
+   "x": 1358.0,
+   "y": -119.5
   },
   {
-   "x": 1400,
+   "x": 1293.0,
    "y": -119.5
+  },
+  {
+   "x": 1573.0,
+   "y": -175.5
+  },
+  {
+   "x": 1573.0,
+   "y": -29.5
   }
  ],
  "bolts": [],
- "mechanisms": [
+ "mechanisms": [],
+ "captives": [],
+ "ramps": [
   {
-   "type": "rope_load",
-   "x": 1400,
-   "y": -782.0,
-   "length": 80,
-   "load": "boulder",
-   "frame": {
-    "posts": [
-     1590
+   "points": [
+    [
+     1177.0,
+     0
     ],
-    "top": -706.0,
-    "bottom": -90,
-    "beam": [
-     1388,
-     1602
+    [
+     1223.0,
+     -64
+    ],
+    [
+     1269.0,
+     0
     ]
-   }
+   ],
+   "kind": "wood"
   }
  ],
- "captives": []
+ "tethers": [
+  {
+   "kind": "pin",
+   "a": 5,
+   "x": 1223.0,
+   "y": -77
+  }
+ ]
 }

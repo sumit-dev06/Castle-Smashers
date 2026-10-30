@@ -1,6 +1,6 @@
 {
  "id": 37,
- "name": "Twin Carts",
+ "name": "Hanging Cages",
  "realm": 4,
  "heroes": [
   "cyclone",
@@ -10,172 +10,257 @@
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "The carts meet in the middle. That is your moment.",
+ "strategy": "Hit a cage to swing it into the towers. Cut a rope to drop it.",
  "cinematic": [],
  "callouts": [
   {
-   "target": "mech:0",
-   "label": "MOVING!"
+   "target": "1195,-380",
+   "label": "CUT OR SWING!"
+  },
+  {
+   "target": "1680,-290",
+   "label": "CUT OR SWING!"
   }
  ],
  "boss": false,
  "star_scores": [
-  20000,
-  22000,
-  36000
+  30000,
+  36000,
+  55000
  ],
- "camera_right": 1910,
- "camera_top": -650,
+ "camera_right": 1970,
+ "camera_top": -640,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 730,
-    "x1": 1780,
+    "x0": 840,
+    "x1": 1910,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "post",
-   "x": 925.0,
-   "y": -184.0
+   "type": "stone_block",
+   "x": 922,
+   "y": -32.0
   },
   {
-   "type": "post",
-   "x": 1085.0,
-   "y": -184.0
+   "type": "stone_block",
+   "x": 922,
+   "y": -96.0
   },
   {
-   "type": "plank_long",
-   "x": 1005.0,
-   "y": -257.0
+   "type": "stone_block",
+   "x": 1078,
+   "y": -32.0
   },
   {
-   "type": "post",
-   "x": 925.0,
-   "y": -330.0
-  },
-  {
-   "type": "post",
-   "x": 1085.0,
-   "y": -330.0
+   "type": "stone_block",
+   "x": 1078,
+   "y": -96.0
   },
   {
    "type": "plank_long",
-   "x": 1005.0,
-   "y": -403.0
+   "x": 1000,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 930,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1070,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1000,
+   "y": -314.0
+  },
+  {
+   "type": "post",
+   "x": 920,
+   "y": -394.0
+  },
+  {
+   "type": "post",
+   "x": 1080,
+   "y": -394.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1000,
+   "y": -467.0
   },
   {
    "type": "roof_tile",
-   "x": 1005.0,
-   "y": -466.0,
+   "x": 1000,
+   "y": -530.0,
+   "flag": true
+  },
+  {
+   "type": "cage",
+   "x": 1195,
+   "y": -380.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1312,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1312,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1468,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1468,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1390,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1320,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1460,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1390,
+   "y": -314.0
+  },
+  {
+   "type": "post",
+   "x": 1310,
+   "y": -394.0
+  },
+  {
+   "type": "post",
+   "x": 1470,
+   "y": -394.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1390,
+   "y": -467.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1390,
+   "y": -530.0,
    "flag": true
   },
   {
    "type": "post",
-   "x": 1463.0,
-   "y": -184.0
+   "x": 1600,
+   "y": -60.0
   },
   {
    "type": "post",
-   "x": 1547.0,
-   "y": -184.0
+   "x": 1760,
+   "y": -60.0
   },
   {
-   "type": "plank_short",
-   "x": 1505.0,
-   "y": -257.0
+   "type": "plank_long",
+   "x": 1680,
+   "y": -133.0
   },
   {
-   "type": "post",
-   "x": 1463.0,
-   "y": -330.0
-  },
-  {
-   "type": "post",
-   "x": 1547.0,
-   "y": -330.0
-  },
-  {
-   "type": "plank_short",
-   "x": 1505.0,
-   "y": -403.0
-  },
-  {
-   "type": "post",
-   "x": 1463.0,
-   "y": -476.0
-  },
-  {
-   "type": "post",
-   "x": 1547.0,
-   "y": -476.0
-  },
-  {
-   "type": "plank_short",
-   "x": 1505.0,
-   "y": -549.0
-  },
-  {
-   "type": "roof",
-   "x": 1505.0,
-   "y": -597.0,
-   "flag": true
+   "type": "cage",
+   "x": 1680,
+   "y": -290.0
   }
  ],
  "archers": [
   {
-   "x": 1005.0,
-   "y": -299.5
+   "x": 1000,
+   "y": -183.5
   },
   {
-   "x": 1005.0,
-   "y": -153.5
+   "x": 1000,
+   "y": -363.5
   },
   {
-   "x": 1505.0,
-   "y": -445.5
+   "x": 1390,
+   "y": -183.5
   },
   {
-   "x": 1505.0,
-   "y": -299.5
+   "x": 1390,
+   "y": -363.5
+  },
+  {
+   "x": 1680,
+   "y": -29.5
+  },
+  {
+   "x": 1680,
+   "y": -175.5
   }
  ],
  "bolts": [],
- "mechanisms": [
+ "mechanisms": [],
+ "captives": [],
+ "tethers": [
   {
-   "type": "moving_platform",
-   "x": 1005.0,
-   "y": -99.0,
-   "size": [
-    330,
-    50
+   "kind": "rope",
+   "a": 12,
+   "x": 1195,
+   "y": -580,
+   "attach": [
+    1195,
+    -426.0
    ],
-   "travel_x": 60,
-   "period_s": 7.0,
-   "travel_y": 0,
-   "phase": 0.0,
-   "chassis": "boss_mine_cart",
-   "chassis_h": 80
+   "frame": {
+    "posts": [
+     1195
+    ],
+    "top": -594,
+    "bottom": 0.0,
+    "beam": [
+     1175,
+     1215
+    ]
+   }
   },
   {
-   "type": "moving_platform",
-   "x": 1505.0,
-   "y": -99.0,
-   "size": [
-    330,
-    50
+   "kind": "rope",
+   "a": 28,
+   "x": 1680,
+   "y": -440,
+   "attach": [
+    1680,
+    -336.0
    ],
-   "travel_x": 60,
-   "period_s": 7.0,
-   "phase": 3.14159,
-   "travel_y": 0,
-   "chassis": "boss_mine_cart",
-   "chassis_h": 80
+   "frame": {
+    "posts": [
+     1840
+    ],
+    "top": -454,
+    "bottom": 0.0,
+    "beam": [
+     1660,
+     1860
+    ]
+   }
   }
- ],
- "captives": []
+ ]
 }

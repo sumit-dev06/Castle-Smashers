@@ -14,13 +14,19 @@ Hero unlocks: Rocky 1, Blaze 3, Boomer 6, Twister 12, Rumbler 22.
 
 | Realm (gap) | Levels |
 |---|---|
-| 1 Blossom Valley (water) | 1 Wooden Watchtower, 2 The Hanging Rock, 3 Lantern Pagodas, 4 Petal Bridge, 5 Bolted Balconies, 6 Moonlit Storehouse, 7 Hillside Terraces, 8 Captive Shrine, 9 River Gondola, 10 The Siege Tower **(boss)** |
-| 2 Desert Ruins (water) | 11 Sandstone Ruins, 12 Twin Mesas, 13 Crusher Gate, 14 Spike Pyramid, 15 Ruin Terraces, 16 Powder Caravan, 17 Granite Obelisk, 18 Prisoner Well, 19 Mesa Bridge, 20 Sandstone Citadel **(boss)** |
-| 3 Pirate Harbor (sea) | 21 Dockside Shacks **(tide)**, 22 Smugglers' Pier, 23 Bobbing Raft **(tide)**, 24 Harbor Lighthouse, 25 Water Spout, 26 Two Ships **(tide)**, 27 Harbor Gate, 28 Captive Brig **(tide)**, 29 Storm Watch **(wind)**, 30 The Iron Galleon **(boss, tide)** |
-| 4 Crystal Mines (lava) | 31 Crystal Cavern, 32 Ore Buckets, 33 Rail Cart, 34 Lava Plume, 35 Deep Shaft, 36 Powder Magazine, 37 Twin Carts, 38 Iron Forge, 39 Pendulum Drill, 40 The Foundry **(boss)** |
-| 5 Sky Islands (clouds) | 41 First Island **(wind)**, 42 Island Hop **(wind)**, 43 Sky Raft **(wind)**, 44 High Perch, 45 Windmill Isle **(wind)**, 46 Cloud Bridge, 47 Sky Captive **(wind)**, 48 Twin Airships **(wind)**, 49 Baron's Approach **(wind)**, 50 The Baron's Airship **(boss, wind)** |
+| 1 Blossom Valley (water) | 1 Wooden Watchtower, 2 The Hanging Rock, 3 Lantern Pagodas, 4 Petal Bridge, 5 Bolted Balconies, 6 Moonlit Storehouse, 7 Seesaw Watch, 8 Captive Shrine, 9 River Gondola, 10 The Siege Tower **(boss)** |
+| 2 Desert Ruins (water) | 11 Sandstone Ruins, 12 Twin Mesas, 13 Crusher Gate, 14 Domino Ruins, 15 Boulder Run, 16 Powder Caravan, 17 Boulder Trap, 18 Prisoner Well, 19 Mesa Bridge, 20 Sandstone Citadel **(boss)** |
+| 3 Pirate Harbor (sea) | 21 Dockside Shacks **(tide)**, 22 Smugglers' Pier, 23 Harbor Bell **(tide)**, 24 Harbor Lighthouse, 25 Water Spout, 26 Two Ships **(tide)**, 27 Dockside Crane, 28 Captive Brig **(tide)**, 29 Storm Watch **(wind)**, 30 The Iron Galleon **(boss, tide)** |
+| 4 Crystal Mines (lava) | 31 Crystal Cavern, 32 Mine Cart Run, 33 Rail Cart, 34 Lava Plume, 35 Runaway Wheel, 36 Powder Magazine, 37 Hanging Cages, 38 Iron Forge, 39 Wrecking Ball, 40 The Foundry **(boss)** |
+| 5 Sky Islands (clouds) | 41 First Island **(wind)**, 42 Island Hop **(wind)**, 43 Spring Trap **(wind)**, 44 Ice Slide, 45 Windmill Isle **(wind)**, 46 Sky Seesaws, 47 Sky Captive **(wind)**, 48 Twin Airships **(wind)**, 49 Baron's Contraption **(wind)**, 50 The Baron's Airship **(boss, wind)** |
 
-Phase D materials and mechanisms in the campaign: windmill (14, 45), lever (18), rune switch +
+Physics set-pieces (each level adds a new contraption, built from `ramps` and `tethers`): seesaw (7),
+rolling logs (11), dominoes (14), boulder run (15), boulder trap on a latch (17), hanging bell (23), crane with counterweight (27), mine cart on rails
+(32), runaway wheel (35), hanging cages (37), wrecking ball on a latch (39), spring trap (43), ice
+slide (44), twin seesaws on ice and crates (46), cart → dominoes → keep (49). Contraption tests:
+`--run-tests=contraptions`.
+
+Phase D materials and mechanisms in the campaign: windmill (45), lever (18), rune switch +
 trap door (24), rune crystal (31, 36), ice (41, 47), iron (38, 40), shield ring (20, 40, 50).
 Challenges and secret levels 111-115 use them too.
 

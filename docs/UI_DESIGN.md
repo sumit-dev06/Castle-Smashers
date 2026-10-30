@@ -8,8 +8,8 @@ Colours and sizes live in `data/balance.json` → `ui`.
 
 ## Screen flow
 ```
-Splash → Home ─┬─ PLAY → Kingdom map → (story scene) → Loadout → Level → Results
-               ├─ Challenges → mode card → Loadout → Level → Results
+Splash → Home ─┬─ PLAY → Kingdom map → (story scene) → Level (flyover → Plan the Assault) → Results
+               ├─ Challenges → mode card → Level → Results
                ├─ Workshop (heroes, Vanguard, siege weapons)
                ├─ Armory (skins and trails)
                ├─ Achievements
@@ -43,15 +43,17 @@ enemy castle with red banners across a valley) with wooden UI framed around it.
   and rebuilds; banners wave; birds and clouds drift.
 
 **As built (`src/ui/main_menu.gd`):** live realm backdrop with our catapult, three Vanguard
-soldiers, the four bobbing heroes and two archers. Profile card = soldier portrait, rank name with a
-crown, star bar to the next rank (taps open Achievements). Currency bar (coins, gems, blueprints;
-"+" opens the Shop), mail (one-time welcome gift, balance `home.welcome_mail`) and settings. Left:
-Campaign (gold, opens the map), Challenges, Events (both the Challenges screen; locked until
-L10 with a toast), Shop. Right: kingdom card (realm, total stars / 150), Daily Rewards,
-Achievements, Spin Wheel. Gold PLAY plank "Campaign · Level N" (opens the next level). Hero card:
-the hero cheapest to upgrade, its level bar and a green arrow to Upgrades (red dot when
-affordable). Bottom bar: Army (loadout of the next level), Upgrades, Skins, Trails, Kingdom (map).
-Next World card: the next realm's painting and its first level. Red dots come from
+soldiers, the four bobbing heroes and two archers. Every button opens a different place (duplicates
+were removed: Events, kingdom card, Kingdom tile and Next World all repeated Campaign/Challenges;
+Army opened the old loadout; bottom Upgrades repeated the hero card; Trails is a tab of Skins).
+- Profile card: soldier portrait, rank name with a crown, star bar to the next rank (opens Achievements).
+- Currency bar (coins, gems, blueprints); each "+" opens its own Shop tab (`ShopScreen.tab_for`).
+  Mail (one-time welcome gift, `home.welcome_mail`) and settings.
+- Left: Campaign (gold, opens the map), Challenges (locked until L10 with a toast), Shop.
+- Right: Daily Rewards, Spin Wheel, Achievements.
+- Gold PLAY plank "Level N · Realm" (opens the next level).
+- Hero card: the hero cheapest to upgrade, its level bar and an UPGRADE button that opens Upgrades
+  with that hero focused (red dot when affordable). Skins tile bottom right. Red dots come from
 `MetaFrame.has_news`. The first visit each day with an unclaimed daily reward opens Daily Rewards
 (skip with `--no-popups`). The firing / crumbling castle motion is not built yet.
 
@@ -88,9 +90,12 @@ balance `map` (`chest_x/y`, `secret_x/y`). Realm tabs, level cards and mode badg
 - Tapping a node opens a **level card**: name, mode, best score, stars, the materials and mechanics
   in it (icons), and PLAY.
 
-## Loadout (Wizard's Arsenal)
-Existing screen, plus: a "Fortress" panel with material and mechanism icons, a "Strong here" badge
-on heroes that suit them, and the siege weapon picker (catapult, ballista, trebuchet).
+## Plan the Assault (`src/ui/loadout_screen.gd`)
+Overlay inside the level, opened after the fortress flyover (reference: the owner's "Plan the
+Assault: Sunset Fortress" mock). Hero cards with large art and a plaque (name, tagline, "Power N ·
+Max N", −/count/+ steppers); a Shots / Destruction / Objective panel top right; bottom row: FORTRESS
+material strip, blue CATAPULT button (siege weapon), cream Recommended Loadout and green TO BATTLE!.
+The world stays visible behind a dim (`loadout.dim_alpha`).
 
 ## In-level HUD
 ```
@@ -110,6 +115,8 @@ on heroes that suit them, and the siege weapon picker (catapult, ballista, trebu
 - **Ability button** (bottom right): shows the flying hero's ability icon while one is in the air,
   as a big touch target. Tapping anywhere still works.
 - **Wind sign:** arrow and strength bars (done).
+- **Ammo tray** (bottom left, `Hud.set_ammo`): framed icons of the heroes still to fire, the next one
+  bigger with a NEXT label. Waiting hero sprites also draw in front of the catapult (`catapult.hero_wait_z`).
 - Callout banners: centre top, wooden plank, 1.6 s.
 
 ## Results

@@ -92,11 +92,10 @@ def L6(f):  # NEW: Boomer, powder barrels
     f.tower(1900, ["wood", "wood"], archers=[0, 1], inside=["barrel"])
 
 
-def L7(f):  # REMIX: terrace + rope load over the high tower
-    f.tower(1350, ["block", "wood"], archers=[1, 0], inside=["barrel"])
-    f.terrace(1600, 2100, 90)
-    top = f.tower(1800, ["wood", "wood"], archers=[1, 0])
-    f.rope_load(1800, top - 90 - 100 - 40 - 90 - 80, 80, crane_x=1990, crane_ground=-90)
+def L7(f):  # NEW: seesaw. Two guards balance on a pinned plank; knock a support stone out and they slide off
+    f.tower(1250, ["wood"], archers=[0])
+    f.seesaw(1600)
+    f.tower(1950, ["wood", "wood"], archers=[1, 0])
 
 
 def L8(f):  # NEW: rescue
@@ -133,10 +132,13 @@ def L10(f):  # BOSS: the Siege Warlord on his rolling tower (core = war drum, 1 
 
 
 # =============================================================================== Realm 2: Desert Ruins
-def L11(f):  # NEW: stone ruins and pyramids
-    f.pyramid(1350, 3)
-    f.tower(1650, ["stone", "stone"], archers=[1, 2], roof=False)
-    f.tower(1900, ["stone"], archers=[0, 1], roof=False)
+def L11(f):  # NEW: rolling logs. Two logs wait on a dune above the stone ruins
+    f.plateau(1100, 1280, 1560, 170, "rock")
+    f.roller("log", 1150, 170, "ROLLING LOGS!")
+    f.roller("log", 1236, 170, None)
+    f.pyramid(1700, 3)
+    f.tower(2000, ["stone", "stone"], archers=[1, 2], roof=False)
+    f.tower(2250, ["stone"], archers=[0, 1], roof=False)
 
 
 def L12(f):  # NEW: Twister
@@ -151,20 +153,18 @@ def L13(f):  # NEW: crushing gate (timed)
     f.tower(1700, ["stone", "stone", "wood"], archers=[0, 1, 2], banners=(2,))
 
 
-def L14(f):  # REMIX: pyramid, spikes behind, a windmill turning in front of the keep
-    f.pyramid(1450, 4)
-    f.windmill(1625, -440, arms=3, arm_len=110, dps=40, mast_ground=0)
-    f.tower(1800, ["stone", "wood"], archers=[1, 0])
-    f.mechanism("spikes", 2010, -22, [180, 44])
+def L14(f):  # NEW: dominoes. Five standing slabs lead into the keep
+    f.dominoes(1300, 5)
+    f.tower(1900, ["stone", "wood"], archers=[1, 0])
+    f.pyramid(2200, 3)
 
 
-def L15(f):  # REMIX: terraces + boulder on the highest ruin
-    f.tower(1250, ["stone"], archers=[0, 1], roof=False)
-    f.terrace(1500, 1850, 70)
-    f.tower(1680, ["stone", "wood"], archers=[1])
-    f.terrace(1950, 2300, 140)
-    top = f.tower(2100, ["wood", "wood"], archers=[0, 1])
-    f.rope_load(2100, top - 140 - 100 - 40 - 90 - 80, 80, crane_x=2260, crane_ground=-140)
+def L15(f):  # NEW: boulder run. A boulder rests on a ruin hilltop above a long slope
+    f.plateau(1100, 1300, 1650, 220, "rock")
+    f.roller("boulder", 1250, 220, "ROLL IT!")
+    f.archer(1150, -220)
+    f.tower(1800, ["wood", "wood"], archers=[1, 0])
+    f.tower(2080, ["stone", "wood"], archers=[1])
 
 
 def L16(f):  # NEW: weak point drops a crusher through a tower
@@ -176,11 +176,12 @@ def L16(f):  # NEW: weak point drops a crusher through a tower
     f.tower(1990, ["block", "wood"], archers=[1], inside=["barrel"])
 
 
-def L17(f):  # REMIX: obelisk with bolted balconies
-    f.tower(1650, ["stone", "stone", "stone", "wood"], archers=[1, 2, 3])
+def L17(f):  # NEW: boulder trap. A boulder is tied on the slope above the obelisk
+    f.boulder_trap(1100, 1220, 1560, 260)
+    f.wall(1700, 2, 2)
+    f.tower(1950, ["stone", "stone", "stone", "wood"], archers=[1, 2, 3])
     f.balcony(f.tops[-4], -1)
     f.balcony(f.tops[-4], 1)
-    f.wall(1380, 2, 2)
 
 
 def L18(f):  # REMIX: rescue by drawbridge (a lever out front also lowers it)
@@ -237,10 +238,10 @@ def L22(f):  # NEW: Rumbler
     f.mechanism("spikes", 2050, -22, [180, 44])
 
 
-def L23(f):  # REMIX: raft riding the tide
-    f.tower(1300, ["stone", "wood"], archers=[1])
-    f.deck(1750, 330, lambda: f.tower(1750, ["wood", "wood"], archers=[1, 0]), floating=True,
-           travel_x=0, travel_y=12, period_s=6.0, **HULL)
+def L23(f):  # NEW: harbor bell. A bronze bell hangs between two lookout towers
+    f.tower(1440, ["wood", "wood", "wood"], archers=[1, 2])
+    f.bell(1665, -470, rope=110)
+    f.tower(1890, ["wood", "wood", "wood"], archers=[1, 2])
 
 
 def L24(f):  # REMIX: lighthouse with crow's-nest balconies
@@ -273,16 +274,9 @@ def L26(f):  # REMIX: two ships on the swell
     f.tower(2150, ["narrow"], archers=[0])
 
 
-def L27(f):  # REMIX: harbor gate + boulder over the hall
-    f.tower(1350, ["stone", "stone"], archers=[1], roof=False)
-    f.floor("hall", 1650, 0, banner=True)
-    f.archer(1650, -146)
-    f.archer(1574, 0)
-    f.b("stone_block", 1200, -32)
-    f.weak_last("harbor_gate")
-    f.mechanism("gate", 1100, -60, [70, 118], "harbor_gate", travel_y=122, duration_s=0.46)
-    f.tower(1950, ["stone", "stone"], archers=[2], roof=False)
-    f.rope_load(1650, -420, 80, crane_x=2150)
+def L27(f):  # NEW: dockside crane. Knock the counterweight off and the arm drops its boulder
+    f.tower(1250, ["stone", "wood"], archers=[1])
+    f.crane(1700)
 
 
 def L28(f):  # REMIX: captive in the brig
@@ -325,11 +319,13 @@ def L31(f):  # NEW: crystal shatters into its neighbours
     f.tower(1750, ["crystal", "crystal"], archers=[1, 2], roof=False)
 
 
-def L32(f):  # REMIX: ore buckets on cranes over two keeps
-    t1 = f.tower(1450, ["block", "stone", "wood"], archers=[1, 2])
-    f.rope_load(1450, t1 - 100 - 40 - 90 - 80, 80, crane_x=1675)
-    t2 = f.tower(1900, ["block", "stone", "wood"], archers=[1, 2])
-    f.rope_load(1900, t2 - 100 - 40 - 90 - 80, 80, crane_x=1675)
+def L32(f):  # NEW: mine cart run. A loaded cart waits at the top of the rails
+    f.plateau(1100, 1380, 1700, 200, "rail")
+    f.b("cart", 1250, -235)
+    f.note(1250, -300, "PUSH THE CART!")
+    f.archer(1140, -200)
+    f.tower(1850, ["crystal", "wood"], archers=[1, 0])
+    f.tower(2120, ["crystal", "crystal"], archers=[1, 2], roof=False)
 
 
 def L33(f):  # REMIX: mine cart on rails
@@ -344,14 +340,11 @@ def L34(f):  # NEW: lava plume between the islands
     f.mechanism("spikes", 1960, -22, [180, 44])
 
 
-def L35(f):  # REMIX: gondola over the lava, lookout ledge, keep
-    def gondola():
-        f.archer(950, 0)
-        f.archer(1090, 0)
-    f.hanging(1020, -360, 200, 110, gondola)
-    f.terrace(1150, 1450, 120)
-    f.tower(1300, ["narrow", "narrow"], archers=[1, 2], roof=False)
-    f.tower(1700, ["block", "block", "wood"], archers=[1, 2])
+def L35(f):  # NEW: runaway wheel. A giant wheel on the mine hill
+    f.plateau(1100, 1350, 1750, 260, "rock")
+    f.roller("wheel", 1240, 260, "RUNAWAY WHEEL!")
+    f.tower(1900, ["block", "wood"], archers=[1, 0])
+    f.tower(2160, ["wood", "wood"], archers=[1])
 
 
 def L36(f):  # REMIX: powder magazine packed with crystal
@@ -362,10 +355,12 @@ def L36(f):  # REMIX: powder magazine packed with crystal
     f.stack(2030, ["barrel", "rune_crystal", "barrel"])
 
 
-def L37(f):  # REMIX: two carts passing each other
-    f.deck(1400, 330, lambda: f.tower(1400, ["wood", "wood"], archers=[1, 0]), travel_x=60, period_s=7.0, **CART)
-    f.deck(1900, 330, lambda: f.tower(1900, ["narrow", "narrow", "narrow"], archers=[2, 1]),
-           travel_x=60, period_s=7.0, phase=3.14159, **CART)
+def L37(f):  # NEW: hanging cages. Swing one into the towers, drop the other on the hut
+    f.tower(1400, ["block", "stone", "wood"], archers=[1, 2])
+    f.cage(1595, -580, rope=150)
+    f.tower(1790, ["block", "stone", "wood"], archers=[1, 2])
+    f.tower(2080, ["wood"], archers=[0, 1], roof=False)
+    f.cage(2080, -440, rope=100, frame_x=2240)
 
 
 def L38(f):  # NEW: iron (only bombs and quakes really hurt it) + rescue
@@ -376,15 +371,10 @@ def L38(f):  # NEW: iron (only bombs and quakes really hurt it) + rescue
     f.tower(1980, ["iron", "wood"], archers=[1])
 
 
-def L39(f):  # REMIX: drill pendulum, crystal hall, spikes
-    f.floor("hall", 1500, 0)
-    top = f.floor("hall", 1500, -146, banner=True)
-    f.archer(1450, 0)
-    f.archer(1550, -146)
-    f.b("roof_tile", 1500, top - 50, flag=True)
-    f.tower(1860, ["crystal", "wood"], archers=[1])
-    f.mechanism("swing", 1160, -540, trigger="", length=250, diameter=80, arc_deg=30, period_s=3.0)
-    f.mechanism("spikes", 2060, -22, [180, 44])
+def L39(f):  # NEW: wrecking ball. An iron ball is tied back; cut the latch and it swings through the keep
+    f.pendulum(1600, -640, 400, 58, 1120, -470)
+    f.tower(1600, ["block", "wood"], archers=[1, 0])
+    f.tower(1890, ["wood", "wood"], archers=[1, 0])
 
 
 def L40(f):  # BOSS: the Forgemaster's foundry on rails
@@ -420,18 +410,20 @@ def L42(f):  # NEW: updraft between the islands
     f.geyser(1490, 600, period=3.5, burst=1.5)
 
 
-def L43(f):  # REMIX: small airship in the gusts
-    f.deck(1500, 330, lambda: f.tower(1500, ["wood", "wood"], archers=[1, 0]), floating=True,
-           travel_x=30, travel_y=16, period_s=6.0, chassis="boss_airship_deck", chassis_h=100,
-           balloon="boss_airship_balloon", balloon_size=[380, 160], balloon_y=-530)
-    f.tower(1950, ["stone", "wood"], archers=[1])
+def L43(f):  # NEW: spring trap. Guards stand on a sprung platform held down by a latch rope
+    f.tower(1300, ["wood", "wood"], archers=[1, 0])
+    f.spring_trap(1650, lean=-70.0)
+    f.tower(2000, ["stone", "wood"], archers=[1])
 
 
-def L44(f):  # REMIX: updraft to the high perch
-    f.tower(1300, ["wood"], archers=[0])
-    f.terrace(1600, 2050, 150)
-    f.tower(1800, ["block", "wood", "wood"], archers=[1, 2])
-    f.geyser(1540, 640, period=4.0, burst=1.6)
+def L44(f):  # NEW: ice slide. A train of ice blocks waits on a frozen hilltop
+    f.plateau(1100, 1400, 1700, 180, "ice")
+    for x in (1200, 1264, 1328):
+        f.b("ice_block", x, -212)
+    f.archer(1264, -244)
+    f.note(1264, -280, "ICE SLIDE!")
+    f.tower(1850, ["narrow", "narrow", "narrow"], archers=[2, 1])
+    f.tower(2100, ["block", "wood"], archers=[1])
 
 
 def L45(f):  # REMIX: windmill hall with a swinging counterweight
@@ -445,16 +437,10 @@ def L45(f):  # REMIX: windmill hall with a swinging counterweight
     f.mechanism("swing", 2160, -600, trigger="", length=250, diameter=76, arc_deg=30, period_s=3.4)
 
 
-def L46(f):  # REMIX: cloud bridge + gondola
-    f.terrace(1150, 2300, 80)
-    f.tower(1400, ["block", "wood", "wood"], archers=[1, 2], inside=["barrel"])
-    f.floor("hall", 1700, 0, banner=True)
-    f.archer(1700, -146)
-    f.b("crate", 1200, -32)
-    f.weak_last("cloud_bridge")
-    f.mechanism("drawbridge", 1510, -168, [360, 36], "cloud_bridge",
-                start_angle=-68, end_angle=0, duration_s=0.85, counterweight_travel=92)
-    f.tower(2000, ["block", "wood", "wood"], archers=[2], inside=["barrel"])
+def L46(f):  # NEW: two seesaws over the clouds; the first rests on ice (fire melts it)
+    f.tower(1150, ["wood"], archers=[0])
+    f.seesaw(1500, support="ice_block")
+    f.seesaw(1950, support="crate", side=-1)
 
 
 def L47(f):  # REMIX: cut the rope to lower the captive's cage
@@ -476,12 +462,12 @@ def L48(f):  # REMIX: twin airships drifting out of step
     f.tower(2120, ["narrow", "narrow"], archers=[1])
 
 
-def L49(f):  # REMIX: everything the Baron has left
-    f.tower(1350, ["block", "stone", "wood"], archers=[1, 2])
-    f.balcony(f.tops[-3], 1)
-    f.tower(1700, ["crystal", "stone", "wood"], archers=[1, 2])
-    f.terrace(1950, 2350, 100)
-    f.tower(2150, ["wood", "wood"], archers=[1, 0])
+def L49(f):  # FINALE CONTRAPTION: cart → dominoes → keep
+    f.plateau(1100, 1300, 1550, 180, "rail")
+    f.b("cart", 1210, -215)
+    f.archer(1130, -180)
+    f.dominoes(1660, 4)
+    f.tower(2160, ["stone", "wood"], archers=[1, 0])
 
 
 def L50(f):  # BOSS: the Iron Baron's airship (2 cores, armor, 2 cannons, 2 engineers)
@@ -538,8 +524,8 @@ LEVELS = {
         T(), E("enemy", "fortress", "smoke"), S("enemy", "Nothing explosive in here. Honest!"), M("enemy", "laugh"),
         E("wizard", "catapult", "smoke"), D("fortress", "bomb")],
         "Chain the powder barrels with Boomer, then mop up with Rocky."),
-    7: ("Hillside Terraces", 1, L7, ["bomb", "stone", "fire", "stone"], {}, [],
-        "The high tower needs a steeper arc. Or cut its rope."),
+    7: ("Seesaw Watch", 1, L7, ["bomb", "stone", "fire", "stone"], {}, [],
+        "Two guards stand on one end of the seesaw. Knock out the stone under them and they slide off."),
     8: ("Captive Shrine", 1, L8, ["fire", "bomb", "stone", "fire"], {}, [
         T(), E("captive", "fortress", "smoke"), S("captive", "Help! Get me out of here!"), M("captive", "scared"),
         F("captive:0", "RESCUE!"), F("weak", "BREAK THIS"), E("captain"), M("captain", "cheer")],
@@ -555,22 +541,22 @@ LEVELS = {
         "Boss: the war drum in the base shields him. Break it, topple the cannon, stop the engineer."),
     11: ("Sandstone Ruins", 2, L11, ["bomb", "stone", "stone", "fire"], {}, [
         T(), E("captain"), S("captain", "Desert stone. Fire won't help here."), F("fortress", "STONE!"), M("captain", "point")],
-        "Stone shrugs off fire. Save Boomer for the double ruin."),
+        "Stone shrugs off fire. Knock the logs off the dune: they roll into the ruins."),
     12: ("Twin Mesas", 2, L12, ["cyclone", "stone", "bomb", "stone"], {}, [
         T(), E("wizard", "catapult", "smoke"), F("@moving_platform", "MOVING!"), D("top", "cyclone")],
         "Release Twister among the thin towers to fling the guards off."),
     13: ("Crusher Gate", 2, L13, ["cyclone", "bomb", "stone", "stone"], {}, [
         T(), F("@crusher", "CRUSHER!"), E("captain"), S("captain", "Shoot between the slams!"), M("captain", "point")],
         "The crusher eats shots. Fire as it rises."),
-    14: ("Spike Pyramid", 2, L14, ["cyclone", "bomb", "stone", "stone"], {}, [],
-        "Shoot between the windmill sails, then knock the guards onto their spikes."),
-    15: ("Ruin Terraces", 2, L15, ["cyclone", "bomb", "stone", "stone"], {}, [],
-        "Work up the terraces. The top ruin has a boulder over it."),
+    14: ("Domino Ruins", 2, L14, ["cyclone", "bomb", "stone", "stone"], {}, [],
+        "Topple the first slab: the row falls into the keep."),
+    15: ("Boulder Run", 2, L15, ["cyclone", "bomb", "stone", "stone"], {}, [],
+        "Push the boulder off the hilltop. It rolls through both towers."),
     16: ("Powder Caravan", 2, L16, ["fire", "bomb", "cyclone", "stone"], {}, [
         T(), F("@crusher", "DROP THE CRUSHER!"), F("weak", "TRIGGER"), E("captain"), S("captain", "Blow the barrels, drop the stone!")],
         "The front barrels hold the crusher. Pop them and it falls through the keep."),
-    17: ("Granite Obelisk", 2, L17, ["bomb", "cyclone", "stone", "stone"], {}, [],
-        "Shake the bolted balconies loose, then break the base."),
+    17: ("Boulder Trap", 2, L17, ["bomb", "cyclone", "stone", "stone"], {}, [],
+        "Cut the rope on the hill. The boulder rolls through the wall into the obelisk."),
     18: ("Prisoner Well", 2, L18, ["cyclone", "bomb", "stone", "stone"], {}, [
         T(), E("captive", "fortress", "drop"), S("captive", "The bridge winch opens my cage!"), F("weak", "BREAK THIS"),
         F("captive:0", "RESCUE!")],
@@ -589,8 +575,8 @@ LEVELS = {
         T(), E("wizard", "catapult", "smoke"), S("wizard", "Drive Rumbler down and the ground breaks!"),
         D("weak", "quake")],
         "Earthbreak reaches every low foundation, including the weak stone."),
-    23: ("Bobbing Raft", 3, L23, ["quake", "bomb", "stone", "stone"], {"tide": TIDE}, [],
-        "The raft rides the tide. Push its tower into the sea."),
+    23: ("Harbor Bell", 3, L23, ["quake", "bomb", "stone", "stone"], {"tide": TIDE}, [],
+        "Hit the bronze bell hard: it swings into the right tower."),
     24: ("Harbor Lighthouse", 3, L24, ["quake", "cyclone", "stone", "stone"], {}, [],
         "Twister clears the crow's nests. Knock the front stone off the rune switch, then hit it to drop the back guards."),
     25: ("Water Spout", 3, L25, ["quake", "fire", "stone", "stone"], {}, [
@@ -598,8 +584,8 @@ LEVELS = {
         "Shots through the erupting spout get thrown upward."),
     26: ("Two Ships", 3, L26, ["bomb", "cyclone", "stone", "stone"], {"tide": TIDE}, [],
         "Two ships, two rhythms. Knock the towers overboard."),
-    27: ("Harbor Gate", 3, L27, ["quake", "fire", "stone", "fire"], {}, [],
-        "Crack the weak stone for the gate, cut the rope for the hall."),
+    27: ("Dockside Crane", 3, L27, ["quake", "fire", "stone", "fire"], {}, [],
+        "Knock the counterweight stones off the crane arm, or cut its rope, to drop the boulder."),
     28: ("Captive Brig", 3, L28, ["fire", "bomb", "cyclone", "stone"], {"tide": TIDE}, [
         T(), E("captive", "fortress", "smoke"), S("captive", "They threw me in the brig!"), F("captive:0", "RESCUE!")],
         "Break the marked stack to open the brig."),
@@ -614,25 +600,25 @@ LEVELS = {
         T(), E("captain"), S("captain", "Crystal! It shatters and cuts its neighbours."), F("fortress", "CRYSTAL SHATTERS!"),
         D("fortress", "stone")],
         "Break one crystal next to others: the shards do the rest. The rune crystal fires a beam."),
-    32: ("Ore Buckets", 4, L32, ["quake", "bomb", "stone", "stone"], {}, [],
-        "Two boulders hang over two keeps. Two ropes, two collapses."),
+    32: ("Mine Cart Run", 4, L32, ["quake", "bomb", "stone", "stone"], {}, [],
+        "Shove the cart off the top of the rails. It smashes the crystal keep below."),
     33: ("Rail Cart", 4, L33, ["bomb", "cyclone", "fire", "stone"], {}, [],
         "Lead the cart: aim where it is going."),
     34: ("Lava Plume", 4, L34, ["quake", "fire", "stone", "fire"], {}, [
         T(), F("@geyser", "LAVA PLUME!"), E("captain"), S("captain", "It burns and it lifts. Use it!")],
         "The plume lifts shots and burns anything thrown into it."),
-    35: ("Deep Shaft", 4, L35, ["cyclone", "quake", "stone", "stone"], {}, [],
-        "Cut the gondola first: two guards straight into the lava."),
+    35: ("Runaway Wheel", 4, L35, ["cyclone", "quake", "stone", "stone"], {}, [],
+        "Knock the giant wheel off the hill and let it roll."),
     36: ("Powder Magazine", 4, L36, ["fire", "bomb", "stone", "stone"], {}, [],
         "Barrels and crystals together. One spark, chain reaction."),
-    37: ("Twin Carts", 4, L37, ["cyclone", "bomb", "fire", "stone"], {}, [],
-        "The carts meet in the middle. That is your moment."),
+    37: ("Hanging Cages", 4, L37, ["cyclone", "bomb", "fire", "stone"], {}, [],
+        "Hit a cage to swing it into the towers. Cut a rope to drop it."),
     38: ("Iron Forge", 4, L38, ["bomb", "quake", "stone", "stone"], {}, [
         T(), E("captive", "fortress", "smoke"), S("captive", "They make me forge iron!"), F("fortress", "IRON! USE BOMBS"),
         F("captive:0", "RESCUE!")],
         "Iron laughs at Rocky and Blaze. Boomer and Rumbler bend it."),
-    39: ("Pendulum Drill", 4, L39, ["bomb", "cyclone", "fire", "stone"], {}, [],
-        "Fire just after the drill swings past."),
+    39: ("Wrecking Ball", 4, L39, ["bomb", "cyclone", "fire", "stone"], {}, [],
+        "Cut the latch rope: the iron ball swings through the keep."),
     40: ("The Foundry", 4, L40, ["quake", "bomb", "fire", "stone"], {}, [
         T(), E("baron", "boss", "smoke"), S("baron", "My foundry never stops moving!"), M("baron", "shake"),
         F("core", "THE FURNACE!"), E("wizard", "catapult", "smoke"), S("wizard", "Fast armor. Fire when the gap swings by!")],
@@ -644,22 +630,22 @@ LEVELS = {
     42: ("Island Hop", 5, L42, ["cyclone", "fire", "bomb", "stone"], {"wind": GUSTY}, [
         T(), F("@geyser", "UPDRAFT!"), E("captain"), S("captain", "Ride the updraft to the high islands!")],
         "The updraft between the islands throws shots upward."),
-    43: ("Sky Raft", 5, L43, ["quake", "cyclone", "stone", "stone"], {"wind": BREEZE}, [],
-        "Push the swaying tower off the airship deck."),
-    44: ("High Perch", 5, L44, ["quake", "bomb", "stone", "stone"], {}, [],
-        "Use the updraft or a very steep arc."),
+    43: ("Spring Trap", 5, L43, ["quake", "cyclone", "stone", "stone"], {"wind": BREEZE}, [],
+        "The guards stand on a coiled spring. Cut the latch rope under them."),
+    44: ("Ice Slide", 5, L44, ["quake", "bomb", "stone", "stone"], {}, [],
+        "Hit the back of the ice train. It slides down the frozen slope into the towers."),
     45: ("Windmill Isle", 5, L45, ["bomb", "cyclone", "fire", "stone"], {"wind": GUSTY}, [],
         "Gusts change direction. Wait for calm or use them."),
-    46: ("Cloud Bridge", 5, L46, ["quake", "fire", "fire", "stone"], {}, [],
-        "The glowing crate holds the bridge up."),
+    46: ("Sky Seesaws", 5, L46, ["quake", "fire", "fire", "stone"], {}, [],
+        "Melt the ice under the first seesaw with Blaze. Smash the crate under the second."),
     47: ("Sky Captive", 5, L47, ["fire", "bomb", "cyclone", "stone"], {"wind": BREEZE}, [
         T(), E("captive", "fortress", "smoke"), S("captive", "Cut the rope and my cage opens!"), F("@rope_load", "CUT THE ROPE!")],
         "The rope holds the cage lock. Cut it."),
     48: ("Twin Airships", 5, L48, ["quake", "cyclone", "fire", "stone"], {"wind": GUSTY}, [],
         "Two airships drift out of step. Wait until they line up."),
-    49: ("Baron's Approach", 5, L49, ["quake", "bomb", "stone", "stone"], {"wind": STORM}, [
+    49: ("Baron's Contraption", 5, L49, ["quake", "bomb", "stone", "stone"], {"wind": STORM}, [
         T(), E("baron", "top", "smoke"), S("baron", "You will never reach my airship!"), M("baron", "shake")],
-        "Crystal, bolts and a storm. Choose your heroes carefully."),
+        "Push the cart: it knocks the dominoes into the keep."),
     50: ("The Baron's Airship", 5, L50, ["quake", "bomb", "fire", "stone"], {"wind": GUSTY}, [
         T(), E("baron", "boss", "smoke"), S("baron", "My airship rules the sky!"), M("baron", "laugh"),
         F("core", "TWO BALLOON CORES"), E("wizard", "catapult", "smoke"), S("wizard", "Both cores, then the Baron!"), E("captain"),

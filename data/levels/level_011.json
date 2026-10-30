@@ -10,7 +10,7 @@
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Stone shrugs off fire. Save Boomer for the double ruin.",
+ "strategy": "Stone shrugs off fire. Knock the logs off the dune: they roll into the ruins.",
  "cinematic": [
   {
    "t": "title"
@@ -42,121 +42,154 @@
  "star_scores": [
   25000,
   29000,
-  44000
+  45000
  ],
- "camera_right": 1770,
+ "camera_right": 2200,
  "camera_top": -440,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 804,
-    "x1": 1640,
+    "x0": 730,
+    "x1": 2070,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
+   "type": "log",
+   "x": 830.0,
+   "y": -212.0
+  },
+  {
+   "type": "log",
+   "x": 916.0,
+   "y": -212.0
+  },
+  {
    "type": "stone_block",
-   "x": 886.0,
+   "x": 1316.0,
    "y": -32
   },
   {
    "type": "stone_block",
-   "x": 950.0,
+   "x": 1380.0,
    "y": -32
   },
   {
    "type": "stone_block",
-   "x": 1014.0,
+   "x": 1444.0,
    "y": -32
   },
   {
    "type": "stone_block",
-   "x": 918.0,
+   "x": 1348.0,
    "y": -96
   },
   {
    "type": "stone_block",
-   "x": 982.0,
+   "x": 1412.0,
    "y": -96
   },
   {
    "type": "stone_block",
-   "x": 950.0,
+   "x": 1380.0,
    "y": -160
   },
   {
    "type": "stone_pillar",
-   "x": 1180,
+   "x": 1610.0,
    "y": -70.0
   },
   {
    "type": "stone_pillar",
-   "x": 1320,
+   "x": 1750.0,
    "y": -70.0
   },
   {
    "type": "stone_slab",
-   "x": 1250,
+   "x": 1680.0,
    "y": -160.0
   },
   {
    "type": "stone_pillar",
-   "x": 1180,
+   "x": 1610.0,
    "y": -250.0
   },
   {
    "type": "stone_pillar",
-   "x": 1320,
+   "x": 1750.0,
    "y": -250.0
   },
   {
    "type": "stone_slab",
-   "x": 1250,
+   "x": 1680.0,
    "y": -340.0
   },
   {
    "type": "stone_pillar",
-   "x": 1430,
+   "x": 1860.0,
    "y": -70.0
   },
   {
    "type": "stone_pillar",
-   "x": 1570,
+   "x": 2000.0,
    "y": -70.0
   },
   {
    "type": "stone_slab",
-   "x": 1500,
+   "x": 1930.0,
    "y": -160.0
   }
  ],
  "archers": [
   {
-   "x": 950,
+   "x": 1380.0,
    "y": -221.5
   },
   {
-   "x": 1250,
+   "x": 1680.0,
    "y": -209.5
   },
   {
-   "x": 1250,
+   "x": 1680.0,
    "y": -389.5
   },
   {
-   "x": 1500,
+   "x": 1930.0,
    "y": -29.5
   },
   {
-   "x": 1500,
+   "x": 1930.0,
    "y": -209.5
   }
  ],
  "bolts": [],
  "mechanisms": [],
- "captives": []
+ "captives": [],
+ "ramps": [
+  {
+   "points": [
+    [
+     780.0,
+     0
+    ],
+    [
+     780.0,
+     -170
+    ],
+    [
+     960.0,
+     -170
+    ],
+    [
+     1240.0,
+     0
+    ]
+   ],
+   "kind": "rock"
+  }
+ ]
 }

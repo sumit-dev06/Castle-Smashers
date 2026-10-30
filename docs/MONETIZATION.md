@@ -10,8 +10,19 @@ Free to play. Ads + in-app purchases. The full campaign can be finished without 
 | Banner | Not used | Takes screen space and clashes with the look |
 
 - Consent: Google UMP form on first launch (required for EEA/UK), before any ad request.
-- Test ads (Google test unit IDs) in debug builds. Real IDs only in release, read from
-  `export_credentials.cfg` / env, never committed.
+- Plugin: Poing Studios godot-admob-plugin v5.1.0 in `addons/admob` (Android binaries in
+  `addons/admob/android/bin`). Needs the Gradle build (`gradle_build/use_gradle_build=true`).
+- Debug builds always use Google's test units (interstitial `ca-app-pub-3940256099942544/1033173712`,
+  rewarded `ca-app-pub-3940256099942544/5224354917`). Release builds read `res://ad_ids.cfg`
+  (git-ignored, packed by the export filter):
+  ```
+  [android]
+  interstitial="ca-app-pub-XXXX/YYYY"
+  rewarded="ca-app-pub-XXXX/ZZZZ"
+  ```
+  and fall back to the test units when it is missing.
+- The AdMob **App ID** goes in project setting `admob/general/android/app_id` (now the Google test
+  App ID `ca-app-pub-3940256099942544~3347511713`). Replace it before release.
 - Ad frequency numbers live in `data/balance.json` → `ads`.
 
 ## In-app purchases (Google Play Billing)
@@ -25,6 +36,10 @@ Free to play. Ads + in-app purchases. The full campaign can be finished without 
 | `gems_medium` | consumable | $4.99 | 500 gems (+20%) |
 | `gems_large` | consumable | $9.99 | 1,200 gems (+40%) |
 | `starter_pack` | non-consumable, shown once after level 5 | $1.99 | Remove ads + 2,000 coins + golden catapult skin |
+
+**Status:** `Store.gd` is a stub. Needed to go live: the GodotGooglePlayBilling plugin, these
+products created in Play Console, a merchant account, a signed upload to a test track and
+licence-tester accounts.
 
 Prices are set in Play Console per country. Purchases are acknowledged within 3 days (Play rule),
 restored on reinstall via `queryPurchases`. Server-side verification is a later improvement.

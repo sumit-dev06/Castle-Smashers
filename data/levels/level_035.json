@@ -1,6 +1,6 @@
 {
  "id": 35,
- "name": "Deep Shaft",
+ "name": "Runaway Wheel",
  "realm": 4,
  "heroes": [
   "cyclone",
@@ -10,192 +10,160 @@
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Cut the gondola first: two guards straight into the lava.",
+ "strategy": "Knock the giant wheel off the hill and let it roll.",
  "cinematic": [],
  "callouts": [
   {
-   "target": "mech:0",
-   "label": "CUT A ROPE!"
+   "target": "920,-460",
+   "label": "RUNAWAY WHEEL!"
   }
  ],
  "boss": false,
  "star_scores": [
-  30000,
-  34000,
-  49000
+  15000,
+  18000,
+  32000
  ],
- "camera_right": 1900,
- "camera_top": -570,
+ "camera_right": 2140,
+ "camera_top": -460,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 1095,
-    "x1": 1305,
-    "top": -120
-   },
-   {
-    "x0": 1440,
-    "x1": 1760,
+    "x0": 730,
+    "x1": 1983,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "post",
-   "x": 1158.0,
-   "y": -180.0
-  },
-  {
-   "type": "post",
-   "x": 1242.0,
-   "y": -180.0
-  },
-  {
-   "type": "plank_short",
-   "x": 1200.0,
-   "y": -253.0
-  },
-  {
-   "type": "post",
-   "x": 1158.0,
-   "y": -326.0
-  },
-  {
-   "type": "post",
-   "x": 1242.0,
-   "y": -326.0
-  },
-  {
-   "type": "plank_short",
-   "x": 1200.0,
-   "y": -399.0
+   "type": "wheel",
+   "x": 920.0,
+   "y": -350.0
   },
   {
    "type": "stone_block",
-   "x": 1522.0,
+   "x": 1502.0,
    "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 1522.0,
+   "x": 1502.0,
    "y": -96.0
   },
   {
    "type": "stone_block",
-   "x": 1678.0,
+   "x": 1658.0,
    "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 1678.0,
+   "x": 1658.0,
    "y": -96.0
   },
   {
    "type": "plank_long",
-   "x": 1600.0,
+   "x": 1580.0,
    "y": -141.0
   },
   {
-   "type": "stone_block",
-   "x": 1522.0,
-   "y": -186.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1522.0,
-   "y": -250.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1678.0,
-   "y": -186.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1678.0,
-   "y": -250.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1600.0,
-   "y": -295.0
+   "type": "post",
+   "x": 1500.0,
+   "y": -214.0
   },
   {
    "type": "post",
-   "x": 1520.0,
-   "y": -368.0
-  },
-  {
-   "type": "post",
-   "x": 1680.0,
-   "y": -368.0
+   "x": 1660.0,
+   "y": -214.0
   },
   {
    "type": "plank_long",
-   "x": 1600.0,
-   "y": -441.0
+   "x": 1580.0,
+   "y": -287.0
   },
   {
    "type": "roof_tile",
-   "x": 1600.0,
-   "y": -504.0,
+   "x": 1580.0,
+   "y": -350.0,
+   "flag": true
+  },
+  {
+   "type": "post",
+   "x": 1760.0,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1920.0,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1840.0,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 1760.0,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1920.0,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1840.0,
+   "y": -279.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1840.0,
+   "y": -342.0,
    "flag": true
   }
  ],
  "archers": [
   {
-   "x": 850.0,
-   "y": -294.5
-  },
-  {
-   "x": 990.0,
-   "y": -294.5
-  },
-  {
-   "x": 1200.0,
-   "y": -295.5
-  },
-  {
-   "x": 1200.0,
-   "y": -441.5
-  },
-  {
-   "x": 1600.0,
+   "x": 1580.0,
    "y": -183.5
   },
   {
-   "x": 1600.0,
-   "y": -337.5
+   "x": 1580.0,
+   "y": -29.5
+  },
+  {
+   "x": 1840.0,
+   "y": -175.5
   }
  ],
  "bolts": [],
- "mechanisms": [
+ "mechanisms": [],
+ "captives": [],
+ "ramps": [
   {
-   "type": "hanging_platform",
-   "x": 920.0,
-   "y": -360,
-   "size": [
-    240,
-    30
-   ],
-   "span": 200,
-   "drop": 110,
-   "frame": {
-    "posts": [
-     796.0,
-     1044.0
-    ],
-    "top": -374,
-    "bottom": 260,
-    "beam": [
+   "points": [
+    [
      780.0,
-     1060.0
+     0
+    ],
+    [
+     780.0,
+     -260
+    ],
+    [
+     1030.0,
+     -260
+    ],
+    [
+     1430.0,
+     0
     ]
-   }
+   ],
+   "kind": "rock"
   }
- ],
- "captives": []
+ ]
 }

@@ -7,14 +7,16 @@
 | `Events` | `events.gd` | Global signals only (no logic) |
 | `Save` | `save.gd` | Progress, wallet (coins, gems, blueprints via `amount/add/spend`), settings, purchases. `user://save.json`, version 3 |
 | `Sound` | `sound.gd` | Buses, SFX/UI pools, synced two-stem adaptive music driven by `Events`, stingers, realm ambience + reverb, pause/slow-mo filter. `Sound.play("wood_hit", volume01)`, `set_music`, `set_surroundings` (see `docs/AUDIO.md`) |
-| `Ads` | `ads.gd` | AdMob wrapper. No-op stub when plugin missing |
+| `Ads` | `ads.gd` | Ad rules (interstitial pacing, rewarded opt-in) and unit IDs. Uses `ads_admob.gd` (Poing Studios AdMob plugin, UMP consent first) when the `MobileAds` singleton exists, otherwise a no-op stub |
 | `Store` | `store.gd` | Play Billing wrapper. No-op stub when plugin missing |
 | `Game` | `game.gd` | Scene switching (`Game.goto_level(id)`, `Game.goto_menu()`), command-line flags |
 
 ## Screens
 `scenes/main.tscn` is the only scene file. `Game` builds every screen in code:
 `MainMenu` (src/ui/main_menu.gd) → `WorldMap` (src/ui/world_map.gd) → story scene (a `Level`
-with `cinematic_mode = true`, played by `Cinematic`) → `LoadoutScreen` → `Level` (src/game/level.gd)
+with `cinematic_mode = true`, played by `Cinematic`) → `Level` (src/game/level.gd). After the fortress
+flyover the level opens `LoadoutScreen` ("Plan the Assault", a `CanvasLayer` overlay) and stays in
+INTRO (`Level._planning`) until `confirmed` → `Level.set_heroes(kinds)`; `--no-plan` skips it
 with `Hud` (src/ui/hud.gd). `UpgradesScreen` (src/ui/upgrades_screen.gd) opens from home, the map and
 the loadout screen (`Game.goto_workshop(back_to_level)` / `Game.goto_meta("upgrades")`). The other
 meta screens (spin, daily, shop, skins, achievements) open with `Game.goto_meta(key, props)`.
@@ -64,6 +66,15 @@ with a short flyover (fortress pan, up to 3 `callouts`, the boss).
   from `CastleMechanism.callout_text()` via `Level.on_mechanism_activated(m, pts)`.
 - **Rule:** an `AnimatableBody2D` with `sync_to_physics` must get exactly one transform/position
   assignment per physics frame. Two setters read a stale transform and the body jitters.
+- Contraptions (level keys `ramps`, `tethers`):
+  - `Ramp` (`ramp.gd`): static polygon on the world layer (kinds wood/rock/ice/rail in
+    `balance.ramps`). Hills, fulcrums, rails and slopes for rollers, carts and ice trains.
+  - `Tether` (`tether.gd`): `pin` (block turns on a hub: seesaws, crane arms), `rope` (rigid pendulum
+    from a hook: bells, cages, wrecking balls; cut by shots, fire and blasts through
+    `Level.cut_ropes_near`, scored by `Level.on_tether_cut`), `spring` (damped spring). A rope with
+    `lock` freezes its block until cut; `kick` then flings it (spring traps). Optional `frame` draws a
+    wooden gantry. Built by the `tools/gen_levels.py` helpers (`seesaw`, `dominoes`, `plateau`,
+    `roller`, `bell`, `cage`, `pendulum`, `crane`, `spring_trap`).
 - `Bolt` (`bolt.gd`) pins two blocks with two `PinJoint2D`s and snaps on `bolts.break_damage`,
   an explosion or quake in range, or when either block is destroyed.
 - Wind (level `wind`) pushes heroes in flight; the HUD shows the gust. Tide (level `tide`) moves

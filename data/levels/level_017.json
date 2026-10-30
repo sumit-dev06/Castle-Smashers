@@ -1,6 +1,6 @@
 {
  "id": 17,
- "name": "Granite Obelisk",
+ "name": "Boulder Trap",
  "realm": 2,
  "heroes": [
   "bomb",
@@ -10,9 +10,13 @@
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Shake the bolted balconies loose, then break the base.",
+ "strategy": "Cut the rope on the hill. The boulder rolls through the wall into the obelisk.",
  "cinematic": [],
  "callouts": [
+  {
+   "target": "1029,-292",
+   "label": "CUT THE ROPE!"
+  },
   {
    "target": "bolt:0",
    "label": "BOLTED"
@@ -22,151 +26,192 @@
  "star_scores": [
   25000,
   29000,
-  45000
+  46000
  ],
- "camera_right": 1630,
+ "camera_right": 2010,
  "camera_top": -810,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 898,
-    "x1": 1390,
+    "x0": 730,
+    "x1": 1770,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
+   "type": "boulder",
+   "x": 1029.3,
+   "y": -217.7
+  },
+  {
+   "type": "stone_block",
+   "x": 1380.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 1444.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 1380.0,
+   "y": -96
+  },
+  {
+   "type": "stone_block",
+   "x": 1444.0,
+   "y": -96
+  },
+  {
    "type": "stone_pillar",
-   "x": 1180,
+   "x": 1560.0,
    "y": -70.0
   },
   {
    "type": "stone_pillar",
-   "x": 1320,
+   "x": 1700.0,
    "y": -70.0
   },
   {
    "type": "stone_slab",
-   "x": 1250,
+   "x": 1630.0,
    "y": -160.0
   },
   {
    "type": "stone_pillar",
-   "x": 1180,
+   "x": 1560.0,
    "y": -250.0
   },
   {
    "type": "stone_pillar",
-   "x": 1320,
+   "x": 1700.0,
    "y": -250.0
   },
   {
    "type": "stone_slab",
-   "x": 1250,
+   "x": 1630.0,
    "y": -340.0
   },
   {
    "type": "stone_pillar",
-   "x": 1180,
+   "x": 1560.0,
    "y": -430.0
   },
   {
    "type": "stone_pillar",
-   "x": 1320,
+   "x": 1700.0,
    "y": -430.0
   },
   {
    "type": "stone_slab",
-   "x": 1250,
+   "x": 1630.0,
    "y": -520.0
   },
   {
    "type": "post",
-   "x": 1170,
+   "x": 1550.0,
    "y": -600.0
   },
   {
    "type": "post",
-   "x": 1330,
+   "x": 1710.0,
    "y": -600.0
   },
   {
    "type": "plank_long",
-   "x": 1250,
+   "x": 1630.0,
    "y": -673.0
   },
   {
    "type": "roof_tile",
-   "x": 1250,
+   "x": 1630.0,
    "y": -736.0,
    "flag": true
   },
   {
    "type": "plank_short",
-   "x": 1105.0,
+   "x": 1485.0,
    "y": -160.0
   },
   {
    "type": "plank_short",
-   "x": 1395.0,
+   "x": 1775.0,
    "y": -160.0
-  },
-  {
-   "type": "stone_block",
-   "x": 980,
-   "y": -32
-  },
-  {
-   "type": "stone_block",
-   "x": 1044,
-   "y": -32
-  },
-  {
-   "type": "stone_block",
-   "x": 980,
-   "y": -96
-  },
-  {
-   "type": "stone_block",
-   "x": 1044,
-   "y": -96
   }
  ],
  "archers": [
   {
-   "x": 1250,
+   "x": 1630.0,
    "y": -209.5
   },
   {
-   "x": 1250,
+   "x": 1630.0,
    "y": -389.5
   },
   {
-   "x": 1250,
+   "x": 1630.0,
    "y": -569.5
   },
   {
-   "x": 1105.0,
+   "x": 1485.0,
    "y": -202.5
   },
   {
-   "x": 1395.0,
+   "x": 1775.0,
    "y": -202.5
   }
  ],
  "bolts": [
   {
-   "a": 2,
-   "b": 13
+   "a": 7,
+   "b": 18
   },
   {
-   "a": 2,
-   "b": 14
+   "a": 7,
+   "b": 19
   }
  ],
  "mechanisms": [],
- "captives": []
+ "captives": [],
+ "ramps": [
+  {
+   "points": [
+    [
+     780.0,
+     0
+    ],
+    [
+     780.0,
+     -260
+    ],
+    [
+     900.0,
+     -260
+    ],
+    [
+     1240.0,
+     0
+    ]
+   ],
+   "kind": "rock"
+  }
+ ],
+ "tethers": [
+  {
+   "kind": "rope",
+   "a": 0,
+   "x": 880.0,
+   "y": -266,
+   "attach": [
+    1029.3,
+    -217.7
+   ],
+   "lock": true
+  }
+ ]
 }

@@ -1,6 +1,6 @@
 {
  "id": 44,
- "name": "High Perch",
+ "name": "Ice Slide",
  "realm": 5,
  "heroes": [
   "quake",
@@ -10,148 +10,189 @@
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Use the updraft or a very steep arc.",
+ "strategy": "Hit the back of the ice train. It slides down the frozen slope into the towers.",
  "cinematic": [],
  "callouts": [
   {
-   "target": "mech:0",
-   "label": "UPDRAFT!"
+   "target": "944,-280",
+   "label": "ICE SLIDE!"
   }
  ],
  "boss": false,
  "star_scores": [
-  15000,
-  18000,
-  32000
+  20000,
+  24000,
+  39000
  ],
- "camera_right": 1700,
- "camera_top": -720,
+ "camera_right": 2080,
+ "camera_top": -530,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 757,
-    "x1": 1043,
+    "x0": 730,
+    "x1": 1940,
     "top": 0.0
-   },
-   {
-    "x0": 1240,
-    "x1": 1560,
-    "top": -150
    }
   ]
  },
  "blocks": [
   {
+   "type": "ice_block",
+   "x": 880.0,
+   "y": -212
+  },
+  {
+   "type": "ice_block",
+   "x": 944.0,
+   "y": -212
+  },
+  {
+   "type": "ice_block",
+   "x": 1008.0,
+   "y": -212
+  },
+  {
    "type": "post",
-   "x": 820,
+   "x": 1488.0,
    "y": -60.0
   },
   {
    "type": "post",
-   "x": 980,
+   "x": 1572.0,
    "y": -60.0
   },
   {
-   "type": "plank_long",
-   "x": 900,
+   "type": "plank_short",
+   "x": 1530.0,
    "y": -133.0
   },
   {
-   "type": "roof_tile",
-   "x": 900,
-   "y": -196.0,
+   "type": "post",
+   "x": 1488.0,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1572.0,
+   "y": -206.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1530.0,
+   "y": -279.0
+  },
+  {
+   "type": "post",
+   "x": 1488.0,
+   "y": -352.0
+  },
+  {
+   "type": "post",
+   "x": 1572.0,
+   "y": -352.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1530.0,
+   "y": -425.0
+  },
+  {
+   "type": "roof",
+   "x": 1530.0,
+   "y": -473.0,
    "flag": true
   },
   {
    "type": "stone_block",
-   "x": 1322,
-   "y": -182.0
+   "x": 1702.0,
+   "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 1322,
-   "y": -246.0
+   "x": 1702.0,
+   "y": -96.0
   },
   {
    "type": "stone_block",
-   "x": 1478,
-   "y": -182.0
+   "x": 1858.0,
+   "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 1478,
-   "y": -246.0
+   "x": 1858.0,
+   "y": -96.0
   },
   {
    "type": "plank_long",
-   "x": 1400,
-   "y": -291.0
+   "x": 1780.0,
+   "y": -141.0
   },
   {
    "type": "post",
-   "x": 1320,
-   "y": -364.0
+   "x": 1700.0,
+   "y": -214.0
   },
   {
    "type": "post",
-   "x": 1480,
-   "y": -364.0
+   "x": 1860.0,
+   "y": -214.0
   },
   {
    "type": "plank_long",
-   "x": 1400,
-   "y": -437.0
-  },
-  {
-   "type": "post",
-   "x": 1320,
-   "y": -510.0
-  },
-  {
-   "type": "post",
-   "x": 1480,
-   "y": -510.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1400,
-   "y": -583.0
+   "x": 1780.0,
+   "y": -287.0
   },
   {
    "type": "roof_tile",
-   "x": 1400,
-   "y": -646.0,
+   "x": 1780.0,
+   "y": -350.0,
    "flag": true
   }
  ],
  "archers": [
   {
-   "x": 900,
-   "y": -29.5
+   "x": 944.0,
+   "y": -273.5
   },
   {
-   "x": 1400,
-   "y": -333.5
+   "x": 1530.0,
+   "y": -321.5
   },
   {
-   "x": 1400,
-   "y": -479.5
+   "x": 1530.0,
+   "y": -175.5
+  },
+  {
+   "x": 1780.0,
+   "y": -183.5
   }
  ],
  "bolts": [],
- "mechanisms": [
+ "mechanisms": [],
+ "captives": [],
+ "ramps": [
   {
-   "type": "geyser",
-   "x": 1140,
-   "y": 0,
-   "height": 640,
-   "period_s": 4.0,
-   "burst_s": 1.6,
-   "phase": 0.0,
-   "width": 90
+   "points": [
+    [
+     780.0,
+     0
+    ],
+    [
+     780.0,
+     -180
+    ],
+    [
+     1080.0,
+     -180
+    ],
+    [
+     1380.0,
+     0
+    ]
+   ],
+   "kind": "ice"
   }
- ],
- "captives": []
+ ]
 }

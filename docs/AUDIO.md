@@ -18,6 +18,9 @@ Buses: `Master` (glue compressor + hard limiter) ← `Music` (low-pass), `Ambien
 `SFX` (realm reverb), `UI` (dry). The music slider drives `Music`. The sound-effects slider drives
 `SFX`, `UI` and `Ambience`, so turning music off still leaves the world's sounds.
 All numbers are in `data/balance.json -> audio`.
+Gameplay effects sit above the music: `music_db` −9, ambience −6, gameplay songs another −4, per-sound
+boosts on impacts and a `duck.impact_db` −3 dip of the music on big hits. Measured with
+`--record-audio`, impact peaks are about 10 dB over the music bed.
 
 ### Adaptive music
 Every song has two stems of identical length that start together and stay in sync:
@@ -48,7 +51,7 @@ Changing song crossfades over 1.6 s.
 | `boss` | E harmonic minor at 128 BPM: horn and string ostinato, taiko, brass stabs |
 
 The world map plays the music and ambience of the realm in view and crossfades as you scroll.
-The loadout screen starts the level's realm song so it carries straight into the level.
+The level's realm song starts with the flyover and carries on under the Plan the Assault overlay.
 Stingers: `win`, `lose`, `boss_intro` (played by the boss reveal), `siege_start` (when control
 starts on non-boss levels), `reward`.
 
@@ -81,7 +84,8 @@ rounded 1–3 ms attacks, which avoids the thin digital click the old set had.
 
 | Action | Sound(s) |
 |---|---|
-| Grab the catapult / pull | `aim_grab`, `creak` (pitch follows power) |
+| Grab the catapult / pull | `aim_grab`, looping `stretch_loop` rope creak (`Sound.stretch(power)`: volume and pitch follow power, `catapult.stretch_*`), `ratchet_0..2` clicks every `ratchet_step` of power |
+| Bell set-pieces | `bell_0/1` (bronze strike) |
 | Launch / flight | `launch` (wood thunk, rope twang, air), `whoosh` |
 | Hero ability | `ability` sparkle + the hero's own `slam` / `fire` / `explosion` / `wind` / `quake` |
 | Wood, stone, ice, crystal, iron hit and break | `wood_*`, `stone_*`, `ice_*`, `crystal_break`, `metal_*`, `straw_break` |

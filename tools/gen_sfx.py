@@ -48,7 +48,7 @@ MASTERING = {
     "tab": (-14.0, -27.0), "popup_open": (-13.0, -25.0), "popup_close": (-14.0, -26.0), "locked": (-12.0, -24.0),
     "deny": (-12.0, -24.0), "count_tick": (-16.0, -29.0), "toast": (-12.0, -24.0), "map_select": (-11.0, -23.0),
     "play_press": (-9.0, -21.0), "aim_grab": (-9.0, -21.0), "ability": (-11.0, -23.0),
-    "ratchet": (-8.0, -20.0), "creak": (-9.0, -21.0),
+    "ratchet": (-8.0, -20.0), "bell": (-6.0, -19.0), "creak": (-9.0, -21.0),
     "screen_whoosh": (-14.0, -26.0), "wallet_land": (-12.0, -24.0),
     "talk_hero": (-12.0, -23.0), "talk_enemy": (-12.0, -23.0), "talk_high": (-12.0, -23.0),
 }
@@ -59,7 +59,7 @@ ROOM = {"ui": (0.18, 0.04), "voice": (0.3, 0.1), "impact": (0.45, 0.12), "big": 
 UI_SOUNDS = {"ui_tap", "pop", "ui_back", "tab", "popup_open", "popup_close", "locked", "deny", "count_tick",
              "toast", "map_select", "swoosh_ui", "wheel_tick", "coin_tink", "gem_tink", "screen_whoosh",
              "wallet_land", "combo", "star", "purchase", "upgrade", "play_press"}
-BIG_SOUNDS = {"explosion", "quake", "cannon", "boss_roar", "gate_drop", "slam", "reveal", "chest_open"}
+BIG_SOUNDS = {"bell", "explosion", "quake", "cannon", "boss_roar", "gate_drop", "slam", "reveal", "chest_open"}
 VOICE_SOUNDS = {"talk_hero", "talk_enemy", "talk_high", "soldier_hit", "soldier_ko", "enemy_ko", "enemy_laugh"}
 
 
@@ -824,6 +824,15 @@ def aim_grab(i):
     return mix(rope, _knock(240, d, 0.3) * 0.5)
 
 
+def bell_hit(i):
+    """Big bronze bell struck: a low inharmonic bell over a hard metal knock."""
+    d = 2.4
+    f0 = 196 * (1 + 0.06 * i)
+    tone = mix(D.bell(f0, d, 2.0, 0.55) * 0.8, D.bell(f0 * 2.01, d * 0.6, 1.1, 0.5) * 0.35, D.bell(f0 * 2.76, d * 0.4, 0.7, 0.6) * 0.2)
+    knock = _knock(420, 0.2, 0.25) * 0.5
+    return mix(tone, knock)
+
+
 def ratchet(i):
     """One tooth of the catapult's winch ratchet: a short, dry wooden click with a tiny metal pawl."""
     d = 0.12
@@ -928,7 +937,7 @@ SOUNDS = [
     ("combo", 1, combo), ("slowmo", 1, slowmo), ("slowmo_out", 1, slowmo_out), ("ui_back", 1, ui_back),
     ("tab", 1, tab), ("popup_open", 1, popup_open), ("popup_close", 1, popup_close), ("locked", 1, locked),
     ("deny", 1, deny), ("count_tick", 1, count_tick), ("toast", 1, toast), ("map_select", 1, map_select),
-    ("play_press", 1, play_press), ("aim_grab", 2, aim_grab), ("ability", 2, ability), ("ratchet", 3, ratchet),
+    ("play_press", 1, play_press), ("aim_grab", 2, aim_grab), ("ability", 2, ability), ("ratchet", 3, ratchet), ("bell", 2, bell_hit),
     ("screen_whoosh", 2, screen_whoosh), ("wallet_land", 2, wallet_land),
     ("talk_hero", 4, talk_hero), ("talk_enemy", 4, talk_enemy), ("talk_high", 3, talk_high),
 ]
