@@ -1,0 +1,105 @@
+{
+ "challenges": [
+  {
+   "id": 101,
+   "name": "Gold Rush",
+   "realm": 2,
+   "mode": "heist",
+   "rule": "Break open at least 2 of the 3 chests. A chest that falls off is lost.",
+   "heroes": [
+    "bomb",
+    "cyclone",
+    "stone",
+    "stone"
+   ]
+  },
+  {
+   "id": 102,
+   "name": "Pirate Hoard",
+   "realm": 3,
+   "mode": "heist",
+   "rule": "Open the chests before the sea takes them.",
+   "heroes": [
+    "quake",
+    "bomb",
+    "stone",
+    "stone"
+   ]
+  },
+  {
+   "id": 103,
+   "name": "Beat the Clock",
+   "realm": 1,
+   "mode": "time_attack",
+   "rule": "40 seconds. Heroes keep coming, fire fast.",
+   "heroes": [
+    "stone",
+    "bomb",
+    "fire",
+    "stone"
+   ]
+  },
+  {
+   "id": 104,
+   "name": "Forge Sprint",
+   "realm": 4,
+   "mode": "time_attack",
+   "rule": "Hit the lever to drop the crusher, then clear the forge in 50 seconds.",
+   "heroes": [
+    "bomb",
+    "quake",
+    "stone",
+    "stone"
+   ]
+  },
+  {
+   "id": 105,
+   "name": "One Perfect Shot",
+   "realm": 4,
+   "mode": "one_shot",
+   "rule": "One Boomer. Start the chain reaction in the right barrel.",
+   "heroes": [
+    "bomb"
+   ]
+  },
+  {
+   "id": 106,
+   "name": "Hold the Line",
+   "realm": 1,
+   "mode": "survival",
+   "rule": "Three waves drop in. Keep your soldiers standing.",
+   "heroes": [
+    "stone",
+    "bomb",
+    "fire",
+    "stone"
+   ]
+  },
+  {
+   "id": 107,
+   "name": "Sky Raiders",
+   "realm": 5,
+   "mode": "reverse_siege",
+   "rule": "Two airships sail at you. Defeat each crew before it docks.",
+   "heroes": [
+    "quake",
+    "bomb",
+    "cyclone",
+    "stone"
+   ]
+  },
+  {
+   "id": 108,
+   "name": "Harbor Assault",
+   "realm": 3,
+   "mode": "reverse_siege",
+   "rule": "Sink the galleon and the raft before they reach your shore.",
+   "heroes": [
+    "bomb",
+    "fire",
+    "quake",
+    "stone"
+   ]
+  }
+ ]
+}

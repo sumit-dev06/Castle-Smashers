@@ -1,0 +1,191 @@
+{
+ "id": 27,
+ "name": "Harbor Gate",
+ "realm": 3,
+ "heroes": [
+  "quake",
+  "fire",
+  "stone",
+  "fire"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Crack the weak stone for the gate, cut the rope for the hall.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "GATE"
+  },
+  {
+   "target": "mech:1",
+   "label": "CUT THE ROPE!"
+  },
+  {
+   "target": "weak",
+   "label": "WEAK POINT"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  20000,
+  24000,
+  39000
+ ],
+ "camera_right": 2000,
+ "camera_top": -470,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 1935,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 995.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1135.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1065.0,
+   "y": -160.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 995.0,
+   "y": -250.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1135.0,
+   "y": -250.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1065.0,
+   "y": -340.0
+  },
+  {
+   "type": "post",
+   "x": 1213.0,
+   "y": -60
+  },
+  {
+   "type": "post",
+   "x": 1365.0,
+   "y": -60
+  },
+  {
+   "type": "post",
+   "x": 1517.0,
+   "y": -60
+  },
+  {
+   "type": "plank_xl",
+   "x": 1365.0,
+   "y": -133,
+   "banner": true
+  },
+  {
+   "type": "stone_block",
+   "x": 915.0,
+   "y": -32,
+   "weak_point": true,
+   "trigger": "harbor_gate",
+   "scroll": true
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1595.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1735.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1665.0,
+   "y": -160.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1595.0,
+   "y": -250.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1735.0,
+   "y": -250.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1665.0,
+   "y": -340.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 1065.0,
+   "y": -209.5
+  },
+  {
+   "x": 1365.0,
+   "y": -175.5
+  },
+  {
+   "x": 1289.0,
+   "y": -29.5
+  },
+  {
+   "x": 1665.0,
+   "y": -389.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "gate",
+   "x": 815.0,
+   "y": -60,
+   "size": [
+    70,
+    118
+   ],
+   "trigger": "harbor_gate",
+   "travel_y": 122,
+   "duration_s": 0.46
+  },
+  {
+   "type": "rope_load",
+   "x": 1365.0,
+   "y": -420,
+   "length": 80,
+   "load": "boulder",
+   "frame": {
+    "posts": [
+     1865.0
+    ],
+    "top": -434,
+    "bottom": 0.0,
+    "beam": [
+     1353.0,
+     1877.0
+    ]
+   }
+  }
+ ],
+ "captives": []
+}

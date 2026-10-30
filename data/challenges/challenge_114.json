@@ -1,0 +1,163 @@
+{
+ "id": 114,
+ "name": "Rune Forge",
+ "realm": 4,
+ "heroes": [
+  "bomb",
+  "quake",
+  "fire",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Blast the rune crystal to fire its beam across the forge.",
+ "cinematic": [],
+ "callouts": [],
+ "boss": false,
+ "star_scores": [
+  20000,
+  25000,
+  41000
+ ],
+ "camera_right": 1760,
+ "camera_top": -450,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 740,
+    "x1": 1632,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "iron_block",
+   "x": 822,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 822,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 978,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 978,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 900,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 820,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 980,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 900,
+   "y": -287.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 900,
+   "y": -350.0,
+   "flag": true
+  },
+  {
+   "type": "rune_crystal",
+   "x": 1120,
+   "y": -32,
+   "dir": -30
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1280,
+   "y": -70.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1420,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1350,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 1270,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 1430,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1350,
+   "y": -313.0
+  },
+  {
+   "type": "barrel",
+   "x": 1376.0,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1350,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "ice_block",
+   "x": 1550,
+   "y": -32.0
+  },
+  {
+   "type": "ice_block",
+   "x": 1550,
+   "y": -96.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 900,
+   "y": -183.5
+  },
+  {
+   "x": 1350,
+   "y": -209.5
+  },
+  {
+   "x": 1323.0,
+   "y": -29.5
+  },
+  {
+   "x": 1550,
+   "y": -157.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": [],
+ "challenge": true,
+ "secret": true
+}

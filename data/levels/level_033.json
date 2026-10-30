@@ -1,0 +1,147 @@
+{
+ "id": 33,
+ "name": "Rail Cart",
+ "realm": 4,
+ "heroes": [
+  "bomb",
+  "cyclone",
+  "fire",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Lead the cart: aim where it is going.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "MOVING!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  15000,
+  18000,
+  31000
+ ],
+ "camera_right": 1860,
+ "camera_top": -570,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 1725,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 800.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 940.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 870.0,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 790.0,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 950.0,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 870.0,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 870.0,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1300.0,
+   "y": -194.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1440.0,
+   "y": -194.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1370.0,
+   "y": -284.0
+  },
+  {
+   "type": "post",
+   "x": 1290.0,
+   "y": -364.0
+  },
+  {
+   "type": "post",
+   "x": 1450.0,
+   "y": -364.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1370.0,
+   "y": -437.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1370.0,
+   "y": -500.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 870.0,
+   "y": -209.5
+  },
+  {
+   "x": 1370.0,
+   "y": -333.5
+  },
+  {
+   "x": 1370.0,
+   "y": -153.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "moving_platform",
+   "x": 1370.0,
+   "y": -99.0,
+   "size": [
+    430,
+    50
+   ],
+   "travel_x": 90,
+   "period_s": 8.0,
+   "travel_y": 0,
+   "phase": 0.0,
+   "chassis": "boss_mine_cart",
+   "chassis_h": 80
+  }
+ ],
+ "captives": []
+}

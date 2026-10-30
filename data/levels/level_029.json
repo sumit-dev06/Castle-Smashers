@@ -1,0 +1,191 @@
+{
+ "id": 29,
+ "name": "Storm Watch",
+ "realm": 3,
+ "heroes": [
+  "quake",
+  "bomb",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Gusts blow toward you. Aim further while the wind sign shows a gust.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "Storm wind! It pushes our shots back."
+  },
+  {
+   "t": "focus",
+   "target": "mech:0",
+   "label": "WRECKING BALL"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "WRECKING BALL"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  15000,
+  18000,
+  33000
+ ],
+ "camera_right": 1920,
+ "camera_top": -630,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 860,
+    "x1": 1790,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 930,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1070,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1000,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 920,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 1080,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1000,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1000,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1290,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1430,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1360,
+   "y": -160.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1290,
+   "y": -250.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1430,
+   "y": -250.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1360,
+   "y": -340.0
+  },
+  {
+   "type": "post",
+   "x": 1280,
+   "y": -420.0
+  },
+  {
+   "type": "post",
+   "x": 1440,
+   "y": -420.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1360,
+   "y": -493.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1360,
+   "y": -556.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 1000,
+   "y": -209.5
+  },
+  {
+   "x": 1360,
+   "y": -209.5
+  },
+  {
+   "x": 1360,
+   "y": -389.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "swing",
+   "x": 700,
+   "y": -540,
+   "length": 250,
+   "diameter": 80,
+   "arc_deg": 28,
+   "period_s": 3.6
+  },
+  {
+   "type": "spikes",
+   "x": 1650,
+   "y": -22,
+   "size": [
+    180,
+    44
+   ]
+  }
+ ],
+ "captives": [],
+ "wind": {
+  "strength": 260,
+  "period_s": 7.0,
+  "gust_s": 3.0,
+  "dir": -1
+ }
+}

@@ -1,0 +1,155 @@
+{
+ "id": 111,
+ "name": "Lantern Grotto",
+ "realm": 1,
+ "heroes": [
+  "stone",
+  "bomb",
+  "fire",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Uncover the rune switch and spring the trap door.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "TRAP DOOR"
+  },
+  {
+   "target": "mech:1",
+   "label": "?"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  20000,
+  22000,
+  36000
+ ],
+ "camera_right": 1750,
+ "camera_top": -410,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 757,
+    "x1": 1620,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 820,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 980,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 900,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 820,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 980,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 900,
+   "y": -279.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 900,
+   "y": -342.0,
+   "flag": true
+  },
+  {
+   "type": "post",
+   "x": 1160,
+   "y": -60
+  },
+  {
+   "type": "post",
+   "x": 1340,
+   "y": -60
+  },
+  {
+   "type": "stone_block",
+   "x": 1480,
+   "y": -32
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1410,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1550,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1480,
+   "y": -160.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 900,
+   "y": -175.5
+  },
+  {
+   "x": 1210,
+   "y": -171.5
+  },
+  {
+   "x": 1290,
+   "y": -171.5
+  },
+  {
+   "x": 1480,
+   "y": -209.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "trapdoor",
+   "x": 1250,
+   "y": -131,
+   "size": [
+    200,
+    22
+   ],
+   "trigger": "grotto_trap",
+   "hinge": -1
+  },
+  {
+   "type": "rune_switch",
+   "x": 1480,
+   "y": -32,
+   "triggers": [
+    "grotto_trap"
+   ]
+  }
+ ],
+ "captives": [],
+ "challenge": true,
+ "secret": true
+}

@@ -1,0 +1,224 @@
+{
+ "id": 47,
+ "name": "Sky Captive",
+ "realm": 5,
+ "heroes": [
+  "fire",
+  "bomb",
+  "cyclone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "The rope holds the cage lock. Cut it.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "captive",
+   "at": "fortress",
+   "style": "smoke"
+  },
+  {
+   "t": "say",
+   "who": "captive",
+   "text": "Cut the rope and my cage opens!"
+  },
+  {
+   "t": "focus",
+   "target": "mech:0",
+   "label": "CUT THE ROPE!"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "CUT THE ROPE!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  15000,
+  19000,
+  34000
+ ],
+ "camera_right": 1950,
+ "camera_top": -600,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 777,
+    "x1": 1890,
+    "top": -70
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "barrel",
+   "x": 850,
+   "y": -99.0
+  },
+  {
+   "type": "barrel",
+   "x": 850,
+   "y": -157.0
+  },
+  {
+   "type": "post",
+   "x": 970,
+   "y": -130.0
+  },
+  {
+   "type": "post",
+   "x": 1130,
+   "y": -130.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -203.0
+  },
+  {
+   "type": "post",
+   "x": 970,
+   "y": -276.0
+  },
+  {
+   "type": "post",
+   "x": 1130,
+   "y": -276.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -349.0
+  },
+  {
+   "type": "barrel",
+   "x": 1050,
+   "y": -99.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1050,
+   "y": -412.0,
+   "flag": true
+  },
+  {
+   "type": "ice_block",
+   "x": 1240,
+   "y": -102.0
+  },
+  {
+   "type": "barrel",
+   "x": 1240,
+   "y": -163.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1352,
+   "y": -102.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1352,
+   "y": -166.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1508,
+   "y": -102.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1508,
+   "y": -166.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1430,
+   "y": -211.0
+  },
+  {
+   "type": "post",
+   "x": 1350,
+   "y": -284.0
+  },
+  {
+   "type": "post",
+   "x": 1510,
+   "y": -284.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1430,
+   "y": -357.0
+  },
+  {
+   "type": "barrel",
+   "x": 1452.0,
+   "y": -99.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1430,
+   "y": -420.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 1050,
+   "y": -245.5
+  },
+  {
+   "x": 1430,
+   "y": -253.5
+  },
+  {
+   "x": 1407.0,
+   "y": -99.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "rope_load",
+   "x": 1640,
+   "y": -550,
+   "length": 120,
+   "load": "crate",
+   "releases": "free_pilot",
+   "frame": {
+    "posts": [
+     1640.0
+    ],
+    "top": -494,
+    "bottom": -70,
+    "beam": [
+     1628,
+     1652.0
+    ]
+   }
+  }
+ ],
+ "captives": [
+  {
+   "x": 1780,
+   "y": -70,
+   "trigger": "free_pilot",
+   "height": 92
+  }
+ ],
+ "wind": {
+  "strength": 200,
+  "period_s": 6.0,
+  "gust_s": 3.0,
+  "dir": 1
+ }
+}

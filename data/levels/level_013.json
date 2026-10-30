@@ -1,0 +1,177 @@
+{
+ "id": 13,
+ "name": "Crusher Gate",
+ "realm": 2,
+ "heroes": [
+  "cyclone",
+  "bomb",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "The crusher eats shots. Fire as it rises.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "focus",
+   "target": "mech:0",
+   "label": "CRUSHER!"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "Shoot between the slams!"
+  },
+  {
+   "t": "emote",
+   "who": "captain",
+   "e": "point"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "CRUSHER!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  20000,
+  22000,
+  36000
+ ],
+ "camera_right": 1600,
+ "camera_top": -630,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 798,
+    "x1": 1440,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_block",
+   "x": 880,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 880,
+   "y": -96.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1230,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1370,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1300,
+   "y": -160.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1230,
+   "y": -250.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1370,
+   "y": -250.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1300,
+   "y": -340.0
+  },
+  {
+   "type": "post",
+   "x": 1220,
+   "y": -420.0
+  },
+  {
+   "type": "post",
+   "x": 1380,
+   "y": -420.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1300,
+   "y": -493.0,
+   "banner": true
+  },
+  {
+   "type": "roof_tile",
+   "x": 1300,
+   "y": -556.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 880,
+   "y": -157.5
+  },
+  {
+   "x": 1300,
+   "y": -29.5
+  },
+  {
+   "x": 1300,
+   "y": -209.5
+  },
+  {
+   "x": 1300,
+   "y": -389.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "crusher",
+   "x": 1050,
+   "y": -420,
+   "size": [
+    150,
+    120
+   ],
+   "travel_y": 360,
+   "mode": "cycle",
+   "phase": 0.0,
+   "hold_k": 1.0,
+   "chain_px": 60,
+   "frame": {
+    "posts": [
+     957.0,
+     1143.0
+    ],
+    "top": -550.0,
+    "bottom": 0.0,
+    "beam": [
+     941.0,
+     1159.0
+    ]
+   }
+  }
+ ],
+ "captives": []
+}

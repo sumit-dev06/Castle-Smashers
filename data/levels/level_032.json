@@ -1,0 +1,222 @@
+{
+ "id": 32,
+ "name": "Ore Buckets",
+ "realm": 4,
+ "heroes": [
+  "quake",
+  "bomb",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Two boulders hang over two keeps. Two ropes, two collapses.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "CUT THE ROPE!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  20000,
+  25000,
+  42000
+ ],
+ "camera_right": 1800,
+ "camera_top": -840,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 890,
+    "x1": 1660,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_block",
+   "x": 972,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 972,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1128,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1128,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 980,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1120,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1050,
+   "y": -314.0
+  },
+  {
+   "type": "post",
+   "x": 970,
+   "y": -394.0
+  },
+  {
+   "type": "post",
+   "x": 1130,
+   "y": -394.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -467.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1050,
+   "y": -530.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1422,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1422,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1578,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1578,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1500,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1430,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1570,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1500,
+   "y": -314.0
+  },
+  {
+   "type": "post",
+   "x": 1420,
+   "y": -394.0
+  },
+  {
+   "type": "post",
+   "x": 1580,
+   "y": -394.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1500,
+   "y": -467.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1500,
+   "y": -530.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 1050,
+   "y": -183.5
+  },
+  {
+   "x": 1050,
+   "y": -363.5
+  },
+  {
+   "x": 1500,
+   "y": -183.5
+  },
+  {
+   "x": 1500,
+   "y": -363.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "rope_load",
+   "x": 1050,
+   "y": -790.0,
+   "length": 80,
+   "load": "boulder",
+   "frame": {
+    "posts": [
+     1275
+    ],
+    "top": -804.0,
+    "bottom": 0.0,
+    "beam": [
+     1038,
+     1287
+    ]
+   }
+  },
+  {
+   "type": "rope_load",
+   "x": 1500,
+   "y": -790.0,
+   "length": 80,
+   "load": "boulder",
+   "frame": {
+    "posts": [
+     1275
+    ],
+    "top": -804.0,
+    "bottom": 0.0,
+    "beam": [
+     1263,
+     1512
+    ]
+   }
+  }
+ ],
+ "captives": []
+}

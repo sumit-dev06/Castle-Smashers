@@ -1,0 +1,142 @@
+{
+ "id": 112,
+ "name": "Sultan's Vault",
+ "realm": 2,
+ "heroes": [
+  "bomb",
+  "cyclone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Get past the windmill and crack the vault chests.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "JAM THE HUB!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  15000,
+  18000,
+  23000
+ ],
+ "camera_right": 1680,
+ "camera_top": -550,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 1090,
+    "x1": 1545,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_block",
+   "x": 1172,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1172,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1328,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1328,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1250,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 1170,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1330,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1250,
+   "y": -287.0
+  },
+  {
+   "type": "treasure_chest",
+   "x": 1260.0,
+   "y": -28.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1250,
+   "y": -350.0,
+   "flag": true
+  },
+  {
+   "type": "treasure_chest",
+   "x": 1460,
+   "y": -28.0
+  },
+  {
+   "type": "crate",
+   "x": 1460,
+   "y": -88.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 1250,
+   "y": -183.5
+  },
+  {
+   "x": 1227.0,
+   "y": -29.5
+  },
+  {
+   "x": 1460,
+   "y": -149.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "windmill",
+   "x": 950,
+   "y": -330,
+   "arms": 3,
+   "arm_len": 180,
+   "dps": 50,
+   "frame": {
+    "posts": [
+     950
+    ],
+    "top": -330,
+    "bottom": 0
+   }
+  }
+ ],
+ "captives": [],
+ "mode": "heist",
+ "mode_cfg": {
+  "need": 2
+ },
+ "challenge": true,
+ "secret": true
+}

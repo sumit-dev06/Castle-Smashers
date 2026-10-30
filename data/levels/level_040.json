@@ -1,0 +1,291 @@
+{
+ "id": 40,
+ "name": "The Foundry",
+ "realm": 4,
+ "heroes": [
+  "quake",
+  "bomb",
+  "fire",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 9,
+ "strategy": "Boss: break the furnace core behind its fast iron armor. The engineer rebuilds, knock him out.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "baron",
+   "at": "boss",
+   "style": "smoke"
+  },
+  {
+   "t": "say",
+   "who": "baron",
+   "text": "My foundry never stops moving!"
+  },
+  {
+   "t": "boss"
+  },
+  {
+   "t": "emote",
+   "who": "baron",
+   "e": "shake"
+  },
+  {
+   "t": "focus",
+   "target": "core",
+   "label": "THE FURNACE!"
+  },
+  {
+   "t": "enter",
+   "who": "wizard",
+   "at": "catapult",
+   "style": "smoke"
+  },
+  {
+   "t": "say",
+   "who": "wizard",
+   "text": "Fast armor. Fire when the gap swings by!"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "TIME THE GAP!"
+  }
+ ],
+ "boss": true,
+ "star_scores": [
+  37000,
+  45000,
+  67000
+ ],
+ "camera_right": 2010,
+ "camera_top": -790,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 1882,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_block",
+   "x": 812.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 876.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 812.0,
+   "y": -96
+  },
+  {
+   "type": "stone_block",
+   "x": 876.0,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1264.0,
+   "y": -166.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1264.0,
+   "y": -230.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1420.0,
+   "y": -166.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1420.0,
+   "y": -230.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1342.0,
+   "y": -275.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1272.0,
+   "y": -358.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1412.0,
+   "y": -358.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1342.0,
+   "y": -448.0
+  },
+  {
+   "type": "post",
+   "x": 1262.0,
+   "y": -528.0
+  },
+  {
+   "type": "post",
+   "x": 1422.0,
+   "y": -528.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1342.0,
+   "y": -601.0
+  },
+  {
+   "type": "barrel",
+   "x": 1342.0,
+   "y": -163.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1514.0,
+   "y": -166.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1514.0,
+   "y": -230.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1670.0,
+   "y": -166.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1670.0,
+   "y": -230.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1592.0,
+   "y": -275.0
+  },
+  {
+   "type": "post",
+   "x": 1512.0,
+   "y": -348.0
+  },
+  {
+   "type": "post",
+   "x": 1672.0,
+   "y": -348.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1592.0,
+   "y": -421.0
+  },
+  {
+   "type": "power_core",
+   "x": 1342.0,
+   "y": -650.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 844.0,
+   "y": -157.5
+  },
+  {
+   "x": 1342.0,
+   "y": -317.5
+  },
+  {
+   "x": 1342.0,
+   "y": -497.5
+  },
+  {
+   "x": 1592.0,
+   "y": -317.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "shield_ring",
+   "x": 1342.0,
+   "y": -650.0,
+   "radius": 100,
+   "plates": 2,
+   "dps": 70,
+   "plate_len": 120,
+   "follow": 1
+  },
+  {
+   "type": "moving_platform",
+   "x": 1462.0,
+   "y": -109.0,
+   "size": [
+    520,
+    50
+   ],
+   "travel_x": 110,
+   "period_s": 9.0,
+   "travel_y": 0,
+   "phase": 0.0,
+   "chassis": "boss_mine_cart",
+   "chassis_h": 90
+  }
+ ],
+ "captives": [],
+ "boss_unit": {
+  "name": "The Forgemaster",
+  "hp": 170,
+  "phases": [
+   {
+    "at": 0.66,
+    "do": [
+     "charge",
+     "reinforce"
+    ]
+   },
+   {
+    "at": 0.33,
+    "do": [
+     "shield",
+     "enrage"
+    ]
+   }
+  ],
+  "x": 1652.0,
+  "y": -463.5,
+  "reinforce": [
+   [
+    1292.0,
+    -614.0
+   ],
+   [
+    1392.0,
+    -614.0
+   ]
+  ]
+ },
+ "engineers": [
+  {
+   "x": 1532.0,
+   "y": -463.5
+  }
+ ]
+}

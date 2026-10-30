@@ -1,0 +1,187 @@
+{
+ "id": 113,
+ "name": "Smugglers' Cove",
+ "realm": 3,
+ "heroes": [
+  "stone",
+  "bomb",
+  "fire",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Hit the lever to open the sea gate.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "HIT THE LEVER!"
+  },
+  {
+   "target": "mech:1",
+   "label": "GATE"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  20000,
+  23000,
+  38000
+ ],
+ "camera_right": 1680,
+ "camera_top": -420,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 757,
+    "x1": 1540,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 820,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 980,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 900,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 820,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 980,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 900,
+   "y": -279.0
+  },
+  {
+   "type": "barrel",
+   "x": 943.0,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 900,
+   "y": -342.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1302,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1302,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1458,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1458,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1380,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 1300,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1460,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1380,
+   "y": -287.0
+  },
+  {
+   "type": "barrel",
+   "x": 1402.0,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1380,
+   "y": -350.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 900,
+   "y": -175.5
+  },
+  {
+   "x": 856.0,
+   "y": -29.5
+  },
+  {
+   "x": 1380,
+   "y": -183.5
+  },
+  {
+   "x": 1357.0,
+   "y": -29.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "lever",
+   "x": 1080,
+   "y": 0,
+   "triggers": [
+    "cove_gate"
+   ],
+   "facing": 1
+  },
+  {
+   "type": "gate",
+   "x": 1180,
+   "y": -60,
+   "size": [
+    70,
+    118
+   ],
+   "trigger": "cove_gate",
+   "travel_y": 122,
+   "duration_s": 0.46
+  }
+ ],
+ "captives": [],
+ "challenge": true,
+ "tide": {
+  "amp_px": 45,
+  "period_s": 8.0
+ },
+ "secret": true
+}

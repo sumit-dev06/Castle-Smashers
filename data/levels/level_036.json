@@ -1,0 +1,211 @@
+{
+ "id": 36,
+ "name": "Powder Magazine",
+ "realm": 4,
+ "heroes": [
+  "fire",
+  "bomb",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Barrels and crystals together. One spark, chain reaction.",
+ "cinematic": [],
+ "callouts": [],
+ "boss": false,
+ "star_scores": [
+  20000,
+  26000,
+  45000
+ ],
+ "camera_right": 1840,
+ "camera_top": -570,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 777,
+    "x1": 1703,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "barrel",
+   "x": 850,
+   "y": -29.0
+  },
+  {
+   "type": "barrel",
+   "x": 850,
+   "y": -87.0
+  },
+  {
+   "type": "stone_block",
+   "x": 972,
+   "y": -32.0,
+   "scroll": true
+  },
+  {
+   "type": "stone_block",
+   "x": 972,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1128,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1128,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -141.0
+  },
+  {
+   "type": "stone_block",
+   "x": 972,
+   "y": -186.0
+  },
+  {
+   "type": "stone_block",
+   "x": 972,
+   "y": -250.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1128,
+   "y": -186.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1128,
+   "y": -250.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -295.0
+  },
+  {
+   "type": "post",
+   "x": 970,
+   "y": -368.0
+  },
+  {
+   "type": "post",
+   "x": 1130,
+   "y": -368.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -441.0
+  },
+  {
+   "type": "barrel",
+   "x": 1050,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1050,
+   "y": -504.0,
+   "flag": true
+  },
+  {
+   "type": "barrel",
+   "x": 1250,
+   "y": -29.0
+  },
+  {
+   "type": "crystal_block",
+   "x": 1250,
+   "y": -90.0
+  },
+  {
+   "type": "barrel",
+   "x": 1250,
+   "y": -151.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1380,
+   "y": -70.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1520,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1450,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 1370,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 1530,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1450,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1450,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "barrel",
+   "x": 1630,
+   "y": -29.0
+  },
+  {
+   "type": "rune_crystal",
+   "x": 1630,
+   "y": -90.0
+  },
+  {
+   "type": "barrel",
+   "x": 1630,
+   "y": -151.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 1050,
+   "y": -183.5
+  },
+  {
+   "x": 1050,
+   "y": -337.5
+  },
+  {
+   "x": 1450,
+   "y": -29.5
+  },
+  {
+   "x": 1450,
+   "y": -209.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": []
+}

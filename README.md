@@ -1,0 +1,33 @@
+# Castle Smashers
+
+A cartoon physics siege game for Android. Load the catapult, fling stones, fire pots, bombs and
+cyclones, bring down enemy fortresses, and defeat the archers before their arrows wipe out your
+soldiers.
+
+- Engine: Godot 4.7 (GDScript), Android only, Google Play.
+- Status: pre-alpha, see `docs/ROADMAP.md`.
+
+## Quick start
+1. Open Godot 4.7 → Import → select `project.godot`.
+2. Press F5 to play.
+3. Android: Project → Export → "Android" → Export Project (debug APK), or see `docs/PLAY_STORE.md`.
+
+## Documentation
+| Doc | What it covers |
+|---|---|
+| [AGENTS.md](AGENTS.md) | Rules and commands for anyone (human or AI) changing the code |
+| [docs/ABOUT.md](docs/ABOUT.md) | Vision, story, audience, pillars |
+| [docs/GAME_DESIGN.md](docs/GAME_DESIGN.md) | Rules, projectiles, units, materials, scoring |
+| [docs/LEVELS.md](docs/LEVELS.md) | Campaign structure, level format, level list |
+| [docs/SIGNATURE_FEATURES.md](docs/SIGNATURE_FEATURES.md) | The six signature pillars and the Phase D plan |
+| [docs/UI_DESIGN.md](docs/UI_DESIGN.md) | Home, map, HUD, menus, results and the icon set |
+| [docs/ART_DIRECTION.md](docs/ART_DIRECTION.md) | Style, palette, characters, asset list |
+| [docs/AI_ART_PROMPTS.md](docs/AI_ART_PROMPTS.md) | Prompts for AI-generated art and where files go |
+| [docs/AUDIO.md](docs/AUDIO.md) | Sound design plan and sources |
+| [docs/MONETIZATION.md](docs/MONETIZATION.md) | Ads, IAP, economy, policy rules |
+| [docs/TECH_STACK.md](docs/TECH_STACK.md) | Engine, plugins, tooling, versions |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Code structure, scenes, data flow |
+| [docs/PLAY_STORE.md](docs/PLAY_STORE.md) | Release checklist for Google Play |
+| [docs/ROADMAP.md](docs/ROADMAP.md) | Phases and milestones |
+| [docs/CREDITS.md](docs/CREDITS.md) | Third-party assets and licences |
+| [docs/reference/](docs/reference/) | Notes from the old HTML prototype |

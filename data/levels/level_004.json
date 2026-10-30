@@ -1,0 +1,268 @@
+{
+ "id": 4,
+ "name": "Petal Bridge",
+ "realm": 1,
+ "heroes": [
+  "fire",
+  "stone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Break the glowing crate: the bridge slams onto the guards.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "focus",
+   "target": "weak",
+   "label": "WEAK POINT!"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "Crack that glowing crate..."
+  },
+  {
+   "t": "focus",
+   "target": "mech:0",
+   "label": "BRIDGE DROPS!"
+  },
+  {
+   "t": "demo",
+   "target": "weak",
+   "hero": "stone"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "DRAWBRIDGE"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  20000,
+  25000,
+  43000
+ ],
+ "camera_right": 1920,
+ "camera_top": -570,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 1772,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_block",
+   "x": 934.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 934.0,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1090.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1090.0,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1012.0,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 932.0,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1092.0,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1012.0,
+   "y": -287.0
+  },
+  {
+   "type": "post",
+   "x": 932.0,
+   "y": -360.0
+  },
+  {
+   "type": "post",
+   "x": 1092.0,
+   "y": -360.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1012.0,
+   "y": -433.0
+  },
+  {
+   "type": "barrel",
+   "x": 1012.0,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1012.0,
+   "y": -496.0,
+   "flag": true
+  },
+  {
+   "type": "post",
+   "x": 1160.0,
+   "y": -60
+  },
+  {
+   "type": "post",
+   "x": 1312.0,
+   "y": -60
+  },
+  {
+   "type": "post",
+   "x": 1464.0,
+   "y": -60
+  },
+  {
+   "type": "plank_xl",
+   "x": 1312.0,
+   "y": -133,
+   "banner": true
+  },
+  {
+   "type": "crate",
+   "x": 812.0,
+   "y": -32,
+   "weak_point": true,
+   "trigger": "twin_bridge"
+  },
+  {
+   "type": "stone_block",
+   "x": 1534.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1534.0,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1690.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1690.0,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1612.0,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 1532.0,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1692.0,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1612.0,
+   "y": -287.0
+  },
+  {
+   "type": "post",
+   "x": 1532.0,
+   "y": -360.0
+  },
+  {
+   "type": "post",
+   "x": 1692.0,
+   "y": -360.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1612.0,
+   "y": -433.0
+  },
+  {
+   "type": "barrel",
+   "x": 1612.0,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1612.0,
+   "y": -496.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 1012.0,
+   "y": -183.5
+  },
+  {
+   "x": 1012.0,
+   "y": -329.5
+  },
+  {
+   "x": 1312.0,
+   "y": -175.5
+  },
+  {
+   "x": 1612.0,
+   "y": -329.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "drawbridge",
+   "x": 1122.0,
+   "y": -168,
+   "size": [
+    360,
+    36
+   ],
+   "trigger": "twin_bridge",
+   "start_angle": -68,
+   "end_angle": 0,
+   "duration_s": 0.85,
+   "counterweight_travel": 92
+  }
+ ],
+ "captives": []
+}

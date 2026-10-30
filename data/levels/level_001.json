@@ -1,0 +1,129 @@
+{
+ "id": 1,
+ "name": "Wooden Watchtower",
+ "realm": 1,
+ "heroes": [
+  "stone",
+  "stone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Learn the arc. One clean hit on the timber frame brings it down.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "That watchtower blocks the valley road!"
+  },
+  {
+   "t": "emote",
+   "who": "captain",
+   "e": "point"
+  },
+  {
+   "t": "demo",
+   "target": "top",
+   "hero": "stone"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "Pull back, aim high, let go!"
+  },
+  {
+   "t": "march"
+  }
+ ],
+ "callouts": [],
+ "boss": false,
+ "star_scores": [
+  10000,
+  11000,
+  23000
+ ],
+ "camera_right": 1360,
+ "camera_top": -410,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 778,
+    "x1": 1193,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 970,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1130,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 970,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1130,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -279.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1050,
+   "y": -342.0,
+   "flag": true
+  },
+  {
+   "type": "crate",
+   "x": 860,
+   "y": -32.0
+  },
+  {
+   "type": "crate",
+   "x": 860,
+   "y": -96.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 1050,
+   "y": -29.5
+  },
+  {
+   "x": 1050,
+   "y": -175.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": []
+}

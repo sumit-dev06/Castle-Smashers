@@ -1,0 +1,231 @@
+{
+ "id": 104,
+ "name": "Forge Sprint",
+ "realm": 4,
+ "heroes": [
+  "bomb",
+  "quake",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Hit the lever to drop the crusher, then clear the forge in 50 seconds.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "DROP THE CRUSHER!"
+  },
+  {
+   "target": "mech:1",
+   "label": "HIT THE LEVER!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  0,
+  0,
+  0
+ ],
+ "camera_right": 1800,
+ "camera_top": -630,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 740,
+    "x1": 1640,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "iron_block",
+   "x": 822,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 822,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 978,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 978,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 900,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 820,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 980,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 900,
+   "y": -287.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 900,
+   "y": -350.0,
+   "flag": true
+  },
+  {
+   "type": "post",
+   "x": 1080,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1240,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1160,
+   "y": -133.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1160,
+   "y": -196.0,
+   "flag": true
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1430,
+   "y": -70.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1570,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1500,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 1420,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 1580,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1500,
+   "y": -313.0
+  },
+  {
+   "type": "barrel",
+   "x": 1526.0,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1500,
+   "y": -376.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 900,
+   "y": -183.5
+  },
+  {
+   "x": 900,
+   "y": -29.5
+  },
+  {
+   "x": 1160,
+   "y": -29.5
+  },
+  {
+   "x": 1500,
+   "y": -209.5
+  },
+  {
+   "x": 1473.0,
+   "y": -29.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "crusher",
+   "x": 1160,
+   "y": -470,
+   "size": [
+    150,
+    120
+   ],
+   "trigger": "forge_drop",
+   "travel_y": 300,
+   "mode": "trigger",
+   "phase": 0.0,
+   "hold_k": 1.0,
+   "chain_px": 60,
+   "frame": {
+    "posts": [
+     1067.0,
+     1253.0
+    ],
+    "top": -600.0,
+    "bottom": 0.0,
+    "beam": [
+     1051.0,
+     1269.0
+    ]
+   }
+  },
+  {
+   "type": "lever",
+   "x": 1300,
+   "y": 0,
+   "triggers": [
+    "forge_drop"
+   ],
+   "facing": 1
+  }
+ ],
+ "captives": [],
+ "mode": "time_attack",
+ "mode_cfg": {
+  "time_s": 50,
+  "refill": [
+   "bomb",
+   "quake",
+   "stone"
+  ],
+  "star_time": [
+   0,
+   12,
+   22
+  ]
+ },
+ "challenge": true
+}

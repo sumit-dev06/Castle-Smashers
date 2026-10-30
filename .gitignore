@@ -1,0 +1,8 @@
+.godot/
+build/
+*.keystore
+*.jks
+export_credentials.cfg
+.DS_Store
+__pycache__/
+assets/art/ai/incoming/

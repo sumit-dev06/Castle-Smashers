@@ -1,0 +1,175 @@
+{
+ "id": 7,
+ "name": "Hillside Terraces",
+ "realm": 1,
+ "heroes": [
+  "bomb",
+  "stone",
+  "fire",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "The high tower needs a steeper arc. Or cut its rope.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "CUT THE ROPE!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  20000,
+  23000,
+  37000
+ ],
+ "camera_right": 1720,
+ "camera_top": -830,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 790,
+    "x1": 1110,
+    "top": 0.0
+   },
+   {
+    "x0": 1257,
+    "x1": 1660,
+    "top": -90
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_block",
+   "x": 872,
+   "y": -32.0,
+   "scroll": true
+  },
+  {
+   "type": "stone_block",
+   "x": 872,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1028,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1028,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 950,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 870,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1030,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 950,
+   "y": -287.0
+  },
+  {
+   "type": "barrel",
+   "x": 972.0,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 950,
+   "y": -350.0,
+   "flag": true
+  },
+  {
+   "type": "post",
+   "x": 1320,
+   "y": -150.0
+  },
+  {
+   "type": "post",
+   "x": 1480,
+   "y": -150.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1400,
+   "y": -223.0
+  },
+  {
+   "type": "post",
+   "x": 1320,
+   "y": -296.0
+  },
+  {
+   "type": "post",
+   "x": 1480,
+   "y": -296.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1400,
+   "y": -369.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1400,
+   "y": -432.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 950,
+   "y": -183.5
+  },
+  {
+   "x": 927.0,
+   "y": -29.5
+  },
+  {
+   "x": 1400,
+   "y": -265.5
+  },
+  {
+   "x": 1400,
+   "y": -119.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "rope_load",
+   "x": 1400,
+   "y": -782.0,
+   "length": 80,
+   "load": "boulder",
+   "frame": {
+    "posts": [
+     1590
+    ],
+    "top": -706.0,
+    "bottom": -90,
+    "beam": [
+     1388,
+     1602
+    ]
+   }
+  }
+ ],
+ "captives": []
+}

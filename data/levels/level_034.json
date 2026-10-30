@@ -1,0 +1,176 @@
+{
+ "id": 34,
+ "name": "Lava Plume",
+ "realm": 4,
+ "heroes": [
+  "quake",
+  "fire",
+  "stone",
+  "fire"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "The plume lifts shots and burns anything thrown into it.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "focus",
+   "target": "mech:0",
+   "label": "LAVA PLUME!"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "It burns and it lifts. Use it!"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "LAVA PLUME!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  15000,
+  18000,
+  31000
+ ],
+ "camera_right": 1830,
+ "camera_top": -450,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 760,
+    "x1": 1040,
+    "top": 0.0
+   },
+   {
+    "x0": 1210,
+    "x1": 1700,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 830,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 970,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 900,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 820,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 980,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 900,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 900,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1280,
+   "y": -70.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1420,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1350,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 1270,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 1430,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1350,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1350,
+   "y": -376.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 900,
+   "y": -209.5
+  },
+  {
+   "x": 1350,
+   "y": -209.5
+  },
+  {
+   "x": 1350,
+   "y": -29.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "geyser",
+   "x": 1125,
+   "y": 0,
+   "height": 520,
+   "period_s": 4.5,
+   "burst_s": 1.5,
+   "phase": 0.0,
+   "width": 90
+  },
+  {
+   "type": "spikes",
+   "x": 1560,
+   "y": -22,
+   "size": [
+    180,
+    44
+   ]
+  }
+ ],
+ "captives": []
+}

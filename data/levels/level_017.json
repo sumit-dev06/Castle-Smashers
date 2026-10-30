@@ -1,0 +1,172 @@
+{
+ "id": 17,
+ "name": "Granite Obelisk",
+ "realm": 2,
+ "heroes": [
+  "bomb",
+  "cyclone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Shake the bolted balconies loose, then break the base.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "bolt:0",
+   "label": "BOLTED"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  25000,
+  29000,
+  45000
+ ],
+ "camera_right": 1630,
+ "camera_top": -810,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 898,
+    "x1": 1390,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 1180,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1320,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1250,
+   "y": -160.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1180,
+   "y": -250.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1320,
+   "y": -250.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1250,
+   "y": -340.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1180,
+   "y": -430.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1320,
+   "y": -430.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1250,
+   "y": -520.0
+  },
+  {
+   "type": "post",
+   "x": 1170,
+   "y": -600.0
+  },
+  {
+   "type": "post",
+   "x": 1330,
+   "y": -600.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1250,
+   "y": -673.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1250,
+   "y": -736.0,
+   "flag": true
+  },
+  {
+   "type": "plank_short",
+   "x": 1105.0,
+   "y": -160.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1395.0,
+   "y": -160.0
+  },
+  {
+   "type": "stone_block",
+   "x": 980,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 1044,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 980,
+   "y": -96
+  },
+  {
+   "type": "stone_block",
+   "x": 1044,
+   "y": -96
+  }
+ ],
+ "archers": [
+  {
+   "x": 1250,
+   "y": -209.5
+  },
+  {
+   "x": 1250,
+   "y": -389.5
+  },
+  {
+   "x": 1250,
+   "y": -569.5
+  },
+  {
+   "x": 1105.0,
+   "y": -202.5
+  },
+  {
+   "x": 1395.0,
+   "y": -202.5
+  }
+ ],
+ "bolts": [
+  {
+   "a": 2,
+   "b": 13
+  },
+  {
+   "a": 2,
+   "b": 14
+  }
+ ],
+ "mechanisms": [],
+ "captives": []
+}

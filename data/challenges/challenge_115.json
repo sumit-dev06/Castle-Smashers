@@ -1,0 +1,146 @@
+{
+ "id": 115,
+ "name": "Cloud Sanctum",
+ "realm": 5,
+ "heroes": [
+  "quake",
+  "bomb",
+  "cyclone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Shoot through the gaps in the orbiting shield.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "TIME THE GAP!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  20000,
+  22000,
+  35000
+ ],
+ "camera_right": 1640,
+ "camera_top": -550,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 895,
+    "x1": 1105,
+    "top": 0.0
+   },
+   {
+    "x0": 1210,
+    "x1": 1490,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 958,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1042,
+   "y": -60.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1000,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 958,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1042,
+   "y": -206.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1000,
+   "y": -279.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1280,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1420,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1350,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 1270,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 1430,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1350,
+   "y": -313.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 1000,
+   "y": -321.5
+  },
+  {
+   "x": 1000,
+   "y": -175.5
+  },
+  {
+   "x": 1350,
+   "y": -209.5
+  },
+  {
+   "x": 1350,
+   "y": -29.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "shield_ring",
+   "x": 1350,
+   "y": -400,
+   "radius": 110,
+   "plates": 3,
+   "dps": 45,
+   "plate_len": 110
+  }
+ ],
+ "captives": [],
+ "challenge": true,
+ "wind": {
+  "strength": 200,
+  "period_s": 6.0,
+  "gust_s": 3.0,
+  "dir": 1
+ },
+ "secret": true
+}

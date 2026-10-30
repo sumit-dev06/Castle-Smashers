@@ -1,0 +1,184 @@
+{
+ "id": 15,
+ "name": "Ruin Terraces",
+ "realm": 2,
+ "heroes": [
+  "cyclone",
+  "bomb",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Work up the terraces. The top ruin has a boulder over it.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "CUT THE ROPE!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  25000,
+  28000,
+  43000
+ ],
+ "camera_right": 2020,
+ "camera_top": -930,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 1010,
+    "top": 0.0
+   },
+   {
+    "x0": 1160,
+    "x1": 1440,
+    "top": -70
+   },
+   {
+    "x0": 1577,
+    "x1": 1950,
+    "top": -140
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 800.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 940.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 870.0,
+   "y": -160.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1230.0,
+   "y": -140.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1370.0,
+   "y": -140.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1300.0,
+   "y": -230.0
+  },
+  {
+   "type": "post",
+   "x": 1220.0,
+   "y": -310.0
+  },
+  {
+   "type": "post",
+   "x": 1380.0,
+   "y": -310.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1300.0,
+   "y": -383.0,
+   "scroll": true
+  },
+  {
+   "type": "roof_tile",
+   "x": 1300.0,
+   "y": -446.0,
+   "flag": true
+  },
+  {
+   "type": "post",
+   "x": 1640.0,
+   "y": -200.0
+  },
+  {
+   "type": "post",
+   "x": 1800.0,
+   "y": -200.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1720.0,
+   "y": -273.0
+  },
+  {
+   "type": "post",
+   "x": 1640.0,
+   "y": -346.0
+  },
+  {
+   "type": "post",
+   "x": 1800.0,
+   "y": -346.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1720.0,
+   "y": -419.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1720.0,
+   "y": -482.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 870.0,
+   "y": -29.5
+  },
+  {
+   "x": 870.0,
+   "y": -209.5
+  },
+  {
+   "x": 1300.0,
+   "y": -279.5
+  },
+  {
+   "x": 1720.0,
+   "y": -169.5
+  },
+  {
+   "x": 1720.0,
+   "y": -315.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "rope_load",
+   "x": 1720.0,
+   "y": -882.0,
+   "length": 80,
+   "load": "boulder",
+   "frame": {
+    "posts": [
+     1880.0
+    ],
+    "top": -756.0,
+    "bottom": -140,
+    "beam": [
+     1708.0,
+     1892.0
+    ]
+   }
+  }
+ ],
+ "captives": []
+}

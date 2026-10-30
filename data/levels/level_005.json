@@ -1,0 +1,242 @@
+{
+ "id": 5,
+ "name": "Bolted Balconies",
+ "realm": 1,
+ "heroes": [
+  "fire",
+  "stone",
+  "fire",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Bolts break when a piece takes a beating or a blast.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "enemy",
+   "at": "fortress",
+   "style": "drop"
+  },
+  {
+   "t": "say",
+   "who": "enemy",
+   "text": "Our balconies are bolted on!"
+  },
+  {
+   "t": "emote",
+   "who": "enemy",
+   "e": "laugh"
+  },
+  {
+   "t": "focus",
+   "target": "bolt:0",
+   "label": "BOLTS!"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "Hit them hard and the bolts pop."
+  }
+ ],
+ "callouts": [
+  {
+   "target": "bolt:0",
+   "label": "BOLTED"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  30000,
+  34000,
+  49000
+ ],
+ "camera_right": 1800,
+ "camera_top": -570,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 890,
+    "x1": 1210,
+    "top": 0.0
+   },
+   {
+    "x0": 1357,
+    "x1": 1643,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_block",
+   "x": 972,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 972,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1128,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1128,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 970,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1130,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -287.0
+  },
+  {
+   "type": "post",
+   "x": 970,
+   "y": -360.0
+  },
+  {
+   "type": "post",
+   "x": 1130,
+   "y": -360.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -433.0
+  },
+  {
+   "type": "barrel",
+   "x": 1050,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1050,
+   "y": -496.0,
+   "flag": true
+  },
+  {
+   "type": "plank_short",
+   "x": 885.0,
+   "y": -141.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1215.0,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 1420,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1580,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1500,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 1420,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1580,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1500,
+   "y": -279.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1500,
+   "y": -342.0,
+   "flag": true
+  },
+  {
+   "type": "plank_short",
+   "x": 1335.0,
+   "y": -133.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 1050,
+   "y": -183.5
+  },
+  {
+   "x": 1050,
+   "y": -329.5
+  },
+  {
+   "x": 885.0,
+   "y": -183.5
+  },
+  {
+   "x": 1215.0,
+   "y": -183.5
+  },
+  {
+   "x": 1500,
+   "y": -175.5
+  },
+  {
+   "x": 1335.0,
+   "y": -175.5
+  }
+ ],
+ "bolts": [
+  {
+   "a": 4,
+   "b": 13
+  },
+  {
+   "a": 4,
+   "b": 14
+  },
+  {
+   "a": 17,
+   "b": 22
+  }
+ ],
+ "mechanisms": [],
+ "captives": []
+}

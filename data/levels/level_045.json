@@ -1,0 +1,159 @@
+{
+ "id": 45,
+ "name": "Windmill Isle",
+ "realm": 5,
+ "heroes": [
+  "bomb",
+  "cyclone",
+  "fire",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Gusts change direction. Wait for calm or use them.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "WRECKING BALL"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  15000,
+  17000,
+  31000
+ ],
+ "camera_right": 1760,
+ "camera_top": -650,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 885,
+    "x1": 1603,
+    "top": -60
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 948,
+   "y": -120
+  },
+  {
+   "type": "post",
+   "x": 1100,
+   "y": -120
+  },
+  {
+   "type": "post",
+   "x": 1252,
+   "y": -120
+  },
+  {
+   "type": "plank_xl",
+   "x": 1100,
+   "y": -193
+  },
+  {
+   "type": "post",
+   "x": 948,
+   "y": -266
+  },
+  {
+   "type": "post",
+   "x": 1100,
+   "y": -266
+  },
+  {
+   "type": "post",
+   "x": 1252,
+   "y": -266
+  },
+  {
+   "type": "plank_xl",
+   "x": 1100,
+   "y": -339,
+   "banner": true
+  },
+  {
+   "type": "roof_tile",
+   "x": 1100,
+   "y": -402,
+   "flag": true
+  },
+  {
+   "type": "post",
+   "x": 1380,
+   "y": -120.0
+  },
+  {
+   "type": "post",
+   "x": 1540,
+   "y": -120.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1460,
+   "y": -193.0
+  },
+  {
+   "type": "post",
+   "x": 1380,
+   "y": -266.0
+  },
+  {
+   "type": "post",
+   "x": 1540,
+   "y": -266.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1460,
+   "y": -339.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1460,
+   "y": -402.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 1050,
+   "y": -89.5
+  },
+  {
+   "x": 1150,
+   "y": -235.5
+  },
+  {
+   "x": 1460,
+   "y": -235.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "swing",
+   "x": 1760,
+   "y": -600,
+   "length": 250,
+   "diameter": 76,
+   "arc_deg": 30,
+   "period_s": 3.4
+  }
+ ],
+ "captives": [],
+ "wind": {
+  "strength": 240,
+  "period_s": 6.5,
+  "gust_s": 3.0,
+  "dir": 1,
+  "alternate": true
+ }
+}

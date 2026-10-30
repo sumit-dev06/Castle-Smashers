@@ -1,0 +1,191 @@
+{
+ "id": 22,
+ "name": "Smugglers' Pier",
+ "realm": 3,
+ "heroes": [
+  "quake",
+  "stone",
+  "fire",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Earthbreak reaches every low foundation, including the weak stone.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "wizard",
+   "at": "catapult",
+   "style": "smoke"
+  },
+  {
+   "t": "hero",
+   "kind": "quake"
+  },
+  {
+   "t": "say",
+   "who": "wizard",
+   "text": "Drive Rumbler down and the ground breaks!"
+  },
+  {
+   "t": "demo",
+   "target": "weak",
+   "hero": "quake"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "SPIKES"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  15000,
+  19000,
+  34000
+ ],
+ "camera_right": 1920,
+ "camera_top": -630,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 860,
+    "x1": 1790,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 930,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1070,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1000,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 920,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 1080,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1000,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1000,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1180,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1180,
+   "y": -96.0,
+   "weak_point": true
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1290,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1430,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1360,
+   "y": -160.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1290,
+   "y": -250.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1430,
+   "y": -250.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1360,
+   "y": -340.0
+  },
+  {
+   "type": "post",
+   "x": 1280,
+   "y": -420.0
+  },
+  {
+   "type": "post",
+   "x": 1440,
+   "y": -420.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1360,
+   "y": -493.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1360,
+   "y": -556.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 1000,
+   "y": -209.5
+  },
+  {
+   "x": 1360,
+   "y": -209.5
+  },
+  {
+   "x": 1360,
+   "y": -389.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "spikes",
+   "x": 1650,
+   "y": -22,
+   "size": [
+    180,
+    44
+   ]
+  }
+ ],
+ "captives": []
+}

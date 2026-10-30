@@ -1,0 +1,1941 @@
+{
+  "level_count": 50,
+  "layers": {
+    "world": 1,
+    "blocks": 2,
+    "projectiles": 4,
+    "archers": 8,
+    "shield": 16
+  },
+  "physics": {
+    "damage_grace_s": 1.2,
+    "settle_speed": 12.0,
+    "settle_min_s": 1.0,
+    "settle_max_s": 6.0,
+    "out_of_bounds_y": 900.0,
+    "block_linear_damp": 0.05,
+    "block_angular_damp": 0.8,
+    "wake_margin_px": 24.0,
+    "win_delay_s": 1.4,
+    "lose_delay_s": 1.0,
+    "projectile_max_s": 12.0,
+    "platform_ease_s": 3.0
+  },
+  "damage": {
+    "ai_stage_darken": 0.14,
+    "min_impulse": 520.0,
+    "per_impulse": 0.034,
+    "projectile_bonus": 1.4,
+    "archer_min_impulse": 220.0,
+    "archer_per_impulse": 0.05
+  },
+  "catapult": {
+    "pivot": [
+      0,
+      -78
+    ],
+    "rest_angle_deg": 200.0,
+    "pull_angle_deg": -32.0,
+    "fire_angle_deg": 282.0,
+    "arm_swing_s": 0.13,
+    "arm_return_s": 0.6,
+    "max_pull_px": 210.0,
+    "min_pull_px": 30.0,
+    "max_speed": 1650.0,
+    "min_launch_angle_deg": -88.0,
+    "max_launch_angle_deg": 35.0,
+    "aim_zone_screen_frac": 0.45,
+    "dots": 26,
+    "dot_step_s": 0.055,
+    "hero_wait_x": [
+      -125,
+      -180,
+      -235,
+      -290,
+      -345,
+      -400
+    ],
+    "reload_s": 0.45,
+    "hop_s": 0.28,
+    "tap_max_s": 0.35,
+    "visual_scale": 1.44,
+    "hero_sink_px": 4.0
+  },
+  "camera": {
+    "ground_screen_frac": 0.72,
+    "left": -360.0,
+    "min_zoom": 0.38,
+    "max_zoom": 1.0,
+    "top_margin_px": 120.0,
+    "smooth": 3.5,
+    "shake_decay": 7.0,
+    "shake_max_px": 24.0,
+    "menu_ground_screen_frac": 0.84
+  },
+  "archers": {
+    "hp": 30.0,
+    "mass": 2.2,
+    "size": [
+      44,
+      58
+    ],
+    "visual_height": 90.0,
+    "friction": 0.9,
+    "flight_time_base_s": 1.0,
+    "flight_time_per_px": 0.0003,
+    "aim_spread_px": 110.0,
+    "draw_time_s": 0.45,
+    "arrow_hit_radius": 36.0,
+    "arrow_stick_s": 1.4,
+    "ko_fade_s": 0.8,
+    "fire_min_s": 5.5,
+    "fire_max_s": 8.5,
+    "first_min_s": 1.2,
+    "first_max_s": 3.2,
+    "busy_speed": 40.0,
+    "arrow_scale": 1.5
+  },
+  "soldiers": {
+    "hp": 3,
+    "start_x": 175.0,
+    "spacing": 78.0,
+    "visual_height": 94.0,
+    "march_s": 2.6,
+    "march_from_x": -900.0,
+    "march_gap": 75.0,
+    "charge_speed": 380.0,
+    "shield_block_chance": 0.3
+  },
+  "score": {
+    "archer": 5000,
+    "unused_hero": 10000,
+    "soldier_ko": -2000
+  },
+  "coins": {
+    "per_star_first_clear": 50,
+    "replay_win": 10
+  },
+  "fire": {
+    "burn_s": 3.5,
+    "burn_dps": 16.0,
+    "spread_s": 0.9,
+    "spread_burn_s": 2.5,
+    "archer_dps": 6.0
+  },
+  "fx": {
+    "shake_per_impulse": 0.0022,
+    "hitstop_impulse": 4200.0,
+    "hitstop_scale": 0.08,
+    "hitstop_s": 0.06,
+    "slowmo_scale": 0.35,
+    "slowmo_s": 1.1,
+    "trail_spacing_px": 34.0,
+    "debris_life_s": 1.6,
+    "debris_per_block": 5,
+    "shockwave_s": 0.55,
+    "haptic_ms": 25
+  },
+  "audio": {
+    "pool_size": 14,
+    "min_interval_ms": 45,
+    "pitch_variation": 0.055,
+    "impact_ref_impulse": 3500.0,
+    "music_db": -5.0,
+    "sfx_db": 0.0,
+    "limiter_ceiling_db": -2.0,
+    "sound_gain_db": {
+      "ui_tap": 0.0,
+      "pop": -2.0,
+      "arrow_shoot": -2.0,
+      "fire": -2.0,
+      "wind": -2.0,
+      "creak": -1.5,
+      "enemy_laugh": -2.0,
+      "soldier_hit": -1.5,
+      "soldier_ko": -2.0,
+      "enemy_ko": -1.5,
+      "star": -1.0
+    },
+    "cooldown_ms": {
+      "ui_tap": 80,
+      "pop": 70,
+      "creak": 110,
+      "fire": 130,
+      "wood_hit": 65,
+      "stone_hit": 65,
+      "arrow_shoot": 80,
+      "hazard_hit": 100,
+      "splash": 90,
+      "crystal_break": 60,
+      "metal_hit": 80,
+      "rope_snap": 60,
+      "geyser": 200,
+      "boss_roar": 400,
+      "upgrade": 100,
+      "count_tick": 45,
+      "combo": 60,
+      "talk_hero": 180,
+      "talk_enemy": 180,
+      "talk_high": 180,
+      "tab": 60,
+      "locked": 150,
+      "deny": 200,
+      "wallet_land": 70,
+      "screen_whoosh": 200
+    },
+    "ui_db": -1.0,
+    "ambience_db": -3.0,
+    "ui_pool_size": 4,
+    "ambience_pool_size": 3,
+    "master_threshold_db": -14.0,
+    "master_ratio": 3.0,
+    "music_fade_s": 1.6,
+    "ambience_fade_s": 2.5,
+    "stem_attack_db_s": 30.0,
+    "stem_release_db_s": 7.0,
+    "music_states": {
+      "menu": {
+        "base": 0.0,
+        "action": -60.0
+      },
+      "map": {
+        "base": -1.0,
+        "action": -60.0
+      },
+      "aim": {
+        "base": 0.0,
+        "action": -18.0,
+        "reacts": true
+      },
+      "flight": {
+        "base": 0.0,
+        "action": -7.0,
+        "reacts": true
+      },
+      "destruction": {
+        "base": 0.0,
+        "action": -2.0,
+        "reacts": true
+      },
+      "result": {
+        "base": -12.0,
+        "action": -60.0
+      }
+    },
+    "energy": {
+      "per_impact": 0.12,
+      "per_block": 0.18,
+      "per_explosion": 0.5,
+      "per_chain": 0.1,
+      "decay_per_s": 0.22,
+      "hold_s": 2.5,
+      "max_db": 0.0
+    },
+    "duck": {
+      "explosion_db": -5.0,
+      "stinger_db": -12.0,
+      "release_db_s": 9.0
+    },
+    "stinger_db": {
+      "win": 0.0,
+      "lose": -1.0,
+      "boss_intro": 0.0,
+      "siege_start": -3.0,
+      "reward": -4.0
+    },
+    "filter": {
+      "normal_hz": 20000.0,
+      "pause_hz": 750.0,
+      "slowmo_hz": 1500.0,
+      "glide": 6.0
+    },
+    "slowmo_pitch_follow": 0.45,
+    "slowmo_pitch_after_s": 0.15,
+    "menu_ambience_db": -5.0,
+    "ambience_action_duck_db": -4.0,
+    "realm_reverb": {
+      "menu": {
+        "room": 0.25,
+        "damp": 0.6,
+        "wet": 0.04,
+        "predelay_ms": 15.0,
+        "hipass": 0.25
+      },
+      "blossom": {
+        "room": 0.45,
+        "damp": 0.55,
+        "wet": 0.08,
+        "predelay_ms": 30.0,
+        "hipass": 0.2
+      },
+      "desert": {
+        "room": 0.35,
+        "damp": 0.35,
+        "wet": 0.06,
+        "predelay_ms": 45.0,
+        "hipass": 0.25
+      },
+      "harbor": {
+        "room": 0.4,
+        "damp": 0.6,
+        "wet": 0.07,
+        "predelay_ms": 25.0,
+        "hipass": 0.2
+      },
+      "mines": {
+        "room": 0.85,
+        "damp": 0.35,
+        "wet": 0.17,
+        "predelay_ms": 35.0,
+        "hipass": 0.15
+      },
+      "sky": {
+        "room": 0.6,
+        "damp": 0.7,
+        "wet": 0.07,
+        "predelay_ms": 55.0,
+        "hipass": 0.3
+      }
+    },
+    "ambience": {
+      "blossom": {
+        "bed": "bed_blossom",
+        "db": 0.0,
+        "details": [
+          {
+            "name": "bird",
+            "gap": [
+              2.5,
+              7.0
+            ],
+            "db": [
+              -14.0,
+              -6.0
+            ],
+            "pitch": [
+              0.9,
+              1.15
+            ]
+          },
+          {
+            "name": "dove",
+            "gap": [
+              12.0,
+              24.0
+            ],
+            "db": [
+              -14.0,
+              -9.0
+            ],
+            "pitch": [
+              0.95,
+              1.05
+            ]
+          }
+        ]
+      },
+      "desert": {
+        "bed": "bed_desert",
+        "db": 0.0,
+        "details": [
+          {
+            "name": "gust",
+            "gap": [
+              7.0,
+              14.0
+            ],
+            "db": [
+              -12.0,
+              -6.0
+            ],
+            "pitch": [
+              0.85,
+              1.1
+            ]
+          },
+          {
+            "name": "hawk",
+            "gap": [
+              14.0,
+              28.0
+            ],
+            "db": [
+              -15.0,
+              -9.0
+            ],
+            "pitch": [
+              0.92,
+              1.06
+            ]
+          }
+        ]
+      },
+      "harbor": {
+        "bed": "bed_harbor",
+        "db": 0.0,
+        "details": [
+          {
+            "name": "gull",
+            "gap": [
+              5.0,
+              12.0
+            ],
+            "db": [
+              -14.0,
+              -7.0
+            ],
+            "pitch": [
+              0.9,
+              1.12
+            ]
+          },
+          {
+            "name": "rope_creak",
+            "gap": [
+              6.0,
+              13.0
+            ],
+            "db": [
+              -15.0,
+              -9.0
+            ],
+            "pitch": [
+              0.85,
+              1.1
+            ]
+          },
+          {
+            "name": "ship_bell",
+            "gap": [
+              18.0,
+              34.0
+            ],
+            "db": [
+              -16.0,
+              -11.0
+            ],
+            "pitch": [
+              0.97,
+              1.03
+            ]
+          }
+        ]
+      },
+      "mines": {
+        "bed": "bed_mines",
+        "db": 0.0,
+        "details": [
+          {
+            "name": "drip",
+            "gap": [
+              1.5,
+              5.0
+            ],
+            "db": [
+              -16.0,
+              -8.0
+            ],
+            "pitch": [
+              0.85,
+              1.2
+            ]
+          },
+          {
+            "name": "lava_bubble",
+            "gap": [
+              3.0,
+              8.0
+            ],
+            "db": [
+              -14.0,
+              -8.0
+            ],
+            "pitch": [
+              0.8,
+              1.1
+            ]
+          },
+          {
+            "name": "pick",
+            "gap": [
+              9.0,
+              20.0
+            ],
+            "db": [
+              -18.0,
+              -12.0
+            ],
+            "pitch": [
+              0.9,
+              1.1
+            ]
+          }
+        ]
+      },
+      "sky": {
+        "bed": "bed_sky",
+        "db": 0.0,
+        "details": [
+          {
+            "name": "chime",
+            "gap": [
+              6.0,
+              14.0
+            ],
+            "db": [
+              -15.0,
+              -9.0
+            ],
+            "pitch": [
+              0.95,
+              1.05
+            ]
+          },
+          {
+            "name": "gust",
+            "gap": [
+              5.0,
+              11.0
+            ],
+            "db": [
+              -11.0,
+              -6.0
+            ],
+            "pitch": [
+              1.0,
+              1.25
+            ]
+          },
+          {
+            "name": "bird",
+            "gap": [
+              8.0,
+              18.0
+            ],
+            "db": [
+              -18.0,
+              -12.0
+            ],
+            "pitch": [
+              1.1,
+              1.3
+            ]
+          }
+        ]
+      }
+    },
+    "ui_sounds": [
+      "ui_tap",
+      "pop",
+      "ui_back",
+      "tab",
+      "popup_open",
+      "popup_close",
+      "locked",
+      "deny",
+      "count_tick",
+      "toast",
+      "map_select",
+      "swoosh_ui",
+      "wheel_tick",
+      "coin_tink",
+      "gem_tink",
+      "screen_whoosh",
+      "wallet_land",
+      "purchase",
+      "upgrade",
+      "play_press",
+      "chest_open",
+      "reveal"
+    ]
+  },
+  "ads": {
+    "interstitial_min_level": 4,
+    "interstitial_every_levels": 3,
+    "interstitial_min_gap_s": 180,
+    "skip_first_session": true
+  },
+  "loadout": {
+    "slots": 4,
+    "default_power_budget": 8,
+    "late_power_budget": 8,
+    "late_budget_level": 31,
+    "strong_mult": 1.2,
+    "fortress_max_chips": 6
+  },
+  "mechanics": {
+    "weak_hp_mult": 0.46,
+    "weak_damage_mult": 1.75,
+    "rescue_score": 7500,
+    "trigger_score": 1500,
+    "hazard_damage": 80.0,
+    "activation_shake": 8.0,
+    "ambient_count": 18,
+    "ambient_speed_min": 10.0,
+    "ambient_speed_max": 34.0
+  },
+  "result_delay_s": 1.2,
+  "story": {
+    "chars_per_s": 58.0,
+    "beat_min_s": 1.1,
+    "camera_pan_px": 80.0,
+    "portrait_enter_s": 0.35,
+    "letterbox_px": 46.0
+  },
+  "realms": [
+    {
+      "id": 1,
+      "key": "blossom",
+      "name": "Blossom Valley",
+      "bg": [
+        "bg_blossom_night",
+        "bg_blossom_dawn"
+      ],
+      "fallback_bg": "bg_emerald_valley",
+      "gap": "water",
+      "tint": "#ffffff",
+      "stage_tint": "#c9d4ff",
+      "haze": "#3a4f8f",
+      "weather": "petals"
+    },
+    {
+      "id": 2,
+      "key": "desert",
+      "name": "Desert Ruins",
+      "bg": [
+        "bg_desert_day",
+        "bg_desert_sunset"
+      ],
+      "fallback_bg": "bg_golden_riverlands",
+      "gap": "water",
+      "tint": "#fff2dc",
+      "stage_tint": "#fff1e0",
+      "haze": "#ffd9a8",
+      "weather": "pollen"
+    },
+    {
+      "id": 3,
+      "key": "harbor",
+      "name": "Pirate Harbor",
+      "bg": [
+        "bg_harbor_sunset",
+        "bg_harbor_storm"
+      ],
+      "fallback_bg": "bg_stormy_crags",
+      "gap": "sea",
+      "tint": "#ffe6d6",
+      "stage_tint": "#ffe9da",
+      "haze": "#ffc2a0",
+      "weather": "leaves"
+    },
+    {
+      "id": 4,
+      "key": "mines",
+      "name": "Crystal Mines",
+      "bg": [
+        "bg_mines_crystal",
+        "bg_mines_lava"
+      ],
+      "fallback_bg": "bg_iron_citadel",
+      "gap": "lava",
+      "tint": "#ffd8c8",
+      "stage_tint": "#ffd9c4",
+      "haze": "#3a2a3a",
+      "weather": "embers"
+    },
+    {
+      "id": 5,
+      "key": "sky",
+      "name": "Sky Islands",
+      "bg": [
+        "bg_sky_day",
+        "bg_sky_golden"
+      ],
+      "fallback_bg": "bg_scarlet_highlands",
+      "gap": "clouds",
+      "tint": "#e8f4ff",
+      "stage_tint": "#ffffff",
+      "haze": "#dcefff",
+      "weather": "leaves"
+    }
+  ],
+  "stage": {
+    "ledge_right": 470.0,
+    "ledge_visual_left": -1700.0,
+    "visual_overhang": 1.06,
+    "max_stretch_y": 1.8,
+    "min_depth_below_surface_px": 70.0,
+    "kill_below_surface_px": 70.0,
+    "wave_speed": 22.0,
+    "wave_bob_px": 3.0,
+    "wave_bob_hz": 0.35,
+    "front_depth_px": 900.0,
+    "soldier_stop_px": 60.0,
+    "splash_puffs": 7,
+    "splash_min_speed": 60.0,
+    "gap_score_text": "SPLASH!",
+    "arrow_miss_fall_px": 400.0,
+    "wide_base_min_px": 300.0,
+    "front_offset_px": 10.0,
+    "fg_ai_height_frac": 0.42
+  },
+  "gaps": {
+    "water": {
+      "surface_y": 150.0,
+      "top": "#6fdde3",
+      "bottom": "#14607f",
+      "wave": "#e4fdff",
+      "front": "#3fb3c9",
+      "front_alpha": 0.55,
+      "splash": "#e8fdff",
+      "sound": "splash"
+    },
+    "sea": {
+      "surface_y": 140.0,
+      "top": "#58c6e6",
+      "bottom": "#0e3f73",
+      "wave": "#dff6ff",
+      "front": "#2c8fbf",
+      "front_alpha": 0.6,
+      "splash": "#e8fbff",
+      "sound": "splash"
+    },
+    "lava": {
+      "surface_y": 170.0,
+      "top": "#ffd35a",
+      "bottom": "#a3200f",
+      "wave": "#fff3a6",
+      "front": "#ff7a1f",
+      "front_alpha": 0.7,
+      "splash": "#ffb340",
+      "geyser_color": "#ff6a1a",
+      "sound": "fire"
+    },
+    "clouds": {
+      "surface_y": 330.0,
+      "top": "#ffffff",
+      "bottom": "#b9dcf5",
+      "wave": "#ffffff",
+      "front": "#f2f8ff",
+      "front_alpha": 0.8,
+      "splash": "#ffffff",
+      "sound": "whoosh"
+    }
+  },
+  "background": {
+    "downscale": 0.22,
+    "haze": 0.16,
+    "haze_bottom": 0.1,
+    "saturation": 0.86,
+    "brightness": 1.02,
+    "bottom_overshoot_frac": 0.02
+  },
+  "map": {
+    "node_spacing_px": 150.0,
+    "node_band": 0.72,
+    "node_y": 0.64,
+    "node_wave": 0.11,
+    "boss_scale": 1.2,
+    "chest_x": 0.955,
+    "chest_y": 0.4,
+    "secret_x": 0.5,
+    "secret_y": 0.3,
+    "extra_tap_px": 60.0
+  },
+  "ropes": {
+    "cut_radius_px": 34.0,
+    "fire_cut_radius_px": 120.0,
+    "explosion_cut_mult": 1.0,
+    "quake_cut": false,
+    "sway_deg": 4.0,
+    "sway_hz": 0.35,
+    "rope_width": 5.0,
+    "rope_color": "#c99a5a",
+    "snap_score": 1000,
+    "tip_angle_deg": 78.0,
+    "tip_s": 0.7,
+    "drop_s": 1.1,
+    "drop_px": 900.0
+  },
+  "crusher": {
+    "slam_damage": 160.0,
+    "slam_impulse": 1800.0,
+    "slam_shake": 14.0,
+    "hold_up_s": 2.2,
+    "fall_s": 0.32,
+    "hold_down_s": 0.8,
+    "rise_s": 1.2,
+    "lookahead_px": 70.0
+  },
+  "geyser": {
+    "lift_accel": 2600.0,
+    "block_lift_accel": 900.0,
+    "lava_damage_dps": 40.0,
+    "warn_s": 0.7
+  },
+  "bolts": {
+    "break_damage": 40.0,
+    "explosion_break_mult": 0.9,
+    "quake_break_radius_mult": 0.6,
+    "pin_spread": 0.3,
+    "softness": 0.0,
+    "bias": 0.6
+  },
+  "wind": {
+    "indicator_s": 0.4,
+    "particle_speed_mult": 4.0
+  },
+  "tide": {
+    "default_amp_px": 40.0,
+    "default_period_s": 9.0
+  },
+  "boss": {
+    "hp": 160.0,
+    "scale": 1.55,
+    "shield_s": 4.0,
+    "enrage_fire_mult": 0.55,
+    "charge_speed_mult": 1.7,
+    "volley": 3,
+    "reinforce_drop_px": 420.0,
+    "score": 15000,
+    "phase_shake": 18.0,
+    "phase_slowmo_s": 0.6,
+    "bar_width": 420.0
+  },
+  "workshop": {
+    "costs": [
+      150,
+      350,
+      700
+    ],
+    "max_level": 3,
+    "tracks": {
+      "stone": {
+        "title": "Heavier Slam",
+        "desc": "+15% slam power",
+        "mult": {
+          "slam_mass_mult": 0.15,
+          "mass": 0.08
+        }
+      },
+      "fire": {
+        "title": "Hotter Flames",
+        "desc": "+14% burst radius and damage",
+        "mult": {
+          "burst_radius": 0.14,
+          "burst_radius_dashed": 0.14,
+          "burst_damage": 0.15
+        }
+      },
+      "bomb": {
+        "title": "Bigger Boom",
+        "desc": "+12% blast radius and damage",
+        "mult": {
+          "explosion.radius": 0.12,
+          "explosion.damage": 0.12,
+          "explosion.impulse": 0.1
+        }
+      },
+      "cyclone": {
+        "title": "Longer Gale",
+        "desc": "+18% whirl time",
+        "mult": {
+          "whirl_s": 0.18,
+          "whirl_radius": 0.08,
+          "fling_impulse": 0.1
+        }
+      },
+      "quake": {
+        "title": "Deeper Rumble",
+        "desc": "+12% shockwave reach",
+        "mult": {
+          "shockwave_radius": 0.12,
+          "shockwave_damage": 0.14
+        }
+      }
+    }
+  },
+  "cinematic": {
+    "say_min_s": 1.6,
+    "say_per_char_s": 0.045,
+    "pan_s": 1.3,
+    "focus_zoom": 1.25,
+    "actor_scale": 1.25,
+    "baron_scale": 1.7,
+    "flyover_s": 2.2,
+    "flyover_zoom": 1.35,
+    "callout_s": 1.6,
+    "hero_card_s": 2.6,
+    "demo_s": 1.3
+  },
+  "chain": {
+    "window_s": 1.2,
+    "step": 0.1,
+    "max_mult": 2.5,
+    "min_links": 3,
+    "show_at": 3,
+    "milestones": [
+      [
+        5,
+        "NICE!"
+      ],
+      [
+        10,
+        "GREAT CHAIN!"
+      ],
+      [
+        20,
+        "SMASHING!"
+      ],
+      [
+        35,
+        "LEGENDARY!"
+      ]
+    ],
+    "cam_at": 8,
+    "cam_pull": 0.35,
+    "cam_zoom": 0.12,
+    "cam_ease": 2.5,
+    "slowmo_at": 12,
+    "slowmo_scale": 0.35,
+    "slowmo_s": 0.8,
+    "slowmo_cooldown_s": 4.0,
+    "barrel_slowmo_links": 4
+  },
+  "replay": {
+    "hz": 20,
+    "max_s": 90,
+    "pre_s": 1.5,
+    "post_s": 1.5,
+    "min_s": 3.0,
+    "speed": 0.5
+  },
+  "currencies": {
+    "_doc": "Wallet kinds (docs/MONETIZATION.md). Earned amounts are given only on first clears so replays cannot farm premium currency.",
+    "kinds": [
+      "coins",
+      "gems",
+      "blueprints"
+    ],
+    "gems_three_star_first": 3,
+    "gems_boss_first_clear": 20,
+    "blueprints_boss_first_clear": 2,
+    "blueprints_realm_every": 5,
+    "start": {
+      "coins": 0,
+      "gems": 10,
+      "blueprints": 0
+    }
+  },
+  "ui_fx": {
+    "_doc": "Meta-screen juice timings (src/ui/ui_fx.gd, docs/UI_DESIGN.md 'Juice').",
+    "pill_pop": 1.18,
+    "count_up_s": 0.6,
+    "fly_max_icons": 12,
+    "fly_s": 0.65,
+    "fly_stagger_s": 0.05,
+    "fly_burst_px": 90,
+    "fly_icon_px": 44,
+    "tink_pitch_step": 0.04,
+    "press_scale": 0.92,
+    "press_s": 0.07,
+    "popup_from": 0.8,
+    "popup_s": 0.28,
+    "slide_px": 420,
+    "slide_s": 0.35,
+    "confetti": 46,
+    "confetti_s": 1.6,
+    "breathe_scale": 1.05,
+    "breathe_s": 0.7,
+    "sweep_every_s": 3.2,
+    "rays_spin_dps": 40,
+    "stamp_s": 0.3,
+    "star_slam_s": 0.26
+  },
+  "lever": {
+    "_doc": "Lever switch: any shot, moving block or blast flips it and fires its triggers.",
+    "sensor_r": 56,
+    "min_block_speed": 160,
+    "angle_deg": 38,
+    "flip_s": 0.25,
+    "score": 1200,
+    "height": 96
+  },
+  "rotor": {
+    "_doc": "Windmill arms / orbiting shield plates (rotating kinematic body). Hub hit jams a windmill.",
+    "hub_r": 40,
+    "jam_s": 0.7,
+    "jam_score": 2500,
+    "ease_in_s": 1.0,
+    "shield_stop_score": 1500
+  },
+  "rune_switch": {
+    "_doc": "Hidden switch inside the fortress; glows once no block covers it.",
+    "sensor_r": 42,
+    "check_s": 0.3,
+    "score": 3000,
+    "pulse_hz": 1.6
+  },
+  "trapdoor": {
+    "_doc": "Floor panel on a hinge; opens when triggered so what stands on it falls.",
+    "open_deg": 100,
+    "open_s": 0.45,
+    "score": 1000
+  },
+  "boss_rig": {
+    "_doc": "Boss stages (src/game/boss_rig.gd): cores shield the boss, cannons shoot soldiers, engineers rebuild.",
+    "core_down_score": 5000,
+    "core_down_slowmo_s": 0.8,
+    "stun_s": 3.0,
+    "glow_hz": 1.2,
+    "cannon_fire_min_s": 5.0,
+    "cannon_fire_max_s": 7.5,
+    "cannon_first_s": 4.0,
+    "cannon_flight_s": 1.35,
+    "cannon_hits": 2,
+    "cannon_aim_spread_px": 30.0,
+    "cannonball_scale": 1.0,
+    "cannon_shake": 6.0,
+    "repair_s": 6.0,
+    "repair_radius": 700.0,
+    "repair_pop_s": 0.35,
+    "engineer_score": 2000,
+    "repaired_score_penalty": 0
+  },
+  "modes": {
+    "_doc": "Game modes (src/game/mode_rules.gd, docs/SIGNATURE_FEATURES.md section 5).",
+    "time_s": 45.0,
+    "time_warn_s": 10.0,
+    "star_time": [
+      0.0,
+      12.0,
+      22.0
+    ],
+    "chest_score": 3000,
+    "wave_gap_s": 2.0,
+    "wave_drop_px": 520.0,
+    "engine_score": 4000,
+    "daily_coins": 100,
+    "challenges_unlock_level": 10,
+    "rush_unlock_level": 50,
+    "rush_next_s": 2.5,
+    "rush_coins": 1500,
+    "rush_gems": 40,
+    "boss_rush": {
+      "levels": [
+        10,
+        20,
+        30,
+        40,
+        50
+      ],
+      "heroes": [
+        "bomb",
+        "fire",
+        "stone",
+        "quake",
+        "bomb",
+        "cyclone",
+        "fire",
+        "stone",
+        "quake",
+        "bomb",
+        "fire",
+        "stone",
+        "quake",
+        "bomb",
+        "fire",
+        "stone",
+        "cyclone",
+        "bomb"
+      ],
+      "star_time_s": [
+        240.0,
+        330.0,
+        450.0
+      ]
+    },
+    "sink_speed": 90.0
+  },
+  "siege_weapons": {
+    "_doc": "Pick on the loadout screen (src/game/progression.gd). Multipliers apply to every hero fired.",
+    "order": [
+      "catapult",
+      "ballista",
+      "trebuchet"
+    ],
+    "catapult": {
+      "name": "Catapult",
+      "desc": "Balanced arcs for every job.",
+      "unlock_level": 1,
+      "speed_mult": 1.0,
+      "gravity_scale": 1.0,
+      "mass_mult": 1.0,
+      "reload_mult": 1.0,
+      "tint_base": [
+        1,
+        1,
+        1
+      ],
+      "tint_arm": [
+        1,
+        1,
+        1
+      ]
+    },
+    "ballista": {
+      "name": "Ballista",
+      "desc": "Flat, fast shots for front walls and turrets.",
+      "unlock_level": 21,
+      "speed_mult": 1.12,
+      "gravity_scale": 0.72,
+      "mass_mult": 0.9,
+      "reload_mult": 0.85,
+      "tint_base": [
+        0.78,
+        0.85,
+        1.0
+      ],
+      "tint_arm": [
+        0.7,
+        0.8,
+        1.0
+      ]
+    },
+    "trebuchet": {
+      "name": "Trebuchet",
+      "desc": "High lobs, +35% hero mass for enclosed keeps. Slower reload.",
+      "unlock_level": 31,
+      "speed_mult": 1.04,
+      "gravity_scale": 1.12,
+      "mass_mult": 1.35,
+      "reload_mult": 1.3,
+      "tint_base": [
+        1.0,
+        0.86,
+        0.7
+      ],
+      "tint_arm": [
+        0.95,
+        0.78,
+        0.6
+      ]
+    }
+  },
+  "upgrades": {
+    "_doc": "Vanguard and siege-weapon tracks (Workshop). cost per level: {coins, blueprints}.",
+    "vanguard": {
+      "armor": {
+        "title": "Vanguard Armor",
+        "desc": "+1 soldier HP per level",
+        "max": 2,
+        "per_level": 1,
+        "cost": [
+          {
+            "coins": 400
+          },
+          {
+            "coins": 900,
+            "blueprints": 1
+          }
+        ]
+      },
+      "shields": {
+        "title": "Tower Shields",
+        "desc": "+8% chance to block an arrow per level",
+        "max": 3,
+        "per_level": 0.08,
+        "cost": [
+          {
+            "coins": 300
+          },
+          {
+            "coins": 600
+          },
+          {
+            "coins": 1000,
+            "blueprints": 1
+          }
+        ]
+      }
+    },
+    "weapon": {
+      "power": {
+        "title": "Power",
+        "desc": "+4% launch speed per level",
+        "max": 3,
+        "per_level": 0.04,
+        "cost": [
+          {
+            "coins": 350
+          },
+          {
+            "coins": 700,
+            "blueprints": 1
+          },
+          {
+            "coins": 1200,
+            "blueprints": 2
+          }
+        ]
+      },
+      "reload": {
+        "title": "Reload",
+        "desc": "-8% reload time per level",
+        "max": 3,
+        "per_level": 0.08,
+        "cost": [
+          {
+            "coins": 300
+          },
+          {
+            "coins": 650,
+            "blueprints": 1
+          },
+          {
+            "coins": 1100,
+            "blueprints": 2
+          }
+        ]
+      }
+    }
+  },
+  "cosmetics": {
+    "_doc": "Looks only, never stronger. price {coins|gems}; source shown when locked.",
+    "skins": {
+      "default": {
+        "name": "Default",
+        "rarity": "common",
+        "tint_base": [
+          1,
+          1,
+          1
+        ],
+        "tint_arm": [
+          1,
+          1,
+          1
+        ],
+        "price": {}
+      },
+      "sakura": {
+        "name": "Sakura",
+        "rarity": "rare",
+        "tint_base": [
+          1.0,
+          0.78,
+          0.86
+        ],
+        "tint_arm": [
+          1.0,
+          0.7,
+          0.8
+        ],
+        "price": {
+          "coins": 1500
+        },
+        "trail": "petals"
+      },
+      "desert_gold": {
+        "name": "Desert Gold",
+        "rarity": "rare",
+        "tint_base": [
+          1.15,
+          0.95,
+          0.55
+        ],
+        "tint_arm": [
+          1.1,
+          0.9,
+          0.5
+        ],
+        "price": {},
+        "source": "realm_chest_2"
+      },
+      "pirate": {
+        "name": "Pirate",
+        "rarity": "rare",
+        "tint_base": [
+          0.65,
+          0.55,
+          0.5
+        ],
+        "tint_arm": [
+          0.6,
+          0.5,
+          0.45
+        ],
+        "price": {
+          "coins": 2500
+        }
+      },
+      "forge": {
+        "name": "Forge",
+        "rarity": "epic",
+        "tint_base": [
+          0.62,
+          0.66,
+          0.74
+        ],
+        "tint_arm": [
+          1.2,
+          0.62,
+          0.4
+        ],
+        "price": {
+          "gems": 120
+        },
+        "trail": "sparks"
+      },
+      "royal": {
+        "name": "Royal",
+        "rarity": "epic",
+        "tint_base": [
+          0.62,
+          0.72,
+          1.25
+        ],
+        "tint_arm": [
+          1.2,
+          1.0,
+          0.5
+        ],
+        "price": {
+          "gems": 200
+        },
+        "trail": "stars"
+      },
+      "sky": {
+        "name": "Sky",
+        "rarity": "epic",
+        "tint_base": [
+          0.85,
+          1.0,
+          1.25
+        ],
+        "tint_arm": [
+          0.9,
+          1.05,
+          1.3
+        ],
+        "price": {},
+        "source": "achievement_chain_20"
+      },
+      "shadow": {
+        "name": "Shadow",
+        "rarity": "legendary",
+        "tint_base": [
+          0.5,
+          0.42,
+          0.7
+        ],
+        "tint_arm": [
+          0.62,
+          0.45,
+          0.9
+        ],
+        "price": {
+          "gems": 400
+        },
+        "trail": "shadow"
+      }
+    },
+    "trails": {
+      "dots": {
+        "name": "Classic",
+        "color": [
+          1,
+          1,
+          1,
+          0.85
+        ],
+        "price": {}
+      },
+      "petals": {
+        "name": "Petals",
+        "color": [
+          1.0,
+          0.7,
+          0.82,
+          0.95
+        ],
+        "price": {
+          "coins": 800
+        }
+      },
+      "sparks": {
+        "name": "Sparks",
+        "color": [
+          1.0,
+          0.72,
+          0.3,
+          0.95
+        ],
+        "price": {
+          "coins": 1200
+        }
+      },
+      "stars": {
+        "name": "Stars",
+        "color": [
+          1.0,
+          0.95,
+          0.45,
+          1.0
+        ],
+        "price": {
+          "gems": 60
+        }
+      },
+      "shadow": {
+        "name": "Shadow",
+        "color": [
+          0.6,
+          0.45,
+          1.0,
+          0.9
+        ],
+        "price": {
+          "gems": 90
+        }
+      }
+    }
+  },
+  "realm_chests": {
+    "_doc": "Per realm, claimable on the map at these star counts.",
+    "stars": [
+      10,
+      20,
+      30
+    ],
+    "rewards": [
+      {
+        "coins": 300,
+        "gems": 5
+      },
+      {
+        "coins": 600,
+        "gems": 10,
+        "blueprints": 1
+      },
+      {
+        "coins": 1000,
+        "gems": 20,
+        "blueprints": 2
+      }
+    ],
+    "skin_at_tier": {
+      "2": {
+        "2": "desert_gold"
+      }
+    }
+  },
+  "rank": {
+    "_doc": "Kingdom rank from total stars.",
+    "names": [
+      "Squire",
+      "Knight",
+      "Captain",
+      "Baron",
+      "Duke",
+      "King"
+    ],
+    "stars": [
+      0,
+      20,
+      45,
+      75,
+      110,
+      140
+    ]
+  },
+  "secrets": {
+    "_doc": "One hidden map scroll per realm (a crate with decor 'scroll'). Finding it unlocks that realm's secret level.",
+    "levels": {
+      "1": 111,
+      "2": 112,
+      "3": 113,
+      "4": 114,
+      "5": 115
+    },
+    "scroll_score": 2500,
+    "scroll_in": {
+      "1": 7,
+      "2": 15,
+      "3": 27,
+      "4": 36,
+      "5": 46
+    }
+  },
+  "achievements": [
+    {
+      "id": "first_win",
+      "name": "First Siege",
+      "desc": "Win a level",
+      "stat": "wins",
+      "goal": 1,
+      "reward": {
+        "coins": 50
+      }
+    },
+    {
+      "id": "wins_10",
+      "name": "Seasoned",
+      "desc": "Win 10 levels",
+      "stat": "wins",
+      "goal": 10,
+      "reward": {
+        "coins": 200
+      }
+    },
+    {
+      "id": "wins_50",
+      "name": "Conqueror",
+      "desc": "Win 50 levels",
+      "stat": "wins",
+      "goal": 50,
+      "reward": {
+        "gems": 30
+      }
+    },
+    {
+      "id": "stars_30",
+      "name": "Star Collector",
+      "desc": "Earn 30 stars",
+      "stat": "stars",
+      "goal": 30,
+      "reward": {
+        "coins": 300
+      }
+    },
+    {
+      "id": "stars_150",
+      "name": "Perfectionist",
+      "desc": "Earn all 150 stars",
+      "stat": "stars",
+      "goal": 150,
+      "reward": {
+        "gems": 100
+      }
+    },
+    {
+      "id": "chain_10",
+      "name": "Domino",
+      "desc": "Make a chain of 10",
+      "stat": "chain_best",
+      "goal": 10,
+      "reward": {
+        "coins": 150
+      }
+    },
+    {
+      "id": "chain_20",
+      "name": "Chain of 20",
+      "desc": "Make a chain of 20",
+      "stat": "chain_best",
+      "goal": 20,
+      "reward": {
+        "gems": 20,
+        "skin": "sky"
+      }
+    },
+    {
+      "id": "blocks_500",
+      "name": "Wrecker",
+      "desc": "Smash 500 blocks",
+      "stat": "blocks",
+      "goal": 500,
+      "reward": {
+        "coins": 300
+      }
+    },
+    {
+      "id": "blocks_3000",
+      "name": "Demolisher",
+      "desc": "Smash 3000 blocks",
+      "stat": "blocks",
+      "goal": 3000,
+      "reward": {
+        "gems": 40
+      }
+    },
+    {
+      "id": "archers_200",
+      "name": "Guard Breaker",
+      "desc": "Defeat 200 guards",
+      "stat": "archers",
+      "goal": 200,
+      "reward": {
+        "coins": 300
+      }
+    },
+    {
+      "id": "iron_10",
+      "name": "Metal Bender",
+      "desc": "Bend 10 iron beams",
+      "stat": "iron_bent",
+      "goal": 10,
+      "reward": {
+        "coins": 250
+      }
+    },
+    {
+      "id": "ice_25",
+      "name": "Ice Breaker",
+      "desc": "Shatter 25 ice blocks",
+      "stat": "ice",
+      "goal": 25,
+      "reward": {
+        "coins": 200
+      }
+    },
+    {
+      "id": "runes_10",
+      "name": "Rune Master",
+      "desc": "Fire 10 rune beams",
+      "stat": "beams",
+      "goal": 10,
+      "reward": {
+        "coins": 250,
+        "blueprints": 1
+      }
+    },
+    {
+      "id": "mech_25",
+      "name": "Engineer",
+      "desc": "Set off 25 mechanisms",
+      "stat": "mechanisms",
+      "goal": 25,
+      "reward": {
+        "coins": 250
+      }
+    },
+    {
+      "id": "core_first",
+      "name": "Core Breaker",
+      "desc": "Break a boss core",
+      "stat": "cores",
+      "goal": 1,
+      "reward": {
+        "gems": 15
+      }
+    },
+    {
+      "id": "bosses_5",
+      "name": "Kingslayer",
+      "desc": "Defeat 5 bosses",
+      "stat": "bosses",
+      "goal": 5,
+      "reward": {
+        "gems": 50,
+        "blueprints": 2
+      }
+    },
+    {
+      "id": "ships_5",
+      "name": "Shipwrecker",
+      "desc": "Sink 5 siege engines",
+      "stat": "engines",
+      "goal": 5,
+      "reward": {
+        "coins": 400
+      }
+    },
+    {
+      "id": "chests_10",
+      "name": "Treasure Hunter",
+      "desc": "Open 10 treasure chests",
+      "stat": "chests",
+      "goal": 10,
+      "reward": {
+        "coins": 400
+      }
+    },
+    {
+      "id": "rescue_5",
+      "name": "Liberator",
+      "desc": "Rescue 5 captives",
+      "stat": "rescues",
+      "goal": 5,
+      "reward": {
+        "coins": 300
+      }
+    },
+    {
+      "id": "secrets_5",
+      "name": "Map Maker",
+      "desc": "Find all 5 secret scrolls",
+      "stat": "secrets",
+      "goal": 5,
+      "reward": {
+        "gems": 60
+      }
+    }
+  ],
+  "daily": {
+    "_doc": "7-day login calendar (src/ui/daily_rewards.gd). Missing a day does not reset the streak.",
+    "days": [
+      {
+        "coins": 500
+      },
+      {
+        "gems": 50
+      },
+      {
+        "blueprints": 2
+      },
+      {
+        "coins": 1000
+      },
+      {
+        "coins": 600,
+        "blueprints": 3
+      },
+      {
+        "gems": 100
+      },
+      {
+        "coins": 2000,
+        "gems": 150,
+        "blueprints": 5,
+        "chest": true
+      }
+    ]
+  },
+  "spin": {
+    "_doc": "Spin wheel (src/ui/spin_wheel.gd). First spin each day free, then up to ads_per_day with a rewarded ad. weight = relative odds.",
+    "ads_per_day": 3,
+    "spin_s": 4.2,
+    "turns": 5,
+    "slices": [
+      {
+        "reward": {
+          "coins": 200
+        },
+        "weight": 20,
+        "color": "gold"
+      },
+      {
+        "reward": {
+          "gems": 10
+        },
+        "weight": 10,
+        "color": "violet"
+      },
+      {
+        "reward": {
+          "coins": 500
+        },
+        "weight": 14,
+        "color": "blue"
+      },
+      {
+        "reward": {
+          "blueprints": 1
+        },
+        "weight": 12,
+        "color": "gold"
+      },
+      {
+        "reward": {
+          "coins": 100
+        },
+        "weight": 22,
+        "color": "violet"
+      },
+      {
+        "reward": {
+          "gems": 25
+        },
+        "weight": 5,
+        "color": "blue"
+      },
+      {
+        "reward": {
+          "coins": 1000
+        },
+        "weight": 6,
+        "color": "gold"
+      },
+      {
+        "reward": {
+          "blueprints": 3
+        },
+        "weight": 5,
+        "color": "violet"
+      },
+      {
+        "reward": {
+          "coins": 300
+        },
+        "weight": 16,
+        "color": "blue"
+      },
+      {
+        "reward": {
+          "gems": 100
+        },
+        "weight": 1,
+        "color": "gold",
+        "jackpot": true
+      }
+    ]
+  },
+  "shop": {
+    "_doc": "Shop catalogue. iap = Google Play product id (price comes from Play); gems/coins = in-game price.",
+    "offers": [
+      {
+        "id": "starter_pack",
+        "name": "Starter Pack",
+        "iap": "starter_pack",
+        "sale": "70% OFF",
+        "gives": {
+          "coins": 2000,
+          "gems": 200,
+          "blueprints": 5
+        },
+        "skin": "desert_gold",
+        "price_label": "$1.99"
+      },
+      {
+        "id": "pro_pack",
+        "name": "Pro Pack",
+        "iap": "pro_pack",
+        "gives": {
+          "coins": 6000,
+          "gems": 500,
+          "blueprints": 10
+        },
+        "price_label": "$4.99"
+      },
+      {
+        "id": "castle_pack",
+        "name": "Castle Pack",
+        "iap": "castle_pack",
+        "gives": {
+          "coins": 15000,
+          "gems": 1200,
+          "blueprints": 25
+        },
+        "price_label": "$9.99"
+      }
+    ],
+    "gems": [
+      {
+        "id": "gems_small",
+        "gives": {
+          "gems": 80
+        },
+        "price_label": "$0.99"
+      },
+      {
+        "id": "gems_medium",
+        "gives": {
+          "gems": 500
+        },
+        "extra": "20% EXTRA",
+        "price_label": "$4.99"
+      },
+      {
+        "id": "gems_large",
+        "gives": {
+          "gems": 1200
+        },
+        "extra": "40% EXTRA",
+        "price_label": "$9.99"
+      }
+    ],
+    "gold": [
+      {
+        "id": "gold_small",
+        "gives": {
+          "coins": 1000
+        },
+        "cost": {
+          "gems": 20
+        }
+      },
+      {
+        "id": "gold_medium",
+        "gives": {
+          "coins": 6000
+        },
+        "cost": {
+          "gems": 100
+        },
+        "extra": "20% EXTRA"
+      },
+      {
+        "id": "gold_large",
+        "gives": {
+          "coins": 15000
+        },
+        "cost": {
+          "gems": 220
+        },
+        "extra": "35% EXTRA"
+      }
+    ],
+    "resources": [
+      {
+        "id": "bp_small",
+        "gives": {
+          "blueprints": 2
+        },
+        "cost": {
+          "gems": 30
+        }
+      },
+      {
+        "id": "bp_medium",
+        "gives": {
+          "blueprints": 6
+        },
+        "cost": {
+          "gems": 80
+        },
+        "extra": "10% EXTRA"
+      },
+      {
+        "id": "bp_coins",
+        "gives": {
+          "blueprints": 1
+        },
+        "cost": {
+          "coins": 1500
+        }
+      }
+    ],
+    "remove_ads": {
+      "iap": "remove_ads",
+      "price_label": "$2.99",
+      "perks": [
+        "No interstitial ads",
+        "Rewarded ads stay optional",
+        "Supports the developer"
+      ]
+    }
+  },
+  "settings": {
+    "privacy_url": "https://castlesmashers.github.io/privacy",
+    "credits": [
+      "Fonts: Lilita One (Juan Montoreano), Fredoka (Milena Brandão), SIL OFL 1.1",
+      "Engine: Godot Engine, MIT licence, Godot contributors",
+      "Art, sound and levels: made for Castle Smashers"
+    ],
+    "slider_step": 0.05
+  },
+  "home": {
+    "welcome_mail": {
+      "title": "Welcome, Commander!",
+      "body": "The kingdom needs you. Here is a gift to start your siege.",
+      "reward": {
+        "coins": 500,
+        "gems": 20
+      }
+    },
+    "hero_card_kind": "stone",
+    "popup_delay_s": 0.7,
+    "hero_bob_px": 26.0
+  }
+}

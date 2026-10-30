@@ -1,0 +1,439 @@
+{
+ "archer_idle": {
+  "body_c": [
+   189.0,
+   152.0
+  ],
+  "body_r": 79.32212806020776,
+  "bottom": 312,
+  "family": "archer",
+  "feet_x": 161.4858878504673,
+  "feet_y": 312.0,
+  "h": 318,
+  "left": 5,
+  "right": 310,
+  "top": 5,
+  "unit_h": 300,
+  "w": 316
+ },
+ "archer_ko": {
+  "body_c": [
+   175.0,
+   160.0
+  ],
+  "body_r": 86.0,
+  "bottom": 310,
+  "family": "archer",
+  "feet_x": 170.30237612286294,
+  "feet_y": 310.0,
+  "h": 316,
+  "left": 5,
+  "right": 335,
+  "top": 5,
+  "unit_h": 300,
+  "w": 341
+ },
+ "archer_shoot": {
+  "body_c": [
+   204.0,
+   144.0
+  ],
+  "body_r": 80.62257748298549,
+  "bottom": 313,
+  "family": "archer",
+  "feet_x": 173.49118632117046,
+  "feet_y": 313.0,
+  "h": 319,
+  "left": 5,
+  "right": 335,
+  "top": 5,
+  "unit_h": 300,
+  "w": 341
+ },
+ "bg_blossom_dawn": {
+  "h": 900,
+  "kind": "background",
+  "w": 2475
+ },
+ "bg_blossom_night": {
+  "h": 900,
+  "kind": "background",
+  "w": 2475
+ },
+ "bg_desert_day": {
+  "h": 900,
+  "kind": "background",
+  "w": 2251
+ },
+ "bg_desert_sunset": {
+  "h": 900,
+  "kind": "background",
+  "w": 2251
+ },
+ "bg_emerald_valley": {
+  "h": 900,
+  "kind": "background",
+  "w": 1599
+ },
+ "bg_golden_riverlands": {
+  "h": 900,
+  "kind": "background",
+  "w": 2419
+ },
+ "bg_harbor_storm": {
+  "h": 900,
+  "kind": "background",
+  "w": 2251
+ },
+ "bg_harbor_sunset": {
+  "h": 900,
+  "kind": "background",
+  "w": 2251
+ },
+ "bg_iron_citadel": {
+  "h": 900,
+  "kind": "background",
+  "w": 2418
+ },
+ "bg_mines_crystal": {
+  "h": 900,
+  "kind": "background",
+  "w": 2400
+ },
+ "bg_mines_lava": {
+  "h": 900,
+  "kind": "background",
+  "w": 2400
+ },
+ "bg_scarlet_highlands": {
+  "h": 900,
+  "kind": "background",
+  "w": 2419
+ },
+ "bg_sky_day": {
+  "h": 900,
+  "kind": "background",
+  "w": 2400
+ },
+ "bg_sky_golden": {
+  "h": 900,
+  "kind": "background",
+  "w": 2400
+ },
+ "bg_stormy_crags": {
+  "h": 900,
+  "kind": "background",
+  "w": 2419
+ },
+ "boss_airship_balloon": {
+  "h": 490,
+  "kind": "boss",
+  "w": 1200
+ },
+ "boss_airship_deck": {
+  "h": 367,
+  "kind": "boss",
+  "w": 1200
+ },
+ "boss_galleon_hull": {
+  "h": 427,
+  "kind": "boss",
+  "w": 1200
+ },
+ "boss_mine_cart": {
+  "h": 308,
+  "kind": "boss",
+  "w": 1200
+ },
+ "boss_siege_wheels": {
+  "h": 273,
+  "kind": "boss",
+  "w": 1200
+ },
+ "fg_blossom_left": {
+  "h": 815,
+  "kind": "fg",
+  "w": 900
+ },
+ "fg_blossom_right": {
+  "h": 815,
+  "kind": "fg",
+  "w": 900
+ },
+ "fg_desert_left": {
+  "h": 758,
+  "kind": "fg",
+  "w": 900
+ },
+ "fg_desert_right": {
+  "h": 769,
+  "kind": "fg",
+  "w": 900
+ },
+ "fg_harbor_left": {
+  "h": 900,
+  "kind": "fg",
+  "w": 800
+ },
+ "fg_harbor_right": {
+  "h": 900,
+  "kind": "fg",
+  "w": 759
+ },
+ "fg_mines_left": {
+  "h": 743,
+  "kind": "fg",
+  "w": 900
+ },
+ "fg_mines_right": {
+  "h": 801,
+  "kind": "fg",
+  "w": 900
+ },
+ "fg_sky_left": {
+  "h": 730,
+  "kind": "fg",
+  "w": 900
+ },
+ "fg_sky_right": {
+  "h": 732,
+  "kind": "fg",
+  "w": 900
+ },
+ "hero_bomb": {
+  "body_c": [
+   187.0,
+   227.0
+  ],
+  "body_r": 124.67958934805648,
+  "bottom": 351,
+  "family": "hero",
+  "feet_x": 185.98930412371135,
+  "feet_y": 351.0,
+  "h": 357,
+  "left": 5,
+  "right": 367,
+  "top": 5,
+  "w": 373
+ },
+ "hero_cyclone": {
+  "body_c": [
+   176.0,
+   168.79999999999998
+  ],
+  "body_r": 122.39999999999999,
+  "bottom": 395,
+  "family": "hero",
+  "feet_x": 168.835769332979,
+  "feet_y": 395.0,
+  "h": 401,
+  "left": 6,
+  "right": 346,
+  "top": 5,
+  "w": 353
+ },
+ "hero_fire": {
+  "body_c": [
+   171.0,
+   229.0
+  ],
+  "body_r": 124.42266674525185,
+  "bottom": 354,
+  "family": "hero",
+  "feet_x": 170.50461095100866,
+  "feet_y": 354.0,
+  "h": 360,
+  "left": 5,
+  "right": 350,
+  "top": 5,
+  "w": 356
+ },
+ "hero_stone": {
+  "body_c": [
+   133.0,
+   160.0
+  ],
+  "body_r": 124.67958934805648,
+  "bottom": 285,
+  "family": "hero",
+  "feet_x": 138.5541593365167,
+  "feet_y": 285.0,
+  "h": 291,
+  "left": 5,
+  "right": 261,
+  "top": 5,
+  "w": 267
+ },
+ "hero_stone_hit": {
+  "body_c": [
+   139.0,
+   184.0
+  ],
+  "body_r": 124.91997438360288,
+  "bottom": 310,
+  "family": "hero",
+  "feet_x": 141.31808396124865,
+  "feet_y": 310.0,
+  "h": 316,
+  "left": 5,
+  "right": 299,
+  "top": 5,
+  "w": 305
+ },
+ "soldier_cheer": {
+  "body_c": [
+   131.0,
+   152.0
+  ],
+  "body_r": 69.8927750200262,
+  "bottom": 328,
+  "family": "soldier",
+  "feet_x": 154.37810042347246,
+  "feet_y": 328.0,
+  "h": 334,
+  "left": 5,
+  "right": 299,
+  "top": 5,
+  "unit_h": 300,
+  "w": 305
+ },
+ "soldier_idle": {
+  "body_c": [
+   174.0,
+   182.0
+  ],
+  "body_r": 79.93122043357026,
+  "bottom": 312,
+  "family": "soldier",
+  "feet_x": 184.79504132231406,
+  "feet_y": 312.0,
+  "h": 318,
+  "left": 5,
+  "right": 314,
+  "top": 5,
+  "unit_h": 300,
+  "w": 320
+ },
+ "soldier_ko": {
+  "body_c": [
+   166.0,
+   140.0
+  ],
+  "body_r": 78.23042886243178,
+  "bottom": 297,
+  "family": "soldier",
+  "feet_x": 170.03046303818033,
+  "feet_y": 297.0,
+  "h": 304,
+  "left": 5,
+  "right": 328,
+  "top": 5,
+  "unit_h": 300,
+  "w": 334
+ },
+ "stage_base_blossom_small": {
+  "h": 977,
+  "kind": "stage",
+  "top_y": 84,
+  "w": 1106,
+  "walk_y": 143
+ },
+ "stage_base_blossom_wide": {
+  "h": 438,
+  "kind": "stage",
+  "top_y": 42,
+  "w": 1400,
+  "walk_y": 68
+ },
+ "stage_base_desert_small": {
+  "h": 1136,
+  "kind": "stage",
+  "top_y": 144,
+  "w": 1067,
+  "walk_y": 212
+ },
+ "stage_base_desert_wide": {
+  "h": 388,
+  "kind": "stage",
+  "top_y": 118,
+  "w": 1400,
+  "walk_y": 141
+ },
+ "stage_base_harbor_small": {
+  "h": 1020,
+  "kind": "stage",
+  "top_y": 139,
+  "w": 1293,
+  "walk_y": 200
+ },
+ "stage_base_harbor_wide": {
+  "h": 364,
+  "kind": "stage",
+  "top_y": 113,
+  "w": 1400,
+  "walk_y": 135
+ },
+ "stage_base_mines_small": {
+  "h": 1020,
+  "kind": "stage",
+  "top_y": 18,
+  "w": 665,
+  "walk_y": 79
+ },
+ "stage_base_mines_wide": {
+  "h": 450,
+  "kind": "stage",
+  "top_y": 134,
+  "w": 1400,
+  "walk_y": 161
+ },
+ "stage_base_sky_small": {
+  "h": 991,
+  "kind": "stage",
+  "top_y": 173,
+  "w": 1167,
+  "walk_y": 232
+ },
+ "stage_base_sky_wide": {
+  "h": 574,
+  "kind": "stage",
+  "top_y": 101,
+  "w": 1400,
+  "walk_y": 135
+ },
+ "stage_ledge_blossom": {
+  "h": 395,
+  "kind": "stage",
+  "top_y": 40,
+  "w": 1400,
+  "walk_y": 64
+ },
+ "stage_ledge_desert": {
+  "h": 454,
+  "kind": "stage",
+  "top_y": 136,
+  "w": 1400,
+  "walk_y": 163
+ },
+ "stage_ledge_harbor": {
+  "h": 384,
+  "kind": "stage",
+  "top_y": 40,
+  "w": 1400,
+  "walk_y": 63
+ },
+ "stage_ledge_mines": {
+  "h": 520,
+  "kind": "stage",
+  "top_y": 147,
+  "w": 1400,
+  "walk_y": 178
+ },
+ "stage_ledge_sky": {
+  "h": 395,
+  "kind": "stage",
+  "top_y": 53,
+  "w": 1400,
+  "walk_y": 77
+ }
+}

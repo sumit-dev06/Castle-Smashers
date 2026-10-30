@@ -1,0 +1,160 @@
+{
+ "id": 43,
+ "name": "Sky Raft",
+ "realm": 5,
+ "heroes": [
+  "quake",
+  "cyclone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Push the swaying tower off the airship deck.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "MOVING!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  15000,
+  17000,
+  31000
+ ],
+ "camera_right": 1860,
+ "camera_top": -670,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 1410,
+    "x1": 1690,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 1020,
+   "y": -110.0
+  },
+  {
+   "type": "post",
+   "x": 1180,
+   "y": -110.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1100,
+   "y": -183.0
+  },
+  {
+   "type": "post",
+   "x": 1020,
+   "y": -256.0
+  },
+  {
+   "type": "post",
+   "x": 1180,
+   "y": -256.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1100,
+   "y": -329.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1100,
+   "y": -392.0,
+   "flag": true
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1480,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1620,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1550,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 1470,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 1630,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1550,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1550,
+   "y": -376.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 1100,
+   "y": -225.5
+  },
+  {
+   "x": 1100,
+   "y": -79.5
+  },
+  {
+   "x": 1550,
+   "y": -209.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "moving_platform",
+   "x": 1100,
+   "y": -25.0,
+   "size": [
+    330,
+    50
+   ],
+   "travel_x": 30,
+   "travel_y": 16,
+   "period_s": 6.0,
+   "phase": 0.0,
+   "chassis": "boss_airship_deck",
+   "chassis_h": 100,
+   "balloon": "boss_airship_balloon",
+   "balloon_size": [
+    380,
+    160
+   ],
+   "balloon_y": -530,
+   "floating": true
+  }
+ ],
+ "captives": [],
+ "wind": {
+  "strength": 200,
+  "period_s": 6.0,
+  "gust_s": 3.0,
+  "dir": 1
+ }
+}

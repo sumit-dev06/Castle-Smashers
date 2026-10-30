@@ -1,0 +1,149 @@
+{
+ "id": 21,
+ "name": "Dockside Shacks",
+ "realm": 3,
+ "heroes": [
+  "fire",
+  "bomb",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Fire spreads along the timber piers. The tide moves the waterline.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "focus",
+   "target": "gap",
+   "label": "THE TIDE!"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "The sea rises and falls. Mind the water!"
+  }
+ ],
+ "callouts": [],
+ "boss": false,
+ "star_scores": [
+  20000,
+  22000,
+  35000
+ ],
+ "camera_right": 1720,
+ "camera_top": -410,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 807,
+    "x1": 1595,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 870,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1030,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 950,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 870,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1030,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 950,
+   "y": -279.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 950,
+   "y": -342.0,
+   "flag": true
+  },
+  {
+   "type": "barrel",
+   "x": 1150,
+   "y": -29.0
+  },
+  {
+   "type": "barrel",
+   "x": 1150,
+   "y": -87.0
+  },
+  {
+   "type": "post",
+   "x": 1228,
+   "y": -60
+  },
+  {
+   "type": "post",
+   "x": 1380,
+   "y": -60
+  },
+  {
+   "type": "post",
+   "x": 1532,
+   "y": -60
+  },
+  {
+   "type": "plank_xl",
+   "x": 1380,
+   "y": -133,
+   "banner": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 950,
+   "y": -175.5
+  },
+  {
+   "x": 950,
+   "y": -29.5
+  },
+  {
+   "x": 1380,
+   "y": -175.5
+  },
+  {
+   "x": 1304,
+   "y": -29.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": [],
+ "tide": {
+  "amp_px": 45,
+  "period_s": 8.0
+ }
+}

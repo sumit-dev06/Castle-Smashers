@@ -1,0 +1,165 @@
+{
+ "id": 39,
+ "name": "Pendulum Drill",
+ "realm": 4,
+ "heroes": [
+  "bomb",
+  "cyclone",
+  "fire",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Fire just after the drill swings past.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "WRECKING BALL"
+  },
+  {
+   "target": "mech:1",
+   "label": "SPIKES"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  15000,
+  18000,
+  31000
+ ],
+ "camera_right": 1930,
+ "camera_top": -590,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 885,
+    "x1": 1800,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 948,
+   "y": -60
+  },
+  {
+   "type": "post",
+   "x": 1100,
+   "y": -60
+  },
+  {
+   "type": "post",
+   "x": 1252,
+   "y": -60
+  },
+  {
+   "type": "plank_xl",
+   "x": 1100,
+   "y": -133
+  },
+  {
+   "type": "post",
+   "x": 948,
+   "y": -206
+  },
+  {
+   "type": "post",
+   "x": 1100,
+   "y": -206
+  },
+  {
+   "type": "post",
+   "x": 1252,
+   "y": -206
+  },
+  {
+   "type": "plank_xl",
+   "x": 1100,
+   "y": -279,
+   "banner": true
+  },
+  {
+   "type": "roof_tile",
+   "x": 1100,
+   "y": -342,
+   "flag": true
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1390,
+   "y": -70.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1530,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1460,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 1380,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 1540,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1460,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1460,
+   "y": -376.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 1050,
+   "y": -29.5
+  },
+  {
+   "x": 1150,
+   "y": -175.5
+  },
+  {
+   "x": 1460,
+   "y": -209.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "swing",
+   "x": 760,
+   "y": -540,
+   "length": 250,
+   "diameter": 80,
+   "arc_deg": 30,
+   "period_s": 3.0
+  },
+  {
+   "type": "spikes",
+   "x": 1660,
+   "y": -22,
+   "size": [
+    180,
+    44
+   ]
+  }
+ ],
+ "captives": []
+}

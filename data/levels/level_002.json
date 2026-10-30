@@ -1,0 +1,154 @@
+{
+ "id": 2,
+ "name": "The Hanging Rock",
+ "realm": 1,
+ "heroes": [
+  "stone",
+  "stone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Shoot through the rope: the boulder does the rest.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "focus",
+   "target": "mech:0",
+   "label": "CUT THE ROPE!"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "A boulder on a rope, right over their heads!"
+  },
+  {
+   "t": "demo",
+   "target": "mech:0",
+   "hero": "stone"
+  },
+  {
+   "t": "emote",
+   "who": "captain",
+   "e": "cheer"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "CUT THE ROPE!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  15000,
+  16000,
+  28000
+ ],
+ "camera_right": 1430,
+ "camera_top": -670,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 768,
+    "x1": 1370,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "crate",
+   "x": 850,
+   "y": -32.0
+  },
+  {
+   "type": "crate",
+   "x": 850,
+   "y": -96.0
+  },
+  {
+   "type": "post",
+   "x": 1020,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1180,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1100,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 1020,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1180,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1100,
+   "y": -279.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1100,
+   "y": -342.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 850,
+   "y": -157.5
+  },
+  {
+   "x": 1100,
+   "y": -29.5
+  },
+  {
+   "x": 1100,
+   "y": -175.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "rope_load",
+   "x": 1100,
+   "y": -622.0,
+   "length": 100,
+   "load": "boulder",
+   "frame": {
+    "posts": [
+     1300
+    ],
+    "top": -636.0,
+    "bottom": 0.0,
+    "beam": [
+     1088,
+     1312
+    ]
+   }
+  }
+ ],
+ "captives": []
+}

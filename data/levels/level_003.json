@@ -1,0 +1,199 @@
+{
+ "id": 3,
+ "name": "Lantern Pagodas",
+ "realm": 1,
+ "heroes": [
+  "fire",
+  "stone",
+  "fire",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Fire spreads between touching timber. Light the front pagoda.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "wizard",
+   "at": "catapult",
+   "style": "smoke"
+  },
+  {
+   "t": "hero",
+   "kind": "fire"
+  },
+  {
+   "t": "say",
+   "who": "wizard",
+   "text": "Master Orin, at your service!"
+  },
+  {
+   "t": "focus",
+   "target": "fortress",
+   "label": "TIMBER BURNS!"
+  },
+  {
+   "t": "demo",
+   "target": "fortress",
+   "hero": "fire"
+  }
+ ],
+ "callouts": [],
+ "boss": false,
+ "star_scores": [
+  25000,
+  28000,
+  43000
+ ],
+ "camera_right": 1760,
+ "camera_top": -530,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 857,
+    "x1": 1603,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 920,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1080,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1000,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 920,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1080,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1000,
+   "y": -279.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1000,
+   "y": -342.0,
+   "flag": true
+  },
+  {
+   "type": "post",
+   "x": 1198,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1282,
+   "y": -60.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1240,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 1198,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1282,
+   "y": -206.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1240,
+   "y": -279.0
+  },
+  {
+   "type": "post",
+   "x": 1198,
+   "y": -352.0
+  },
+  {
+   "type": "post",
+   "x": 1282,
+   "y": -352.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1240,
+   "y": -425.0
+  },
+  {
+   "type": "roof",
+   "x": 1240,
+   "y": -473.0,
+   "flag": true
+  },
+  {
+   "type": "post",
+   "x": 1380,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1540,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1460,
+   "y": -133.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1460,
+   "y": -196.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 1000,
+   "y": -29.5
+  },
+  {
+   "x": 1000,
+   "y": -175.5
+  },
+  {
+   "x": 1240,
+   "y": -175.5
+  },
+  {
+   "x": 1240,
+   "y": -321.5
+  },
+  {
+   "x": 1460,
+   "y": -29.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": []
+}

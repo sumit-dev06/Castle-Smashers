@@ -1,0 +1,155 @@
+{
+ "id": 101,
+ "name": "Gold Rush",
+ "realm": 2,
+ "heroes": [
+  "bomb",
+  "cyclone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Break open at least 2 of the 3 chests. A chest that falls off is lost.",
+ "cinematic": [],
+ "callouts": [],
+ "boss": false,
+ "star_scores": [
+  15000,
+  18000,
+  23000
+ ],
+ "camera_right": 1680,
+ "camera_top": -410,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 757,
+    "x1": 1542,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 820,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 980,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 900,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 820,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 980,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 900,
+   "y": -279.0
+  },
+  {
+   "type": "treasure_chest",
+   "x": 900,
+   "y": -28.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 900,
+   "y": -342.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1172,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1172,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1328,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1328,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1250,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 1170,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1330,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1250,
+   "y": -287.0
+  },
+  {
+   "type": "treasure_chest",
+   "x": 1200,
+   "y": -328.0
+  },
+  {
+   "type": "crate",
+   "x": 1460,
+   "y": -32.0
+  },
+  {
+   "type": "treasure_chest",
+   "x": 1460,
+   "y": -92.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 900,
+   "y": -175.5
+  },
+  {
+   "x": 1250,
+   "y": -183.5
+  },
+  {
+   "x": 1250,
+   "y": -329.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": [],
+ "mode": "heist",
+ "mode_cfg": {
+  "need": 2
+ },
+ "challenge": true
+}

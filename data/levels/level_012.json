@@ -1,0 +1,208 @@
+{
+ "id": 12,
+ "name": "Twin Mesas",
+ "realm": 2,
+ "heroes": [
+  "cyclone",
+  "stone",
+  "bomb",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Release Twister among the thin towers to fling the guards off.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "wizard",
+   "at": "catapult",
+   "style": "smoke"
+  },
+  {
+   "t": "hero",
+   "kind": "cyclone"
+  },
+  {
+   "t": "focus",
+   "target": "mech:0",
+   "label": "MOVING!"
+  },
+  {
+   "t": "demo",
+   "target": "top",
+   "hero": "cyclone"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "MOVING!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  20000,
+  23000,
+  37000
+ ],
+ "camera_right": 1650,
+ "camera_top": -530,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 945,
+    "x1": 1155,
+    "top": 0.0
+   },
+   {
+    "x0": 1295,
+    "x1": 1505,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 1008,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1092,
+   "y": -60.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1050,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 1008,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1092,
+   "y": -206.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1050,
+   "y": -279.0
+  },
+  {
+   "type": "post",
+   "x": 1008,
+   "y": -352.0
+  },
+  {
+   "type": "post",
+   "x": 1092,
+   "y": -352.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1050,
+   "y": -425.0
+  },
+  {
+   "type": "roof",
+   "x": 1050,
+   "y": -473.0,
+   "flag": true
+  },
+  {
+   "type": "post",
+   "x": 1358,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1442,
+   "y": -60.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1400,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 1358,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1442,
+   "y": -206.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1400,
+   "y": -279.0
+  },
+  {
+   "type": "post",
+   "x": 1358,
+   "y": -352.0
+  },
+  {
+   "type": "post",
+   "x": 1442,
+   "y": -352.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1400,
+   "y": -425.0
+  },
+  {
+   "type": "roof",
+   "x": 1400,
+   "y": -473.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 1050,
+   "y": -321.5
+  },
+  {
+   "x": 1050,
+   "y": -175.5
+  },
+  {
+   "x": 1400,
+   "y": -321.5
+  },
+  {
+   "x": 1400,
+   "y": -29.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "moving_platform",
+   "x": 1225,
+   "y": -590,
+   "size": [
+    240,
+    36
+   ],
+   "travel_x": 90,
+   "travel_y": 0,
+   "period_s": 4.4,
+   "phase": 0.0
+  }
+ ],
+ "captives": []
+}

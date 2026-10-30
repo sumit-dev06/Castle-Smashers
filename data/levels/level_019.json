@@ -1,0 +1,242 @@
+{
+ "id": 19,
+ "name": "Mesa Bridge",
+ "realm": 2,
+ "heroes": [
+  "cyclone",
+  "fire",
+  "bomb",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "The bridge only holds while both mesas stand.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "focus",
+   "target": "bolt:0",
+   "label": "BOLTED BRIDGE"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "Break a tower and the bridge goes swimming!"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "bolt:0",
+   "label": "BOLTED"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  30000,
+  34000,
+  50000
+ ],
+ "camera_right": 1820,
+ "camera_top": -540,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 795,
+    "x1": 1005,
+    "top": 0.0
+   },
+   {
+    "x0": 1135,
+    "x1": 1345,
+    "top": 0.0
+   },
+   {
+    "x0": 1475,
+    "x1": 1685,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 858,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 942,
+   "y": -60.0
+  },
+  {
+   "type": "plank_short",
+   "x": 900,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 858,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 942,
+   "y": -206.0
+  },
+  {
+   "type": "plank_short",
+   "x": 900,
+   "y": -279.0
+  },
+  {
+   "type": "roof",
+   "x": 900,
+   "y": -327.0,
+   "flag": true
+  },
+  {
+   "type": "post",
+   "x": 1198,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1282,
+   "y": -60.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1240,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 1198,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1282,
+   "y": -206.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1240,
+   "y": -279.0
+  },
+  {
+   "type": "post",
+   "x": 1198,
+   "y": -352.0
+  },
+  {
+   "type": "post",
+   "x": 1282,
+   "y": -352.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1240,
+   "y": -425.0
+  },
+  {
+   "type": "post",
+   "x": 1538,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1622,
+   "y": -60.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1580,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 1538,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1622,
+   "y": -206.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1580,
+   "y": -279.0
+  },
+  {
+   "type": "post",
+   "x": 1538,
+   "y": -352.0
+  },
+  {
+   "type": "post",
+   "x": 1622,
+   "y": -352.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1580,
+   "y": -425.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1300,
+   "y": -451
+  },
+  {
+   "type": "plank_long",
+   "x": 1520,
+   "y": -451
+  }
+ ],
+ "archers": [
+  {
+   "x": 900,
+   "y": -175.5
+  },
+  {
+   "x": 900,
+   "y": -29.5
+  },
+  {
+   "x": 1240,
+   "y": -321.5
+  },
+  {
+   "x": 1580,
+   "y": -175.5
+  },
+  {
+   "x": 1300,
+   "y": -493.5
+  },
+  {
+   "x": 1520,
+   "y": -493.5
+  }
+ ],
+ "bolts": [
+  {
+   "a": 25,
+   "b": 26
+  }
+ ],
+ "mechanisms": [],
+ "captives": []
+}

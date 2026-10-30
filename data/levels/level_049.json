@@ -1,0 +1,264 @@
+{
+ "id": 49,
+ "name": "Baron's Approach",
+ "realm": 5,
+ "heroes": [
+  "quake",
+  "bomb",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Crystal, bolts and a storm. Choose your heroes carefully.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "baron",
+   "at": "top",
+   "style": "smoke"
+  },
+  {
+   "t": "say",
+   "who": "baron",
+   "text": "You will never reach my airship!"
+  },
+  {
+   "t": "emote",
+   "who": "baron",
+   "e": "shake"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "bolt:0",
+   "label": "BOLTED"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  35000,
+  41000,
+  59000
+ ],
+ "camera_right": 2060,
+ "camera_top": -630,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 790,
+    "x1": 1440,
+    "top": 0.0
+   },
+   {
+    "x0": 1607,
+    "x1": 1893,
+    "top": -100
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_block",
+   "x": 872,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 872,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1028,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1028,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 950,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 880,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1020,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 950,
+   "y": -314.0
+  },
+  {
+   "type": "post",
+   "x": 870,
+   "y": -394.0
+  },
+  {
+   "type": "post",
+   "x": 1030,
+   "y": -394.0
+  },
+  {
+   "type": "plank_long",
+   "x": 950,
+   "y": -467.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 950,
+   "y": -530.0,
+   "flag": true
+  },
+  {
+   "type": "plank_short",
+   "x": 1115.0,
+   "y": -141.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1230,
+   "y": -70.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1370,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1300,
+   "y": -160.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1230,
+   "y": -250.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1370,
+   "y": -250.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1300,
+   "y": -340.0
+  },
+  {
+   "type": "post",
+   "x": 1220,
+   "y": -420.0
+  },
+  {
+   "type": "post",
+   "x": 1380,
+   "y": -420.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1300,
+   "y": -493.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1300,
+   "y": -556.0,
+   "flag": true
+  },
+  {
+   "type": "post",
+   "x": 1670,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 1830,
+   "y": -160.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1750,
+   "y": -233.0
+  },
+  {
+   "type": "post",
+   "x": 1670,
+   "y": -306.0
+  },
+  {
+   "type": "post",
+   "x": 1830,
+   "y": -306.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1750,
+   "y": -379.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1750,
+   "y": -442.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 950,
+   "y": -183.5
+  },
+  {
+   "x": 950,
+   "y": -363.5
+  },
+  {
+   "x": 1115.0,
+   "y": -183.5
+  },
+  {
+   "x": 1300,
+   "y": -209.5
+  },
+  {
+   "x": 1300,
+   "y": -389.5
+  },
+  {
+   "x": 1750,
+   "y": -275.5
+  },
+  {
+   "x": 1750,
+   "y": -129.5
+  }
+ ],
+ "bolts": [
+  {
+   "a": 4,
+   "b": 12
+  }
+ ],
+ "mechanisms": [],
+ "captives": [],
+ "wind": {
+  "strength": 260,
+  "period_s": 7.0,
+  "gust_s": 3.0,
+  "dir": -1
+ }
+}

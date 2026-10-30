@@ -1,0 +1,157 @@
+{
+ "id": 25,
+ "name": "Water Spout",
+ "realm": 3,
+ "heroes": [
+  "quake",
+  "fire",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Shots through the erupting spout get thrown upward.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "focus",
+   "target": "mech:0",
+   "label": "GEYSER!"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "Ride the spout up to the high perch!"
+  },
+  {
+   "t": "demo",
+   "target": "mech:0",
+   "hero": "stone"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "WATER SPOUT!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  15000,
+  17000,
+  29000
+ ],
+ "camera_right": 1730,
+ "camera_top": -610,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 1016,
+    "top": 0.0
+   },
+   {
+    "x0": 1280,
+    "x1": 1566,
+    "top": -200
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 793.0,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 953.0,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 873.0,
+   "y": -133.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 873.0,
+   "y": -196.0,
+   "flag": true
+  },
+  {
+   "type": "post",
+   "x": 1343.0,
+   "y": -260.0
+  },
+  {
+   "type": "post",
+   "x": 1503.0,
+   "y": -260.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1423.0,
+   "y": -333.0
+  },
+  {
+   "type": "post",
+   "x": 1343.0,
+   "y": -406.0
+  },
+  {
+   "type": "post",
+   "x": 1503.0,
+   "y": -406.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1423.0,
+   "y": -479.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1423.0,
+   "y": -542.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 873.0,
+   "y": -29.5
+  },
+  {
+   "x": 1423.0,
+   "y": -375.5
+  },
+  {
+   "x": 1423.0,
+   "y": -229.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "geyser",
+   "x": 1148.0,
+   "y": 0,
+   "height": 560,
+   "period_s": 4.0,
+   "burst_s": 1.6,
+   "phase": 0.0,
+   "width": 90
+  }
+ ],
+ "captives": []
+}

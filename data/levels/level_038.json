@@ -1,0 +1,195 @@
+{
+ "id": 38,
+ "name": "Iron Forge",
+ "realm": 4,
+ "heroes": [
+  "bomb",
+  "quake",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Iron laughs at Rocky and Blaze. Boomer and Rumbler bend it.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "captive",
+   "at": "fortress",
+   "style": "smoke"
+  },
+  {
+   "t": "say",
+   "who": "captive",
+   "text": "They make me forge iron!"
+  },
+  {
+   "t": "focus",
+   "target": "fortress",
+   "label": "IRON! USE BOMBS"
+  },
+  {
+   "t": "focus",
+   "target": "captive:0",
+   "label": "RESCUE!"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "weak",
+   "label": "WEAK POINT"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  15000,
+  20000,
+  38000
+ ],
+ "camera_right": 1880,
+ "camera_top": -420,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 890,
+    "x1": 1740,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "iron_block",
+   "x": 972,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 972,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1128,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1128,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1050,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 970,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1130,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -287.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1050,
+   "y": -350.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1250,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1250,
+   "y": -96.0,
+   "weak_point": true,
+   "trigger": "free_miner"
+  },
+  {
+   "type": "iron_block",
+   "x": 1502,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1502,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1658,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1658,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1580,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 1500,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1660,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1580,
+   "y": -287.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1580,
+   "y": -350.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 1050,
+   "y": -183.5
+  },
+  {
+   "x": 1050,
+   "y": -29.5
+  },
+  {
+   "x": 1580,
+   "y": -183.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": [
+  {
+   "x": 1400,
+   "y": 0,
+   "trigger": "free_miner",
+   "height": 92
+  }
+ ]
+}

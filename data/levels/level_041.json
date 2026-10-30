@@ -1,0 +1,182 @@
+{
+ "id": 41,
+ "name": "First Island",
+ "realm": 5,
+ "heroes": [
+  "cyclone",
+  "bomb",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Tailwind gusts: aim a little shorter while they blow. Ice is slippery and shatters.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "The sky wind carries our shots further."
+  },
+  {
+   "t": "focus",
+   "target": "fortress",
+   "label": "TAILWIND"
+  },
+  {
+   "t": "enter",
+   "who": "baron",
+   "at": "top",
+   "style": "smoke"
+  },
+  {
+   "t": "say",
+   "who": "baron",
+   "text": "Climb all you like. You'll only fall further!"
+  }
+ ],
+ "callouts": [],
+ "boss": false,
+ "star_scores": [
+  20000,
+  22000,
+  36000
+ ],
+ "camera_right": 1770,
+ "camera_top": -440,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 857,
+    "x1": 1143,
+    "top": 0.0
+   },
+   {
+    "x0": 1315,
+    "x1": 1642,
+    "top": -60
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 920,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1080,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1000,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 920,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1080,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1000,
+   "y": -279.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1000,
+   "y": -342.0,
+   "flag": true
+  },
+  {
+   "type": "post",
+   "x": 1378,
+   "y": -120.0
+  },
+  {
+   "type": "post",
+   "x": 1462,
+   "y": -120.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1420,
+   "y": -193.0
+  },
+  {
+   "type": "post",
+   "x": 1378,
+   "y": -266.0
+  },
+  {
+   "type": "post",
+   "x": 1462,
+   "y": -266.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1420,
+   "y": -339.0
+  },
+  {
+   "type": "roof",
+   "x": 1420,
+   "y": -387.0,
+   "flag": true
+  },
+  {
+   "type": "ice_block",
+   "x": 1560,
+   "y": -92.0
+  },
+  {
+   "type": "ice_block",
+   "x": 1560,
+   "y": -156.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 1000,
+   "y": -175.5
+  },
+  {
+   "x": 1000,
+   "y": -29.5
+  },
+  {
+   "x": 1420,
+   "y": -235.5
+  },
+  {
+   "x": 1560,
+   "y": -217.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": [],
+ "wind": {
+  "strength": 200,
+  "period_s": 6.0,
+  "gust_s": 3.0,
+  "dir": 1
+ }
+}

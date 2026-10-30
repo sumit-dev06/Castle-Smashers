@@ -1,0 +1,186 @@
+{
+ "id": 102,
+ "name": "Pirate Hoard",
+ "realm": 3,
+ "heroes": [
+  "quake",
+  "bomb",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Open the chests before the sea takes them.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "MOVING!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  20000,
+  23000,
+  28000
+ ],
+ "camera_right": 1800,
+ "camera_top": -460,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 1240,
+    "x1": 1675,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 870,
+   "y": -110.0
+  },
+  {
+   "type": "post",
+   "x": 1030,
+   "y": -110.0
+  },
+  {
+   "type": "plank_long",
+   "x": 950,
+   "y": -183.0
+  },
+  {
+   "type": "post",
+   "x": 870,
+   "y": -256.0
+  },
+  {
+   "type": "post",
+   "x": 1030,
+   "y": -256.0
+  },
+  {
+   "type": "plank_long",
+   "x": 950,
+   "y": -329.0
+  },
+  {
+   "type": "treasure_chest",
+   "x": 981.0,
+   "y": -78.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 950,
+   "y": -392.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1322,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1322,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1478,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1478,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1400,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 1320,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1480,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1400,
+   "y": -287.0
+  },
+  {
+   "type": "treasure_chest",
+   "x": 1410.0,
+   "y": -28.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1400,
+   "y": -350.0,
+   "flag": true
+  },
+  {
+   "type": "treasure_chest",
+   "x": 1590,
+   "y": -28.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 950,
+   "y": -225.5
+  },
+  {
+   "x": 906.0,
+   "y": -79.5
+  },
+  {
+   "x": 1400,
+   "y": -183.5
+  },
+  {
+   "x": 1377.0,
+   "y": -29.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "moving_platform",
+   "x": 950,
+   "y": -25.0,
+   "size": [
+    330,
+    50
+   ],
+   "travel_x": 0,
+   "travel_y": 10,
+   "period_s": 5.5,
+   "phase": 0.0,
+   "chassis": "boss_galleon_hull",
+   "chassis_h": 175,
+   "floating": true
+  }
+ ],
+ "captives": [],
+ "mode": "heist",
+ "mode_cfg": {
+  "need": 2
+ },
+ "challenge": true,
+ "tide": {
+  "amp_px": 45,
+  "period_s": 8.0
+ }
+}

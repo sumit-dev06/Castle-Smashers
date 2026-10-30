@@ -1,0 +1,157 @@
+{
+ "id": 44,
+ "name": "High Perch",
+ "realm": 5,
+ "heroes": [
+  "quake",
+  "bomb",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Use the updraft or a very steep arc.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "UPDRAFT!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  15000,
+  18000,
+  32000
+ ],
+ "camera_right": 1700,
+ "camera_top": -720,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 757,
+    "x1": 1043,
+    "top": 0.0
+   },
+   {
+    "x0": 1240,
+    "x1": 1560,
+    "top": -150
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 820,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 980,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 900,
+   "y": -133.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 900,
+   "y": -196.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1322,
+   "y": -182.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1322,
+   "y": -246.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1478,
+   "y": -182.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1478,
+   "y": -246.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1400,
+   "y": -291.0
+  },
+  {
+   "type": "post",
+   "x": 1320,
+   "y": -364.0
+  },
+  {
+   "type": "post",
+   "x": 1480,
+   "y": -364.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1400,
+   "y": -437.0
+  },
+  {
+   "type": "post",
+   "x": 1320,
+   "y": -510.0
+  },
+  {
+   "type": "post",
+   "x": 1480,
+   "y": -510.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1400,
+   "y": -583.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1400,
+   "y": -646.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 900,
+   "y": -29.5
+  },
+  {
+   "x": 1400,
+   "y": -333.5
+  },
+  {
+   "x": 1400,
+   "y": -479.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "geyser",
+   "x": 1140,
+   "y": 0,
+   "height": 640,
+   "period_s": 4.0,
+   "burst_s": 1.6,
+   "phase": 0.0,
+   "width": 90
+  }
+ ],
+ "captives": []
+}

@@ -1,0 +1,178 @@
+{
+ "id": 9,
+ "name": "River Gondola",
+ "realm": 1,
+ "heroes": [
+  "bomb",
+  "fire",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Cut one gondola rope to tip the guards into the river.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "focus",
+   "target": "mech:0",
+   "label": "CUT A ROPE!"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "One rope and they tip into the river!"
+  },
+  {
+   "t": "demo",
+   "target": "mech:0",
+   "hero": "stone"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "CUT A ROPE!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  20000,
+  22000,
+  35000
+ ],
+ "camera_right": 1790,
+ "camera_top": -560,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 1247,
+    "x1": 1662,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "crate",
+   "x": 920.0,
+   "y": -347
+  },
+  {
+   "type": "post",
+   "x": 1310.0,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1470.0,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1390.0,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 1310.0,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1470.0,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1390.0,
+   "y": -279.0
+  },
+  {
+   "type": "post",
+   "x": 1310.0,
+   "y": -352.0
+  },
+  {
+   "type": "post",
+   "x": 1470.0,
+   "y": -352.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1390.0,
+   "y": -425.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1390.0,
+   "y": -488.0,
+   "flag": true
+  },
+  {
+   "type": "crate",
+   "x": 1580.0,
+   "y": -32.0
+  },
+  {
+   "type": "barrel",
+   "x": 1580.0,
+   "y": -93.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 850.0,
+   "y": -344.5
+  },
+  {
+   "x": 990.0,
+   "y": -344.5
+  },
+  {
+   "x": 1390.0,
+   "y": -175.5
+  },
+  {
+   "x": 1390.0,
+   "y": -321.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "hanging_platform",
+   "x": 920.0,
+   "y": -420,
+   "size": [
+    240,
+    30
+   ],
+   "span": 200,
+   "drop": 120,
+   "frame": {
+    "posts": [
+     796.0,
+     1044.0
+    ],
+    "top": -434,
+    "bottom": 260,
+    "beam": [
+     780.0,
+     1060.0
+    ]
+   }
+  }
+ ],
+ "captives": []
+}

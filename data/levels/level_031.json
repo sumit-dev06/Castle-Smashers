@@ -1,0 +1,159 @@
+{
+ "id": 31,
+ "name": "Crystal Cavern",
+ "realm": 4,
+ "heroes": [
+  "stone",
+  "cyclone",
+  "bomb",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Break one crystal next to others: the shards do the rest. The rune crystal fires a beam.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "Crystal! It shatters and cuts its neighbours."
+  },
+  {
+   "t": "focus",
+   "target": "fortress",
+   "label": "CRYSTAL SHATTERS!"
+  },
+  {
+   "t": "demo",
+   "target": "fortress",
+   "hero": "stone"
+  }
+ ],
+ "callouts": [],
+ "boss": false,
+ "star_scores": [
+  20000,
+  23000,
+  38000
+ ],
+ "camera_right": 1620,
+ "camera_top": -450,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 860,
+    "x1": 1490,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "crystal_pillar",
+   "x": 930,
+   "y": -70.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1070,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1000,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 920,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 1080,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1000,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1000,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "crystal_block",
+   "x": 1180,
+   "y": -32.0
+  },
+  {
+   "type": "rune_crystal",
+   "x": 1180,
+   "y": -96.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1280,
+   "y": -70.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1420,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1350,
+   "y": -160.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1280,
+   "y": -250.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1420,
+   "y": -250.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1350,
+   "y": -340.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 1000,
+   "y": -209.5
+  },
+  {
+   "x": 1000,
+   "y": -29.5
+  },
+  {
+   "x": 1350,
+   "y": -209.5
+  },
+  {
+   "x": 1350,
+   "y": -389.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": []
+}

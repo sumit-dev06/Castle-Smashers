@@ -1,0 +1,162 @@
+{
+ "id": 11,
+ "name": "Sandstone Ruins",
+ "realm": 2,
+ "heroes": [
+  "bomb",
+  "stone",
+  "stone",
+  "fire"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Stone shrugs off fire. Save Boomer for the double ruin.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "Desert stone. Fire won't help here."
+  },
+  {
+   "t": "focus",
+   "target": "fortress",
+   "label": "STONE!"
+  },
+  {
+   "t": "emote",
+   "who": "captain",
+   "e": "point"
+  }
+ ],
+ "callouts": [],
+ "boss": false,
+ "star_scores": [
+  25000,
+  29000,
+  44000
+ ],
+ "camera_right": 1770,
+ "camera_top": -440,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 804,
+    "x1": 1640,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_block",
+   "x": 886.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 950.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 1014.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 918.0,
+   "y": -96
+  },
+  {
+   "type": "stone_block",
+   "x": 982.0,
+   "y": -96
+  },
+  {
+   "type": "stone_block",
+   "x": 950.0,
+   "y": -160
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1180,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1320,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1250,
+   "y": -160.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1180,
+   "y": -250.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1320,
+   "y": -250.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1250,
+   "y": -340.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1430,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1570,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1500,
+   "y": -160.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 950,
+   "y": -221.5
+  },
+  {
+   "x": 1250,
+   "y": -209.5
+  },
+  {
+   "x": 1250,
+   "y": -389.5
+  },
+  {
+   "x": 1500,
+   "y": -29.5
+  },
+  {
+   "x": 1500,
+   "y": -209.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": []
+}

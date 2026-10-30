@@ -1,0 +1,236 @@
+{
+ "id": 8,
+ "name": "Captive Shrine",
+ "realm": 1,
+ "heroes": [
+  "fire",
+  "bomb",
+  "stone",
+  "fire"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Break the marked barrels before the last guard falls.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "captive",
+   "at": "fortress",
+   "style": "smoke"
+  },
+  {
+   "t": "say",
+   "who": "captive",
+   "text": "Help! Get me out of here!"
+  },
+  {
+   "t": "emote",
+   "who": "captive",
+   "e": "scared"
+  },
+  {
+   "t": "focus",
+   "target": "captive:0",
+   "label": "RESCUE!"
+  },
+  {
+   "t": "focus",
+   "target": "weak",
+   "label": "BREAK THIS"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "emote",
+   "who": "captain",
+   "e": "cheer"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "weak",
+   "label": "WEAK POINT"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  15000,
+  19000,
+  36000
+ ],
+ "camera_right": 1950,
+ "camera_top": -420,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 777,
+    "x1": 1890,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "barrel",
+   "x": 850,
+   "y": -29.0
+  },
+  {
+   "type": "barrel",
+   "x": 850,
+   "y": -87.0
+  },
+  {
+   "type": "post",
+   "x": 970,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1130,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 970,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1130,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -279.0
+  },
+  {
+   "type": "barrel",
+   "x": 1050,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1050,
+   "y": -342.0,
+   "flag": true
+  },
+  {
+   "type": "crate",
+   "x": 1240,
+   "y": -32.0
+  },
+  {
+   "type": "barrel",
+   "x": 1240,
+   "y": -93.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1352,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1352,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1508,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1508,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1430,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 1350,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1510,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1430,
+   "y": -287.0
+  },
+  {
+   "type": "barrel",
+   "x": 1452.0,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1430,
+   "y": -350.0,
+   "flag": true
+  },
+  {
+   "type": "barrel",
+   "x": 1620,
+   "y": -29.0
+  },
+  {
+   "type": "barrel",
+   "x": 1620,
+   "y": -87.0
+  },
+  {
+   "type": "barrel",
+   "x": 1620,
+   "y": -145.0,
+   "weak_point": true,
+   "trigger": "free_scout"
+  }
+ ],
+ "archers": [
+  {
+   "x": 1050,
+   "y": -175.5
+  },
+  {
+   "x": 1430,
+   "y": -183.5
+  },
+  {
+   "x": 1407.0,
+   "y": -29.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": [
+  {
+   "x": 1780,
+   "y": 0,
+   "trigger": "free_scout",
+   "height": 92
+  }
+ ]
+}
