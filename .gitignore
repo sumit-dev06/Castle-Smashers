@@ -22,3 +22,4 @@ tools/android_plugins/.gradle/
 tools/android_plugins/local.properties
 # Firebase config (owner downloads it; it lives in the git-ignored android/ template)
 google-services.json
+.wrangler/

@@ -33,6 +33,16 @@ func start() -> void:
 		func(_e: FormError) -> void: _init_sdk())
 
 
+## EEA/UK players must be able to change their ad consent later (Google EU User Consent Policy).
+func privacy_options_required() -> bool:
+	return UserMessagingPlatform.consent_information.get_privacy_options_requirement_status() \
+			== ConsentInformation.PrivacyOptionsRequirementStatus.REQUIRED
+
+
+func show_privacy_options() -> void:
+	UserMessagingPlatform.show_privacy_options_form(func(_e: FormError) -> void: pass)
+
+
 func _init_sdk() -> void:
 	if ready:
 		return
@@ -43,7 +53,7 @@ func _init_sdk() -> void:
 		load_interstitial()
 		load_rewarded()
 	var cfg: RequestConfiguration = RequestConfiguration.new()
-	cfg.max_ad_content_rating = RequestConfiguration.MAX_AD_CONTENT_RATING_T
+	cfg.max_ad_content_rating = RequestConfiguration.MAX_AD_CONTENT_RATING_PG
 	MobileAds.set_request_configuration(cfg)
 	MobileAds.initialize(listener)
 

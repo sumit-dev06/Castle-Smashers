@@ -1,0 +1,211 @@
+/* Castle Smashers website. Same fonts and outline colour as the game (docs/ART_DIRECTION.md). */
+@font-face {
+	font-family: "Lilita One";
+	src: url("/lilita-one-latin.woff2") format("woff2");
+	font-display: swap;
+}
+@font-face {
+	font-family: "Fredoka";
+	src: url("/fredoka-latin.woff2") format("woff2");
+	font-weight: 300 700;
+	font-display: swap;
+}
+
+:root {
+	--ink: #3a2212;        /* the game's outline brown */
+	--plank: #6b3f1d;
+	--plank-dark: #2a170b;
+	--gold: #ffc23a;
+	--ember: #e8571f;
+	--sky: #3fb7e3;
+	--paper: #ffffff;
+	--text: #2b1a0e;
+	--muted: #6e5643;
+	--rule: #ead9c6;
+	--measure: 68ch;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 88px; }
+body {
+	margin: 0;
+	font: 400 1.0625rem/1.6 "Fredoka", system-ui, sans-serif;
+	color: var(--text);
+	background: var(--paper);
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: #a8380f; text-underline-offset: 0.18em; }
+a:hover { color: var(--ember); }
+:focus-visible { outline: 3px solid var(--sky); outline-offset: 3px; border-radius: 4px; }
+
+.skip { position: absolute; left: -999px; top: 8px; background: var(--gold); color: var(--ink); padding: 8px 14px; z-index: 10; }
+.skip:focus { left: 8px; }
+
+/* Wooden top bar, like the in-game HUD plates. */
+.bar {
+	position: sticky; top: 0; z-index: 5;
+	background: linear-gradient(#7a4823, var(--plank));
+	border-bottom: 4px solid var(--ink);
+	box-shadow: inset 0 2px 0 #9a6234;
+}
+.bar-in {
+	max-width: 1180px; margin: 0 auto; padding: 10px 20px;
+	display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.brand { display: flex; align-items: center; gap: 12px; color: #fff; text-decoration: none; }
+.brand img { width: 44px; height: 44px; border-radius: 11px; border: 3px solid var(--ink); }
+.brand span { font: 1.45rem/1 "Lilita One", sans-serif; letter-spacing: 0.01em; text-shadow: 0 2px 0 var(--ink); }
+.bar nav { display: flex; gap: 22px; }
+.bar nav a { color: #ffe9bf; text-decoration: none; font-weight: 600; }
+.bar nav a:hover, .bar nav a[aria-current] { color: var(--gold); text-decoration: underline; }
+
+/* Outlined game-logo type: the one loud thing on the site. */
+.logo-type {
+	font-family: "Lilita One", sans-serif;
+	color: var(--gold);
+	-webkit-text-stroke: 0.09em var(--ink);
+	paint-order: stroke fill;
+	text-shadow: 0 0.07em 0 var(--ink), 0 0.14em 0.2em rgba(42, 23, 11, 0.45);
+	letter-spacing: 0.01em;
+	line-height: 0.95;
+	margin: 0;
+}
+
+/* Landing hero */
+.hero { position: relative; background: var(--plank-dark); color: #fff; overflow: hidden; }
+.hero > img { width: 100%; height: clamp(440px, 44vw, 660px); object-fit: cover; object-position: 50% 62%; }
+.hero-copy {
+	position: absolute; inset: 0;
+	display: flex; align-items: center;
+	padding: 40px 20px;
+	background: linear-gradient(90deg, rgba(30, 14, 4, 0.9), rgba(30, 14, 4, 0.55) 38%, transparent 62%);
+}
+.hero-copy > div { width: 100%; max-width: 1180px; margin: 0 auto; }
+.hero h1 { font-size: clamp(3.2rem, 9vw, 7rem); }
+.hero p { font-size: clamp(1.1rem, 2.2vw, 1.4rem); max-width: 34ch; margin: 18px 0 26px; text-shadow: 0 2px 6px #000; }
+.play {
+	display: inline-flex; align-items: center; gap: 12px;
+	background: linear-gradient(#ffd25c, #f5a91c); color: var(--ink);
+	border: 4px solid var(--ink); border-radius: 16px;
+	box-shadow: 0 5px 0 var(--ink);
+	padding: 12px 24px 12px 18px;
+	font: 1.3rem/1 "Lilita One", sans-serif; text-decoration: none;
+	transition: transform 0.08s, box-shadow 0.08s;
+}
+.play svg { width: 28px; height: 28px; }
+.play:hover { color: var(--ink); filter: brightness(1.05); }
+.play:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
+.fine { font-size: 0.95rem; color: #f3dcc0; margin-top: 14px; }
+
+/* Sections */
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+section.band { padding: 72px 0; }
+.band h2 { font: 2.4rem/1.1 "Lilita One", sans-serif; color: var(--ink); margin: 0 0 10px; }
+.band .lede { color: var(--muted); max-width: 56ch; margin: 0 0 36px; }
+
+/* Heroes stand on a plank shelf. */
+.heroes { list-style: none; margin: 0; padding: 0 0 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; position: relative; }
+.heroes::after {
+	content: ""; grid-column: 1 / -1; grid-row: 2; height: 22px; margin-top: -8px;
+	background: linear-gradient(#a8693a, #7a4823); border: 4px solid var(--ink); border-radius: 8px;
+	box-shadow: 0 6px 0 rgba(58, 34, 18, 0.25);
+}
+.heroes li { grid-row: 1; display: flex; flex-direction: column; }
+.heroes img { width: 100%; max-width: 170px; aspect-ratio: 1; object-fit: contain; object-position: bottom; margin: 0 auto -6px; filter: drop-shadow(0 6px 4px rgba(42, 23, 11, 0.3)); }
+.hero-notes { list-style: none; margin: 22px 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; }
+.hero-notes h3 { font: 1.5rem/1 "Lilita One", sans-serif; color: var(--ink); margin: 0 0 6px; }
+.hero-notes p { margin: 0; color: var(--muted); font-size: 0.98rem; line-height: 1.45; }
+
+/* Realms */
+.realms-band { background: var(--plank-dark); color: #f6e6d2; }
+.realms-band h2 { color: var(--gold); text-shadow: 0 3px 0 #000; }
+.realms-band .lede { color: #d9bf9f; }
+.realms { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.realms li { position: relative; border: 4px solid var(--ink); border-radius: 14px; overflow: hidden; background: #000; }
+.realms img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
+.realms div { position: absolute; inset: auto 0 0 0; padding: 40px 12px 12px; background: linear-gradient(transparent, rgba(0, 0, 0, 0.78)); }
+.realms strong { display: block; font: 1.25rem/1.1 "Lilita One", sans-serif; color: #fff; }
+.realms span { font-size: 0.9rem; color: #ffd98a; }
+
+/* Screens */
+.screens { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.screens figure { margin: 0; }
+.screens img { border: 4px solid var(--ink); border-radius: 14px; }
+.screens figcaption { margin-top: 10px; color: var(--muted); }
+
+/* Footer */
+footer.foot { background: var(--plank); color: #ffe9bf; border-top: 4px solid var(--ink); padding: 34px 0; font-size: 0.97rem; }
+.foot .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 30px; }
+.foot a { color: #fff; }
+.foot p { margin: 0; }
+
+/* Privacy page */
+.doc-head { background: var(--plank-dark); color: #f6e6d2; padding: 54px 0 46px; border-bottom: 4px solid var(--ink); }
+.doc-head h1 { font-size: clamp(2.6rem, 6vw, 4rem); }
+.doc-head p { margin: 16px 0 0; max-width: 60ch; }
+.doc { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 56px; padding-top: 48px; padding-bottom: 80px; }
+.toc { position: sticky; top: 96px; align-self: start; font-size: 0.95rem; }
+.toc h2 { font: 1.15rem/1 "Lilita One", sans-serif; color: var(--ink); margin: 0 0 10px; }
+.toc ol { margin: 0; padding-left: 1.3em; }
+.toc li { margin: 5px 0; }
+.toc a { color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--ember); text-decoration: underline; }
+.prose { max-width: var(--measure); }
+.prose h2 { font: 1.8rem/1.15 "Lilita One", sans-serif; color: var(--ink); margin: 52px 0 12px; }
+.prose h2:first-child { margin-top: 0; }
+.prose h3 { font-size: 1.15rem; font-weight: 600; color: var(--ink); margin: 28px 0 6px; }
+.prose ul { padding-left: 1.2em; }
+.prose li { margin: 6px 0; }
+.summary { border: 3px solid var(--ink); border-radius: 14px; padding: 18px 22px; background: #fff7e3; box-shadow: 0 4px 0 var(--ink); }
+.summary h2 { margin-top: 0; font-size: 1.4rem; }
+.summary ul { margin: 0; }
+.table { overflow-x: auto; margin: 16px 0; border: 2px solid var(--rule); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: 0.95rem; line-height: 1.45; }
+th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--rule); }
+th { background: #fbf1e3; color: var(--ink); font-weight: 600; }
+tr:last-child td { border-bottom: 0; }
+.prose .table + p { margin-top: 0; }
+dl.contact { display: grid; grid-template-columns: max-content 1fr; gap: 6px 18px; }
+dl.contact dt { font-weight: 600; color: var(--ink); }
+dl.contact dd { margin: 0; }
+
+/* 404 */
+.lost { min-height: 70vh; display: grid; place-items: center; text-align: center; padding: 40px 20px; background: var(--plank-dark); color: #f6e6d2; }
+.lost h1 { font-size: clamp(3rem, 10vw, 6rem); }
+
+@media (max-width: 900px) {
+	.heroes, .hero-notes { grid-template-columns: repeat(3, 1fr); }
+	.heroes::after { display: none; }
+	.heroes li:nth-child(n+4) { grid-row: auto; }
+	.realms { grid-template-columns: repeat(2, 1fr); }
+	.realms li:last-child { grid-column: 1 / -1; }
+	.realms li:last-child img { aspect-ratio: 16 / 9; }
+	.screens { grid-template-columns: 1fr; }
+	.doc { grid-template-columns: 1fr; gap: 28px; }
+	.toc { position: static; border: 2px solid var(--rule); border-radius: 12px; padding: 16px 18px; }
+}
+@media (max-width: 600px) {
+	.bar nav { gap: 14px; font-size: 0.95rem; }
+	.brand span { display: none; }
+	.hero > img { height: auto; aspect-ratio: 1450 / 510; object-position: center; }
+	.hero-copy { position: static; padding: 26px 20px 38px; background: var(--plank-dark); }
+	.heroes, .hero-notes { grid-template-columns: 1fr; }
+	.heroes { display: none; }
+	.hero-notes li { display: grid; grid-template-columns: 84px 1fr; gap: 14px; align-items: center; }
+	.hero-notes li::before { content: ""; width: 84px; height: 84px; background: var(--img) center / contain no-repeat; }
+	section.band { padding: 52px 0; }
+	.stack thead { display: none; }
+	.stack tr { display: block; border-bottom: 1px solid var(--rule); padding: 8px 0; }
+	.stack tr:last-child { border-bottom: 0; }
+	.stack td { display: block; border: 0; padding: 3px 14px; }
+	.stack td:first-child { font-weight: 600; color: var(--ink); }
+}
+@media (prefers-reduced-motion: reduce) {
+	* { transition: none !important; }
+}
+@media print {
+	.bar, .toc, footer.foot { display: none; }
+	.doc { display: block; }
+	.doc-head { background: none; color: #000; }
+	.logo-type { color: #000; -webkit-text-stroke: 0; text-shadow: none; }
+}

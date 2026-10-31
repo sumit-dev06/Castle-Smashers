@@ -1591,6 +1591,12 @@ func _ad_flow_tests() -> void:
 	for i: int in every - 1:
 		Ads.level_finished()
 	_check(not Ads.interstitial_due(10), "no interstitial before %d finished levels" % every)
+	_check(String(Data.b("settings", "privacy_url")) == "https://castle-smashers.pages.dev/privacy/", "privacy link points at the Pages site")
+	_check(not Ads.privacy_options_required() and Ads.has_method("show_privacy_options"), "Ad Privacy entry hidden on desktop, API present")
+	var admob_src: String = FileAccess.get_file_as_string("res://src/autoload/ads_admob.gd")
+	_check(admob_src.contains("MAX_AD_CONTENT_RATING_PG") and admob_src.contains("show_privacy_options_form"), "ads capped at PG, privacy options form wired")
+	var policy: String = FileAccess.get_file_as_string("res://web/privacy/index.html")
+	_check(policy.is_empty() or (policy.contains("Intercore") and policy.contains("intercoreapp@gmail.com") and policy.contains("Ad Privacy")), "privacy page names the developer, contact and Ad Privacy")
 	Ads.level_finished()
 	_check(Ads.interstitial_due(10) and not Ads.interstitial_due(int(Data.b("ads", "interstitial_min_level")) - 1),
 			"interstitial is due after %d levels, never before the minimum level" % every)

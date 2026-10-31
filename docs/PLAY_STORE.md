@@ -5,9 +5,14 @@
 - [ ] Upload keystore: create once, back it up in two places, never commit.
       `keytool -genkeypair -v -keystore castle_upload.keystore -alias upload -keyalg RSA -keysize 2048 -validity 10000`
 - [ ] Enrol in Play App Signing (Google holds the app signing key, we sign with the upload key)
-- [ ] Privacy policy page: enable GitHub Pages (repo Settings → Pages → branch `main`, folder
-      `/docs`), set `CONTACT_EMAIL` in `docs/privacy/index.html`. URL:
-      `https://sumit-dev06.github.io/Castle-Smashers/privacy/` (already used by Settings → Privacy)
+- [x] Privacy policy page: `https://castle-smashers.pages.dev/privacy/` (Cloudflare Pages, source in
+      `web/`, deploy with `npx wrangler pages deploy web --project-name castle-smashers --branch main`).
+      Already used by Settings → Privacy. Paste it in App content → Privacy policy.
+- [ ] Store listing contact details: website `https://castle-smashers.pages.dev`, email
+      intercoreapp@gmail.com. Keep the policy's developer name (Intercore, India) the same as the
+      Play developer account.
+- [ ] `app-ads.txt`: add `web/app-ads.txt` with
+      `google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0` (real publisher ID) and redeploy
 - [ ] AdMob account + app, link to Play listing (`MONETIZATION.md`)
 - [ ] In-app products, licence testers, regional prices (`BILLING_SETUP.md`)
 - [ ] Firebase project + `google-services.json` (`FIREBASE_SETUP.md`)

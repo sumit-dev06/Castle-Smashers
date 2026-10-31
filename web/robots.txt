@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://castle-smashers.pages.dev/sitemap.xml

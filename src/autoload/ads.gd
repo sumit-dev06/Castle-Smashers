@@ -106,6 +106,17 @@ func next_level_break(level_id: int, then: Callable) -> void:
 		then.call()
 
 
+## True where the law needs an "Ad privacy" entry in Settings (EEA, UK, Switzerland).
+func privacy_options_required() -> bool:
+	return _backend != null and bool(_backend.call("privacy_options_required"))
+
+
+## Re-opens Google's consent form so the player can change their ad choices.
+func show_privacy_options() -> void:
+	if _backend:
+		_backend.call("show_privacy_options")
+
+
 func rewarded_ready() -> bool:
 	if ads_removed():
 		return true

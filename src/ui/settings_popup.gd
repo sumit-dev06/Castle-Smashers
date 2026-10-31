@@ -86,7 +86,12 @@ func _main() -> void:
 	cr.pressed.connect(_credits)
 	var pv: Button = UIKit.button("Privacy", "dark", 22, Vector2(150, 58))
 	pv.pressed.connect(func() -> void: OS.shell_open(String(Data.b("settings", "privacy_url"))))
-	for b: Button in [tut, cr, pv]:
+	var buttons: Array[Button] = [tut, cr, pv]
+	if Ads.privacy_options_required():
+		var ap: Button = UIKit.button("Ad Privacy", "dark", 22, Vector2(170, 58))
+		ap.pressed.connect(Ads.show_privacy_options)
+		buttons.append(ap)
+	for b: Button in buttons:
 		UIFx.press_juice(b)
 		h.add_child(b)
 	v.add_child(note)

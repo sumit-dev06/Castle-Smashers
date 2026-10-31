@@ -33,6 +33,7 @@ $GODOT --headless --path . -- --run-tests=billing   # billing, ads, Hellfire, an
 $GODOT --path . -- --intro | --no-intro | --meta=settings   # studio intro + title card / skip it / settings popup
 python3 tools/patch_android_template.py             # after (re)installing the Android build template: Firebase Gradle + black splash
 python3 tools/capture_intro.py                      # re-capture the studio intro from art_source/intro/*.html
+npx wrangler pages deploy web --project-name castle-smashers --branch main   # website + privacy policy (castle-smashers.pages.dev)
 
 ADB=~/Library/Android/sdk/platform-tools/adb
 $ADB install -r build/castle_smashers_debug.apk     # install on the USB test phone
@@ -58,6 +59,7 @@ Test device: Realme RMX3870, Android 16 (API 36), 1080×2400 (20:9), 480 dpi, ar
 | `tools/` | Python generators: art, sfx, levels, AI cutout. Not shipped. |
 | `tests/` | Headless test scripts |
 | `docs/` | Design and process docs. Keep in sync with code. |
+| `web/` | Static website and privacy policy (Cloudflare Pages). Has `.gdignore`; keep the policy in sync with `FIREBASE_SETUP.md` Data safety |
 
 ## Rules
 1. **No magic numbers in gameplay code.** Add them to `data/*.json` and read via `Data` autoload.

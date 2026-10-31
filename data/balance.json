@@ -2227,7 +2227,7 @@
     "pending_note": "Payment pending. Your reward arrives as soon as Google Play confirms it."
   },
   "settings": {
-    "privacy_url": "https://sumit-dev06.github.io/Castle-Smashers/privacy/",
+    "privacy_url": "https://castle-smashers.pages.dev/privacy/",
     "credits": [
       "Fonts: Lilita One (Juan Montoreano), Fredoka (Milena Brand\u00e3o), SIL OFL 1.1",
       "Engine: Godot Engine, MIT licence, Godot contributors",
