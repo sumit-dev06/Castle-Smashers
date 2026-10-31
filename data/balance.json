@@ -810,6 +810,17 @@
       "active_s": 2.5
     }
   },
+  "drawbridge": {
+    "_doc": "When a drawbridge lands it slams: guards and blocks within reach_px of the deck take deck_damage and are pushed down, and a shockwave at the tip knocks the next tower (tip_radius_px, tip_impulse, tip_damage).",
+    "reach_px": 46.0,
+    "deck_damage": 140.0,
+    "deck_impulse": 900.0,
+    "tip_radius_px": 210.0,
+    "tip_impulse": 2600.0,
+    "tip_damage": 70.0,
+    "shake": 16.0,
+    "dust_every_px": 60.0
+  },
   "crusher": {
     "slam_damage": 160.0,
     "slam_impulse": 1800.0,

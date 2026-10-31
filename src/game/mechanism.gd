@@ -329,6 +329,8 @@ func activate(scored: bool = true) -> void:
 					.set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
 			if _collision:
 				bridge_tween.tween_callback(func() -> void: _collision.set_deferred("disabled", false))
+			if scored:
+				bridge_tween.tween_callback(_bridge_slam)
 			if _counterweight:
 				_counterweight.create_tween().tween_property(_counterweight, "position:y", _counterweight.position.y + float(cfg["counterweight_travel"]), float(cfg["duration_s"]))
 	if scored:
@@ -338,6 +340,22 @@ func activate(scored: bool = true) -> void:
 	var duration: float = float(cfg.get("duration_s", 0.7))
 	get_tree().create_timer(duration, true, false, true).timeout.connect(func() -> void:
 		Sound.play_at("gate_drop", global_position, 0.82 if kind == "gate" else 0.62))
+
+
+## The lowered bridge lands like a hammer: whatever is under the deck is crushed and the tip's
+## shockwave knocks the next tower. Without this the drop looked great and did nothing.
+func _bridge_slam() -> void:
+	var a: Vector2 = global_position
+	var tip: Vector2 = to_global(Vector2(_size().x, 0).rotated(body.rotation))
+	level.slam_segment(a, tip, Data.bf("drawbridge", "reach_px"), Data.bf("drawbridge", "deck_damage"), Data.bf("drawbridge", "deck_impulse"))
+	level.shockwave(tip, Data.bf("drawbridge", "tip_radius_px"), Data.bf("drawbridge", "tip_impulse"), Data.bf("drawbridge", "tip_damage"))
+	level.camera.add_shake(Data.bf("drawbridge", "shake"))
+	Game.haptic(50)
+	Sound.play_at("slam", tip, 1.0, 0.85)
+	var step: float = Data.bf("drawbridge", "dust_every_px")
+	var n: int = maxi(2, int(a.distance_to(tip) / step))
+	for i: int in n + 1:
+		level.fx.puff(a.lerp(tip, float(i) / n) + Vector2(0, _size().y * 0.5), 3, Color(0.92, 0.88, 0.8, 0.9), 0.8)
 
 
 func _on_hazard_body(other: Node) -> void:

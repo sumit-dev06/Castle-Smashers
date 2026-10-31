@@ -1706,6 +1706,47 @@ func crush(r: Rect2) -> void:
 			p.finish()
 
 
+## A heavy beam landing along a-b (drawbridge): guards and blocks within reach take damage and
+## are driven down and outward.
+func slam_segment(a: Vector2, b: Vector2, reach: float, damage: float, impulse: float) -> void:
+	for bl: Block in blocks.duplicate():
+		if not is_instance_valid(bl) or bl.dead or bl.held:
+			continue
+		var c: Vector2 = Geometry2D.get_closest_point_to_segment(bl.global_position, a, b)
+		if c.distance_to(bl.global_position) - minf(bl.size.x, bl.size.y) * 0.5 < reach:
+			bl.sleeping = false
+			bl.push(((bl.global_position - c).normalized() + Vector2(0, 0.6)).normalized() * impulse)
+			bl.take_damage(damage)
+	for ar: Archer in archers.duplicate():
+		if not is_instance_valid(ar) or ar.dead:
+			continue
+		var c2: Vector2 = Geometry2D.get_closest_point_to_segment(ar.global_position, a, b)
+		if c2.distance_to(ar.global_position) < reach + 40.0:
+			ar.take_damage(damage)
+
+
+## Blast without fire or flash (heavy landings): knocks blocks and guards away from pos.
+func shockwave(pos: Vector2, radius: float, impulse: float, damage: float) -> void:
+	fx.puff(pos, 8, Color(0.92, 0.88, 0.8, 0.9), 1.2)
+	for bl: Block in blocks.duplicate():
+		if not is_instance_valid(bl) or bl.dead or bl.held:
+			continue
+		var d: float = maxf(0.0, bl.global_position.distance_to(pos) - minf(bl.size.x, bl.size.y) * 0.5)
+		if d < radius:
+			var f: float = 1.0 - d / radius
+			bl.sleeping = false
+			bl.push(((bl.global_position - pos).normalized() + Vector2(0, -0.25)).normalized() * impulse * f)
+			bl.take_damage(damage * f)
+	for ar: Archer in archers.duplicate():
+		if not is_instance_valid(ar) or ar.dead:
+			continue
+		var d2: float = ar.global_position.distance_to(pos)
+		if d2 < radius:
+			var f2: float = 1.0 - d2 / radius
+			ar.push(((ar.global_position - pos).normalized() + Vector2(0, -0.5)).normalized() * impulse * 0.4 * f2)
+			ar.take_damage(damage * f2)
+
+
 func geyser_push(m: CastleMechanism, delta: float) -> void:
 	var r: Rect2 = m.geyser_rect()
 	var lift: float = Data.bf("geyser", "lift_accel")

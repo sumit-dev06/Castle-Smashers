@@ -715,6 +715,18 @@ func _wallet_tests() -> void:
 
 ## Phase D mechanisms: lever, windmill, shield ring, hidden switch, trap door.
 func _mechanism_d_tests() -> void:
+	# Drawbridge: landing must hurt (playtest: "the ramp drops and nothing happens").
+	var lb: Level = _make(4)
+	await _wait(1.0)
+	var alive0: int = lb.archers.filter(func(x: Archer) -> bool: return not x.dead).size()
+	for m: CastleMechanism in lb.mechanisms:
+		if m.kind == "drawbridge":
+			m.activate()
+	await _wait(4.0)
+	var alive1: int = lb.archers.filter(func(x: Archer) -> bool: return is_instance_valid(x) and not x.dead).size()
+	_check(alive0 - alive1 >= 2, "a landing drawbridge takes out guards (%d -> %d)" % [alive0, alive1])
+	lb.queue_free()
+	await _wait(0.1)
 	print("-- phase D: mechanisms")
 	var l: Level = _make(1)
 	await _wait(1.0)
