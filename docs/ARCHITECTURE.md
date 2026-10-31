@@ -210,6 +210,11 @@ defeats every archer, clears what is left and emits `done`, and the level wins. 
 pop-ups are muted while `hellfire_running`. Timings live in `balance.hellfire`; preview with
 `--level=16 --hellfire=0.3`. Time attack, one-shot and boss rush fail directly.
 
+## Save backup
+`user://save.json` is the only file in Android Auto Backup (`user_data_backup/allow=true`; rules
+`cs_backup_rules.xml` / `cs_data_rules.xml` written by `tools/patch_android_template.py`). Ads,
+Firebase and billing caches are never restored, so IDs are not cloned to a new device.
+
 ## Intro (`src/ui/intro_screen.gd`)
 `Game.boot` shows it when `IntroScreen.due()` (save `intro_version` differs from
 `application/config/version`): fresh installs and updates. Video `assets/intro/intro.ogv` and

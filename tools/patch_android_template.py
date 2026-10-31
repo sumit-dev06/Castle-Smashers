@@ -90,6 +90,48 @@ def patch_splash():
     return "patched" if new != src else "already patched"
 
 
+BACKUP_RULES = """<?xml version="1.0" encoding="utf-8"?>
+<!-- castle-smashers: Android 11 and older. Back up only the player's progress file (user://save.json). -->
+<full-backup-content>
+    <include domain="file" path="save.json" />
+</full-backup-content>
+"""
+
+DATA_RULES = """<?xml version="1.0" encoding="utf-8"?>
+<!-- castle-smashers: Android 12+. Google Drive backup and phone-to-phone transfer of the progress file only.
+     Ads, Firebase and billing caches are never restored, so IDs are not cloned between devices. -->
+<data-extraction-rules>
+    <cloud-backup>
+        <include domain="file" path="save.json" />
+    </cloud-backup>
+    <device-transfer>
+        <include domain="file" path="save.json" />
+    </device-transfer>
+</data-extraction-rules>
+"""
+
+
+def patch_backup():
+    """Android Auto Backup of the save file (turn on with user_data_backup/allow=true in export_presets.cfg)."""
+    xml = os.path.join(BUILD, "res", "xml")
+    os.makedirs(xml, exist_ok=True)
+    for name, text in (("cs_backup_rules.xml", BACKUP_RULES), ("cs_data_rules.xml", DATA_RULES)):
+        with open(os.path.join(xml, name), "w") as fh:
+            fh.write(text)
+    path = os.path.join(BUILD, "src", "main", "AndroidManifest.xml")
+    with open(path) as fh:
+        src = fh.read()
+    if "cs_data_rules" in src:
+        return "already patched"
+    anchor = 'android:allowBackup="false"'
+    if anchor not in src:
+        sys.exit("patch_android_template: allowBackup not found in " + path)
+    new = src.replace(anchor, anchor + '\n        android:fullBackupContent="@xml/cs_backup_rules"\n        android:dataExtractionRules="@xml/cs_data_rules"', 1)
+    with open(path, "w") as fh:
+        fh.write(new)
+    return "patched"
+
+
 def main():
     if not os.path.isdir(BUILD):
         sys.exit("android/build not found: install the Android build template from Godot first")
@@ -108,6 +150,7 @@ def main():
             fh.write(up)
         print("classpath versions upgraded")
     print("splash", patch_splash())
+    print("backup rules", patch_backup())
     print("build.gradle", "patched" if a else "already patched")
     have = os.path.exists(os.path.join(BUILD, "google-services.json"))
     print("google-services.json:", "found (Firebase ON)" if have else "missing (Firebase OFF until you add it)")

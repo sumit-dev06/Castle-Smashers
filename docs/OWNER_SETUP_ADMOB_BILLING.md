@@ -1,5 +1,7 @@
 # Owner guide: finish AdMob and Google Play Billing
 
+> First-time setup only. For building, uploading, going public and managing the game afterwards, use **`docs/RELEASE_GUIDE.md`**.
+
 This guide is for the owner (Intercore). The game code for ads and purchases is finished. What is
 left is account and console work that only you can do, because it needs your Google login, bank,
 tax and identity details.

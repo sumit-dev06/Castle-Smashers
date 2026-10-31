@@ -25,6 +25,7 @@ soldiers.
 | [docs/AI_ART_PROMPTS.md](docs/AI_ART_PROMPTS.md) | Prompts for AI-generated art and where files go |
 | [docs/AUDIO.md](docs/AUDIO.md) | Sound design plan and sources |
 | [docs/MONETIZATION.md](docs/MONETIZATION.md) | Ads, IAP, economy, pricing rationale |
+| [docs/RELEASE_GUIDE.md](docs/RELEASE_GUIDE.md) | **Owner manual**: build, test safely, upload, go public, updates, money, management (`tools/release.py`) |
 | [docs/OWNER_SETUP_ADMOB_BILLING.md](docs/OWNER_SETUP_ADMOB_BILLING.md) | Step-by-step owner guide: keystore, AdMob, Play products, test users, how to test |
 | [docs/BILLING_SETUP.md](docs/BILLING_SETUP.md) | Play Console products, testing, regional prices, verification server |
 | [docs/FIREBASE_SETUP.md](docs/FIREBASE_SETUP.md) | Firebase Analytics + Crashlytics setup, events, Data safety answers |

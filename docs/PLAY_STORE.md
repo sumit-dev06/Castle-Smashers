@@ -20,6 +20,8 @@
       days** before production access
 
 ## Each release
+Use `tools/release.py` (owner manual: `docs/RELEASE_GUIDE.md`). It does every step below and checks the bundle.
+
 - [ ] Bump `version/code` (+1) and `version/name` in `export_presets.cfg`
 - [ ] Release export: Android App Bundle (`.aab`), Gradle build, arm64-v8a + armeabi-v7a
 - [ ] Target SDK = current Play requirement (35+ in 2025, 36 set now)
