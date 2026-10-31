@@ -50,20 +50,31 @@ Placeholders: `{level}`, `{realm}`, `{boss}`, `{coins}`, `{streak_next}`, `{star
 Add lines freely; keep them short (title ≤ 45 characters, body ≤ 110), specific to the game, and
 never guilt-tripping.
 
-## Is push (FCM) necessary?
-**No, not for launch.** Every reminder above is predictable from the save, so local
-notifications cover them with zero server cost and zero extra data. Push is only needed for
-messages the phone can't know about: live events, a new realm going live on a fixed date, or
-win-back campaigns targeted by Analytics audiences. Recommendation: launch without push; add FCM
-when you run live events.
+## Push (FCM)
+Local reminders cover everything the phone can predict from the save. Push is for messages it
+can't know about: live events, a new realm going live, win-back campaigns to an Analytics
+audience. It is built in and switches on with `google-services.json` (see `FIREBASE_SETUP.md`).
 
-How to add push later (owner steps, after Firebase is set up per `FIREBASE_SETUP.md`):
-1. Add `com.google.firebase:firebase-messaging` to `tools/android_plugins/firebase/build.gradle`
-   and `addons/castle_firebase/export_plugin.gd`, and a `FirebaseMessagingService` that shows the
-   message on the existing "Siege reminders" channel.
-2. Firebase console → **Messaging** → create campaign → target the app or an Analytics audience
-   (for example "played in last 30 days, not in last 7"). Respect the same quiet hours and cap.
-3. Update the privacy policy and Data safety form (FCM token = device identifier).
+- Plugin: GodotX Firebase 3.1.0, Core + Messaging modules only (`addons/godotx_firebase`). We did
+  not write our own FCM plugin: GodotX's module already handles the token, topics, the message
+  service, cold-start taps and Android 13 permission, and it targets Godot 4.7.
+- Code: `src/autoload/notifications_push.gd`, created by `Notifications` on Android. Firebase Core
+  starts, then Messaging; the phone is subscribed to the topics in
+  `data/notifications.json` → `push.topics` (`all_players`, `news`) **only while notifications are
+  on in Settings and the Android permission is granted**, and unsubscribed when either goes off.
+  No token is stored or sent anywhere; campaigns target topics from the Firebase console.
+- Permission: still asked once by CastleNotify after level 3, never at startup. The GodotX
+  `request_permission()` is not called.
+- Look: the manifest points FCM at the white castle icon (`@mipmap/icon_monochrome`, from
+  `assets/art/brand/app_icon_mono.png`) and the same "Siege reminders" channel, so one system
+  switch covers both kinds.
+- Tapping a push opens the game and logs `notification_opened` with `kind = push`.
+- While the game is open, Android doesn't show the push and the game shows nothing either
+  (no interruptions mid-level).
+- Rules for campaigns: at most one a day, never 22:00–09:00 local, no fake urgency, no guilt.
+  Use topic `news` for releases and events, `all_players` for important announcements only.
+- Privacy: the FCM registration token is a device identifier. Data safety: "Device or other IDs",
+  collected, not shared, purpose "App functionality".
 
 ## Testing
 `--run-tests=billing` includes the notification planner: reminders are planned after the free

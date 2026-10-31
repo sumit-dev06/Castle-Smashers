@@ -48,6 +48,10 @@ var _state_t: float = 0.0
 var _loaded: bool = false
 var _reload_t: float = -1.0
 var _waiting: Array[Sprite2D] = []
+## A hero tapped while the next one was mid-hop: swapped in as soon as the hop lands.
+var _pick_after_hop: int = -1
+## The current touch picked a waiting hero, so its release must not trigger an ability.
+var _press_picked: bool = false
 var _dots: Array[Sprite2D] = []
 var _aiming: bool = false
 var _press_pos: Vector2 = Vector2.ZERO
@@ -305,7 +309,8 @@ func choose_hero(i: int) -> bool:
 	if i == hero_index:
 		return true
 	if _waiting[hero_index].has_meta("hopping"):
-		return false
+		_pick_after_hop = i
+		return true
 	var a: String = heroes[hero_index]
 	heroes[hero_index] = heroes[i]
 	heroes[i] = a
@@ -591,6 +596,12 @@ func _load_now() -> void:
 	_layout_waiting()
 	_update_hud()
 	Sound.play("pop", 0.6)
+	if _pick_after_hop > hero_index:
+		var pick: int = _pick_after_hop
+		_pick_after_hop = -1
+		choose_hero(pick)
+		kind = String(heroes[hero_index])
+	_pick_after_hop = -1
 	if not test_mode and (Sound.state == "destruction" or Sound.state == "flight"):
 		Sound.music_state("aim")
 	if not test_mode and not _hinted.has(kind) and kind != "stone" and not Save.seen("hint:" + kind):
@@ -1033,7 +1044,35 @@ func _unhandled_input(event: InputEvent) -> void:
 			_drag(d.position)
 
 
+## Index of the waiting hero (on the ledge next to the catapult) under a screen position, or -1.
+func waiting_hero_at(screen_pos: Vector2) -> int:
+	var world_pos: Vector2 = world.get_global_transform_with_canvas().affine_inverse() * screen_pos
+	var best: int = -1
+	var best_d: float = INF
+	for i: int in range(hero_index, mini(_waiting.size(), heroes.size())):
+		var w: Sprite2D = _waiting[i]
+		if not w.visible or w.has_meta("hopping"):
+			continue
+		var r: float = float(Data.projectiles[heroes[i]]["radius"]) + Data.bf("catapult", "hero_tap_pad_px")
+		var d: float = w.global_position.distance_to(world_pos)
+		if d < r and d < best_d:
+			best = i
+			best_d = d
+	return best
+
+
 func _press(pos: Vector2) -> void:
+	_press_picked = false
+	# Tapping a hero waiting on the ledge loads it next (same as tapping it in the tray).
+	if state == State.PLAY and not _aiming:
+		var pick: int = waiting_hero_at(pos)
+		if pick >= 0:
+			if choose_hero(pick):
+				_press_picked = true
+				Sound.play("ui_tap")
+				Game.haptic(20)
+				get_viewport().set_input_as_handled()
+				return
 	_pressed = true
 	_press_pos = pos
 	_press_ms = Time.get_ticks_msec()
@@ -1055,6 +1094,9 @@ func _drag(pos: Vector2) -> void:
 
 
 func _release(pos: Vector2) -> void:
+	if _press_picked:
+		_press_picked = false
+		return
 	if not _pressed:
 		return
 	_pressed = false

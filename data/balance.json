@@ -41,6 +41,7 @@
     "arm_return_s": 0.6,
     "max_pull_px": 210.0,
     "min_pull_px": 30.0,
+    "hero_tap_pad_px": 26.0,
     "max_speed": 1650.0,
     "min_launch_angle_deg": -88.0,
     "max_launch_angle_deg": 35.0,
@@ -621,7 +622,9 @@
     "beat_min_s": 1.1,
     "camera_pan_px": 80.0,
     "portrait_enter_s": 0.35,
-    "letterbox_px": 46.0
+    "letterbox_px": 46.0,
+    "_novel_doc": "A level's story scene plays only if the level brings something the campaign has not shown before: a hero, a mechanism kind, a material, one of these gadget shapes, a captive, bolts, an engineer or a boss (Data.novelty).",
+    "novel_shapes": ["domino", "bell", "wheel", "cage", "boulder"]
   },
   "realms": [
     {
@@ -841,6 +844,7 @@
   },
   "boss": {
     "hp": 160.0,
+    "art_faces_right": ["warlord", "sultan", "ironhook"],
     "scale": 1.55,
     "shield_s": 4.0,
     "enrage_fire_mult": 0.55,
@@ -860,6 +864,7 @@
     }
   },
   "cinematic": {
+    "boss_card_band_px": 210.0,
     "say_min_s": 1.6,
     "say_per_char_s": 0.045,
     "pan_s": 1.3,

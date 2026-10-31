@@ -7,6 +7,8 @@ Every asset not created in this repository must be listed here before it is comm
 | Lilita One font | `assets/fonts/lilita-one-latin.woff2` | Juan Montoreano, Google Fonts | SIL OFL 1.1 |
 | Fredoka font | `assets/fonts/fredoka-latin.woff2` | Milena Brandão, Google Fonts | SIL OFL 1.1 |
 | Godot Engine | n/a | Godot contributors | MIT (credit in About screen) |
+| GodotX Firebase 3.1.0 (Core + Messaging) | `addons/godotx_firebase`, `android/firebase_core`, `android/firebase_messaging` | Paulo Coutinho, github.com/godot-x/firebase | MIT (`addons/godotx_firebase/LICENSE`) |
+| Firebase Android SDK | Gradle dependencies | Google | Apache 2.0 |
 
 ## Generated in repo (owned)
 - SVG art in `assets/art/svg/` from `tools/gen_art.py`

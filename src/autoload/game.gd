@@ -94,8 +94,11 @@ func goto_map() -> void:
 func goto_level_entry(id: int) -> void:
 	var safe_id: int = clampi(id, 1, Data.level_count())
 	var c: Variant = Data.level(safe_id).get("cinematic", [])
-	# Story scenes introduce something new: play each one once, never on replays.
-	if c is Array and not (c as Array).is_empty() and not Save.seen("story:%d" % safe_id):
+	# Story scenes play once, and only on levels that bring something new (a hero, mechanism,
+	# material, gadget, captive, engineer or boss: Data.novelty). Other levels start at the plan
+	# screen; the flyover still points out unseen callouts.
+	if c is Array and not (c as Array).is_empty() and not Save.seen("story:%d" % safe_id) \
+			and not Data.novelty(safe_id).is_empty():
 		goto_story(safe_id)
 	else:
 		goto_level(safe_id)

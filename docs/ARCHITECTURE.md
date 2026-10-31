@@ -10,7 +10,7 @@
 | `Analytics` | `analytics.gd` | Whitelisted events, Crashlytics keys/breadcrumbs, error forwarder. Backend `analytics_firebase.gd` (CastleFirebase plugin) on Android, in-memory log elsewhere |
 | `Ads` | `ads.gd` | Ad rules: `next_level_break` (interstitial on NEXT every 4 levels), `show_rewarded(id)` for `spin`/`extra_rocky`/`double_coins`, Remove Ads bypass. Backend `ads_admob.gd` (UMP consent first), no-op stub on desktop |
 | `Store` | `store.gd` | BillingManager. Backends `store_play_billing.gd` (GodotGooglePlayBilling 3.3.0) or `store_fake_billing.gd` (tests/debug). Ledger `purchase_processor.gd`, optional server check `purchase_verifier.gd` |
-| `Notifications` | `notifications.gd` | Local reminders (CastleNotify plugin): plan on pause, cancel on resume, caps, quiet hours. Copy in `data/notifications.json` |
+| `Notifications` | `notifications.gd` | Local reminders (CastleNotify plugin): plan on pause, cancel on resume, caps, quiet hours. Copy in `data/notifications.json`. Push backend `notifications_push.gd` (GodotX Firebase Messaging): topic subscriptions follow the Settings switch + permission |
 | `Game` | `game.gd` | Scene switching (`Game.goto_level(id)`, `Game.goto_menu()`), command-line flags |
 
 ## Screens

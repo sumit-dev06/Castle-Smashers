@@ -25,5 +25,11 @@ class CastleNotifyExport extends EditorExportPlugin:
 	func _get_android_dependencies(_platform: EditorExportPlatform, _debug: bool) -> PackedStringArray:
 		return PackedStringArray(["androidx.core:core:1.13.1"])
 
+	## Firebase Cloud Messaging pushes (GodotX Firebase) use the same white castle small icon and the
+	## same "Siege reminders" channel as local reminders, so one Settings switch covers both.
+	func _get_android_manifest_application_element_contents(_platform: EditorExportPlatform, _debug: bool) -> String:
+		return ('<meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@mipmap/icon_monochrome" />\n'
+				+ '<meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="castle_reminders" />\n')
+
 	func _get_name() -> String:
 		return "CastleNotify"

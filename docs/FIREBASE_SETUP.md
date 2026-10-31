@@ -1,39 +1,55 @@
-# Firebase Analytics + Crashlytics setup
+# Firebase setup: Analytics, Crashlytics, push (FCM)
 
-The code is finished. `Analytics` (autoload, `src/autoload/analytics.gd`) is the only thing
-gameplay calls. On Android it talks to our own small plugin **CastleFirebase**
-(`addons/castle_firebase`, Kotlin source in `tools/android_plugins/firebase`), which wraps the
-official Firebase Android SDK (Analytics + Crashlytics + Crashlytics NDK, BoM 33.7).
+The code is finished. Gameplay calls only two autoloads; each talks to a native plugin.
 
-Firebase switches on **only when `android/build/google-services.json` exists**. Until then
-builds work and send nothing. We verified both paths: a normal export, and an export with a
-placeholder `google-services.json` that contains `FirebaseInitProvider`, `CrashlyticsRegistrar`,
-`CrashlyticsNdkRegistrar`, the `libcrashlytics*.so` native handlers and `google_app_id`.
+| Service | Autoload | Native plugin |
+|---|---|---|
+| Analytics + Crashlytics (+ NDK) | `Analytics` (`src/autoload/analytics.gd`) | our **CastleFirebase** (`addons/castle_firebase`, Kotlin source `tools/android_plugins/firebase`) |
+| Push (Firebase Cloud Messaging) | `Notifications` (`src/autoload/notifications_push.gd`) | **GodotX Firebase 3.1.0** Core + Messaging (`addons/godotx_firebase`, `android/firebase_core`, `android/firebase_messaging`, MIT) |
 
-## Steps for the owner (about 15 minutes)
-1. Go to <https://console.firebase.google.com> → **Add project** → name "Castle Smashers".
-   Enable Google Analytics when asked, choose (or create) an Analytics account, and set the
-   reporting country/currency.
-2. In the project: **Add app → Android**. Fill in:
+Why two plugins: GodotX Firebase's Crashlytics module has no non-fatal error call (only
+`log_message`, custom keys and a test `crash()`). CastleFirebase sends every GDScript error to
+Crashlytics with its backtrace (`recordError`), which GodotX can't do. GodotX Messaging is a
+complete, maintained FCM module, so we use it instead of writing our own. Both use the same
+Firebase SDK versions (common 22.1, analytics 23.2, crashlytics 20.1, messaging 25.1), so the
+APK carries one consistent set. GodotX's own Analytics and Crashlytics modules stay **off** in
+the export preset.
+
+Firebase switches on **only when `google-services.json` exists in the project root**. The GodotX
+export plugin copies it into `android/build/` at export time, where the Google services Gradle
+plugin reads it. Without the file builds work and send nothing. The file is git-ignored and is
+excluded from the packed game files.
+
+## Steps for the owner
+1. <https://console.firebase.google.com> → **Add project** → "Castle Smashers". Enable Google
+   Analytics when asked. (Done: project `castle-smashers-a82d6`.)
+2. **Add app → Android**:
 
 | Field | Value |
 |---|---|
 | Android package name | `com.castlesmashers.game` (exactly) |
 | App nickname | Castle Smashers |
-| Debug signing certificate SHA-1 | Optional (only needed for Google sign-in). If you add it: `keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android` |
+| Debug signing certificate SHA-1 | Optional (only needed for Google sign-in) |
 
-3. **Download `google-services.json`** and copy it to
-   `android/build/google-services.json` in this project (that folder is git-ignored, so the file
-   never reaches GitHub).
-4. Run `python3 tools/patch_android_template.py` once. It adds the Firebase Gradle plugins and the
-   black launch splash to the Android build template. Run it again whenever you reinstall the
-   Android build template from Godot. It is safe to run twice.
-5. Export as usual. Skip the remaining SDK steps of the Firebase wizard ("Add Firebase SDK"):
-   the plugin already does them.
-6. Firebase console → **Crashlytics** → "Enable Crashlytics". Launch the game once from the
-   phone; Crashlytics shows "app detected" after the first start.
-7. For release builds also upload the Play app-signing SHA-1 and SHA-256 (Play Console → Setup →
-   App signing) to Firebase → Project settings → your app → **Add fingerprint**.
+3. **Download `google-services.json`** and put it in the project root, next to `project.godot`.
+   (Done: the file is there and its package name matches.)
+4. **"Add Firebase SDK" step of the wizard: skip it.** Godot's Android template uses Groovy
+   `build.gradle`, not the Kotlin DSL the wizard shows, and the plugins already add the SDKs.
+   `python3 tools/patch_android_template.py` adds the two Gradle plugins (`google-services`
+   4.4.4, `firebase-crashlytics-gradle` 3.0.6, the versions GodotX is built and tested with).
+   Run it again whenever you reinstall the Android build template. It is safe to run twice.
+   Don't add the BoM line from the wizard: it would pull a second, newer set of Firebase
+   libraries next to the plugins' set.
+5. Export as usual (Project → Export → Android). The preset already has Use Gradle Build on and,
+   under **Firebase**: Core on, Messaging on, Analytics off, Crashlytics off, config file
+   `res://google-services.json`.
+6. Firebase console → **Crashlytics** → "Enable Crashlytics". Start the game once on the phone.
+7. Firebase console → **Messaging** → "Create your first campaign" → **Firebase Notification
+   messages** → title + text → target **Topic** `all_players` (or `news`) → Review → Publish.
+   Push the game to the background first: Android shows the notification itself.
+8. Release builds: add the Play app-signing SHA-1 and SHA-256 (Play Console → Setup → App
+   signing) in Firebase → Project settings → your app → **Add fingerprint**.
+9. Data safety form: see below (FCM adds "Device or other IDs" for push delivery).
 
 ## Checking it works
 - **DebugView**: on a USB phone run
@@ -42,6 +58,10 @@ placeholder `google-services.json` that contains `FirebaseInitProvider`, `Crashl
 - Normal events show in the Analytics dashboard after up to 24 hours.
 - **Crashlytics** reports show after the app is restarted following a crash.
 - The player can turn both off in Settings → Analytics (`Analytics.set_enabled`).
+- **Push**: `adb logcat -s GodotxFCMService GodotxFirebaseMessaging godot` shows the topic
+  subscription a few seconds after start. Send a campaign to `all_players` with the game in the
+  background; the notification uses the white castle icon. Turning notifications off in
+  Settings unsubscribes the phone from every topic.
 
 ## What is sent
 Only whitelisted events and parameters (`Analytics.EVENTS`). Anything else is dropped. No names,
@@ -86,6 +106,6 @@ through the app (they can by email; see privacy policy).
 |---|---|---|---|---|
 | App activity → App interactions | Yes | No | Analytics | Yes (Settings → Analytics) |
 | App info and performance → Crash logs, Diagnostics | Yes | No | App functionality, Analytics | Yes |
-| Device or other IDs (advertising ID, Firebase installation ID) | Yes | Yes (AdMob) | Advertising, Analytics, Fraud prevention | No (AdMob) |
+| Device or other IDs (advertising ID, Firebase installation ID, FCM token) | Yes | Yes (AdMob) | Advertising, Analytics, Fraud prevention, App functionality (push) | No (AdMob) |
 | Financial info → Purchase history | Yes | No | App functionality | No |
 | Approximate location (from IP, AdMob) | Yes | Yes | Advertising | No |

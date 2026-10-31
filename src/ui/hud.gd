@@ -39,6 +39,7 @@ var _chain_n: Label
 var _chain_mult: Label
 var _chain_shown: int = 0
 var _ammo_row: HBoxContainer
+var _ammo_tap_ms: int = -100000
 var _ammo_key: String = ""
 
 
@@ -117,7 +118,7 @@ func _ready() -> void:
 	_ammo_row.alignment = BoxContainer.ALIGNMENT_BEGIN
 	_ammo_row.add_theme_constant_override("separation", 8)
 	_ammo_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	UIKit.place(_ammo_row, Vector2(0, 1), Vector2(16, -112), Vector2(560, 96))
+	UIKit.place(_ammo_row, Vector2(0, 1), Vector2(16, -126), Vector2(640, 112))
 	_root.add_child(_ammo_row)
 
 	# Hint line: a dark pill with the hero's face, bottom centre (never bare text over the world).
@@ -239,7 +240,8 @@ func set_ammo(kinds: Array, index: int) -> void:
 		var kind: String = String(kinds[i])
 		var cfg: Dictionary = Data.projectiles[kind]
 		var now: bool = i == index
-		var side: float = 86.0 if now else 66.0
+		# Finger-sized: at least ~48 dp on a 20:9 phone (the canvas is scaled 1.5x there).
+		var side: float = 96.0 if now else 82.0
 		var slot: PanelContainer = PanelContainer.new()
 		var sb: StyleBoxFlat = StyleBoxFlat.new()
 		sb.bg_color = Color(0.1, 0.07, 0.04, 0.72)
@@ -254,11 +256,21 @@ func set_ammo(kinds: Array, index: int) -> void:
 		slot.mouse_filter = Control.MOUSE_FILTER_STOP
 		var pick: int = i
 		slot.gui_input.connect(func(e: InputEvent) -> void:
-			if e is InputEventMouseButton and (e as InputEventMouseButton).pressed and (e as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
-				slot.accept_event()
-				if level and pick != index and level.choose_hero(pick):
-					Sound.play("ui_tap")
-					Game.haptic(20))
+			# Real touches (phones) and mouse clicks (desktop) both count; a touch also produces an
+			# emulated click, so one press within the debounce window is used once.
+			var touch: bool = e is InputEventScreenTouch and (e as InputEventScreenTouch).pressed
+			var click: bool = e is InputEventMouseButton and (e as InputEventMouseButton).pressed \
+					and (e as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT
+			if not (touch or click):
+				return
+			slot.accept_event()
+			var now_ms: int = Time.get_ticks_msec()
+			if now_ms - _ammo_tap_ms < 250:
+				return
+			_ammo_tap_ms = now_ms
+			if level and pick != index and level.choose_hero(pick):
+				Sound.play("ui_tap")
+				Game.haptic(20))
 		var ic: TextureRect = UIKit.tex_rect(String(cfg["texture"]), side - 12)
 		slot.add_child(ic)
 		var col: VBoxContainer = VBoxContainer.new()

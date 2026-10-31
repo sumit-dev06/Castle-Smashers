@@ -6,6 +6,7 @@ var materials: Dictionary = {}
 var shapes: Dictionary = {}
 var projectiles: Dictionary = {}
 var _levels: Dictionary = {}
+var _novelty: Dictionary = {}
 ## Challenge ids start above this (data/challenges/challenge_NNN.json).
 const CHALLENGE_BASE: int = 100
 var challenges: Dictionary = {}
@@ -34,6 +35,45 @@ func load_json(path: String) -> Dictionary:
 
 func level_count() -> int:
 	return int(balance.get("level_count", 1))
+
+
+## What campaign level `id` shows for the first time ("hero:fire", "mech:crusher", "mat:iron",
+## "shape:bell", "captive", "bolt", "engineer", "boss"). Empty = nothing new, so no story scene.
+func novelty(id: int) -> PackedStringArray:
+	if _novelty.is_empty():
+		var seen: Dictionary = {}
+		for n: int in range(1, level_count() + 1):
+			var fresh: PackedStringArray = PackedStringArray()
+			for k: String in _content_keys(level(n)):
+				if not seen.has(k):
+					seen[k] = true
+					fresh.append(k)
+			_novelty[n] = fresh
+	return _novelty.get(id, PackedStringArray())
+
+
+func _content_keys(d: Dictionary) -> PackedStringArray:
+	var keys: PackedStringArray = PackedStringArray()
+	var gadgets: Array = b("story", "novel_shapes")
+	for h: Variant in d.get("heroes", []):
+		keys.append("hero:" + String(h))
+	for m: Variant in d.get("mechanisms", []):
+		keys.append("mech:" + String(m.get("type", "")))
+	for bl: Variant in d.get("blocks", []):
+		var t: String = String(bl.get("type", ""))
+		if shapes.has(t):
+			keys.append("mat:" + String(shapes[t].get("material", "")))
+		if t in gadgets:
+			keys.append("shape:" + t)
+	if not (d.get("captives", []) as Array).is_empty():
+		keys.append("captive")
+	if not (d.get("bolts", []) as Array).is_empty():
+		keys.append("bolt")
+	if not (d.get("engineers", []) as Array).is_empty():
+		keys.append("engineer")
+	if bool(d.get("boss", false)):
+		keys.append("boss:%d" % int(d.get("id", 0)))
+	return keys
 
 
 func level(id: int) -> Dictionary:

@@ -1042,6 +1042,22 @@ func _mode_tests() -> void:
 
 ## Progression: weapons, upgrades, cosmetics, realm chests, rank, achievements, secrets.
 func _progression_tests() -> void:
+	# Story scenes only where something new appears (steer: no previews on every level).
+	_check(not Data.novelty(1).is_empty(), "level 1 introduces the game")
+	_check("hero:fire" in Data.novelty(3) and "hero:bomb" in Data.novelty(6) and "hero:cyclone" in Data.novelty(12), "each new hero is flagged where it first appears")
+	_check("mech:rope_load" in Data.novelty(2) and "mech:crusher" in Data.novelty(13), "each new mechanism is flagged where it first appears")
+	_check(Data.novelty(16).is_empty() and Data.novelty(7).is_empty(), "levels with nothing new have no novelty")
+	var stories: PackedStringArray = PackedStringArray()
+	var skipped: int = 0
+	for n: int in range(1, Data.level_count() + 1):
+		if (Data.level(n).get("cinematic", []) as Array).is_empty():
+			continue
+		if Data.novelty(n).is_empty():
+			skipped += 1
+		else:
+			stories.append(str(n))
+	print("    story scenes kept on levels ", ",".join(stories), "; skipped ", skipped)
+	_check(skipped > 0, "story scenes are skipped on levels that bring nothing new")
 	print("-- phase D: progression")
 	var saved: Dictionary = Save.data.duplicate(true)
 	Save.data["unlocked"] = 1
@@ -1640,6 +1656,21 @@ func _notification_tests() -> void:
 	_check(a != b, "the same reminder line is never sent twice in a row")
 	Notifications.set_enabled(false)
 	_check(not Notifications.enabled(), "players can turn reminders off")
+	# Push (FCM via GodotX Firebase): topics exist, the backend loads, and the export preset ships
+	# only Core + Messaging from GodotX (Analytics/Crashlytics come from CastleFirebase).
+	var push: Dictionary = cfg.get("push", {})
+	_check(not (push.get("topics", []) as Array).is_empty(), "push topics are configured")
+	_check(load(Notifications.PUSH) is GDScript and not bool((load(Notifications.PUSH) as GDScript).new().call("available")),
+			"push backend loads and stays off without the GodotX plugin (desktop)")
+	_check(not Notifications.push_available(), "no push on desktop")
+	var preset: ConfigFile = ConfigFile.new()
+	preset.load("res://export_presets.cfg")
+	var o: String = "preset.0.options"
+	_check(bool(preset.get_value(o, "firebase/enable_core", false)) and bool(preset.get_value(o, "firebase/enable_messaging", false))
+			and not bool(preset.get_value(o, "firebase/enable_analytics", true)) and not bool(preset.get_value(o, "firebase/enable_crashlytics", true)),
+			"export ships GodotX Core + Messaging only")
+	_check(String(preset.get_value(o, "launcher_icons/adaptive_monochrome_432x432", "")) != "", "notifications have a monochrome small icon")
+	_check(FileAccess.file_exists("res://android/firebase_messaging/firebase_messaging.release.aar"), "GodotX Messaging AAR is vendored")
 	Save.data = saved
 	Save.write()
 

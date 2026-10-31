@@ -11,7 +11,10 @@ assets/art/ai/incoming/
 ad_ids.cfg
 override.cfg
 # Gradle build template (reinstall: godot --headless --path . --install-android-build-template)
-android/
+android/*
+# GodotX Firebase native modules (push notifications) are vendored, not generated
+!android/firebase_core/
+!android/firebase_messaging/
 
 # Android plugin sources: build outputs
 tools/android_plugins/**/build/

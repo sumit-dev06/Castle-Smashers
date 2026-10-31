@@ -20,12 +20,18 @@ CLASSPATH_ADD = """// castle-smashers: firebase classpath
 buildscript {
     repositories { google(); mavenCentral() }
     dependencies {
-        classpath 'com.google.gms:google-services:4.4.2'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:3.0.2'
+        classpath 'com.google.gms:google-services:4.4.4'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:3.0.6'
     }
 }
 
 """
+
+# Earlier patch versions, upgraded in place to the set GodotX Firebase (push) is built against.
+UPGRADES = [
+    ("classpath 'com.google.gms:google-services:4.4.2'", "classpath 'com.google.gms:google-services:4.4.4'"),
+    ("classpath 'com.google.firebase:firebase-crashlytics-gradle:3.0.2'", "classpath 'com.google.firebase:firebase-crashlytics-gradle:3.0.6'"),
+]
 
 APP_ADD = """
 // castle-smashers: firebase (only when google-services.json is present)
@@ -92,6 +98,15 @@ def main():
     c = patch(gradle, "// Gradle build config for Godot Engine's Android port.\n", CLASSPATH_ADD, mark="firebase classpath")
     a = patch(gradle, "apply from: 'config.gradle'\n", APP_ADD, mark="only when google-services.json")
     print("classpath", "patched" if c else "already patched")
+    with open(gradle) as fh:
+        src = fh.read()
+    up = src
+    for old, new in UPGRADES:
+        up = up.replace(old, new)
+    if up != src:
+        with open(gradle, "w") as fh:
+            fh.write(up)
+        print("classpath versions upgraded")
     print("splash", patch_splash())
     print("build.gradle", "patched" if a else "already patched")
     have = os.path.exists(os.path.join(BUILD, "google-services.json"))

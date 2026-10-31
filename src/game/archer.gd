@@ -22,6 +22,8 @@ var drawing: bool = false
 var _splashed: bool = false
 ## Boss Warlord: big crowned archer with lots of HP; phases are run by the Level.
 var is_boss: bool = false
+## The boss art for this unit is drawn facing right (mirrored in _pose).
+var _faces_right: bool = false
 var max_hp: float = 1.0
 var boss_name: String = ""
 var shield_left: float = 0.0
@@ -88,6 +90,7 @@ func make_boss(p_name: String, p_hp: float) -> void:
 	var key: String = "boss_" + String((Data.b("boss", "art_keys") as Dictionary).get(p_name, ""))
 	if Art.has_ai(key + "_idle"):
 		_pose_prefix = key
+		_faces_right = (Data.b("boss", "art_faces_right") as Array).has(key.trim_prefix("boss_"))
 		_pose("archer_idle")
 		_base_scale = _sprite.scale.x * Data.bf("boss", "scale")
 		_tint = Color.WHITE
@@ -252,6 +255,11 @@ func _pose(art: String) -> void:
 		var want: String = art.replace("archer", _pose_prefix)
 		art = want if Art.has_ai(want) else _pose_prefix + "_idle"
 	Art.set_unit_tex(_sprite, art, _h)
+	# Art drawn facing right is mirrored so every unit faces the catapult (left). The feet offset is
+	# mirrored too, so the unit still stands on the same spot.
+	_sprite.flip_h = _faces_right
+	if _faces_right:
+		_sprite.offset.x = -_sprite.offset.x
 
 
 func draw_bow() -> void:

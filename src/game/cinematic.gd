@@ -244,6 +244,18 @@ func _actor_pos(at: String) -> Vector2:
 
 func _beat_enter(who: String, at: String, style: String) -> void:
 	var a: Dictionary = ACTORS.get(who, ACTORS["captain"])
+	if at == "boss" and is_instance_valid(level.boss):
+		# The villain speaking from the boss spot IS the boss: no second crowned figure on top of it.
+		var boss: Archer = level.boss
+		var bs: Sprite2D = boss.get("_sprite") as Sprite2D
+		var info: Dictionary = a.duplicate()
+		info["h"] = maxf(60.0, boss.global_position.y - boss.visual_top() - 30.0)
+		_actors[who] = {"node": boss, "sprite": bs, "base": bs.scale, "info": info, "borrowed": true}
+		level.fx.puff(boss.global_position + Vector2(0, -40), 8, Color(0.6, 0.5, 0.7, 0.9), 1.1)
+		Sound.play("pop", 0.7, 0.8)
+		_squash(bs, Vector2(1.2, 0.85))
+		await _sleep(0.5)
+		return
 	var node: Node2D = Node2D.new()
 	node.z_index = 6
 	level.world.add_child(node)
@@ -337,6 +349,16 @@ func _beat_emote(who: String, e: String) -> void:
 	var act: Dictionary = _actors[who]
 	var node: Node2D = act["node"]
 	var spr: Sprite2D = act["sprite"]
+	if bool(act.get("borrowed", false)):
+		# A real unit (the boss): only a sprite wobble and a laugh, never moving its physics body or
+		# swapping its art.
+		var wob: Tween = spr.create_tween()
+		for i: int in 6:
+			wob.tween_property(spr, "rotation", 0.1 if i % 2 == 0 else -0.1, 0.07)
+		wob.tween_property(spr, "rotation", 0.0, 0.08)
+		Sound.play("enemy_laugh", 0.5)
+		await _sleep(0.5)
+		return
 	match e:
 		"jump", "cheer":
 			Art.set_unit_tex(spr, String(act["info"]["alt"]), float(act["info"]["h"]))
@@ -527,7 +549,7 @@ func _beat_boss() -> void:
 	if not is_instance_valid(level.boss):
 		return
 	var p: Vector2 = level.boss.global_position
-	await _pan_to(p + Vector2(0, -60), _default_zoom() * 1.5, 0.9)
+	await _pan_to(p + Vector2(0, 40), _default_zoom() * 1.5, 0.9)
 	var flash: ColorRect = ColorRect.new()
 	flash.color = Color(1, 0.2, 0.1, 0.45)
 	flash.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -548,12 +570,16 @@ func _beat_boss() -> void:
 	var phases: int = level.data.get("boss_unit", {}).get("phases", []).size()
 	v.add_child(UIKit.label("%d PHASES" % phases, 22, Color("#ffd23a"), 6))
 	plate.add_child(v)
+	# The camera centres on the boss, so the name card sits in the lower band of the screen,
+	# clear of the boss, its shield bubble and anyone standing next to it.
 	var c: CenterContainer = CenterContainer.new()
-	c.set_anchors_preset(Control.PRESET_FULL_RECT)
+	c.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+	c.offset_top = -Data.bf("cinematic", "boss_card_band_px")
+	c.offset_bottom = -24.0
 	c.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	c.add_child(plate)
 	_root.add_child(c)
-	plate.pivot_offset = Vector2(200, 60)
+	plate.pivot_offset = plate.get_combined_minimum_size() * 0.5
 	plate.scale = Vector2.ONE * 3.0
 	plate.create_tween().tween_property(plate, "scale", Vector2.ONE, 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	await _sleep(1.9)
@@ -567,7 +593,10 @@ func _beat_exit(who: String) -> void:
 	if not _actors.has(who):
 		return
 	var node: Node2D = _actors[who]["node"]
+	var borrowed: bool = bool(_actors[who].get("borrowed", false))
 	_actors.erase(who)
+	if borrowed:
+		return
 	var tw: Tween = node.create_tween()
 	tw.tween_property(node, "modulate:a", 0.0, 0.35)
 	tw.tween_callback(node.queue_free)

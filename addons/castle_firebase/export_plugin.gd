@@ -1,10 +1,12 @@
 @tool
 extends EditorPlugin
 ## Packs the CastleFirebase Android plugin (source: tools/android_plugins/firebase).
-## Firebase is only compiled in when res://android/build/google-services.json exists; without it
-## the export works and the game simply sends no analytics. See docs/FIREBASE_SETUP.md.
+## Firebase is only compiled in when google-services.json exists (project root, copied into
+## android/build by the GodotX Firebase export plugin); without it the export works and the game
+## simply sends no analytics. See docs/FIREBASE_SETUP.md.
+## SDK versions match GodotX Firebase (push) so the APK carries one Firebase version set.
 
-const GOOGLE_SERVICES: String = "res://android/build/google-services.json"
+const GOOGLE_SERVICES: PackedStringArray = ["res://google-services.json", "res://android/build/google-services.json"]
 
 var _export: CastleFirebaseExport
 
@@ -21,7 +23,10 @@ func _exit_tree() -> void:
 
 class CastleFirebaseExport extends EditorExportPlugin:
 	func _configured() -> bool:
-		return FileAccess.file_exists(GOOGLE_SERVICES)
+		for f: String in GOOGLE_SERVICES:
+			if FileAccess.file_exists(f):
+				return true
+		return false
 
 	func _supports_platform(platform: EditorExportPlatform) -> bool:
 		return platform is EditorExportPlatformAndroid
@@ -32,7 +37,7 @@ class CastleFirebaseExport extends EditorExportPlugin:
 	func _get_android_dependencies(_platform: EditorExportPlatform, _debug: bool) -> PackedStringArray:
 		if not _configured():
 			return PackedStringArray()
-		return PackedStringArray(["com.google.firebase:firebase-analytics:22.1.2", "com.google.firebase:firebase-crashlytics:19.3.0", "com.google.firebase:firebase-crashlytics-ndk:19.3.0"])
+		return PackedStringArray(["com.google.firebase:firebase-analytics:23.2.0", "com.google.firebase:firebase-crashlytics:20.1.0", "com.google.firebase:firebase-crashlytics-ndk:20.1.0"])
 
 	func _get_name() -> String:
 		return "CastleFirebase"

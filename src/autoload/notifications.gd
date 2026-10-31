@@ -5,12 +5,16 @@ extends Node
 ## background and cancelled when the player returns, so no reminder ever fires while playing.
 ## Rules: at most max_per_day, never in quiet hours (moved to quiet_end), opt-out in Settings,
 ## Android 13 permission asked only after the player has played a few levels.
+## Push (Firebase Cloud Messaging, src/autoload/notifications_push.gd) uses the same opt-out and
+## permission: the player is subscribed to the push topics only while both are on.
 
 const DATA: String = "res://data/notifications.json"
 const DAY: int = 86400
+const PUSH: String = "res://src/autoload/notifications_push.gd"
 
 var cfg: Dictionary = {}
 var _p: Object
+var _push: RefCounted
 
 
 func _ready() -> void:
@@ -21,6 +25,7 @@ func _ready() -> void:
 		Save.data["notify_on"] = bool(cfg.get("enabled_default", true))
 	_cancel_all()
 	_track_open()
+	_start_push()
 
 
 func _notification(what: int) -> void:
@@ -29,6 +34,9 @@ func _notification(what: int) -> void:
 	elif what == NOTIFICATION_APPLICATION_RESUMED:
 		_cancel_all()
 		_track_open()
+		if _push:
+			_push.call("resumed")
+			_sync_push()
 
 
 func available() -> bool:
@@ -46,6 +54,7 @@ func set_enabled(on: bool) -> void:
 		request_permission()
 	else:
 		_cancel_all()
+	_sync_push()
 
 
 func has_permission() -> bool:
@@ -209,3 +218,28 @@ func _track_open() -> void:
 		Analytics.event("notification_opened", {"kind": kind})
 		if kind == "special_unlocked":
 			Save.mark_seen("notify:special")
+
+
+# ------------------------------------------------------------------------------------ push (FCM)
+func push_available() -> bool:
+	return _push != null and bool(_push.call("is_ready"))
+
+
+func _start_push() -> void:
+	if OS.get_name() != "Android" or not ResourceLoader.exists(PUSH):
+		return
+	var b: RefCounted = (load(PUSH) as GDScript).new()
+	if not bool(b.call("available")):
+		return
+	_push = b
+	var pc: Dictionary = cfg.get("push", {})
+	b.connect("opened", func(_title: String) -> void: Analytics.event("notification_opened", {"kind": "push"}))
+	b.call("start", pc.get("topics", []), int(pc.get("opened_window_ms", 4000)))
+	# Firebase Core answers asynchronously; subscribe once it is up.
+	get_tree().create_timer(float(pc.get("sync_delay_s", 3.0))).timeout.connect(_sync_push)
+
+
+## Topics follow the Settings switch and the Android permission.
+func _sync_push() -> void:
+	if _push:
+		_push.call("sync", enabled() and has_permission())
