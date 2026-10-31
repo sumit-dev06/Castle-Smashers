@@ -8,6 +8,20 @@
  "ask_on_home_delay_s": 1.0,
  "push": {"_doc": "Firebase Cloud Messaging topics (send campaigns to them from the Firebase console, see docs/NOTIFICATIONS.md). The player is subscribed only while notifications are on in Settings and the Android permission is granted. opened_window_ms: a push delivered this soon after launch/resume counts as the player tapping it.", "topics": ["all_players", "news"], "opened_window_ms": 4000, "sync_delay_s": 3.0},
  "kinds": {
+  "energy_full": {
+   "id": 14,
+   "rule": "energy_full",
+   "needs": "energy_spent",
+   "min_delay_s": 600,
+   "priority": 0,
+   "lines": [
+    ["Your army is back on its feet", "All energy bars are full. Rocky did forty push-ups and wants to be thrown at something."],
+    ["Fully rested, slightly dangerous", "The soldiers napped, ate and sharpened everything twice. Energy is full. Level {level} is waiting."],
+    ["Energy full. Morale: suspicious", "Your troops are rested and Blaze is humming near the powder barrels. Better give him a castle."],
+    ["The catapult is creaking with impatience", "Energy is full again. The archers on level {level} think you gave up. Correct them."],
+    ["Break's over", "Every bar is full. Master Orin says rested soldiers smash 12% harder. He made that up, but go anyway."]
+   ]
+  },
   "spin_ready": {
    "id": 11,
    "rule": "next_local_time",

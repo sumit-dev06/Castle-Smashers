@@ -1707,6 +1707,17 @@ func _notification_tests() -> void:
 	var a: Array = Notifications._pick("idle_2d", cfg["kinds"]["idle_2d"]["lines"])
 	var b: Array = Notifications._pick("idle_2d", cfg["kinds"]["idle_2d"]["lines"])
 	_check(a != b, "the same reminder line is never sent twice in a row")
+	# Energy: a "refilled" reminder only after bars were spent, at the moment they are full again.
+	Save.data["energy"] = {"bars": Energy.max_bars(), "t": Time.get_unix_time_from_system(), "ad_lock": false}
+	_check(not Notifications.plan(now).any(func(n: Dictionary) -> bool: return n["kind"] == "energy_full"), "no energy reminder while the bars are full")
+	var keep_unlocked: int = int(Save.data["unlocked"])
+	Save.data["unlocked"] = int(Energy.cfg()["free_until_level"]) + 3
+	Save.data["energy"] = {"bars": 0, "t": Time.get_unix_time_from_system(), "ad_lock": false}
+	var en: Array = Notifications.plan(now).filter(func(n: Dictionary) -> bool: return n["kind"] == "energy_full")
+	var want: int = maxi(int(cfg["kinds"]["energy_full"]["min_delay_s"]), ceili(Energy.ready_in_s(Energy.max_bars())))
+	# Quiet hours may push it later, never earlier.
+	_check(en.size() == 1 and int(en[0]["at"]) >= now + want - 2, "after spending energy, a refilled reminder is planned when every bar is back")
+	Save.data["unlocked"] = keep_unlocked
 	Notifications.set_enabled(false)
 	_check(not Notifications.enabled(), "players can turn reminders off")
 	# Push (FCM via GodotX Firebase): topics exist, the backend loads, and the export preset ships

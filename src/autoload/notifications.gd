@@ -131,6 +131,9 @@ func _when(kind: String, k: Dictionary, now: int) -> int:
 			var t: Dictionary = Time.get_datetime_dict_from_unix_time(_local(now))
 			var today_at: int = now - (int(t["hour"]) * 3600 + int(t["minute"]) * 60 + int(t["second"])) + int(k["hour"]) * 3600
 			return today_at + DAY if today_at <= now + 600 else today_at
+		"energy_full":
+			# The moment every bar is back, but never a ping just minutes after closing the game.
+			return now + maxi(int(k.get("min_delay_s", 600)), ceili(Energy.ready_in_s(Energy.max_bars())))
 		"after_hours":
 			return now + int(k["hours"]) * 3600
 		"after_days":
@@ -154,6 +157,9 @@ func _needs(n: String) -> bool:
 			return not DailyRewards.can_claim()
 		"chest_within_3":
 			return _stars_short() > 0 and _stars_short() <= 3
+		"energy_spent":
+			return Energy.enabled() and int(Save.data["unlocked"]) > int(Energy.cfg().get("free_until_level", 0)) \
+					and Energy.bars() < Energy.max_bars()
 		"special_pack_new":
 			return Save.special_pack_unlocked() and not Save.seen("notify:special")
 	return false
