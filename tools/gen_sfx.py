@@ -5,6 +5,7 @@ Output: assets/audio/sfx/<name>_<n>.wav (variants). Music: tools/gen_music.py, a
 Run:    python3 tools/gen_sfx.py
 """
 import os
+import sys
 import wave
 
 import numpy as np
@@ -25,7 +26,7 @@ MASTERING = {
     "star": (-9.0, -21.0), "win": (-7.0, -20.0), "lose": (-8.0, -21.0),
     "soldier_hit": (-10.0, -21.0), "soldier_ko": (-10.0, -21.0),
     "enemy_ko": (-10.0, -21.0), "enemy_laugh": (-12.0, -23.0),
-    "arrow_shoot": (-11.0, -24.0), "arrow_hit": (-9.0, -22.0),
+    "arrow_shoot": (-15.0, -28.0), "arrow_hit": (-14.0, -27.0),
     "fire": (-10.0, -24.0), "wind": (-12.0, -25.0),
     "wood_hit": (-7.0, -20.0), "stone_hit": (-7.0, -20.0),
     "wood_break": (-6.0, -19.0), "stone_break": (-6.0, -19.0),
@@ -49,7 +50,7 @@ MASTERING = {
     "deny": (-12.0, -24.0), "count_tick": (-16.0, -29.0), "toast": (-12.0, -24.0), "map_select": (-11.0, -23.0),
     "play_press": (-9.0, -21.0), "aim_grab": (-9.0, -21.0), "ability": (-11.0, -23.0),
     "ratchet": (-14.0, -26.0), "bell": (-6.0, -19.0), "creak": (-9.0, -21.0),
-    "screen_whoosh": (-14.0, -26.0), "wallet_land": (-12.0, -24.0),
+    "screen_whoosh": (-20.0, -31.0), "wallet_land": (-12.0, -24.0),
     "talk_hero": (-12.0, -23.0), "talk_enemy": (-12.0, -23.0), "talk_high": (-12.0, -23.0),
     "collapse_s": (-6.0, -19.0), "collapse_m": (-4.5, -17.5), "collapse_l": (-3.0, -16.0),
     "rubble_settle": (-12.0, -25.0),
@@ -404,17 +405,21 @@ def pluck(freq, dur, damp=0.996):
 
 
 def arrow_shoot(i):
-    d = 0.4
-    twang = pluck(150 + 18 * i, d, 0.9945) * env(d, 0.003, 0.17)
-    air = filt(whoosh(0), "low", 4200) * 0.22
-    return filt(mix(twang, at(air, 0.025, d)), "low", 4600)
+    # Soft bow release: a rounded low twang (slow 6 ms attack, no click) and a gentle airy swish.
+    d = 0.42
+    t = t_axis(d)
+    twang = filt(pluck(140 + 14 * i, d, 0.9955), "low", 1500) * env(d, 0.006, 0.14)
+    air = filt(D.pink(d), "band", (500, 2200)) * np.sin(np.pi * np.clip((t - 0.02) / 0.32, 0, 1)) ** 2 * 0.16
+    return filt(mix(twang, air), "low", 2600)
 
 
 def arrow_hit(i):
-    d = 0.25
-    thunk = sine(lambda t: 260 * np.exp(-t * 20) + 120, d) * env(d, 0.0008, 0.035)
-    wobble = sine(320 + 30 * i, d) * env(d, 0.002, 0.08) * (0.5 + 0.5 * np.sin(2 * np.pi * 28 * t_axis(d))) * 0.4
-    return mix(thunk, wobble, filt(noise(d), "band", (1000, 5000)) * env(d, 0.0005, 0.01) * 0.5)
+    # Muffled "thup" into wood or a shield: low rounded thump, a short soft wobble, no hiss.
+    d = 0.24
+    thunk = sine(lambda t: 190 * np.exp(-t * 16) + 95, d) * env(d, 0.003, 0.045)
+    wobble = sine(240 + 20 * i, d) * env(d, 0.004, 0.06) * (0.6 + 0.4 * np.sin(2 * np.pi * 22 * t_axis(d))) * 0.22
+    tap = filt(noise(d), "band", (400, 1600)) * env(d, 0.002, 0.012) * 0.18
+    return filt(mix(thunk, wobble, tap), "low", 2200)
 
 
 # ----------------------------------------------------------------------------- voices (comic grunts)
@@ -798,9 +803,10 @@ def ability(i):
 
 
 def screen_whoosh(i):
-    d = 0.45
+    # Soft, airy pass: longer, slow-rising Hann swell, filter tops out at 1.6 kHz (no hiss).
+    d = 0.7
     t = t_axis(d)
-    return filt(D.sweep_lp(D.pink(d), 400, 3000) * np.sin(np.pi * t / d) ** 2.5, "high", 200) * 0.5
+    return filt(D.sweep_lp(D.pink(d), 250, 1600) * np.sin(np.pi * t / d) ** 2, "high", 160) * 0.35
 
 
 def wallet_land(i):
@@ -1103,8 +1109,12 @@ SOUNDS = [
 if __name__ == "__main__":
     os.makedirs(SFX, exist_ok=True)
     os.makedirs(MUSIC, exist_ok=True)
+    only = set(sys.argv[sys.argv.index("--only") + 1].split(",")) if "--only" in sys.argv else None
     for name, n, fn in SOUNDS:
-        sfx(name, n, fn)
+        if only is None or name in only:
+            sfx(name, n, fn)
+    if only is not None:
+        sys.exit(0)
     # Looping sounds skip polish() (its room tail would break the loop) and carry a WAV loop point.
     D.write_wav(os.path.join(SFX, "stretch_loop.wav"), D.master(stretch_loop(), -22.0, -9.0), loop=True, sr=SR)
     print("sfx:", len([f for f in os.listdir(SFX) if f.endswith(".wav")]), "files (music: tools/gen_music.py)")

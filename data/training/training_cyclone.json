@@ -1,0 +1,92 @@
+{
+ "id": 0,
+ "name": "Twister Training",
+ "realm": 2,
+ "heroes": [
+  "cyclone",
+  "cyclone",
+  "cyclone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Practice the new hero's ability.",
+ "cinematic": [],
+ "callouts": [],
+ "boss": false,
+ "star_scores": [
+  5000,
+  6000,
+  18000
+ ],
+ "camera_right": 1390,
+ "camera_top": -460,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 957,
+    "x1": 1243,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 1020,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1180,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1100,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 1020,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1180,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1100,
+   "y": -279.0
+  },
+  {
+   "type": "post",
+   "x": 1020,
+   "y": -352.0
+  },
+  {
+   "type": "post",
+   "x": 1180,
+   "y": -352.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1100,
+   "y": -425.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 1100,
+   "y": -321.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": [],
+ "training": "cyclone",
+ "before_level": 12
+}

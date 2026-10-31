@@ -191,6 +191,11 @@ the sound is louder at the same peak.
 | Rewards | `coin_tink`, `gem_tink`, `wallet_land`, `count_tick` (count-ups), `purchase`, `chest_open`, `reveal`, `upgrade`, `anvil`, `wheel_tick` |
 | Map | `map_select`, `locked` |
 
+## In-level level and regeneration
+- `audio.level_sfx_db` (-4 dB) is added to every non-UI sound played through `Sound.play` / `Sound.play_at`.
+- `arrow_shoot`, `arrow_hit` and `screen_whoosh` were remade softer (low twang, muffled thump, 0.7 s filtered swell).
+- Regenerate only some sounds: `python3 tools/gen_sfx.py --only screen_whoosh,arrow_shoot`.
+
 ## Tool evaluation
 The owner asked for these tools to be used if they are better than what the game had. Each was
 judged on sound quality on a phone, CPU cost on mid-range Android, APK size, licence and how well it

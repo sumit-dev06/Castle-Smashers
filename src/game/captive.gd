@@ -16,7 +16,7 @@ func setup(p_level: Level, data: Dictionary) -> void:
 	rescue_id = String(data["trigger"])
 	position = Vector2(float(data["x"]), float(data["y"]))
 	_person = Art.unit_sprite("captive_idle", float(data["height"]))
-	_person.modulate = Color(0.72, 0.72, 0.78)
+	_person.modulate = Color(0.9, 0.9, 0.94)
 	_base_scale = _person.scale
 	add_child(_person)
 	_cage = Art.sprite("mechanism_cage")

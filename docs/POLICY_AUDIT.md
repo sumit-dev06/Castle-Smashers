@@ -31,6 +31,10 @@ policies, and Android platform rules. **Pass** = verified in code/tests/device;
 | Ads declaration in Play Console = Yes | Owner | |
 | Real App ID / ad units, app-ads.txt | Owner | Replace the test App ID; send the AdMob publisher ID (`pub-…`) so `web/app-ads.txt` can be published at `https://castle-smashers.pages.dev/app-ads.txt`. Set the Play listing website to `https://castle-smashers.pages.dev` |
 
+- Energy refill ad is opt-in, names its reward, and is limited to one level at a time.
+- Full-screen ads use `Theme.CastleAd` (castle_notify AAR) on AdActivity: fullscreen, edge-to-edge under the cutout.
+- Rocky skins are cosmetic only; no gameplay advantage.
+
 ## Privacy and data
 | Rule | Status | Evidence |
 |---|---|---|

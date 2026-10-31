@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<defs>
+<linearGradient id="ee_rim" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d8cfc2"/><stop offset="0.5" stop-color="#a99a86"/><stop offset="1" stop-color="#6e604e"/></linearGradient>
+<radialGradient id="ee_core" cx="0.42" cy="0.35" r="0.75"><stop offset="0" stop-color="#7d7268"/><stop offset="1" stop-color="#3f3832"/></radialGradient>
+</defs>
+<path d="M32 3 L55 11 L55 31 C55 46 45 55 32 61 C19 55 9 46 9 31 L9 11 Z" fill="url(#ee_rim)" stroke="#3a2212" stroke-width="3" stroke-linejoin="round"/>
+<path d="M32 9.5 L49.5 15.5 L49.5 31 C49.5 42.5 42 49.5 32 54.5 C22 49.5 14.5 42.5 14.5 31 L14.5 15.5 Z" fill="url(#ee_core)" stroke="#3a2212" stroke-width="2" stroke-linejoin="round"/>
+<path d="M36 14 L22 35 L31 35 L27 50 L42 27 L33 27 Z" fill="#5b524a" stroke="#2a1f17" stroke-width="2" stroke-linejoin="round" opacity="0.9"/>
+</svg>

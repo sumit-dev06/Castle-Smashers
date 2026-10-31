@@ -24,6 +24,11 @@ var held: bool = false
 var crushing: float = 0.0
 var _crushed: Dictionary = {}
 var _crush_speed: float = 0.0
+## Round timber (logs, wheels) rams what it rolls into: each body is hit once per roll.
+var _rolls: bool = false
+var _rammed: Dictionary = {}
+var _ram_blasted: bool = false
+var _roll_peak: float = 0.0
 ## Not crushed by this load (the seesaw beam that throws it).
 var crush_ignore: Node
 var _crush_partners: Array[Block] = []
@@ -65,6 +70,7 @@ func setup(p_shape_id: String, p_level: Level, pos: Vector2, rot_deg: float, dec
 	max_hp = float(mat["hp"])
 	weak_point = bool(decor.get("weak_point", false))
 	trigger_id = String(decor.get("trigger", ""))
+	_rolls = mat_id == "log" and String(shape.get("collider", "")) == "circle"
 	if weak_point:
 		max_hp *= Data.bf("mechanics", "weak_hp_mult")
 		_damage_taken_mult = Data.bf("mechanics", "weak_damage_mult")
@@ -210,6 +216,8 @@ func _physics_process(delta: float) -> void:
 	_prev_vel = v
 	if crushing > 0.0:
 		_tick_crush(delta, v)
+	elif _rolls and not sleeping:
+		_tick_roll(v)
 	if _burn_left > 0.0:
 		_tick_fire(delta)
 	if _melt_left > 0.0:
@@ -273,7 +281,7 @@ func _tick_crush(delta: float, v: Vector2) -> void:
 		struck = struck or body is Block or body is Archer or (body is StaticBody2D and bool(mat["explodes"]))
 		if body is Block and not (body as Block).dead:
 			var tb: Block = body
-			tb.push(v.normalized() * spd * mass * float(c["push_mult"]) / maxf(1.0, tb.mass) * 0.1)
+			tb.push(_roll_dir(v) * spd * mass * float(c["push_mult"]) / maxf(1.0, tb.mass) * 0.1)
 			tb.take_damage(spd * float(c["damage_per_speed"]) * mass / 8.0)
 		elif body is Archer:
 			(body as Archer).take_damage(spd * float(c["archer_damage_per_speed"]))
@@ -286,6 +294,56 @@ func _tick_crush(delta: float, v: Vector2) -> void:
 		if bool(mat["explodes"]):
 			crushing = 0.0
 			destroy(true)
+
+
+## A log rolling faster than min_speed slams every block/archer it touches (once each): damage and
+## a shove along its path scale with its speed, so a log sent down a slope topples what it meets.
+func _tick_roll(v: Vector2) -> void:
+	var c: Dictionary = Data.balance["rolling_log"]
+	# The contact itself stops the log, so judge it by the speed it carried just before.
+	_roll_peak = maxf(_roll_peak * 0.85, v.length())
+	var spd: float = _roll_peak
+	if spd < float(c["min_speed"]):
+		if spd < float(c["reset_speed"]):
+			_rammed.clear()
+			_ram_blasted = false
+		return
+	var hit: bool = false
+	for body: Node in get_colliding_bodies():
+		if _rammed.has(body) or not is_instance_valid(body):
+			continue
+		if body is Block and not (body as Block).dead:
+			_rammed[body] = true
+			var tb: Block = body
+			tb.push(_roll_dir(v) * spd * float(c["push_per_speed"]) * mass / maxf(1.0, tb.mass))
+			tb.take_damage(spd * float(c["damage_per_speed"]))
+			hit = true
+		elif body is Archer:
+			_rammed[body] = true
+			(body as Archer).take_damage(spd * float(c["archer_damage_per_speed"]))
+			hit = true
+	if hit:
+		if Game.args.has("debug-roll"):
+			print("ROLL ram spd %.0f" % spd)
+		if not _ram_blasted:
+			# The first thing it rams takes the whole rolling momentum: a shockwave at the front
+			# of the log knocks the stack and the guards on it over.
+			_ram_blasted = true
+			level.shockwave(global_position + _roll_dir(v) * size.x * 0.5, float(c["blast_radius"]),
+					spd * float(c["blast_impulse_per_speed"]), spd * float(c["blast_damage_per_speed"]), self)
+		level.camera.add_shake(minf(float(c["shake_max"]), spd * float(c["shake_per_speed"])))
+		level.fx.debris(global_position, "wood", 4, 260.0)
+		Sound.play_at("wood_hit", global_position, 0.9, 0.8)
+
+
+## Direction of travel, kept from the last fast step when the contact has just stopped the log.
+var _last_dir: Vector2 = Vector2.RIGHT
+
+
+func _roll_dir(v: Vector2) -> Vector2:
+	if v.length() > 30.0:
+		_last_dir = v.normalized()
+	return _last_dir
 
 
 ## Knocked into the gap: splash at the surface, then breaks (scored) under the kill line.

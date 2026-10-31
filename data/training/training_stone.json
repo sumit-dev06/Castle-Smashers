@@ -1,0 +1,83 @@
+{
+ "id": 0,
+ "name": "Rocky Training",
+ "realm": 1,
+ "heroes": [
+  "stone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Practice the new hero's ability.",
+ "cinematic": [],
+ "callouts": [],
+ "boss": false,
+ "star_scores": [
+  5000,
+  6000,
+  18000
+ ],
+ "camera_right": 1360,
+ "camera_top": -450,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 910,
+    "x1": 1190,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 980,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1120,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1050,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 970,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 1130,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1050,
+   "y": -376.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 1050,
+   "y": -209.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": [],
+ "training": "stone",
+ "before_level": 0
+}

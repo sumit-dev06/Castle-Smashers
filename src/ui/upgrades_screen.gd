@@ -344,4 +344,13 @@ func _hero_card(kind: String) -> Control:
 		v.add_child(UIKit.label("Unlocks at Level %d" % Workshop.intro_level(kind), 13, Color("#ffd070"), 3, false))
 		var lock: TextureRect = UIKit.tex_rect("icon_lock", 22)
 		v.add_child(lock)
+	# Tap an unlocked hero to replay its training range (how to use the ability).
+	if introduced and Data.has_training(kind):
+		v.add_child(UIKit.label("Tap to practise", 12, Color("#9fd8ff"), 3, false))
+		p.mouse_filter = Control.MOUSE_FILTER_STOP
+		p.gui_input.connect(func(e: InputEvent) -> void:
+			if e is InputEventMouseButton and (e as InputEventMouseButton).pressed \
+					and (e as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
+				Sound.play("ui_tap")
+				Game.goto_training(kind, int(Data.training(kind).get("before_level", 1)), true))
 	return p

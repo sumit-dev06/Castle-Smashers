@@ -1475,8 +1475,8 @@ func _billing_tests() -> void:
 	Save.data["hellfire"] = 0
 	var fake: RefCounted = await _fake_store()
 	_check(Store.available() and not Store.price_text("coin_crate").is_empty(), "store connects and loads Play prices")
-	_check(Data.balance["shop"]["order"].size() == 4 and Store.product("remove_ads")["type"] == "non_consumable"
-			and Store.product("hellfire_crate")["gives"]["hellfire"] == 3, "catalog: Remove Ads + 3 crates (Hellfire gives 3)")
+	_check(Data.balance["shop"]["order"].size() == 7 and Store.product("remove_ads")["type"] == "non_consumable"
+			and Store.product("hellfire_crate")["gives"]["hellfire"] == 3, "catalog: Remove Ads + 3 crates + 3 rock skins (Hellfire gives 3)")
 	# Every product delivers exactly its contents once.
 	var expect: Dictionary = {"coin_crate": ["coins", 30000], "gem_crate": ["gems", 400], "hellfire_crate": ["hellfire", 3]}
 	for id: String in expect:

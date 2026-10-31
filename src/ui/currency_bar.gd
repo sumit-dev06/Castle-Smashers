@@ -38,6 +38,13 @@ func _init(kinds: Array = Save.WALLET, with_plus: bool = true) -> void:
 	Events.currency_changed.connect(_on_changed)
 
 
+## Army energy pill in front of the coins (home and map).
+func add_energy() -> void:
+	var p: PanelContainer = EnergyUI.pill()
+	add_child(p)
+	move_child(p, 0)
+
+
 func pill_center(kind: String) -> Vector2:
 	var p: Control = _pills.get(kind, self)
 	return p.get_global_rect().get_center() - Vector2(p.size.x * 0.25, 0)

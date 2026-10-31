@@ -1,0 +1,83 @@
+{
+ "id": 0,
+ "name": "Blaze Training",
+ "realm": 1,
+ "heroes": [
+  "fire",
+  "fire",
+  "fire"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Practice the new hero's ability.",
+ "cinematic": [],
+ "callouts": [],
+ "boss": false,
+ "star_scores": [
+  5000,
+  6000,
+  18000
+ ],
+ "camera_right": 1360,
+ "camera_top": -410,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 907,
+    "x1": 1193,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 970,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1130,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 970,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1130,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -279.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1050,
+   "y": -342.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 1050,
+   "y": -175.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": [],
+ "training": "fire",
+ "before_level": 3
+}

@@ -842,7 +842,7 @@ def build(lid, entry=None):
         "callouts": make_callouts(f, realm, bool(beats)),
         "boss": boss_level,
         "star_scores": [round(s1, -3), round(s2, -3), round(s3, -3)],
-        "camera_right": int(round(max(f.right_edge() + 180, stage["bases"][-1]["x1"] + 60), -1)),
+        "camera_right": int(round(max(f.right_edge() + 180, stage["bases"][-1]["x1"] + 60) + getattr(f, "camera_extra", 0), -1)),
         "camera_top": int(round(min(0.0, f.top_edge() - 20), -1)),
         "bg_variant": (lid - 1) % 2, "stage": stage,
         "blocks": f.blocks, "archers": f.archers, "bolts": f.bolts,
@@ -871,6 +871,22 @@ def build(lid, entry=None):
         if key in extras:
             d[key] = extras[key]
     return d
+
+
+def write_training():
+    from campaign import TRAINING  # noqa: E402
+    out = os.path.join(ROOT, "data", "training")
+    os.makedirs(out, exist_ok=True)
+    for hero, (name, realm, fn, before) in sorted(TRAINING.items()):
+        d = build(0, (name, realm, fn, [hero] * 3, {}, "", {}, "Practice the new hero's ability."))
+        d.pop("challenge", None)
+        d["training"] = hero
+        d["before_level"] = before
+        d["cinematic"] = []
+        d["callouts"] = []
+        with open(os.path.join(out, "training_%s.json" % hero), "w") as fh:
+            json.dump(d, fh, indent=1)
+        print(f"training {hero:8s} {name:18s} b{len(d['blocks']):2d} a{len(d['archers'])} before L{before}")
 
 
 def write_challenges():
@@ -923,3 +939,4 @@ if __name__ == "__main__":
         print(f"level {d['id']:2d} {d['name']:20s} r{d['realm']} b{len(d['blocks']):2d} a{len(d['archers'])} "
               f"bolts {len(d['bolts'])} bases [{tops}] beats {len(d['cinematic']):2d} {kinds}")
     write_challenges()
+    write_training()

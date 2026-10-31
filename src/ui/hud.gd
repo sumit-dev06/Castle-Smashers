@@ -169,6 +169,50 @@ func _labeled_button(icon: String, text: String, color: String, cb: Callable) ->
 	return v
 
 
+func set_title_text(text: String) -> void:
+	_title.text = text
+	_fit_title.call_deferred()
+
+
+## Training range: a small SKIP button under the score that goes straight to the real level.
+func training_skip(on_skip: Callable) -> void:
+	var b: Button = UIKit.button("BACK" if level.training_from_workshop else "SKIP", "dark", 22, Vector2(120, 50))
+	UIKit.place(b, Vector2(1, 0), Vector2(-136, 120), Vector2(120, 50))
+	b.pressed.connect(func() -> void:
+		Sound.play("ui_tap")
+		on_skip.call())
+	UIFx.press_juice(b)
+	_root.add_child(b)
+
+
+## End of a training range: well done (or try again), then on to the real level.
+func show_training_done(won: bool, hero: String) -> void:
+	var cfg: Dictionary = Data.balance["training"]
+	var v: VBoxContainer = _open_popup()
+	v.add_child(UIKit.tex_rect(String(Data.projectiles[hero]["texture"]), 110))
+	v.add_child(UIKit.label(String(cfg["done_title"] if won else cfg["retry_title"]), 46, Color("#ffd23a"), 10))
+	var body: Label = UIKit.body(String(cfg["done_body"] if won else cfg["retry_body"]) % String(Data.projectiles[hero]["name"]), 24)
+	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	body.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	body.custom_minimum_size.x = 500
+	v.add_child(body)
+	var row: HBoxContainer = HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 16)
+	var again: Button = UIKit.button("PRACTISE AGAIN", "blue", 24, Vector2(230, 70))
+	again.pressed.connect(func() -> void:
+		Sound.play("ui_tap")
+		level.restart())
+	var go: Button = UIKit.button("BACK TO ORIN" if level.training_from_workshop else "TO BATTLE", "green", 28, Vector2(250, 70))
+	go.pressed.connect(func() -> void:
+		Sound.play("play_press")
+		level.leave_training())
+	for b: Button in [again, go]:
+		UIFx.press_juice(b)
+		row.add_child(b)
+	v.add_child(row)
+
+
 func set_title(id: int, name_text: String) -> void:
 	_title.text = name_text if id > Data.CHALLENGE_BASE else "Level %d – %s" % [id, name_text]
 	_fit_title.call_deferred()

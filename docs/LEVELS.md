@@ -64,6 +64,10 @@ strategy)`; `extras` holds `wind` / `tide`. Scene beats are written with the hel
 `make_scene` adds the boss and new-hero beats automatically; targets like `@crusher` resolve to
 `mech:i` (`resolve_target`).
 
+## Training ranges
+`data/training/training_<hero>.json` (stone, fire, bomb, cyclone, quake), same format as levels plus
+`training` and `before_level`. Built by `write_training()` in `tools/gen_levels.py`.
+
 ## File format (`data/levels/level_001.json`)
 ```json
 {

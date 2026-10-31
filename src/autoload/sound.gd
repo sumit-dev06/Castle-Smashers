@@ -281,6 +281,8 @@ func _start(sound: String, volume01: float, pitch: float, pos: Vector2, position
 	var gains: Dictionary = audio_cfg.get("sound_gain_db", {})
 	var requested_db: float = linear_to_db(clampf(volume01, 0.0, 1.0)) + float(gains.get(sound, 0.0))
 	var ui: bool = _ui_names.has(sound)
+	if not ui:
+		requested_db += float(_cfg("level_sfx_db", 0.0))
 	if positional:
 		# Godot's 2D pan law halves each side at the centre; make_up keeps the level of play().
 		requested_db += float((_cfg("positional", {}) as Dictionary).get("make_up_db", 0.0))

@@ -13,6 +13,10 @@ var level_id: int = 1
 var test_mode: bool = false
 ## Story mode: play the level's animated cinematic, then start the level (plan screen after it).
 var cinematic_mode: bool = false
+## Training range for this hero before level_id (no stars, no energy, coach hints).
+var training: String = ""
+var _coach_tapped: bool = false
+var training_from_workshop: bool = false
 var cine: Cinematic
 ## Tests can turn the archers on while keeping the rest of test mode.
 var archers_in_test: bool = false
@@ -101,8 +105,8 @@ var hellfire_running: bool = false
 
 
 func _ready() -> void:
-	data = Data.level(level_id) if not is_challenge() else Data.challenge(level_id)
-	if is_challenge():
+	data = Data.training(training) if not training.is_empty() else Data.level(level_id) if not is_challenge() else Data.challenge(level_id)
+	if is_challenge() or not training.is_empty():
 		heroes = (data.get("heroes", []) as Array).duplicate()
 	else:
 		heroes = LoadoutRules.recommended(data, level_id) if test_mode else LoadoutRules.saved_or_recommended(data, level_id)
@@ -189,6 +193,7 @@ func _ready() -> void:
 		captives.append(captive)
 	for i: int in heroes.size():
 		var sh: Sprite2D = Art.sprite("shadow", 0.9)
+		_shadow_scale = sh.scale
 		sh.modulate.a = 0.75
 		world.add_child(sh)
 		_waiting_shadows.append(sh)
@@ -217,7 +222,11 @@ func _ready() -> void:
 	hud = Hud.new()
 	hud.level = self
 	add_child(hud)
-	hud.set_title(level_id, String(data.get("name", "")))
+	if training.is_empty():
+		hud.set_title(level_id, String(data.get("name", "")))
+	else:
+		hud.set_title_text(String(data.get("name", "")))
+		hud.training_skip(leave_training)
 	if mode:
 		add_child(mode)
 		mode.setup()
@@ -265,7 +274,7 @@ func _ready() -> void:
 ## Campaign levels let the player choose heroes after seeing the fortress. Challenges, boss rush,
 ## modes with fixed heroes and debug autoshots keep their heroes.
 func _wants_plan() -> bool:
-	if test_mode or is_challenge() or not Game.rush.is_empty():
+	if test_mode or is_challenge() or not training.is_empty() or not Game.rush.is_empty():
 		return false
 	if mode and not mode.heroes_override().is_empty():
 		return false
@@ -321,10 +330,7 @@ func choose_hero(i: int) -> bool:
 	_waiting_shadows[hero_index] = _waiting_shadows[i]
 	_waiting_shadows[i] = sh
 	for k: int in [hero_index, i]:
-		var base: Sprite2D = Projectile.make_sprite(heroes[k])
-		_waiting[k].scale = base.scale
-		_waiting[k].set_meta("base_scale", base.scale)
-		base.free()
+		_waiting[k].scale = _hero_scale(heroes[k])
 	if _loaded:
 		catapult.load_hero(heroes[hero_index])
 		Sound.play("pop", 0.6)
@@ -469,6 +475,20 @@ func _build_foreground() -> void:
 		root.add_child(t)
 
 
+## Sprite scale of a hero as Projectile.make_sprite() builds it (cached per kind).
+var _hero_scales: Dictionary = {}
+var _shadow_scale: Vector2 = Vector2.ONE
+
+
+func _hero_scale(kind: String) -> Vector2:
+	if not _hero_scales.has(kind):
+		var s: Sprite2D = Projectile.make_sprite(kind)
+		_hero_scales[kind] = s.scale
+		s.free()
+	return _hero_scales[kind]
+
+
+## Waiting heroes are drawn hero_wait_scale larger (looks only: physics and abilities unchanged).
 func _layout_waiting() -> void:
 	var xs: Array = Data.b("catapult", "hero_wait_x")
 	var slot: int = 0
@@ -478,10 +498,13 @@ func _layout_waiting() -> void:
 			w.visible = false
 			continue
 		w.visible = true
-		var r: float = float(Data.projectiles[heroes[i]]["radius"])
+		var big: float = Data.bf("catapult", "hero_wait_scale")
+		var r: float = float(Data.projectiles[heroes[i]]["radius"]) * big
 		w.position = Vector2(float(xs[mini(slot, xs.size() - 1)]), -r + Data.bf("catapult", "hero_sink_px"))
+		w.scale = _hero_scale(heroes[i]) * big
 		w.set_meta("base_y", w.position.y)
 		w.set_meta("base_scale", w.scale)
+		_waiting_shadows[i].scale = _shadow_scale * big
 		slot += 1
 
 
@@ -495,7 +518,7 @@ func _process(_delta: float) -> void:
 		if w.visible and w.has_meta("base_y") and not w.has_meta("hopping"):
 			var k: float = sin(t * 3.0 + i * 1.3) * 0.05
 			var bs: Vector2 = w.get_meta("base_scale")
-			var r: float = float(Data.projectiles[heroes[i]]["radius"])
+			var r: float = float(Data.projectiles[heroes[i]]["radius"]) * Data.bf("catapult", "hero_wait_scale")
 			w.scale = Vector2(bs.x * (1.0 + k), bs.y * (1.0 - k))
 			w.position.y = float(w.get_meta("base_y")) + r * k
 			sh.position = Vector2(w.position.x, float(w.get_meta("base_y")) + r - 3.0)
@@ -577,8 +600,11 @@ func _hop_next_hero() -> void:
 	var hop: float = Data.bf("catapult", "hop_s")
 	w.set_meta("hopping", true)
 	var start: Vector2 = w.position
+	var from_scale: Vector2 = w.scale
+	var to_scale: Vector2 = _hero_scale(String(heroes[hero_index]))
 	var tw: Tween = create_tween()
 	tw.tween_method(func(k: float) -> void:
+		w.scale = from_scale.lerp(to_scale, k)
 		w.position = start.lerp(target, k) + Vector2(0, -sin(k * PI) * 110.0)
 		w.rotation = k * TAU * 0.5, 0.0, 1.0, hop)
 	tw.tween_callback(func() -> void:
@@ -602,6 +628,7 @@ func _load_now() -> void:
 		choose_hero(pick)
 		kind = String(heroes[hero_index])
 	_pick_after_hop = -1
+	_coach("aim")
 	if not test_mode and (Sound.state == "destruction" or Sound.state == "flight"):
 		Sound.music_state("aim")
 	if not test_mode and not _hinted.has(kind) and kind != "stone" and not Save.seen("hint:" + kind):
@@ -630,8 +657,8 @@ func _load_now() -> void:
 		get_tree().create_timer(0.4).timeout.connect(fire_hero.bind(vel))
 		if parts.size() > 2:
 			get_tree().create_timer(0.4 + float(parts[2])).timeout.connect(func() -> void:
-				if is_instance_valid(projectile):
-					projectile.use_ability())
+				if is_instance_valid(projectile) and projectile.use_ability():
+					coach_ability_used())
 
 
 func _tick_archers(delta: float) -> void:
@@ -756,6 +783,7 @@ func fire_hero(vel: Vector2) -> void:
 	_reload_t = Data.bf("catapult", "reload_s") * _w_reload
 	_update_hud()
 	_hide_tutorial()
+	_coach("tap")
 	if not test_mode:
 		Analytics.set_crash_key("phase", "physics")
 		Analytics.set_crash_key("projectile", kind)
@@ -785,6 +813,13 @@ func _finish(won: bool) -> void:
 		for s: Soldier in soldiers:
 			s.charge(stage.ledge_right - Data.bf("stage", "soldier_stop_px"))
 	_update_hud()
+	if not training.is_empty():
+		Save.mark_seen("training:" + training)
+		get_tree().create_timer(float(Data.balance["result_delay_s"]), true, false, true).timeout.connect(func() -> void:
+			Engine.time_scale = 1.0
+			Sound.stinger("win" if won else "lose")
+			hud.show_training_done(won, training))
+		return
 	stars = (mode.stars(stars_for(score)) if mode else stars_for(score)) if won else 0
 	var earned: Dictionary = {}
 	if not test_mode:
@@ -845,11 +880,15 @@ func live_stars() -> int:
 
 
 func restart() -> void:
+	if not training.is_empty():
+		Game.goto_training(training, level_id, training_from_workshop)
+		return
 	if mode and mode.kind == "boss_rush":
 		Game.start_rush()
 		return
-	Game.skip_flyover = true
-	Game.goto_level(level_id)
+	EnergyUI.enter(level_id, func() -> void:
+		Game.skip_flyover = true
+		Game.goto_level(level_id))
 
 
 func _stat(name: String, n: int = 1) -> void:
@@ -1053,7 +1092,7 @@ func waiting_hero_at(screen_pos: Vector2) -> int:
 		var w: Sprite2D = _waiting[i]
 		if not w.visible or w.has_meta("hopping"):
 			continue
-		var r: float = float(Data.projectiles[heroes[i]]["radius"]) + Data.bf("catapult", "hero_tap_pad_px")
+		var r: float = float(Data.projectiles[heroes[i]]["radius"]) * Data.bf("catapult", "hero_wait_scale") + Data.bf("catapult", "hero_tap_pad_px")
 		var d: float = w.global_position.distance_to(world_pos)
 		if d < r and d < best_d:
 			best = i
@@ -1120,6 +1159,7 @@ func _tap_ability() -> void:
 		var p: Projectile = projectiles[i]
 		if is_instance_valid(p) and p.use_ability():
 			Sound.play("ability", 0.6)
+			coach_ability_used()
 			return
 
 
@@ -1157,6 +1197,35 @@ func _show_dots(start: Vector2, v: Vector2) -> void:
 func _hide_dots() -> void:
 	for d: Sprite2D in _dots:
 		d.visible = false
+
+
+# ------------------------------------------------------------------------------------ training coach
+## Step hints on the training range: "aim" when a hero is loaded, "tap" in flight, "done" after the
+## ability fired. Texts: balance.json training.coach.<hero>.
+func _coach(step: String) -> void:
+	if training.is_empty():
+		return
+	var texts: Dictionary = (Data.balance["training"]["coach"] as Dictionary).get(training, {})
+	if step == "aim" and _coach_tapped:
+		step = "again"
+	var text: String = String(texts.get(step, ""))
+	if not text.is_empty():
+		hud.hint(text, float(Data.balance["training"]["hint_s"]), String(Data.projectiles[training]["texture"]) if step != "done" else "icon_check")
+
+
+## End of practice: back to the Workshop, or on to the level this range came before.
+func leave_training() -> void:
+	Save.mark_seen("training:" + training)
+	if training_from_workshop:
+		Game.goto_workshop()
+	else:
+		Game.goto_level_entry(level_id)
+
+
+func coach_ability_used() -> void:
+	if not training.is_empty() and not _coach_tapped:
+		_coach_tapped = true
+		_coach("done")
 
 
 # ------------------------------------------------------------------------------------ tutorial
@@ -1726,10 +1795,10 @@ func slam_segment(a: Vector2, b: Vector2, reach: float, damage: float, impulse: 
 
 
 ## Blast without fire or flash (heavy landings): knocks blocks and guards away from pos.
-func shockwave(pos: Vector2, radius: float, impulse: float, damage: float) -> void:
+func shockwave(pos: Vector2, radius: float, impulse: float, damage: float, source: Node = null) -> void:
 	fx.puff(pos, 8, Color(0.92, 0.88, 0.8, 0.9), 1.2)
 	for bl: Block in blocks.duplicate():
-		if not is_instance_valid(bl) or bl.dead or bl.held:
+		if not is_instance_valid(bl) or bl.dead or bl.held or bl == source:
 			continue
 		var d: float = maxf(0.0, bl.global_position.distance_to(pos) - minf(bl.size.x, bl.size.y) * 0.5)
 		if d < radius:

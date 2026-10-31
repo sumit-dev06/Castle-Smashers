@@ -27,6 +27,8 @@ python3 tools/gen_levels.py                         # rebuild levels from tools/
 python3 tools/make_app_icon.py                      # app icon (adaptive layers, 192, 512, Play Store) from art_source/brand
 $GODOT --path . -- --map | --story=N | --level=N | --loadout=N | --workshop | --challenges | --challenge=N   # jump to a screen
 $GODOT --path . -- --meta=spin|daily|shop|upgrades|skins|achievements   # meta screens; --no-popups skips the daily popup
+$GODOT --path . -- --training=fire | --meta=shop --tab=rocks | --energy-popup=2 | --rename-popup   # debug previews
+$GODOT --path . -- --level=11 --debug-roll                    # print rolling-log rams
 $GODOT --path . -- --level=N --force-win=1 --screenshot=build/shots/r.png --shot-delay=9   # results screen capture (debug)
 $GODOT --headless --path . --editor --quit          # refresh the class cache after adding a class_name file
 $GODOT --headless --path . -- --run-tests=billing   # billing, ads, Hellfire, analytics, notifications only

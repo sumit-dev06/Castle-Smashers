@@ -82,6 +82,28 @@ func level(id: int) -> Dictionary:
 	return _levels[id]
 
 
+## Practice range for a new hero (data/training/training_<hero>.json, built by gen_levels.py).
+func training(hero: String) -> Dictionary:
+	var key: String = "training:" + hero
+	if not _levels.has(key):
+		_levels[key] = load_json("res://data/training/training_%s.json" % hero)
+	return _levels[key]
+
+
+## The hero a level introduces when it has a training range ("" otherwise). Rocky is taught by the
+## level 1 tutorial, so only later heroes get one.
+func training_for(id: int) -> String:
+	for k: String in novelty(id):
+		var hero: String = k.substr(5)
+		if k.begins_with("hero:") and has_training(hero) and int(training(hero).get("before_level", 0)) == id:
+			return hero
+	return ""
+
+
+func has_training(hero: String) -> bool:
+	return FileAccess.file_exists("res://data/training/training_%s.json" % hero)
+
+
 func challenge(id: int) -> Dictionary:
 	if not _levels.has(id):
 		_levels[id] = load_json("res://data/challenges/challenge_%03d.json" % id)

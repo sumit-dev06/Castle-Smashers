@@ -107,9 +107,12 @@ def L8(f):  # NEW: rescue
     f.tower(1450, ["wood", "wood"], archers=[1], inside=["barrel"])
     f.stack(1640, ["crate", "barrel"])
     f.tower(1830, ["block", "wood"], archers=[1, 0], inside=["barrel"])
-    f.stack(2020, ["barrel", "barrel", "barrel"])
+    # The captive stands in the open between the tower and the weak-point stack (the right screen
+    # corner art used to hide it), and the camera shows a little more on the right.
+    f.captive(2000, 0, "free_scout")
+    f.stack(2140, ["barrel", "barrel", "barrel"])
     f.weak_last("free_scout")
-    f.captive(2180, 0, "free_scout")
+    f.camera_extra = 160
 
 
 def L9(f):  # NEW: hanging platform (gondola) over the river
@@ -958,4 +961,41 @@ SECRETS = {
           "Blast the rune crystal to fire its beam across the forge."),
     115: ("Cloud Sanctum", 5, S115, ["quake", "bomb", "cyclone", "stone"], {"wind": BREEZE}, "", {},
           "Shoot through the gaps in the orbiting shield."),
+}
+
+
+
+# ----------------------------------------------------------------------------- training grounds
+# A short practice range before the first level with a new hero: three copies of that hero and a
+# small target that shows off the ability. Built into data/training/training_<hero>.json.
+def T_STONE(f):  # stone tower: Rocky's slam dives straight through stone
+    f.tower(1450, ["stone", "wood"], archers=[1])
+
+
+def T_FIRE(f):  # wooden tower: fire spreads along timber
+    f.tower(1450, ["wood", "wood"], archers=[1])
+
+
+def T_BOMB(f):  # guards packed close together: one blast takes several
+    f.stack(1400, ["crate", "crate"], archer_on_top=True)
+    f.stack(1520, ["crate", "crate"], archer_on_top=True)
+    f.stack(1640, ["crate"])
+
+
+def T_CYCLONE(f):  # light planks and an exposed guard on a high ledge
+    f.tower(1500, ["wood", "wood", "wood"], archers=[2], roof=False)
+
+
+def T_QUAKE(f):  # a stone tower on thin wooden legs: the ground shock topples it
+    f.tower(1500, ["wood", "stone"], archers=[1])
+
+
+# hero: (name, realm, builder, before_level)
+# before_level 0: only reachable from Master Orin's Workshop (level 1's tutorial teaches Rocky).
+TRAINING = {
+    "stone": ("Rocky Training", 1, T_STONE, 0),
+    "fire": ("Blaze Training", 1, T_FIRE, 3),
+    "bomb": ("Boomer Training", 1, T_BOMB, 6),
+    "cyclone": ("Twister Training", 2, T_CYCLONE, 12),
+    "quake": ("Quaky Training", 3, T_QUAKE, 22),
 }

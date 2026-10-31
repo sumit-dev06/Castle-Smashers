@@ -15,6 +15,7 @@ var _sprite: Sprite2D
 var _rest_t: float = 0.0
 var _fuse: float = -1.0
 var _whirl_left: float = 0.0
+var _funnel: Array[Node2D] = []
 var _dashing: bool = false
 var _quake_done: bool = false
 var _trail_d: float = 0.0
@@ -79,7 +80,19 @@ func _apply_ability_mult(mult: float) -> void:
 ## Sprite of a hero sized to its physics radius. Shared with the catapult and waiting queue.
 static func make_sprite(hero_kind: String, suffix: String = "") -> Sprite2D:
 	var c: Dictionary = Data.projectiles[hero_kind]
-	return Art.hero_sprite(String(c["texture"]) + suffix, float(c["radius"]))
+	var art: String = String(c["texture"])
+	if hero_kind == "stone" and not rock_skin().is_empty():
+		return Art.hero_sprite("hero_stone_" + rock_skin(), float(c["radius"]))  # skins have no hit pose
+	return Art.hero_sprite(art + suffix, float(c["radius"]))
+
+
+## Equipped Rocky skin id ("" = classic). Only counts while the Play purchase is owned.
+static func rock_skin() -> String:
+	var id: String = String(Save.data.get("rock_skin", ""))
+	var skins: Dictionary = Data.balance["cosmetics"]["rock_skins"]
+	if id.is_empty() or not skins.has(id) or not Store.owns(String(skins[id]["product"])):
+		return ""
+	return id
 
 
 func launch(pos: Vector2, vel: Vector2) -> void:
@@ -210,6 +223,11 @@ func _start_whirl() -> void:
 	var tw: Tween = create_tween()
 	tw.tween_property(_sprite, "scale", _sprite.scale * float(cfg["whirl_visual_scale"]), 0.25)
 	_sprite.modulate.a = 0.85
+	for layer_front: bool in [false, true]:
+		var f: Node2D = (load("res://src/game/whirl_fx.gd") as GDScript).new()
+		f.call("setup", cfg["funnel"], float(cfg["hover_height"]), layer_front)
+		add_child(f)
+		_funnel.append(f)
 
 
 func _tick_whirl(delta: float) -> void:
@@ -220,8 +238,15 @@ func _tick_whirl(delta: float) -> void:
 	_sprite.rotation += delta * 14.0
 	if randf() < 0.3:
 		level.fx.puff(global_position + Vector2(randf_range(-60, 60), randf_range(-40, 60)), 1, Color(0.85, 1.0, 0.98, 0.6), 0.5)
+	# Dust kicked up where the funnel touches the ground.
+	if randf() < 0.35:
+		level.fx.puff(Vector2(global_position.x + randf_range(-40, 40), -6.0), 1, Color(0.86, 0.78, 0.62, 0.7), 0.7)
 	level.whirl(global_position, cfg, delta, _whirl_left <= 0.0)
 	if _whirl_left <= 0.0:
+		for f: Node2D in _funnel:
+			if is_instance_valid(f):
+				f.reparent(level.world)
+				f.call("close")
 		finish()
 
 

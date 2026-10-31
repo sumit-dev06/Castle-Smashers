@@ -122,6 +122,22 @@ Settling contacts never deal damage. Physics starts in "sleep" for the first 1.0
 - **Spend**: extra hero mid-level (+1 bomb, 150 coins), soldier shield upgrade, catapult skins.
 - **Gems**: not in v1. One currency keeps it simple.
 
+## Energy (army stamina)
+- Up to `energy.max` (5) shield bars. Refill is non-linear: `energy.refill_s` = 2, 4, 7, 10, 15 min per bar
+  (the first missing bar comes back fastest; empty to full is about 38 min).
+- Levels up to `energy.free_until` (5) are free. A level costs 1 bar, 2 from realm 3, 3 for a boss. Retries cost too.
+- Short on bars: the "YOUR ARMY IS EXHAUSTED!" popup offers an opt-in rewarded ad that pays for that one level only.
+  The next level after an ad-paid one needs rested bars. Training ranges never cost energy.
+- Code: `src/game/energy.gd` (rules, state in `Save.data.energy`), `src/ui/energy_ui.gd` (pill, popup).
+
+## Training ranges
+- Before the first level of a new hero (fire before 3, bomb 6, cyclone 12, quake 22) a short range shows how to use it.
+  Rocky has a range too, reachable only from the Workshop. Tap a hero card in Master Orin's Workshop to practise again.
+- Source: `TRAINING` in `tools/campaign.py`, generated to `data/training/`. Coach texts in `balance.training`.
+
+## Profile name
+- Default `balance.profile.default_name`. Rename is free once level `free_rename_level` (5) is reached, else 20 gems.
+
 ## Controls
 - Drag anywhere on the left third to aim (not only on the catapult, easier on phones).
 - Pinch to zoom, two-finger drag to pan while nothing is in flight.

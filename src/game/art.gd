@@ -14,6 +14,8 @@ const SVG_META: Dictionary = {
 	"hero_stone": {"body_c": [40, 44], "body_r": 30}, "hero_fire": {"body_c": [40, 60], "body_r": 29},
 	"hero_bomb": {"body_c": [40, 59], "body_r": 29}, "hero_cyclone": {"body_c": [45, 45], "body_r": 30},
 	"hero_quake": {"body_c": [44, 50], "body_r": 33},
+	"hero_stone_lava": {"body_c": [40, 44], "body_r": 30}, "hero_stone_frost": {"body_c": [40, 44], "body_r": 30},
+	"hero_stone_gold": {"body_c": [40, 44], "body_r": 30},
 	"soldier": {"feet_x": 42, "feet_y": 95, "unit_h": 92}, "archer": {"feet_x": 50, "feet_y": 95, "unit_h": 92},
 	"wizard_idle": {"feet_x": 55, "feet_y": 136, "unit_h": 132}, "captive_idle": {"feet_x": 42, "feet_y": 95, "unit_h": 92},
 }

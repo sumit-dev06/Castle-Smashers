@@ -149,6 +149,104 @@ func _bar(frac: float, w: float, h: float, color: Color) -> Control:
 
 
 # ------------------------------------------------------------------------------------ top
+var _name_label: Label
+
+
+static func player_name() -> String:
+	var n: String = String(Save.data.get("player_name", ""))
+	return n if not n.is_empty() else String(Data.balance["profile"]["default_name"])
+
+
+## Rename: free once the player has reached level profile.free_rename_level, otherwise gems.
+func _open_rename() -> void:
+	Sound.play("ui_tap")
+	var cfg: Dictionary = Data.balance["profile"]
+	var free: bool = int(Save.data.get("unlocked", 1)) >= int(cfg["free_rename_level"])
+	var cost: Dictionary = {} if free else {"gems": int(cfg["rename_gems"])}
+	var layer: CanvasLayer = UIFx.overlay()
+	layer.add_child(UIKit.dim())
+	var center: CenterContainer = CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	layer.add_child(center)
+	var p: PanelContainer = UIKit.panel()
+	p.custom_minimum_size = Vector2(560, 0)
+	center.add_child(p)
+	var v: VBoxContainer = VBoxContainer.new()
+	v.add_theme_constant_override("separation", 14)
+	p.add_child(v)
+	var head: HBoxContainer = HBoxContainer.new()
+	head.add_child(UIKit.tex_rect("icon_edit", 44))
+	head.add_child(UIKit.label("Commander Name", 36, Color("#ffd23a"), 9))
+	v.add_child(head)
+	var field: LineEdit = LineEdit.new()
+	field.text = player_name()
+	field.max_length = int(cfg["name_max"])
+	field.custom_minimum_size = Vector2(500, 64)
+	field.add_theme_font_override("font", UIKit.body_font())
+	field.add_theme_font_size_override("font_size", 30)
+	field.select_all_on_focus = true
+	v.add_child(field)
+	var note: Label = UIKit.body("Free: you have reached level %d." % int(cfg["free_rename_level"]) if free \
+			else "Costs %d gems. Renaming is free from level %d." % [int(cfg["rename_gems"]), int(cfg["free_rename_level"])], 20)
+	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	note.custom_minimum_size.x = 500
+	v.add_child(note)
+	var row: HBoxContainer = HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 16)
+	v.add_child(row)
+	var cancel: Button = UIKit.button("CANCEL", "orange", 26, Vector2(180, 66))
+	cancel.pressed.connect(func() -> void:
+		Sound.play("ui_back")
+		layer.queue_free())
+	var save: Button = UIKit.button("SAVE" if free else "SAVE  %d" % int(cfg["rename_gems"]), "green", 26, Vector2(200, 66))
+	if not free:
+		save.icon = Art.tex("gem")
+		save.expand_icon = true
+		save.add_theme_constant_override("icon_max_width", 30)
+	save.pressed.connect(func() -> void:
+		var n: String = clean_name(field.text)
+		if n.length() < int(cfg["name_min"]):
+			note.text = "Use %d to %d letters or numbers." % [int(cfg["name_min"]), int(cfg["name_max"])]
+			UIFx.shake(save)
+			Sound.play("deny")
+			return
+		if n == player_name():
+			layer.queue_free()
+			return
+		if not Save.spend(cost):
+			note.text = "Not enough gems. Reach level %d to rename for free." % int(cfg["free_rename_level"])
+			UIFx.shake(save)
+			Sound.play("deny")
+			return
+		Save.data["player_name"] = n
+		Save.write()
+		_name_label.text = n
+		Sound.play("upgrade")
+		layer.queue_free())
+	for b: Button in [cancel, save]:
+		UIFx.press_juice(b)
+		row.add_child(b)
+	p.pivot_offset = Vector2(280, 140)
+	UIFx.pop_in(p)
+	field.grab_focus.call_deferred()
+
+
+## Letters, digits and single spaces only, trimmed.
+static func clean_name(raw: String) -> String:
+	var out: String = ""
+	for ch: String in raw.strip_edges():
+		var c: int = ch.unicode_at(0)
+		var ok: bool = (c >= 48 and c <= 57) or (c >= 65 and c <= 90) or (c >= 97 and c <= 122) or (c > 191 and c < 0x2000)
+		if ok or (ch == " " and not out.ends_with(" ")):
+			out += ch
+	return out.strip_edges()
+
+
+## Unread-letter badge on the mail button; removed the moment the letter is claimed.
+var _mail_dot: Control
+
+
 func _top_bar() -> void:
 	var prof: PanelContainer = _card(Color("#3a2414"))
 	UIKit.place(prof, Vector2.ZERO, Vector2(14, 10), Vector2(390, 92))
@@ -167,7 +265,14 @@ func _top_bar() -> void:
 	var name_row: HBoxContainer = HBoxContainer.new()
 	name_row.add_theme_constant_override("separation", 6)
 	name_row.add_child(UIKit.tex_rect("icon_crown", 28))
-	name_row.add_child(UIKit.label(Progression.rank_name(), 28, Color("#ffd23a"), 7))
+	_name_label = UIKit.label(player_name(), 26, Color("#ffd23a"), 7)
+	_name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	name_row.add_child(_name_label)
+	var edit: Button = UIKit.icon_button("icon_edit", "orange", 40)
+	edit.custom_minimum_size = Vector2(40, 40)
+	edit.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	edit.pressed.connect(_open_rename)
+	name_row.add_child(edit)
 	v.add_child(name_row)
 	var th: Array = Data.balance["rank"]["stars"]
 	var ri: int = Progression.rank_index()
@@ -176,13 +281,14 @@ func _top_bar() -> void:
 	var row: HBoxContainer = HBoxContainer.new()
 	row.add_theme_constant_override("separation", 6)
 	row.add_child(UIKit.tex_rect("star_full", 26))
-	var pb: Control = _bar(Progression.rank_progress(), 200, 22, Color("#ffb52a"))
+	var pb: Control = _bar(Progression.rank_progress(), 170, 22, Color("#ffb52a"))
 	var pl: Label = UIKit.label("%d / %d" % [stars, goal] if ri < th.size() - 1 else "%d  MAX" % stars, 16, Color.WHITE, 4)
 	pl.set_anchors_preset(Control.PRESET_FULL_RECT)
 	pl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	pl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	pb.add_child(pl)
 	row.add_child(pb)
+	row.add_child(UIKit.label(Progression.rank_name(), 16, Color("#f4e2b8"), 4))
 	v.add_child(row)
 	prof.gui_input.connect(func(e: InputEvent) -> void:
 		if e is InputEventMouseButton and (e as InputEventMouseButton).pressed:
@@ -190,6 +296,7 @@ func _top_bar() -> void:
 	root.add_child(prof)
 	UIFx.slide_in(prof, Vector2(-1, 0))
 	bar = CurrencyBar.new()
+	bar.add_energy()
 	UIKit.place(bar, Vector2(1, 0), Vector2(-850, 18), Vector2(670, 56))
 	bar.plus_pressed.connect(func(k: String) -> void: Game.goto_meta("shop", {"tab": ShopScreen.tab_for(k)}))
 	root.add_child(bar)
@@ -197,7 +304,8 @@ func _top_bar() -> void:
 	UIKit.place(mail, Vector2(1, 0), Vector2(-166, 12), Vector2(66, 66))
 	mail.pressed.connect(_open_mail)
 	if not bool(Save.data.get("mail_claimed", false)):
-		mail.add_child(MetaFrame._red_dot(Vector2(50, -4)))
+		_mail_dot = MetaFrame._red_dot(Vector2(50, -4))
+		mail.add_child(_mail_dot)
 	UIFx.press_juice(mail)
 	root.add_child(mail)
 	var gear: Button = UIKit.icon_button("icon_settings", "dark", 66)
@@ -380,6 +488,8 @@ func _open_mail() -> void:
 	b.pressed.connect(func() -> void:
 		if not bool(Save.data.get("mail_claimed", false)):
 			Save.data["mail_claimed"] = true
+			if is_instance_valid(_mail_dot):
+				_mail_dot.queue_free()
 			for kk: String in Save.WALLET:
 				if int(reward.get(kk, 0)) > 0:
 					Save.add(kk, int(reward[kk]), false, false)

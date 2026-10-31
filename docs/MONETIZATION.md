@@ -10,6 +10,7 @@ Setup steps for the consoles: `BILLING_SETUP.md` (Play), `FIREBASE_SETUP.md`, an
 | Rewarded | Spin wheel: every spin after the daily free one ("WATCH AD: SPIN", up to `spin.ads_per_day` = 5) | Opt-in, button names the reward |
 | Rewarded | Out of boulders: "WATCH AD: +1 Rocky" | Once per attempt. After that: Hellfire or Give up/replay |
 | Rewarded | Win screen: "WATCH AD: +N coins" (doubles the level's coins) | Once per result screen |
+| Rewarded | Out of energy: "WATCH AD" in the exhausted popup (placement `energy_refill`) | Pays for that one level; the next level needs rested bars |
 | Interstitial | Only when the player taps **NEXT** on the result screen | After every 4 finished levels (`ads.every_levels`), never before level 4 (`min_level`), never in the first session, at least 90 s apart (`gap_s`). Map, Retry, Home and mid-level never show one |
 | Banner / app-open | Not used | They clash with the art and annoy players |
 

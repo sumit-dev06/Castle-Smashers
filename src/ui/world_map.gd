@@ -218,6 +218,7 @@ func _build_ui() -> void:
 		chip.add_child(h)
 		right.add_child(chip)
 	_bar = CurrencyBar.new(Save.WALLET, false)
+	_bar.add_energy()
 	right.add_child(_bar)
 	root.add_child(right)
 

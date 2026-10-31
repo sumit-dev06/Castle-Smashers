@@ -65,7 +65,7 @@
   19000,
   36000
  ],
- "camera_right": 1950,
+ "camera_right": 2100,
  "camera_top": -420,
  "bg_variant": 1,
  "stage": {
@@ -73,7 +73,7 @@
   "bases": [
    {
     "x0": 777,
-    "x1": 1890,
+    "x1": 1813,
     "top": 0.0
    }
   ]
@@ -193,17 +193,17 @@
   },
   {
    "type": "barrel",
-   "x": 1620,
+   "x": 1740,
    "y": -29.0
   },
   {
    "type": "barrel",
-   "x": 1620,
+   "x": 1740,
    "y": -87.0
   },
   {
    "type": "barrel",
-   "x": 1620,
+   "x": 1740,
    "y": -145.0,
    "weak_point": true,
    "trigger": "free_scout"
@@ -227,7 +227,7 @@
  "mechanisms": [],
  "captives": [
   {
-   "x": 1780,
+   "x": 1600,
    "y": 0,
    "trigger": "free_scout",
    "height": 92

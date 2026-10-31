@@ -44,6 +44,17 @@ func boot(root: Node) -> void:
 		goto_level(int(args["level"]))
 	elif args.has("story"):
 		goto_story(int(args["story"]))
+	elif args.has("energy-popup") and OS.is_debug_build():
+		# Preview: home screen with 1 bar left and the exhausted popup for level N (not saved).
+		goto_menu()
+		Energy.bars()
+		Save.data["energy"]["bars"] = 1
+		EnergyUI.exhausted.call_deferred(int(args["energy-popup"]), Callable())
+	elif args.has("rename-popup") and OS.is_debug_build():
+		goto_menu()
+		current.call_deferred("_open_rename")
+	elif args.has("training"):
+		goto_training(String(args["training"]), int(Data.training(String(args["training"])).get("before_level", 1)))
 	elif args.has("loadout"):
 		goto_loadout(int(args["loadout"]))
 	elif args.has("workshop"):
@@ -53,7 +64,7 @@ func boot(root: Node) -> void:
 	elif args.has("challenges"):
 		goto_challenges()
 	elif args.has("meta"):
-		goto_meta(String(args["meta"]))
+		goto_meta(String(args["meta"]), {"tab": String(args["tab"])} if args.has("tab") else {})
 	elif args.has("challenge"):
 		goto_level(Data.CHALLENGE_BASE + int(args["challenge"]))
 	elif args.has("intro") or (IntroScript.due() and not args.has("no-intro")):
@@ -93,6 +104,15 @@ func goto_map() -> void:
 ## plan-the-assault screen after its fortress flyover.
 func goto_level_entry(id: int) -> void:
 	var safe_id: int = clampi(id, 1, Data.level_count())
+	# A new hero first gets a short practice range that shows how to use the ability.
+	var hero: String = Data.training_for(safe_id)
+	if not hero.is_empty() and not Save.seen("training:" + hero):
+		goto_training(hero, safe_id)
+		return
+	EnergyUI.enter(safe_id, _enter_level.bind(safe_id))
+
+
+func _enter_level(safe_id: int) -> void:
 	var c: Variant = Data.level(safe_id).get("cinematic", [])
 	# Story scenes play once, and only on levels that bring something new (a hero, mechanism,
 	# material, gadget, captive, engineer or boss: Data.novelty). Other levels start at the plan
@@ -102,6 +122,18 @@ func goto_level_entry(id: int) -> void:
 		goto_story(safe_id)
 	else:
 		goto_level(safe_id)
+
+
+## Practice range for `hero`, then level `before_id` (its story scene, if any, plays after).
+## from_workshop: opened from Master Orin's hero cards; it returns to the Workshop afterwards.
+func goto_training(hero: String, before_id: int, from_workshop: bool = false) -> void:
+	Analytics.set_crash_key("phase", "loading")
+	skip_flyover = true
+	var lvl: Node = LevelScript.new()
+	lvl.set("level_id", maxi(1, before_id))
+	lvl.set("training", hero)
+	lvl.set("training_from_workshop", from_workshop)
+	_switch(lvl)
 
 
 ## Kept for old call sites: the loadout now lives inside the level.

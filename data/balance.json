@@ -49,18 +49,19 @@
     "dots": 26,
     "dot_step_s": 0.055,
     "hero_wait_x": [
-      -125,
-      -180,
-      -235,
-      -290,
-      -345,
-      -400
+      -128,
+      -192,
+      -256,
+      -320,
+      -384,
+      -448
     ],
     "reload_s": 0.45,
     "hop_s": 0.28,
     "tap_max_s": 0.35,
     "visual_scale": 1.44,
     "hero_sink_px": 4.0,
+    "hero_wait_scale": 1.3,
     "seat_out_frac": 0.55,
     "hero_wait_z": 3,
     "stretch_db_min": -20.0,
@@ -161,10 +162,12 @@
     "limiter_ceiling_db": -1.5,
     "limiter_pre_gain_db": 3.5,
     "limiter_release_s": 0.12,
+    "level_sfx_db": -4.0,
     "sound_gain_db": {
+      "screen_whoosh": -6.0,
       "ui_tap": 0.0,
       "pop": -2.0,
-      "arrow_shoot": 1.0,
+      "arrow_shoot": -5.0,
       "fire": 1.0,
       "wind": -2.0,
       "creak": -1.5,
@@ -183,7 +186,7 @@
       "metal_hit": 2.0,
       "launch": 3.0,
       "whoosh": 2.0,
-      "arrow_hit": 2.0,
+      "arrow_hit": -5.0,
       "splash": 2.0,
       "ability": 3.0,
       "aim_grab": 3.0
@@ -780,6 +783,63 @@
     "secret_x": 0.5,
     "secret_y": 0.3,
     "extra_tap_px": 60.0
+  },
+  "energy": {
+    "_doc": "Army energy (src/game/energy.gd, src/ui/energy_ui.gd). Each campaign attempt costs bars; refill_s[i] is the time for the next bar when i bars are full (fast first, slower after). One rewarded ad can top up a level, then the next level must be paid with rested bars.",
+    "enabled": true,
+    "max": 5,
+    "refill_s": [120, 240, 420, 600, 900],
+    "free_until_level": 5,
+    "cost": 1,
+    "cost_hard": 2,
+    "hard_from_realm": 3,
+    "cost_boss": 3,
+    "exhausted_title": "YOUR ARMY IS EXHAUSTED!",
+    "info_title": "ARMY ENERGY",
+    "needs_text": "This battle needs %d energy bar%s.",
+    "ready_text": "Your soldiers are ready again in %s.",
+    "next_text": "Next bar in %s.",
+    "how_text": "Each battle costs energy. The first bar comes back quickly, the rest take longer.",
+    "full_text": "Your army is fully rested. To battle!",
+    "ad_text": "Rest now",
+    "ad_locked_text": "You already rested with a video for the last battle. Let your army rest for this one.",
+    "no_ad_text": "No video available right now. Try again in a moment."
+  },
+  "training": {
+    "_doc": "Practice range before the first level with a new hero (Level.training, data/training). Coach texts per step: aim (hero loaded), tap (in flight), done (ability used), again (next shots).",
+    "hint_s": 5.0,
+    "done_title": "TRAINING DONE!",
+    "done_body": "You know how %s works. Time for the real battle!",
+    "retry_title": "GOOD PRACTICE!",
+    "retry_body": "%s is ready for battle. Practise again, or march on.",
+    "coach": {
+      "stone": {"aim": "This is Rocky! Drag back and let go to fling him at the stone tower.", "tap": "TAP NOW! Rocky slams straight down, heavy as a mountain.", "done": "The slam smashes through stone and the guards under it.", "again": "Fly above the tower, then tap to slam down."},
+      "fire": {"aim": "Meet Blaze! Drag back and let go to fling him at the tower.", "tap": "TAP NOW! Blaze dashes forward and sets wood on fire.", "done": "Fire spreads along every wooden beam it touches.", "again": "Hit the wooden tower, then tap to dash."},
+      "bomb": {"aim": "Meet Boomer! Fling him into the guards.", "tap": "TAP to explode! (He also blows up by himself after landing.)", "done": "Boom! One blast hits everything nearby.", "again": "Land between the guards, then tap to explode."},
+      "cyclone": {"aim": "Meet Twister! Fling him over the tall tower.", "tap": "TAP to turn into a tornado!", "done": "The tornado lifts light planks and guards and throws them.", "again": "Fly over the planks, then tap for the tornado."},
+      "quake": {"aim": "Meet Quaky! Fling him in front of the tower.", "tap": "TAP to dive and shake the ground!", "done": "The shockwave shakes the tower's legs. Weak supports break first.", "again": "Tap above the ground near the tower for a big quake."}
+    }
+  },
+  "profile": {
+    "_doc": "Commander name on the home card (MainMenu._open_rename). Free from free_rename_level, otherwise rename_gems.",
+    "default_name": "Commander",
+    "free_rename_level": 5,
+    "rename_gems": 20,
+    "name_min": 2,
+    "name_max": 14
+  },
+  "rolling_log": {
+    "_doc": "Logs and wheels ram what they roll into (Block._tick_roll): once per body per roll while faster than min_speed; below reset_speed the log can hit the same pieces again.",
+    "min_speed": 170.0,
+    "reset_speed": 40.0,
+    "damage_per_speed": 0.55,
+    "archer_damage_per_speed": 0.2,
+    "push_per_speed": 0.9,
+    "shake_per_speed": 0.025,
+    "shake_max": 12.0,
+    "blast_radius": 250.0,
+    "blast_impulse_per_speed": 10.0,
+    "blast_damage_per_speed": 0.7
   },
   "ropes": {
     "cut_radius_px": 34.0,
@@ -1496,6 +1556,12 @@
     }
   },
   "cosmetics": {
+    "rock_skins": {
+      "_doc": "Rocky looks sold as Play in-app products (shop.products). Looks only, never stronger. Art: assets/art/svg/hero_stone_<id>.svg.",
+      "lava": {"name": "Lava Rocky", "product": "rocky_skin_lava", "desc": "Basalt shell with glowing magma cracks."},
+      "frost": {"name": "Frost Rocky", "product": "rocky_skin_frost", "desc": "Glacier stone with a snow cap and icicles."},
+      "gold": {"name": "Golden Rocky", "product": "rocky_skin_gold", "desc": "Solid gold nugget, crown and gemstones."}
+    },
     "_doc": "Looks only, never stronger. price {coins|gems}; source shown when locked.",
     "skins": {
       "default": {
@@ -2137,9 +2203,15 @@
       "hellfire_crate",
       "coin_crate",
       "gem_crate",
-      "remove_ads"
+      "remove_ads",
+      "rocky_skin_lava",
+      "rocky_skin_frost",
+      "rocky_skin_gold"
     ],
     "products": {
+      "rocky_skin_lava": {"type": "non_consumable", "name": "Lava Rocky", "icon": "hero_stone_lava", "gives": {}, "price_hint_usd": 0.99, "desc": "Rocky skin: basalt with glowing magma cracks. Looks only."},
+      "rocky_skin_frost": {"type": "non_consumable", "name": "Frost Rocky", "icon": "hero_stone_frost", "gives": {}, "price_hint_usd": 0.99, "desc": "Rocky skin: glacier stone with a snow cap. Looks only."},
+      "rocky_skin_gold": {"type": "non_consumable", "name": "Golden Rocky", "icon": "hero_stone_gold", "gives": {}, "price_hint_usd": 1.99, "desc": "Rocky skin: solid gold with a crown and gems. Looks only."},
       "remove_ads": {
         "type": "non_consumable",
         "name": "Remove Ads",

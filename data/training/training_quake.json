@@ -1,0 +1,83 @@
+{
+ "id": 0,
+ "name": "Quaky Training",
+ "realm": 3,
+ "heroes": [
+  "quake",
+  "quake",
+  "quake"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Practice the new hero's ability.",
+ "cinematic": [],
+ "callouts": [],
+ "boss": false,
+ "star_scores": [
+  5000,
+  6000,
+  18000
+ ],
+ "camera_right": 1400,
+ "camera_top": -450,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 957,
+    "x1": 1243,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 1020,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1180,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1100,
+   "y": -133.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1030,
+   "y": -216.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1170,
+   "y": -216.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1100,
+   "y": -306.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1100,
+   "y": -376.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 1100,
+   "y": -175.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": [],
+ "training": "quake",
+ "before_level": 22
+}
