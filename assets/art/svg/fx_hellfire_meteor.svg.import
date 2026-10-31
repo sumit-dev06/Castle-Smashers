@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c080kyveb54fi"
-path="res://.godot/imported/fx_hellfire_boulder.svg-44bd9bf4b6323393b840719bc7d6919e.ctex"
+uid="uid://bv4vud5jaj372"
+path="res://.godot/imported/fx_hellfire_meteor.svg-696ca312d48cf9b01da7dcc870d25d46.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/svg/fx_hellfire_boulder.svg"
-dest_files=["res://.godot/imported/fx_hellfire_boulder.svg-44bd9bf4b6323393b840719bc7d6919e.ctex"]
+source_file="res://assets/art/svg/fx_hellfire_meteor.svg"
+dest_files=["res://.godot/imported/fx_hellfire_meteor.svg-696ca312d48cf9b01da7dcc870d25d46.ctex"]
 
 [params]
 

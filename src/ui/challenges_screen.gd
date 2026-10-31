@@ -203,7 +203,7 @@ func _special_gate_card() -> Control:
 	v.add_child(UIKit.label("MASTER SIEGES", 29, Color("#7b3fb2"), 0))
 	v.add_child(UIKit.tex_rect("icon_lock", 92))
 	v.add_child(UIKit.label("10 HARD LEVELS", 23, UIKit.TEXT_DARK, 0))
-	var rule: Label = UIKit.label("Mechanics are the only way through. Master every contraption.", 18, UIKit.TEXT_DARK, 0, false)
+	var rule: Label = UIKit.label("Every fort here falls only to its trap. Find it and trigger it.", 20, UIKit.TEXT_DARK, 0, false)
 	rule.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	rule.custom_minimum_size = Vector2(240, 74)
 	v.add_child(rule)

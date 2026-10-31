@@ -10,7 +10,7 @@
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Stone shrugs off fire. Knock the logs off the dune: they roll into the ruins.",
+ "strategy": "Stone shrugs off fire. Knock the logs off the dune: they roll down and ram the ruins.",
  "cinematic": [
   {
    "t": "title"

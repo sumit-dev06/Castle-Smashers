@@ -2402,7 +2402,7 @@
       }
     },
     "hero_card_kind": "stone",
-    "popup_delay_s": 0.7,
+    "popup_delay_s": 3.5,
     "hero_bob_px": 26.0
   },
   "ramps": {
@@ -2493,16 +2493,28 @@
     "intro": "I forge the engines. Heroes master their gifts in battle, not through a shop.",
     "locked_line": "Complete Level %d and I will reveal this engine.",
     "available_line": "Level requirement met. Pay the forge cost to make this engine yours.",
-    "owned_line": "Owned. Choose a meaningful upgrade, Commander."
+    "owned_line": "It is yours. Pick an upgrade."
   },
   "hellfire": {
-    "_doc": "Paid Hellfire strike (Level._hellfire_strike): one fire boulder per block, then every guard falls and the level is won.",
-    "spread_s": 1.6,
-    "fall_s": 0.45,
-    "settle_s": 1.2,
+    "_doc": "Paid Hellfire strike as a cinematic (src/game/hellfire_fx.gd): HUD hides, bars + red sky + rumble for intro_s, HELLFIRE title, one giant opener meteor in slow motion, then one meteor per block over spread_s, white flash, every guard falls, the level is won after settle_s.",
+    "intro_s": 1.2,
+    "tint_color": "#6a0c02",
+    "tint_alpha": 0.42,
+    "bar_px": 64,
+    "title": "HELLFIRE!",
+    "title_hold_s": 1.0,
+    "spread_s": 2.2,
+    "first_gap_s": 0.9,
+    "fall_s": 0.6,
+    "settle_s": 1.6,
     "shake": 14.0,
-    "boulder_scale": 1.1,
-    "from_dx": 260.0,
-    "from_dy": 900.0
+    "meteor_scale": 1.7,
+    "opener_scale": 2.8,
+    "opener_slowmo": 0.3,
+    "opener_slowmo_s": 0.6,
+    "incoming_every": 3,
+    "scorch_s": 3.0,
+    "from_dx": 420.0,
+    "from_dy": 1100.0
   }
 }

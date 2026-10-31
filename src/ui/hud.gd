@@ -203,7 +203,7 @@ func show_training_intro(hero: String, on_go: Callable) -> void:
 	var tv: VBoxContainer = VBoxContainer.new()
 	tv.add_theme_constant_override("separation", 0)
 	tv.add_child(UIKit.label(String(c["title"]), 40, Color("#ffd23a"), 10))
-	tv.add_child(UIKit.label(String(cfg["intro_sub"]) % hero_name, 22, UIKit.TEXT_DARK, 0, false))
+	tv.add_child(UIKit.label(String(cfg["intro_sub"]) % hero_name, 24, UIKit.TEXT_DARK, 0, false))
 	head.add_child(tv)
 	v.add_child(head)
 	var steps: Array = c["steps"]
@@ -224,16 +224,16 @@ func show_training_intro(hero: String, on_go: Callable) -> void:
 			tw.tween_property(ic, "scale", Vector2.ONE * 0.8, 0.25)
 			tw.tween_property(ic, "scale", Vector2.ONE, 0.35)
 		row.add_child(ic)
-		var tl: Label = UIKit.body(String(steps[i]), 21)
+		var tl: Label = UIKit.body(String(steps[i]), 25)
 		tl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		tl.custom_minimum_size.x = 440
+		tl.custom_minimum_size.x = 560
 		tl.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		row.add_child(tl)
 		v.add_child(row)
-	var best: Label = UIKit.body(String(c["best"]), 20, Color("#2f7a2a"))
+	var best: Label = UIKit.body(String(c["best"]), 23, Color("#2f7a2a"))
 	best.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	best.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	best.custom_minimum_size.x = 520
+	best.custom_minimum_size.x = 640
 	v.add_child(best)
 	var go: Button = UIKit.button(String(cfg["intro_button"]), "green", 30, Vector2(260, 72))
 	go.size_flags_horizontal = Control.SIZE_SHRINK_CENTER

@@ -202,8 +202,13 @@ read the cosmetic tints. A block with decor `scroll` is the realm's hidden map s
 ## Second chance and Hellfire (`level.gd`)
 Out of heroes with structures standing → `hud.show_second_chance(rocky_available)`. "+1 Rocky" is
 a rewarded ad once per attempt (`rocky_ad_used`); Hellfire (`use_hellfire`) runs
-`_hellfire_strike`: a fire boulder per block, every archer defeated, the level wins. Time attack,
-one-shot and boss rush fail directly.
+`_hellfire_strike`, which plays `HellfireFX` (`src/game/hellfire_fx.gd`): HUD hidden, letterbox
+bars, red sky tint, rumble, rising embers and the "HELLFIRE!" title; one giant opener meteor in slow
+motion, then one meteor per block from front to back (glow, flame tail, ember trail; on impact a
+flash, shockwave, debris, flames, scorch mark and shake, and the block is destroyed). The finale
+defeats every archer, clears what is left and emits `done`, and the level wins. Score and chain
+pop-ups are muted while `hellfire_running`. Timings live in `balance.hellfire`; preview with
+`--level=16 --hellfire=0.3`. Time attack, one-shot and boss rush fail directly.
 
 ## Intro (`src/ui/intro_screen.gd`)
 `Game.boot` shows it when `IntroScreen.due()` (save `intro_version` differs from

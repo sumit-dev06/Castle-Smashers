@@ -42,7 +42,7 @@
  "star_scores": [
   15000,
   19000,
-  34000
+  35000
  ],
  "camera_right": 1950,
  "camera_top": -600,
@@ -51,7 +51,7 @@
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 777,
+    "x0": 768,
     "x1": 1890,
     "top": -70
    }
@@ -59,14 +59,14 @@
  },
  "blocks": [
   {
-   "type": "barrel",
+   "type": "stone_block",
    "x": 850,
-   "y": -99.0
+   "y": -102.0
   },
   {
    "type": "barrel",
    "x": 850,
-   "y": -157.0
+   "y": -163.0
   },
   {
    "type": "post",
@@ -115,9 +115,9 @@
    "y": -102.0
   },
   {
-   "type": "barrel",
+   "type": "stone_block",
    "x": 1240,
-   "y": -163.0
+   "y": -166.0
   },
   {
    "type": "stone_block",

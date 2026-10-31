@@ -25,6 +25,7 @@ MASTERING = {
     "ui_tap": (-14.0, -25.0), "pop": (-12.0, -24.0),
     "star": (-9.0, -21.0), "win": (-7.0, -20.0), "lose": (-8.0, -21.0),
     "soldier_hit": (-10.0, -21.0), "soldier_ko": (-10.0, -21.0),
+    "hellfire_incoming": (-8.0, -21.0), "hellfire_rumble": (-6.0, -18.0),
     "enemy_ko": (-10.0, -21.0), "enemy_laugh": (-12.0, -23.0),
     "arrow_shoot": (-15.0, -28.0), "arrow_hit": (-14.0, -27.0),
     "fire": (-10.0, -24.0), "wind": (-12.0, -25.0),
@@ -62,8 +63,8 @@ ROOM = {"ui": (0.18, 0.04), "voice": (0.3, 0.1), "impact": (0.45, 0.12), "big": 
 UI_SOUNDS = {"ui_tap", "pop", "ui_back", "tab", "popup_open", "popup_close", "locked", "deny", "count_tick",
              "toast", "map_select", "swoosh_ui", "wheel_tick", "coin_tink", "gem_tink", "screen_whoosh",
              "wallet_land", "combo", "star", "purchase", "upgrade", "play_press"}
-BIG_SOUNDS = {"collapse_s", "collapse_m", "collapse_l", "bell", "explosion", "quake", "cannon", "boss_roar", "gate_drop", "slam", "reveal", "chest_open"}
-VOICE_SOUNDS = {"talk_hero", "talk_enemy", "talk_high", "soldier_hit", "soldier_ko", "enemy_ko", "enemy_laugh"}
+BIG_SOUNDS = {"hellfire_rumble", "collapse_s", "collapse_m", "collapse_l", "bell", "explosion", "quake", "cannon", "boss_roar", "gate_drop", "slam", "reveal", "chest_open"}
+VOICE_SOUNDS = {"talk_hero", "talk_enemy", "talk_high", "soldier_ko", "enemy_ko", "enemy_laugh"}
 
 
 def t_axis(dur):
@@ -441,7 +442,42 @@ def oof(base, i, dur=0.45):
 
 
 def soldier_hit(i):
-    return oof(210 + 20 * i, i, 0.3)
+    # An arrow or a block hitting an armored soldier, the way action games do it: a short body
+    # thud, a bright shield/helmet clank with inharmonic ring, and a leather slap. No voice (the old
+    # square-wave "oof" sounded synthetic).
+    d = 0.36
+    t = t_axis(d)
+    thud = sine(lambda t: 140 * np.exp(-t * 30) + 70 + 6 * i, d) * env(d, 0.002, 0.05)
+    base = 1180 + 140 * i
+    clank = sum(sine(base * r, d, phase=k) * env(d, 0.001, dk) * g
+                for k, (r, dk, g) in enumerate([(1.0, 0.11, 0.30), (1.62, 0.08, 0.22), (2.37, 0.05, 0.14), (3.11, 0.03, 0.08)]))
+    clank = filt(clank, "band", (700, 5200))
+    slap = filt(noise(d), "band", (900, 3200)) * env(d, 0.001, 0.014) * 0.5
+    grit = filt(noise(d), "low", 900) * env(d, 0.002, 0.03) * 0.35
+    return mix(thud * 0.95, clank, slap, grit) * (1 - np.exp(-t * 400))
+
+
+def hellfire_incoming(i):
+    # A burning meteor falling closer: a roaring fire noise band sweeping down, a low drone that
+    # rises in level, crackle on top. Ends just before impact (the explosion plays on contact).
+    d = 0.9
+    t = t_axis(d)
+    grow = (t / d) ** 1.6
+    roar = sweep_filter(D.pink(d), 2400 - 200 * i, 600, "low") * (0.25 + 0.75 * grow)
+    drone = sine(lambda t: 95 - 25 * t / d + 4 * i, d) * grow * 0.5
+    crackle = filt(noise(d) * (rng.uniform(0, 1, len(t)) > 0.985), "band", (1500, 6000)) * grow * 0.8
+    return mix(roar, drone, crackle) * np.clip((d - t) / 0.04, 0, 1)
+
+
+def hellfire_rumble(i):
+    # The sky turning red: a deep rolling rumble with a slow swell, like distant thunder.
+    d = 2.6
+    t = t_axis(d)
+    swell = np.sin(np.pi * np.clip(t / d, 0, 1)) ** 1.5
+    body = filt(D.pink(d), "low", 140) * 2.2
+    roll = filt(D.pink(d), "band", (60, 400)) * (0.6 + 0.4 * np.sin(2 * np.pi * 1.7 * t)) * 0.8
+    sub = sine(lambda t: 42 + 3 * np.sin(2 * np.pi * 0.6 * t), d) * 0.45
+    return mix(body, roll, sub) * swell
 
 
 def soldier_ko(i):
@@ -1082,6 +1118,7 @@ SOUNDS = [
     ("stone_break", 4, stone_break), ("straw_break", 2, straw_break), ("explosion", 3, explosion),
     ("creak", 3, creak), ("launch", 3, launch), ("whoosh", 2, whoosh), ("slam", 1, slam),
     ("fire", 2, fire), ("wind", 1, wind), ("arrow_shoot", 3, arrow_shoot), ("arrow_hit", 3, arrow_hit),
+    ("hellfire_incoming", 3, hellfire_incoming), ("hellfire_rumble", 1, hellfire_rumble),
     ("soldier_hit", 3, soldier_hit), ("soldier_ko", 2, soldier_ko), ("enemy_ko", 3, enemy_ko),
     ("enemy_laugh", 2, enemy_laugh), ("ui_tap", 1, ui_tap), ("pop", 1, pop), ("star", 3, star),
     ("win", 1, win), ("lose", 1, lose), ("quake", 2, quake),

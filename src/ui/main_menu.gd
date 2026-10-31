@@ -31,6 +31,8 @@ func _ready() -> void:
 	_skins_tile()
 	Sound.set_music("menu", "menu")
 	Sound.set_surroundings(String(Background.realm_info(_realm()).get("key", "blossom")), true)
+	if not "--no-popups" in OS.get_cmdline_user_args():
+		Notifications.ask_on_home(self)
 	_daily_popup()
 
 
@@ -494,7 +496,7 @@ func _hero_card() -> void:
 	v.add_child(UIKit.label("Master Orin", 26, Color.WHITE, 6))
 	var current: String = Progression.weapon()
 	v.add_child(UIKit.label("%s · Forge Lv. %d / 12" % [String(Progression.weapon_cfg(current)["short_name"]), Progression.weapon_total_level(current)], 16, Color("#ffe27a"), 4, false))
-	v.add_child(UIKit.label("Heroes unlock through campaign levels", 13, Color("#d9c8aa"), 3, false))
+	v.add_child(UIKit.label("New heroes join as you win levels", 18, Color("#d9c8aa"), 3, false))
 	var open: Button = UIKit.button("WORKSHOP", "green", 18, Vector2(118, 76))
 	open.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	open.pressed.connect(func() -> void:
@@ -591,6 +593,7 @@ func _daily_popup() -> void:
 		return
 	Save.data["daily_popup"] = Save.today()
 	Save.write()
+	# Let the player look at the home screen first; skip it if they already went somewhere.
 	get_tree().create_timer(Data.bf("home", "popup_delay_s")).timeout.connect(func() -> void:
-		if is_inside_tree():
+		if is_inside_tree() and Game.current == self:
 			Game.goto_meta("daily"))

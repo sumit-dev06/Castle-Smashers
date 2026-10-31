@@ -511,6 +511,8 @@ func _layout_waiting() -> void:
 
 
 func _process(_delta: float) -> void:
+	if OS.is_debug_build() and Game.args.has("no-hud") and hud.visible:
+		hud.visible = false  # clean captures for the website / store
 	_tick_coach()
 	var t: float = Time.get_ticks_msec() * 0.001
 	# Waiting heroes sit on the ground and breathe (squash), so they never look like they float.
@@ -640,6 +642,9 @@ func _load_now() -> void:
 		Save.mark_seen("hint:" + kind)
 	_hinted[kind] = true
 	# Debug capture: --force-win=seconds ends the level as a win (results screen screenshots).
+	if OS.is_debug_build() and Game.args.has("hellfire") and not hellfire_running and not _autoshot_done:
+		_autoshot_done = true  # debug capture: --hellfire=seconds runs a strike without spending one
+		get_tree().create_timer(float(Game.args["hellfire"])).timeout.connect(_hellfire_strike)
 	if OS.is_debug_build() and Game.args.has("second-chance") and not _autoshot_done:
 		_autoshot_done = true
 		get_tree().create_timer(float(Game.args["second-chance"])).timeout.connect(func() -> void:
@@ -999,50 +1004,13 @@ func use_hellfire() -> bool:
 
 func _hellfire_strike() -> void:
 	hellfire_running = true
-	var cfg: Dictionary = Data.balance["hellfire"]
-	var targets: Array[Block] = blocks.duplicate()
-	targets.shuffle()
-	var spread: float = float(cfg["spread_s"])
-	var fall: float = float(cfg["fall_s"])
-	Sound.play("boss_roar", 0.5, 0.6)
-	if hud:
-		hud.boss_callout("HELLFIRE!")
-	camera.add_shake(float(cfg["shake"]))
-	for i: int in targets.size():
-		var b: Block = targets[i]
-		var delay: float = spread * float(i) / maxf(1.0, float(targets.size()))
-		get_tree().create_timer(delay, false).timeout.connect(_drop_hellfire.bind(b, fall, cfg))
-	var end_s: float = spread + fall + float(cfg["settle_s"])
-	get_tree().create_timer(end_s * 0.7, false).timeout.connect(func() -> void:
-		for a: Archer in archers.duplicate():
-			if is_instance_valid(a) and not a.dead:
-				a.shield_left = 0.0
-				a.defeat())
-	get_tree().create_timer(end_s, false).timeout.connect(func() -> void:
+	var fxn: HellfireFX = HellfireFX.new()
+	add_child(fxn)
+	fxn.done.connect(func() -> void:
 		hellfire_running = false
 		if not is_finished():
 			_finish(true))
-
-
-func _drop_hellfire(b: Block, fall: float, cfg: Dictionary) -> void:
-	if not is_instance_valid(b) or b.dead:
-		return
-	var to: Vector2 = b.global_position
-	var rock: Sprite2D = Art.sprite("fx_hellfire_boulder", float(cfg["boulder_scale"]))
-	rock.z_index = 12
-	rock.rotation = deg_to_rad(-25.0)
-	rock.global_position = to + Vector2(float(cfg["from_dx"]), -float(cfg["from_dy"]))
-	world.add_child(rock)
-	var tw: Tween = rock.create_tween()
-	tw.tween_property(rock, "global_position", to, fall).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-	tw.tween_callback(func() -> void:
-		rock.queue_free()
-		fx.flash(to, 70.0)
-		fx.debris(to, "clay", 4, 380.0)
-		camera.add_shake(4.0)
-		Sound.play_at("explosion", to, 0.55)
-		if is_instance_valid(b) and not b.dead:
-			b.destroy(true))
+	fxn.start(self)
 
 
 ## Mode goals (chests, sunk engines) score and count as chain links.
@@ -2066,7 +2034,7 @@ func slow_mo(scale: float, real_s: float) -> void:
 
 # ------------------------------------------------------------------------------------ chain reactions
 func _chain_link(pos: Vector2, pts: int, kind: String) -> void:
-	if is_finished():
+	if is_finished() or hellfire_running:  # the Hellfire cinematic keeps the screen clean
 		return
 	var milestone: String = chain.link(_time, pos, pts)
 	var n: int = chain.count

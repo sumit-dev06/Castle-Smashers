@@ -90,9 +90,9 @@ def L5(f):  # NEW: bolted balconies (joints) on a four-floor keep
 
 
 def L6(f):  # NEW: Boomer, powder barrels. Stone storehouses only fall to a blast
-    f.stack(1280, ["barrel", "crate", "barrel"])
+    f.stack(1280, ["crate", "crate"], archer_on_top=True)
     f.tower(1500, ["block", "block", "wood"], archers=[1, 2], inside=["barrel"])
-    f.stack(1700, ["barrel", "barrel"])
+    f.stack(1700, ["stone_block", "barrel"])
     f.tower(1900, ["block", "block"], archers=[0, 1], inside=["barrel"])
 
 
@@ -343,13 +343,15 @@ def L31(f):  # NEW: crystal shatters into its neighbours
 def L32(f):  # NEW: powder cart. Cut its brake rope and the bolted kegs roll into the crystal mine
     f.powder_cart(1100, 1380, 1700, 200, at=0.18, barrels=2)
     f.archer(1140, -200)
-    f.tower(1850, ["crystal", "wood"], archers=[1, 0])
-    f.tower(2120, ["crystal", "crystal"], archers=[1, 2], roof=False)
+    f.tower(1850, ["crystal", "wood"], archers=[1, 0], inside=["barrel"])
+    f.stack(1990, ["stone_block", "stone_block", "stone_block"])
+    f.tower(2140, ["block", "crystal"], archers=[0, 1])
 
 
 def L33(f):  # REMIX: mine cart on rails
     f.tower(1250, ["stone", "wood"], archers=[1])
-    f.deck(1750, 430, lambda: f.tower(1750, ["crystal", "wood"], archers=[1, 0]), travel_x=90, period_s=8.0, **CART)
+    f.stack(1420, ["stone_block", "stone_block"], archer_on_top=True)
+    f.deck(1750, 430, lambda: f.tower(1750, ["crystal", "wood"], archers=[1, 0], inside=["barrel"]), travel_x=90, period_s=8.0, **CART)
 
 
 def L34(f):  # NEW: lava plume between the islands
@@ -357,21 +359,23 @@ def L34(f):  # NEW: lava plume between the islands
     f.tower(1750, ["crystal", "wood"], archers=[1, 0])
     f.geyser(1525, 520, period=4.5, burst=1.5)
     f.mechanism("spikes", 1960, -22, [180, 44])
+    f.tower(2160, ["block", "wood"], archers=[0, 1])
 
 
 def L35(f):  # NEW: runaway wheel. A giant wheel on the mine hill
     f.plateau(1100, 1350, 1750, 260, "rock")
     f.roller("wheel", 1240, 260, "RUNAWAY WHEEL!")
-    f.tower(1900, ["block", "wood"], archers=[1, 0])
-    f.tower(2160, ["wood", "wood"], archers=[1])
+    f.tower(1900, ["block", "stone", "wood"], archers=[1, 2])
+    f.stack(2040, ["stone_block", "stone_block"])
+    f.tower(2180, ["wood", "wood"], archers=[1, 0])
 
 
 def L36(f):  # REMIX: powder magazine packed with crystal
-    f.stack(1250, ["barrel", "barrel"])
+    f.stack(1250, ["stone_block", "barrel"])
     f.tower(1450, ["block", "block", "wood"], archers=[1, 2], inside=["barrel"])
-    f.stack(1650, ["barrel", "crystal_block", "barrel"])
+    f.stack(1650, ["crystal_block", "barrel", "crystal_block"])
     f.tower(1850, ["crystal", "wood"], archers=[0, 1])
-    f.stack(2030, ["barrel", "rune_crystal", "barrel"])
+    f.stack(2030, ["barrel", "rune_crystal", "stone_block"], archer_on_top=True)
 
 
 def L37(f):  # NEW: hanging cages. Swing one into the towers, drop the other on the hut
@@ -429,14 +433,16 @@ def L42(f):  # NEW: updraft between the islands
     f.terrace(1550, 1800, 80)
     f.tower(1680, ["narrow", "narrow", "narrow"], archers=[2, 1])
     f.terrace(1880, 2150, 160)
-    f.tower(2000, ["narrow", "narrow"], archers=[1])
+    f.tower(2000, ["narrow", "narrow"], archers=[1, 0])
+    f.stack(2110, ["stone_block"], archer_on_top=True)
     f.geyser(1490, 600, period=3.5, burst=1.5)
 
 
 def L43(f):  # NEW: spring trap. Guards stand on a sprung platform held down by a latch rope
     f.tower(1300, ["wood", "wood"], archers=[1, 0])
     f.spring_trap(1650, lean=-70.0)
-    f.tower(2000, ["stone", "wood"], archers=[1])
+    top = f.tower(2000, ["stone", "wood"], archers=[1, 0])
+    f.rope_load(2000, top - 100 - 40 - 90 - 220, 220, crane_x=2200)
 
 
 def L44(f):  # NEW: ice slide. A train of ice blocks waits on a frozen hilltop
@@ -446,7 +452,7 @@ def L44(f):  # NEW: ice slide. A train of ice blocks waits on a frozen hilltop
     f.archer(1264, -244)
     f.note(1264, -280, "ICE SLIDE!")
     f.tower(1850, ["narrow", "narrow", "narrow"], archers=[2, 1])
-    f.tower(2100, ["block", "wood"], archers=[1])
+    f.tower(2100, ["block", "stone", "wood"], archers=[1, 2])
 
 
 def L45(f):  # REMIX: windmill hall with a swinging counterweight
@@ -457,20 +463,22 @@ def L45(f):  # REMIX: windmill hall with a swinging counterweight
     f.archer(1550, -146)
     f.b("roof_tile", 1500, top - 50, flag=True)
     f.tower(1860, ["wood", "wood"], archers=[1])
+    f.stack(2030, ["stone_block", "stone_block"], archer_on_top=True)
     f.mechanism("swing", 2160, -600, trigger="", length=250, diameter=76, arc_deg=30, period_s=3.4)
 
 
 def L46(f):  # NEW: two seesaws over the clouds; the first rests on ice (fire melts it)
-    f.tower(1150, ["wood"], archers=[0])
+    f.tower(1150, ["stone", "wood"], archers=[1])
     f.seesaw(1500, support="ice_block")
     f.seesaw(1950, support="crate", side=-1)
+    f.stack(2250, ["ice_block", "ice_block"], archer_on_top=True)
 
 
 def L47(f):  # REMIX: cut the rope to lower the captive's cage
     f.terrace(1150, 2300, 70)
-    f.stack(1250, ["barrel", "barrel"])
+    f.stack(1250, ["stone_block", "barrel"])
     f.tower(1450, ["wood", "wood"], archers=[1], inside=["barrel"])
-    f.stack(1640, ["ice_block", "barrel"])
+    f.stack(1640, ["ice_block", "stone_block"])
     f.tower(1830, ["block", "wood"], archers=[1, 0], inside=["barrel"])
     f.captive(2180, 0, "free_pilot")
     f.rope_load(2040, -480, 120, load="crate", releases="free_pilot", crane_x=2040 + 0.01, crane_ground=-70)
@@ -478,11 +486,11 @@ def L47(f):  # REMIX: cut the rope to lower the captive's cage
 
 def L48(f):  # REMIX: twin airships drifting out of step
     for i, x in enumerate((1350, 1760)):
-        f.deck(x, 330, lambda x=x, i=i: f.tower(x, ["wood", "wood"] if i == 0 else ["block", "wood"], archers=[1, 0]),
+        f.deck(x, 330, lambda x=x, i=i: f.tower(x, ["stone", "wood"] if i == 0 else ["block", "wood"], archers=[1, 0]),
                floating=True, travel_x=24, travel_y=14, period_s=6.0 + i, phase=1.5 * i, **SHIP,
                balloon="boss_airship_balloon", balloon_size=[360, 150], balloon_y=-520)
     f.terrace(2000, 2300, 100)
-    f.tower(2120, ["narrow", "narrow"], archers=[1])
+    f.tower(2120, ["narrow", "narrow"], archers=[1, 0])
 
 
 def L49(f):  # FINALE CONTRAPTION: cart → dominoes → keep
@@ -546,7 +554,7 @@ LEVELS = {
     6: ("Moonlit Storehouse", 1, L6, ["bomb", "fire", "stone", "stone"], {}, [
         T(), E("enemy", "fortress", "smoke"), S("enemy", "Nothing explosive in here. Honest!"), M("enemy", "laugh"),
         E("wizard", "catapult", "smoke"), D("fortress", "bomb")],
-        "Chain the powder barrels with Boomer, then mop up with Rocky."),
+        "Only two kegs this time. Blow the storehouse kegs with Boomer, then finish with Rocky."),
     7: ("Seesaw Watch", 1, L7, ["bomb", "stone", "fire", "stone"], {}, [],
         "Two guards stand on one end of the seesaw. Knock out the stone under them and they slide off."),
     8: ("Captive Shrine", 1, L8, ["fire", "bomb", "stone", "fire"], {}, [
@@ -564,7 +572,7 @@ LEVELS = {
         "Boss: the war drum in the base shields him. Break it, topple the cannon, stop the engineer."),
     11: ("Sandstone Ruins", 2, L11, ["bomb", "stone", "stone", "fire"], {}, [
         T(), E("captain"), S("captain", "Desert stone. Fire won't help here."), F("fortress", "STONE!"), M("captain", "point")],
-        "Stone shrugs off fire. Knock the logs off the dune: they roll into the ruins."),
+        "Stone shrugs off fire. Knock the logs off the dune: they roll down and ram the ruins."),
     12: ("Twin Mesas", 2, L12, ["cyclone", "stone", "stone", "stone"], {}, [
         T(), E("wizard", "catapult", "smoke"), F("note:SLAM IT!", "THROWING BEAM!"),
         S("wizard", "Slam the high end of that beam and it hurls the powder keg!"), D("note:SLAM IT!", "stone")],
@@ -627,14 +635,14 @@ LEVELS = {
         "Break one crystal next to others: the shards do the rest. The rune crystal fires a beam."),
     32: ("Powder Express", 4, L32, ["fire", "cyclone", "stone", "stone"], {}, [
         T(), F("note:CUT THE ROPE!", "POWDER CART!"), E("captain"), S("captain", "Cut the brake rope. Those kegs will do the smashing for us.")],
-        "Cut the brake rope. The powder cart rolls into the crystal mine and explodes on impact."),
+        "Cut the brake rope. The cart hits the keg in the crystal tower. The far keep hides behind stone."),
     33: ("Rail Cart", 4, L33, ["bomb", "cyclone", "fire", "stone"], {}, [],
         "Lead the cart: aim where it is going."),
     34: ("Lava Plume", 4, L34, ["quake", "fire", "stone", "fire"], {}, [
         T(), F("@geyser", "LAVA PLUME!"), E("captain"), S("captain", "It burns and it lifts. Use it!")],
         "The plume lifts shots and burns anything thrown into it."),
     35: ("Runaway Wheel", 4, L35, ["cyclone", "quake", "stone", "stone"], {}, [],
-        "Knock the giant wheel off the hill and let it roll."),
+        "Hit the giant wheel with Rocky. It rolls down the hill and rams the stone keep."),
     36: ("Powder Magazine", 4, L36, ["fire", "bomb", "stone", "stone"], {}, [],
         "Barrels and crystals together. One spark, chain reaction."),
     37: ("Hanging Cages", 4, L37, ["cyclone", "bomb", "fire", "stone"], {}, [],
@@ -657,7 +665,7 @@ LEVELS = {
         T(), F("@geyser", "UPDRAFT!"), E("captain"), S("captain", "Ride the updraft to the high islands!")],
         "The updraft between the islands throws shots upward."),
     43: ("Spring Trap", 5, L43, ["quake", "cyclone", "stone", "stone"], {"wind": BREEZE}, [],
-        "The guards stand on a coiled spring. Cut the latch rope under them."),
+        "Cut the latch rope under the spring, then cut the rope holding the rock over the keep."),
     44: ("Ice Slide", 5, L44, ["quake", "bomb", "stone", "stone"], {}, [],
         "Hit the back of the ice train. It slides down the frozen slope into the towers."),
     45: ("Windmill Isle", 5, L45, ["bomb", "cyclone", "fire", "stone"], {"wind": GUSTY}, [],

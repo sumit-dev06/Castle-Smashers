@@ -10,7 +10,7 @@
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Chain the powder barrels with Boomer, then mop up with Rocky.",
+ "strategy": "Only two kegs this time. Blow the storehouse kegs with Boomer, then finish with Rocky.",
  "cinematic": [
   {
    "t": "title"
@@ -50,9 +50,9 @@
  "callouts": [],
  "boss": false,
  "star_scores": [
-  20000,
-  26000,
-  46000
+  25000,
+  31000,
+  51000
  ],
  "camera_right": 1800,
  "camera_top": -570,
@@ -61,7 +61,7 @@
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 807,
+    "x0": 798,
     "x1": 1660,
     "top": 0.0
    }
@@ -69,19 +69,14 @@
  },
  "blocks": [
   {
-   "type": "barrel",
+   "type": "crate",
    "x": 880,
-   "y": -29.0
+   "y": -32.0
   },
   {
    "type": "crate",
    "x": 880,
-   "y": -90.0
-  },
-  {
-   "type": "barrel",
-   "x": 880,
-   "y": -151.0
+   "y": -96.0
   },
   {
    "type": "stone_block",
@@ -160,14 +155,14 @@
    "flag": true
   },
   {
-   "type": "barrel",
+   "type": "stone_block",
    "x": 1300,
-   "y": -29.0
+   "y": -32.0
   },
   {
    "type": "barrel",
    "x": 1300,
-   "y": -87.0
+   "y": -93.0
   },
   {
    "type": "stone_block",
@@ -232,6 +227,10 @@
   }
  ],
  "archers": [
+  {
+   "x": 880,
+   "y": -157.5
+  },
   {
    "x": 1100,
    "y": -183.5

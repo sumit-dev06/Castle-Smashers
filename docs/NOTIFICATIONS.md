@@ -20,7 +20,7 @@
 - **At most 1 per day** (`max_per_day`). If two land on the same day the higher priority wins.
 - **Quiet hours 22:00-09:00** local time (`quiet_start_hour`, `quiet_end_hour`): a reminder that
   would land there moves to 09:00.
-- **Permission**: Android 13+ asks once, after the player wins level 3 (`ask_after_level`).
+- **Permission**: Android 13+ asks once, about a second after the first home screen appears (`ask_on_home_delay_s`), before the daily reward popup. Android never asks at install; it is a runtime prompt. If that moment is missed, it asks after the next won level (`ask_after_level` 0).
 - **Opt-out**: Settings → Reminders, plus the Android notification channel "Siege reminders".
 - Reminders only point at real things: a free spin that is really ready, a daily chest that is
   really waiting, a chest that is really 3 stars away. No purchase pushes.

@@ -183,7 +183,8 @@ the sound is louder at the same peak.
 | Chain reaction | `combo` rising a semitone per link, `star` on milestones, `slowmo` / `slowmo_out` |
 | Mechanisms | `lever`, `gears`, `trapdoor`, `switch_click`, `chain`, `gate_drop`, `rope_snap`, `geyser` |
 | Boss rig | `cannon`, `repair`, `boss_roar`, `metal_bend`, `rune_charge`, `rune_beam` |
-| Units | `arrow_shoot`, `arrow_hit`, `soldier_hit`, `soldier_ko`, `enemy_ko`, `enemy_laugh` |
+| Units | `arrow_shoot`, `arrow_hit`, `soldier_hit` (armour hit: body thud, metal clank, leather slap; no voice), `soldier_ko`, `enemy_ko`, `enemy_laugh` |
+| Hellfire | `hellfire_rumble` (deep sky rumble at the start), `hellfire_incoming` (falling roar, every few meteors), `explosion` per impact |
 | Story dialogue | `talk_hero`, `talk_high` (wizard, captive), `talk_enemy`: gibberish cartoon voices |
 | Buttons | `ui_tap`, `ui_back` (home), `tab` (side rail), `play_press` (PLAY plank) |
 | Popups / screens | `popup_open`, `popup_close`, `screen_whoosh` |
@@ -229,6 +230,12 @@ peaks, stereo width and spectrum can be measured, for example with `pyloudnorm`.
 - the event-driven state machine moves through its states;
 - the climax stem stays silent at low energy and rises at peak energy;
 - `play_at` uses a positional voice at the world position, and UI sounds never do.
+
+## Studio intro audio
+`tools/capture_intro.py` records the intro and then runs `tools/master_intro_audio.py`. Most of the
+score's energy sits below 150 Hz, which phone speakers can't play, so it sounded far quieter than the
+menu music. The master step adds harmonics above the bass, trims sub rumble, sets the level above
+300 Hz to −27 dB (`TARGET_DB`, about the menu music) and soft-limits at −1 dBFS.
 
 ## Possible later work
 - Recorded or licensed instruments for a final soundtrack (list them in `docs/CREDITS.md`). They

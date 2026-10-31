@@ -1579,6 +1579,14 @@ func _billing_tests() -> void:
 	await _ad_flow_tests()
 
 
+## The Hellfire cinematic runs for several seconds: wait until the level is won (or `cap_s`).
+func _wait_won(l: Level, cap_s: float) -> void:
+	var t: float = 0.0
+	while t < cap_s and l.state != Level.State.WON:
+		await _wait(0.25)
+		t += 0.25
+
+
 ## Rewarded ads, interstitial pacing, second chance (+1 Rocky once), Hellfire, analytics privacy.
 func _ad_flow_tests() -> void:
 	print("-- ads, second chance, hellfire, analytics")
@@ -1641,7 +1649,7 @@ func _ad_flow_tests() -> void:
 	Save.data["hellfire"] = 2
 	l.test_mode = true
 	_check(l.use_hellfire() and Save.amount("hellfire") == 1, "using Hellfire spends one strike")
-	await _wait(float(Data.balance["hellfire"]["spread_s"]) + float(Data.balance["hellfire"]["fall_s"]) + float(Data.balance["hellfire"]["settle_s"]) + 0.6)
+	await _wait_won(l, 20.0)
 	_check(l.state == Level.State.WON and l.blocks.is_empty() and l.archers.is_empty(), "Hellfire destroys every structure and wins the level")
 	l.queue_free()
 	await _wait(0.1)
@@ -1650,7 +1658,7 @@ func _ad_flow_tests() -> void:
 	await _wait(0.2)
 	Save.data["hellfire"] = 1
 	lb.use_hellfire()
-	await _wait(float(Data.balance["hellfire"]["spread_s"]) + float(Data.balance["hellfire"]["fall_s"]) + float(Data.balance["hellfire"]["settle_s"]) + 0.6)
+	await _wait_won(lb, 20.0)
 	_check(lb.state == Level.State.WON and lb.archers.is_empty(), "Hellfire beats a boss level too")
 	lb.queue_free()
 	await _wait(0.1)

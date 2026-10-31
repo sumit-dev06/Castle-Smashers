@@ -28,6 +28,12 @@ wheel (35), hanging cages (37), triggered water wheel/gears (38), wrecking ball 
 spring trap (43), ice slide (44), twin seesaws (46), and cart → dominoes → keep (49). Run
 `--run-tests=contraptions`.
 
+Logs (11) and the wheel (35) are tough rollers (`log` and `wheel` materials): they roll down, ram
+the first thing they hit with `balance.rolling_log` and stay whole, so they knock out one part of the
+fort instead of the whole thing. Levels 6, 32 to 36 and 42 to 48 were made harder in the style of
+level 49: fewer free barrels, stone or block bases, extra guarded posts and second guards on the
+last towers.
+
 Phase D materials and mechanisms in the campaign: windmill (45), lever (18), rune switch +
 trap door (24), rune crystal (31, 36), ice (41, 47), iron (38, 40), shield ring (20, 40, 50).
 Challenges and secret levels 111-115 use them too.

@@ -70,7 +70,7 @@ func setup(p_shape_id: String, p_level: Level, pos: Vector2, rot_deg: float, dec
 	max_hp = float(mat["hp"])
 	weak_point = bool(decor.get("weak_point", false))
 	trigger_id = String(decor.get("trigger", ""))
-	_rolls = mat_id == "log" and String(shape.get("collider", "")) == "circle"
+	_rolls = (mat_id == "log" or mat_id == "wheel") and String(shape.get("collider", "")) == "circle"
 	if weak_point:
 		max_hp *= Data.bf("mechanics", "weak_hp_mult")
 		_damage_taken_mult = Data.bf("mechanics", "weak_damage_mult")

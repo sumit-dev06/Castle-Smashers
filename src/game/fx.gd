@@ -164,6 +164,9 @@ func beam(from: Vector2, to: Vector2, width: float) -> void:
 
 
 func float_text(pos: Vector2, text: String, color: Color, size: int = 34) -> void:
+	var lv: Node = get_parent().get_parent() if get_parent() else null  # Fx lives under level.world
+	if lv is Level and (lv as Level).hellfire_running:
+		return
 	var l: Label = Label.new()
 	l.text = text
 	l.add_theme_font_override("font", _font)

@@ -125,6 +125,8 @@ def main():
     shutil.copy(os.path.join(tmp, "f%04d.png" % int(3.2 * FPS)), os.path.join(ROOT, "build", "intro_card1.png"))
     shutil.copy(os.path.join(tmp, "f%04d.png" % int(8.2 * FPS)), os.path.join(ROOT, "build", "intro_card2.png"))
     shutil.rmtree(tmp)
+    # Phone speakers drop the sub-bass score: add its harmonics and match the menu music level.
+    subprocess.check_call([sys.executable, os.path.join(ROOT, "tools", "master_intro_audio.py"), os.path.join(OUT, "intro.wav")])
     print("wrote", os.path.join(OUT, "intro.ogv"), "and intro.wav")
 
 

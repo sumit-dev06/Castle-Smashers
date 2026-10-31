@@ -44,6 +44,7 @@ func _ready() -> void:
 	Store.products_changed.connect(_show)
 	Store.entitlements_changed.connect(_show)
 	Store.granted.connect(_on_granted)
+	Store.refresh_products()  # products created in Play Console after the app started
 	Store.purchase_pending.connect(func(_id: String) -> void:
 		_say(String(Data.balance["shop"]["pending_note"]), Color("#ffe27a"))
 		_show())

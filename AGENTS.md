@@ -29,6 +29,8 @@ $GODOT --path . -- --map | --story=N | --level=N | --loadout=N | --workshop | --
 $GODOT --path . -- --meta=spin|daily|shop|upgrades|skins|achievements   # meta screens; --no-popups skips the daily popup
 $GODOT --path . -- --training=fire | --meta=shop --tab=addons | --addons=crown,shades | --energy-popup=2 | --rename-popup   # debug previews
 $GODOT --path . -- --level=11 --debug-roll                    # print rolling-log rams
+$GODOT --path . -- --level=16 --hellfire=0.3 --no-plan        # debug: run a Hellfire strike after 0.3 s (none spent)
+$GODOT --path . --resolution 3200x1440 -- --level=21 --no-plan --no-intro --no-popups --sharp-bg --no-hud --screenshot=build/shots/web.png --shot-delay=3   # clean, sharp website/store capture
 $GODOT --path . -- --level=N --force-win=1 --screenshot=build/shots/r.png --shot-delay=9   # results screen capture (debug)
 $GODOT --headless --path . --editor --quit          # refresh the class cache after adding a class_name file
 $GODOT --headless --path . -- --run-tests=billing   # billing, ads, Hellfire, analytics, notifications only

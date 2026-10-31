@@ -253,8 +253,8 @@
    "density": 0.8,
    "friction": 0.9,
    "bounce": 0.05,
-   "hp": 160,
-   "damage_mult": 0.6,
+   "hp": 600,
+   "damage_mult": 0.15,
    "flammable": true,
    "explodes": false,
    "score": 700,
@@ -262,6 +262,20 @@
    "debris": "wood",
    "label": "Logs and wheels",
    "tip": "Round timber rolls. Knock it off its ledge and let the slope do the work."
+  },
+  "wheel": {
+    "density": 1.6,
+    "friction": 0.9,
+    "bounce": 0.05,
+    "hp": 1200,
+    "damage_mult": 0.12,
+    "flammable": false,
+    "explodes": false,
+    "score": 900,
+    "sound": "wood",
+    "debris": "wood",
+    "label": "Runaway wheel",
+    "tip": "Iron-rimmed and heavy. One good knock sends it down the hill to ram whatever is below."
   },
   "cart": {
    "density": 1.8,
@@ -517,7 +531,7 @@
    "collider": "circle"
   },
   "wheel": {
-   "material": "log",
+   "material": "wheel",
    "size": [
     180,
     180

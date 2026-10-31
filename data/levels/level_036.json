@@ -15,9 +15,9 @@
  "callouts": [],
  "boss": false,
  "star_scores": [
-  20000,
-  26000,
-  45000
+  25000,
+  31000,
+  50000
  ],
  "camera_right": 1840,
  "camera_top": -570,
@@ -26,7 +26,7 @@
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 777,
+    "x0": 768,
     "x1": 1703,
     "top": 0.0
    }
@@ -34,20 +34,20 @@
  },
  "blocks": [
   {
-   "type": "barrel",
+   "type": "stone_block",
    "x": 850,
-   "y": -29.0
+   "y": -32.0,
+   "scroll": true
   },
   {
    "type": "barrel",
    "x": 850,
-   "y": -87.0
+   "y": -93.0
   },
   {
    "type": "stone_block",
    "x": 972,
-   "y": -32.0,
-   "scroll": true
+   "y": -32.0
   },
   {
    "type": "stone_block",
@@ -121,19 +121,19 @@
    "flag": true
   },
   {
+   "type": "crystal_block",
+   "x": 1250,
+   "y": -32.0
+  },
+  {
    "type": "barrel",
    "x": 1250,
-   "y": -29.0
+   "y": -93.0
   },
   {
    "type": "crystal_block",
    "x": 1250,
-   "y": -90.0
-  },
-  {
-   "type": "barrel",
-   "x": 1250,
-   "y": -151.0
+   "y": -154.0
   },
   {
    "type": "crystal_pillar",
@@ -182,9 +182,9 @@
    "y": -90.0
   },
   {
-   "type": "barrel",
+   "type": "stone_block",
    "x": 1630,
-   "y": -151.0
+   "y": -154.0
   }
  ],
  "archers": [
@@ -203,6 +203,10 @@
   {
    "x": 1450,
    "y": -209.5
+  },
+  {
+   "x": 1630,
+   "y": -215.5
   }
  ],
  "bolts": [],

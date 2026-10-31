@@ -189,7 +189,7 @@ func _show_weapon() -> void:
 func _show_vanguard() -> void:
 	_name_box.add_child(UIKit.label("Vanguard Foundry", 45, Color.WHITE, 11))
 	_name_box.add_child(UIKit.label("ARMOR FOR YOUR SOLDIERS", 20, Color("#ffd23a"), 6))
-	_name_box.add_child(UIKit.label("Permanent protection for every siege. No premium currency required.", 18, Color.WHITE, 5, false))
+	_name_box.add_child(UIKit.label("Armor your soldiers keep for every battle. Paid with coins.", 20, Color.WHITE, 5, false))
 	if _cat:
 		_cat.get_parent().visible = false
 	if _vanguard_preview == null:
@@ -213,7 +213,7 @@ func _unlock_card(cfg: Dictionary) -> Control:
 	v.add_theme_constant_override("separation", 10)
 	p.add_child(v)
 	v.add_child(UIKit.label("ENGINE BLUEPRINT MASTERED", 25, Color("#ffd23a"), 7))
-	v.add_child(UIKit.label("Forge this engine permanently. This is an earned coin sink, not a temporary boost.", 18, Color.WHITE, 4, false))
+	v.add_child(UIKit.label("Forge it once and it is yours for good.", 20, Color.WHITE, 4, false))
 	var cost: Dictionary = Progression.weapon_unlock_cost(weapon_id)
 	var buy: Button = _coin_button("FORGE  " + CurrencyBar._fmt(int(cost["coins"])), int(cost["coins"]))
 	buy.pressed.connect(func() -> void:
@@ -346,7 +346,7 @@ func _hero_card(kind: String) -> Control:
 		v.add_child(lock)
 	# Tap an unlocked hero to replay its training range (how to use the ability).
 	if introduced and Data.has_training(kind):
-		v.add_child(UIKit.label("Tap to practise", 12, Color("#9fd8ff"), 3, false))
+		v.add_child(UIKit.label("Tap to practise", 18, Color("#9fd8ff"), 3, false))
 		p.mouse_filter = Control.MOUSE_FILTER_STOP
 		p.gui_input.connect(func(e: InputEvent) -> void:
 			if e is InputEventMouseButton and (e as InputEventMouseButton).pressed \

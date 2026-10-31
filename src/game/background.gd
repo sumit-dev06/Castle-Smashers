@@ -73,6 +73,11 @@ static func soft_texture(art_name: String) -> Texture2D:
 
 func _ready() -> void:
 	layer = -10
+	# Keeps fitting the screen while the tree is paused (a popup on the first frame, such as the
+	# training How-to card, left the painting at its raw size over a black screen).
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	if OS.is_debug_build() and Game.args.has("sharp-bg"):
+		blurred = false  # website / store captures: the full-resolution painting, no haze
 	_frac = ground_frac if ground_frac > 0.0 else Data.bf("camera", "ground_screen_frac")
 	var info: Dictionary = Background.realm_info(realm)
 	var paint_name: String = Background.bg_name(realm, variant)
@@ -150,7 +155,8 @@ func _process(delta: float) -> void:
 		var sc: float = maxf(view.x / ts.x, bottom / ts.y) * zoom_k
 		_paint.scale = Vector2(sc, sc)
 		_paint.position = Vector2((view.x - ts.x * sc) / 2.0, bottom - ts.y * sc)
-		_tick_ambient(delta, view)
+		if not get_tree().paused:
+			_tick_ambient(delta, view)
 		return
 	var cam_x: float = camera.position.x if camera else 0.0
 	for L: Dictionary in _layers:
@@ -158,9 +164,10 @@ func _process(delta: float) -> void:
 		s.position = Vector2(-fposmod(cam_x * float(L["factor"]), float(L["w"])), ground_y - float(L["h"]) + float(L["y"]))
 	var span: float = view.x + 500.0
 	for i: int in _clouds.size():
-		_cloud_x[i] -= _cloud_speed[i] * delta
+		_cloud_x[i] -= _cloud_speed[i] * (0.0 if get_tree().paused else delta)
 		_clouds[i].position.x = fposmod(_cloud_x[i] - cam_x * 0.03, span) - 250.0
-	_tick_ambient(delta, view)
+	if not get_tree().paused:
+		_tick_ambient(delta, view)
 
 
 func _build_ambient(weather: String) -> void:

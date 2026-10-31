@@ -66,13 +66,22 @@ func request_permission() -> void:
 		_p.call("requestPermission")
 
 
-## Called after a level is won: asks for the permission once, after `ask_after_level`.
-func maybe_ask_permission(level_id: int) -> void:
-	if _p == null or bool(Save.data.get("notify_asked", false)) or level_id < int(cfg.get("ask_after_level", 3)):
+## Asks for the Android 13+ permission once. Called from the first home screen
+## (`ask_on_home_delay_s` after it appears) and, as a fallback, after a won level.
+func maybe_ask_permission(level_id: int = 0) -> void:
+	if _p == null or bool(Save.data.get("notify_asked", false)) or level_id < int(cfg.get("ask_after_level", 0)):
 		return
 	Save.data["notify_asked"] = true
 	Save.write()
 	request_permission()
+
+
+func ask_on_home(host: Node) -> void:
+	if _p == null or bool(Save.data.get("notify_asked", false)):
+		return
+	host.get_tree().create_timer(float(cfg.get("ask_on_home_delay_s", 1.0))).timeout.connect(func() -> void:
+		if is_instance_valid(host) and host.is_inside_tree():
+			maybe_ask_permission())
 
 
 func reschedule() -> void:

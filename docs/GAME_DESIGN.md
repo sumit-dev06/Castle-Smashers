@@ -57,6 +57,8 @@ Values live in `data/materials.json`.
 | iron | dark riveted plate | 260 | 2.4 | 0.22 | no |
 | crystal | glowing faceted crystal | 40 | 0.9 | 1.35 | no, shatters and hurts blocks within 120 px |
 | boulder | round granite (rolls) | 400 | 2.2 | 0.2 | no |
+| log | round trunk on slopes (rolls, rams what it hits) | 600 | 0.8 | 0.15 | yes |
+| wheel | big cart wheel (level 35: rolls down and rams one part of the fort) | 1200 | 1.6 | 0.12 | no |
 | straw roof | thatch triangle | 35 | 0.3 | 1.3 | very |
 | powder barrel | red barrel | 25 | 0.6 | 1.6 | explodes |
 | ice | pale translucent blue, frosty top | 40 | 0.9 | 1.3 | no, melts under fire (32 HP/s), slippery, shatters |

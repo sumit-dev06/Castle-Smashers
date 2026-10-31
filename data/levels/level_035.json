@@ -10,7 +10,7 @@
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Knock the giant wheel off the hill and let it roll.",
+ "strategy": "Hit the giant wheel with Rocky. It rolls down the hill and rams the stone keep.",
  "cinematic": [],
  "callouts": [
   {
@@ -20,19 +20,19 @@
  ],
  "boss": false,
  "star_scores": [
-  15000,
-  18000,
-  32000
+  20000,
+  24000,
+  40000
  ],
- "camera_right": 2140,
- "camera_top": -460,
+ "camera_right": 2160,
+ "camera_top": -600,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
     "x0": 730,
-    "x1": 1983,
+    "x1": 2003,
     "top": 0.0
    }
   ]
@@ -69,59 +69,84 @@
    "y": -141.0
   },
   {
+   "type": "stone_pillar",
+   "x": 1510.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1650.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1580.0,
+   "y": -314.0
+  },
+  {
    "type": "post",
    "x": 1500.0,
-   "y": -214.0
+   "y": -394.0
   },
   {
    "type": "post",
    "x": 1660.0,
-   "y": -214.0
+   "y": -394.0
   },
   {
    "type": "plank_long",
    "x": 1580.0,
-   "y": -287.0
+   "y": -467.0
   },
   {
    "type": "roof_tile",
    "x": 1580.0,
-   "y": -350.0,
+   "y": -530.0,
    "flag": true
   },
   {
+   "type": "stone_block",
+   "x": 1720.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1720.0,
+   "y": -96.0
+  },
+  {
    "type": "post",
-   "x": 1760.0,
+   "x": 1780.0,
    "y": -60.0
   },
   {
    "type": "post",
-   "x": 1920.0,
+   "x": 1940.0,
    "y": -60.0
   },
   {
    "type": "plank_long",
-   "x": 1840.0,
+   "x": 1860.0,
    "y": -133.0
   },
   {
    "type": "post",
-   "x": 1760.0,
+   "x": 1780.0,
    "y": -206.0
   },
   {
    "type": "post",
-   "x": 1920.0,
+   "x": 1940.0,
    "y": -206.0
   },
   {
    "type": "plank_long",
-   "x": 1840.0,
+   "x": 1860.0,
    "y": -279.0
   },
   {
    "type": "roof_tile",
-   "x": 1840.0,
+   "x": 1860.0,
    "y": -342.0,
    "flag": true
   }
@@ -133,11 +158,15 @@
   },
   {
    "x": 1580.0,
-   "y": -29.5
+   "y": -363.5
   },
   {
-   "x": 1840.0,
+   "x": 1860.0,
    "y": -175.5
+  },
+  {
+   "x": 1860.0,
+   "y": -29.5
   }
  ],
  "bolts": [],

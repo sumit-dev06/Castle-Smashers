@@ -10,29 +10,33 @@
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "The guards stand on a coiled spring. Cut the latch rope under them.",
+ "strategy": "Cut the latch rope under the spring, then cut the rope holding the rock over the keep.",
  "cinematic": [],
  "callouts": [
   {
    "target": "1250,-90",
    "label": "CUT THE LATCH!"
+  },
+  {
+   "target": "mech:0",
+   "label": "CUT THE ROPE!"
   }
  ],
  "boss": false,
  "star_scores": [
-  25000,
-  27000,
-  41000
+  30000,
+  32000,
+  46000
  ],
- "camera_right": 1900,
- "camera_top": -450,
+ "camera_right": 1930,
+ "camera_top": -830,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
     "x0": 757,
-    "x1": 1740,
+    "x1": 1870,
     "top": 0.0
    }
   ]
@@ -136,10 +140,33 @@
   {
    "x": 1600,
    "y": -209.5
+  },
+  {
+   "x": 1600,
+   "y": -29.5
   }
  ],
  "bolts": [],
- "mechanisms": [],
+ "mechanisms": [
+  {
+   "type": "rope_load",
+   "x": 1600,
+   "y": -776.0,
+   "length": 220,
+   "load": "boulder",
+   "frame": {
+    "posts": [
+     1800
+    ],
+    "top": -790.0,
+    "bottom": 0.0,
+    "beam": [
+     1588,
+     1812
+    ]
+   }
+  }
+ ],
  "captives": [],
  "tethers": [
   {

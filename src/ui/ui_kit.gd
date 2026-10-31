@@ -85,7 +85,14 @@ static func icon_button(icon: String, color: String = "orange", side: int = 76) 
 	return b
 
 
+## Smallest text size in design px (1280x720). Phones show the design at about 1.5x; below this,
+## text turned soft and hard to read on a 6-inch screen.
+const MIN_FONT: int = 18
+
+
 static func label(text: String, size: int = 32, color: Color = Color.WHITE, outline: int = 10, title: bool = true) -> Label:
+	size = maxi(size, MIN_FONT)
+	outline = mini(outline, maxi(2, size / 3)) if outline > 0 else 0  # thick outlines on small text smear it
 	var l: Label = Label.new()
 	l.text = text
 	l.add_theme_font_override("font", title_font() if title else body_font())

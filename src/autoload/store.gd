@@ -51,6 +51,20 @@ func _notification(what: int) -> void:
 	# Payments approved while the app was in the background (pending, other device) arrive here.
 	if what == NOTIFICATION_APPLICATION_RESUMED and status == Status.READY:
 		backend.call("query_purchases")
+		refresh_products()
+
+
+## Asks Play again for any product it has not returned yet (products created in Play Console after
+## the app connected, or a query that failed). The shop calls this when it opens.
+func refresh_products() -> void:
+	if status != Status.READY or backend == null:
+		return
+	var missing: Array = []
+	for id: Variant in Data.balance["shop"]["order"]:
+		if not products.has(String(id)):
+			missing.append(String(id))
+	if not missing.is_empty():
+		backend.call("query_products", Data.balance["shop"]["order"])
 
 
 ## Picks the backend and connects. Safe to call repeatedly: one connection attempt at a time.

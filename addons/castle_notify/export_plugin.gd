@@ -31,7 +31,11 @@ class CastleNotifyExport extends EditorExportPlugin:
 		return ('<meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@mipmap/icon_monochrome" />\n'
 				+ '<meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="castle_reminders" />\n'
 				# Ads fill the whole screen, camera cutout included (Theme.CastleAd lives in castle_notify.aar).
-				+ '<activity android:name="com.google.android.libraries.ads.mobile.sdk.common.AdActivity" android:theme="@style/Theme.CastleAd" tools:replace="android:theme" />\n')
+				+ '<activity android:name="com.google.android.libraries.ads.mobile.sdk.common.AdActivity" android:theme="@style/Theme.CastleAd" tools:replace="android:theme" />\n'
+				# Play Billing opens its purchase sheet from these see-through activities. They declare no
+				# orientation, so on a phone with auto-rotate off Android turned the whole game to portrait.
+				+ '<activity android:name="com.android.billingclient.api.ProxyBillingActivity" android:screenOrientation="sensorLandscape" />\n'
+				+ '<activity android:name="com.android.billingclient.api.ProxyBillingActivityV2" android:screenOrientation="sensorLandscape" />\n')
 
 	func _get_name() -> String:
 		return "CastleNotify"

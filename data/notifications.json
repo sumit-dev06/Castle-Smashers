@@ -4,7 +4,8 @@
  "max_per_day": 1,
  "quiet_start_hour": 22,
  "quiet_end_hour": 9,
- "ask_after_level": 3,
+ "ask_after_level": 0,
+ "ask_on_home_delay_s": 1.0,
  "push": {"_doc": "Firebase Cloud Messaging topics (send campaigns to them from the Firebase console, see docs/NOTIFICATIONS.md). The player is subscribed only while notifications are on in Settings and the Android permission is granted. opened_window_ms: a push delivered this soon after launch/resume counts as the player tapping it.", "topics": ["all_players", "news"], "opened_window_ms": 4000, "sync_delay_s": 3.0},
  "kinds": {
   "spin_ready": {

@@ -10,7 +10,7 @@
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Cut the brake rope. The powder cart rolls into the crystal mine and explodes on impact.",
+ "strategy": "Cut the brake rope. The cart hits the keg in the crystal tower. The far keep hides behind stone.",
  "cinematic": [
   {
    "t": "title"
@@ -41,10 +41,10 @@
  "boss": false,
  "star_scores": [
   25000,
-  28000,
-  43000
+  30000,
+  47000
  ],
- "camera_right": 2070,
+ "camera_right": 2120,
  "camera_top": -450,
  "bg_variant": 1,
  "stage": {
@@ -52,7 +52,7 @@
   "bases": [
    {
     "x0": 730,
-    "x1": 1940,
+    "x1": 1980,
     "top": 0.0
    }
   ]
@@ -107,40 +107,76 @@
    "y": -313.0
   },
   {
+   "type": "barrel",
+   "x": 1556.0,
+   "y": -29.0
+  },
+  {
    "type": "roof_tile",
    "x": 1530.0,
    "y": -376.0,
    "flag": true
   },
   {
-   "type": "crystal_pillar",
-   "x": 1730.0,
-   "y": -70.0
+   "type": "stone_block",
+   "x": 1670.0,
+   "y": -32.0
   },
   {
-   "type": "crystal_pillar",
-   "x": 1870.0,
-   "y": -70.0
+   "type": "stone_block",
+   "x": 1670.0,
+   "y": -96.0
   },
   {
-   "type": "stone_slab",
-   "x": 1800.0,
+   "type": "stone_block",
+   "x": 1670.0,
    "y": -160.0
   },
   {
-   "type": "crystal_pillar",
-   "x": 1730.0,
-   "y": -250.0
+   "type": "stone_block",
+   "x": 1742.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1742.0,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1898.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1898.0,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1820.0,
+   "y": -141.0
   },
   {
    "type": "crystal_pillar",
-   "x": 1870.0,
-   "y": -250.0
+   "x": 1750.0,
+   "y": -224.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1890.0,
+   "y": -224.0
   },
   {
    "type": "stone_slab",
-   "x": 1800.0,
-   "y": -340.0
+   "x": 1820.0,
+   "y": -314.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1820.0,
+   "y": -384.0,
+   "flag": true
   }
  ],
  "archers": [
@@ -153,16 +189,16 @@
    "y": -209.5
   },
   {
-   "x": 1530.0,
+   "x": 1503.0,
    "y": -29.5
   },
   {
-   "x": 1800.0,
-   "y": -209.5
+   "x": 1820.0,
+   "y": -29.5
   },
   {
-   "x": 1800.0,
-   "y": -389.5
+   "x": 1820.0,
+   "y": -183.5
   }
  ],
  "bolts": [
