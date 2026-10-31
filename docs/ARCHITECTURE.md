@@ -5,10 +5,12 @@
 |---|---|---|
 | `Data` | `data.gd` | Loads every JSON in `data/` once; `Data.balance`, `Data.materials`, `Data.projectiles`, `Data.level(id)` |
 | `Events` | `events.gd` | Global signals only (no logic) |
-| `Save` | `save.gd` | Progress, wallet (coins, gems, blueprints via `amount/add/spend`), settings, purchases. `user://save.json`, version 3 |
+| `Save` | `save.gd` | Progress, wallet (`Save.WALLET` = coins, gems; plus `hellfire`) via `amount/add/spend`, settings, purchase ledger `iap`, attempts. `user://save.json`, version 4 (`migrate_v4` converts blueprints) |
 | `Sound` | `sound.gd` | Buses, SFX/UI pools, synced two-stem adaptive music driven by `Events`, stingers, realm ambience + reverb, pause/slow-mo filter. `Sound.play("wood_hit", volume01)`, `set_music`, `set_surroundings` (see `docs/AUDIO.md`) |
-| `Ads` | `ads.gd` | Ad rules (interstitial pacing, rewarded opt-in) and unit IDs. Uses `ads_admob.gd` (Poing Studios AdMob plugin, UMP consent first) when the `MobileAds` singleton exists, otherwise a no-op stub |
-| `Store` | `store.gd` | Play Billing wrapper. No-op stub when plugin missing |
+| `Analytics` | `analytics.gd` | Whitelisted events, Crashlytics keys/breadcrumbs, error forwarder. Backend `analytics_firebase.gd` (CastleFirebase plugin) on Android, in-memory log elsewhere |
+| `Ads` | `ads.gd` | Ad rules: `next_level_break` (interstitial on NEXT every 4 levels), `show_rewarded(id)` for `spin`/`extra_rocky`/`double_coins`, Remove Ads bypass. Backend `ads_admob.gd` (UMP consent first), no-op stub on desktop |
+| `Store` | `store.gd` | BillingManager. Backends `store_play_billing.gd` (GodotGooglePlayBilling 3.3.0) or `store_fake_billing.gd` (tests/debug). Ledger `purchase_processor.gd`, optional server check `purchase_verifier.gd` |
+| `Notifications` | `notifications.gd` | Local reminders (CastleNotify plugin): plan on pause, cancel on resume, caps, quiet hours. Copy in `data/notifications.json` |
 | `Game` | `game.gd` | Scene switching (`Game.goto_level(id)`, `Game.goto_menu()`), command-line flags |
 
 ## Screens
@@ -185,3 +187,26 @@ counters bumped by `Level._stat`), `weapon`, `ups_vanguard` / `ups_weapon`, `own
 mass, reload) outside test mode; `Soldier` reads HP and shield chance; `Catapult` and `Fx.trail`
 read the cosmetic tints. A block with decor `scroll` is the realm's hidden map scroll.
 
+
+## Billing (`store.gd`, `purchase_processor.gd`)
+1. `Store.buy(id)` opens the Play sheet (one purchase at a time, `busy_product`).
+2. Every purchase update (and `query_purchases` at start/resume) goes to
+   `PurchaseProcessor.normalize` → `process(p, verified)`.
+3. `process` grants only `PURCHASED` purchases whose token is not in `Save.data.iap.tokens`,
+   writes the token and the reward to the save **first**, then returns "finish" so `Store`
+   consumes (crates) or acknowledges (`remove_ads`). `mark_finished` records completion.
+4. Restart recovery: a token that was granted but not finished is finished again without a second
+   grant. `reconcile_owned` restores Remove Ads from Play's owned list.
+5. Pending → message only; cancelled/failed → `purchase_cancelled` / `purchase_failed`.
+
+## Second chance and Hellfire (`level.gd`)
+Out of heroes with structures standing → `hud.show_second_chance(rocky_available)`. "+1 Rocky" is
+a rewarded ad once per attempt (`rocky_ad_used`); Hellfire (`use_hellfire`) runs
+`_hellfire_strike`: a fire boulder per block, every archer defeated, the level wins. Time attack,
+one-shot and boss rush fail directly.
+
+## Intro (`src/ui/intro_screen.gd`)
+`Game.boot` shows it when `IntroScreen.due()` (save `intro_version` differs from
+`application/config/version`): fresh installs and updates. Video `assets/intro/intro.ogv` and
+sound `intro.wav` are captured unchanged from the studio HTML by `tools/capture_intro.py`; then
+the title card `assets/intro/title.jpg` (tap or 6 s), then home.

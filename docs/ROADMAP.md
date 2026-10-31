@@ -52,6 +52,13 @@
 - Coins economy, daily reward, upgrades, skins
 - Optional: Play Games Services achievements and cloud save
 
+### Done in the monetisation pass (2026-10-31)
+- Play Billing 3.3 with purchase ledger, crash recovery and restore; four products
+- Ads: rewarded spin / +1 Rocky / double coins, interstitial on NEXT every 4 levels
+- Hellfire (paid guaranteed win), siege-engine progression, blueprints removed
+- Firebase Analytics + Crashlytics, local notifications, studio intro + title card
+- Remaining: owner console setup (see `POLICY_AUDIT.md` → Remaining owner actions)
+
 ## Phase 4: Release
 - Performance pass on low-end device (target 60 fps, APK/AAB < 150 MB)
 - Internal testing → closed testing (Play requires 12 testers for 14 days on new personal

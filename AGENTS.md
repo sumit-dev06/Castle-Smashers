@@ -28,10 +28,14 @@ $GODOT --path . -- --map | --story=N | --level=N | --loadout=N | --workshop | --
 $GODOT --path . -- --meta=spin|daily|shop|upgrades|skins|achievements   # meta screens; --no-popups skips the daily popup
 $GODOT --path . -- --level=N --force-win=1 --screenshot=build/shots/r.png --shot-delay=9   # results screen capture (debug)
 $GODOT --headless --path . --editor --quit          # refresh the class cache after adding a class_name file
+$GODOT --headless --path . -- --run-tests=billing   # billing, ads, Hellfire, analytics, notifications only
+$GODOT --path . -- --intro | --no-intro | --meta=settings   # studio intro + title card / skip it / settings popup
+python3 tools/patch_android_template.py             # after (re)installing the Android build template: Firebase Gradle + black splash
+python3 tools/capture_intro.py                      # re-capture the studio intro from art_source/intro/*.html
 
 ADB=~/Library/Android/sdk/platform-tools/adb
 $ADB install -r build/castle_smashers_debug.apk     # install on the USB test phone
-$ADB shell am start -n com.castlesmashers.game/com.godot.game.GodotApp
+$ADB shell am start -n com.castlesmashers.game/com.godot.game.GodotAppLauncher
 $ADB logcat -s godot:V                              # game logs from the phone
 ```
 
@@ -61,7 +65,8 @@ Test device: Realme RMX3870, Android 16 (API 36), 1080×2400 (20:9), 480 dpi, ar
 3. **No allocations in `_physics_process`** hot paths where avoidable; pool particles/arrows.
 4. Signals go through the `Events` autoload for cross-system communication. Direct calls are fine
    inside one scene.
-5. **Monetization code only in `Ads` and `Store` autoloads.** Gameplay never calls a plugin
+5. **Monetization code only in `Ads` and `Store` autoloads** (analytics only in `Analytics`,
+   notifications only in `Notifications`). Gameplay never calls a plugin
    directly. Both autoloads must work (as no-op stubs) when the Android plugin is missing, so the
    game runs on desktop.
 6. Never show an interstitial ad mid-level or on the first session. See `docs/MONETIZATION.md`.

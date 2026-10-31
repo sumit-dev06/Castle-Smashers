@@ -1,71 +1,90 @@
 # Monetisation
 
-Free to play. Ads + in-app purchases. The full campaign can be finished without paying.
+Free to play with ads and four in-app products. The whole campaign can be finished without paying.
+Gameplay never calls a plugin: everything goes through the `Ads` and `Store` autoloads.
+Setup steps for the consoles: `BILLING_SETUP.md` (Play), `FIREBASE_SETUP.md`, and the AdMob section below.
 
 ## Ads (Google AdMob)
 | Format | Where | Rules |
 |---|---|---|
-| Rewarded | "Watch ad: +1 Bomb" on the last shot, "Double coins" on the win screen, "Revive soldiers" on lose screen, daily free coins | Always opt-in, button says what you get |
-| Interstitial | Between levels only, after the win/lose screen, when the player taps Next/Retry | Not before level 4, not in the first session, at most once per 3 levels and 3 minutes. Never mid-level. Removed by "Remove Ads" |
-| Banner | Not used | Takes screen space and clashes with the look |
+| Rewarded | Spin wheel: every spin after the daily free one ("WATCH AD: SPIN", up to `spin.ads_per_day` = 5) | Opt-in, button names the reward |
+| Rewarded | Out of boulders: "WATCH AD: +1 Rocky" | Once per attempt. After that: Hellfire or Give up/replay |
+| Rewarded | Win screen: "WATCH AD: +N coins" (doubles the level's coins) | Once per result screen |
+| Interstitial | Only when the player taps **NEXT** on the result screen | After every 4 finished levels (`ads.every_levels`), never before level 4 (`min_level`), never in the first session, at least 90 s apart (`gap_s`). Map, Retry, Home and mid-level never show one |
+| Banner / app-open | Not used | They clash with the art and annoy players |
 
-- Consent: Google UMP form on first launch (required for EEA/UK), before any ad request.
-- Plugin: Poing Studios godot-admob-plugin v5.1.0 in `addons/admob` (Android binaries in
-  `addons/admob/android/bin`). Needs the Gradle build (`gradle_build/use_gradle_build=true`).
-- Debug builds always use Google's test units (interstitial `ca-app-pub-3940256099942544/1033173712`,
-  rewarded `ca-app-pub-3940256099942544/5224354917`). Release builds read `res://ad_ids.cfg`
-  (git-ignored, packed by the export filter):
+- **Remove Ads** turns off every format. Rewards that used to need a video (extra spins, +1 Rocky,
+  double coins) are then granted instantly, so buyers are never punished.
+- Consent: Google UMP form before the first ad request (required in the EEA/UK).
+- Plugin: Poing Studios godot-admob-plugin 5.1 (`addons/admob`), Gradle build.
+- Debug builds use Google test units. Release builds read `res://ad_ids.cfg` (git-ignored):
   ```
   [android]
   interstitial="ca-app-pub-XXXX/YYYY"
   rewarded="ca-app-pub-XXXX/ZZZZ"
   ```
-  and fall back to the test units when it is missing.
-- The AdMob **App ID** goes in project setting `admob/general/android/app_id` (now the Google test
-  App ID `ca-app-pub-3940256099942544~3347511713`). Replace it before release.
-- Ad frequency numbers live in `data/balance.json` → `ads`.
+- The AdMob **App ID** goes in project setting `admob/general/android/app_id`. It is still Google's
+  test App ID `ca-app-pub-3940256099942544~3347511713`: replace it before release.
 
-## In-app purchases (Google Play Billing)
-| Product ID | Type | Price (USD guide) | Gives |
+### Why interstitials only on NEXT after 4 levels
+The player has just finished and chosen to move on, so a break there costs no progress and no
+frustration. Retry stays clean because a player who just failed is the most likely to quit if
+shown an ad. Four levels at roughly 1-2 minutes each is about one interstitial every 5-8 minutes,
+which matches what casual physics games run without hurting day-1 retention. Increase
+`every_levels` if retention drops, decrease it only after looking at Firebase data.
+
+## In-app products (Google Play Billing)
+| Product ID | Type | US price | Gives |
 |---|---|---|---|
-| `remove_ads` | non-consumable | $2.99 | No interstitials. Rewarded ads still available (optional) |
-| `coins_small` | consumable | $0.99 | 1,000 coins |
-| `coins_medium` | consumable | $4.99 | 6,000 coins |
-| `coins_large` | consumable | $9.99 | 15,000 coins |
-| `gems_small` | consumable | $0.99 | 80 gems |
-| `gems_medium` | consumable | $4.99 | 500 gems (+20%) |
-| `gems_large` | consumable | $9.99 | 1,200 gems (+40%) |
-| `starter_pack` | non-consumable, shown once after level 5 | $1.99 | Remove ads + 2,000 coins + golden catapult skin |
+| `remove_ads` | Non-consumable (acknowledged, never consumed, restored automatically) | $2.99 | No ads ever; ad rewards granted instantly |
+| `coin_crate` | Consumable | $1.99 | 30,000 coins |
+| `gem_crate` | Consumable | $4.99 | 400 gems |
+| `hellfire_crate` | Consumable | $2.99 | 3 Hellfire strikes (purchase only) |
 
-**Status:** `Store.gd` is a stub. Needed to go live: the GodotGooglePlayBilling plugin, these
-products created in Play Console, a merchant account, a signed upload to a test track and
-licence-tester accounts.
+Every crate has **fixed, shown contents** (no random loot boxes, so no odds disclosure or
+loot-box regulation applies). Prices shown in the game come from Google Play in the player's own
+currency; the US prices above are only fallbacks for the price templates. Regional prices:
+`BILLING_SETUP.md`.
 
-Prices are set in Play Console per country. Purchases are acknowledged within 3 days (Play rule),
-restored on reinstall via `queryPurchases`. Server-side verification is a later improvement.
+### Pricing rationale
+- **Coin Crate $1.99 = 30,000 coins.** A free player earns about 120 coins per new star and 25 per
+  replay, so 30,000 coins equals roughly 20-30 levels of play. It buys the Ballista (18,000) plus a
+  few upgrades, or most of the way to the Trebuchet (40,000). Cheap enough to be an impulse buy.
+- **Gem Crate $4.99 = 400 gems** = exactly one legendary skin (400). Free gems are deliberately
+  scarce (boss first clears, a rare spin jackpot, daily day 7) and the total free gems in the game
+  stay below one legendary skin, so gems stay special.
+- **Hellfire Crate $2.99 = 3 strikes.** Hellfire guarantees a win on any level, including bosses.
+  It is a skip, not power: free players can always replay a level. Three strikes at about $1 each
+  is in line with paid "skip level" items.
+- **Remove Ads $2.99**: the standard price point for this genre; low enough that ad-annoyed
+  players convert.
+
+## Hellfire
+Purchase only, never earned. When a level is lost because the boulders ran out, the popup offers
+"USE HELLFIRE" (if owned) or "BUY HELLFIRE x3". A strike drops a fire boulder on every block and
+defeats every archer (bosses too), so the level is always won. Tunables: `balance.hellfire`.
+
+## Purchase safety (see `ARCHITECTURE.md` → Billing)
+Rewards only for `PURCHASED` state; pending purchases wait; cancelled/failed purchases show a
+message and grant nothing. Every purchase token is recorded in the save ledger before the consume
+call, so a token is never granted twice and a crash between "granted" and "consumed" is repaired on
+the next launch. An optional server verification hook is in `purchase_verifier.gd`
+(`balance.shop.verify_url`); no secrets in the client.
 
 ## Currencies
-Three wallet kinds, stored in `user://save.json` (`coins`, `gems`, `blueprints`, save version 3) and
-shown by `CurrencyBar` on every meta screen. Earn amounts live in `data/balance.json` →
-`currencies`.
-
 | Currency | Role | Earned | Spent on |
 |---|---|---|---|
-| Coins | Soft, plentiful | Every win, stars, chests, wheel, daily rewards, achievements | Hero upgrades, siege-weapon upgrades, coin-priced skins, extra heroes |
-| Gems | Premium, scarce | First 3-star clear (3), first boss clear (20), wheel, daily days 2 and 6, achievements, IAP | Skins, extra wheel spins, offers, chest keys. Never required to finish the campaign |
-| Blueprints | Earned progress gate | First boss clear (2), every 5th level first clear (1), chests, wheel, daily day 3 | With coins, siege-weapon upgrades and unlocks |
+| Coins | Soft, plentiful | Wins (120 per first-clear star, 25 per replay win), boss first clears (1,500), daily rewards, spin wheel, realm chests, achievements, double-coins video, Coin Crate | Siege engines (Ballista 18,000, Trebuchet 40,000), engine upgrade tracks, coin skins |
+| Gems | Premium, scarce | 5 per first boss clear, 3-gem spin jackpot, 5 on daily day 7, small achievement amounts, Gem Crate | Premium skins, coin exchange |
+| Hellfire | Paid skip | Hellfire Crate only | Guaranteed win |
 
-Rules: premium rewards are only for **first** clears (replays give coins only, so they can't be
-farmed); spending is all-or-nothing (`Save.spend(cost)`); gems never buy power that the campaign
-can't give for free.
+Save version 4 removed blueprints (the parchment "map" icon). Old saves convert them to coins and
+refund old hero-upgrade spending.
 
-## Coins
-Earn: level clear, stars, rewarded ads, daily reward. Spend: extra heroes in a level, soldier
-upgrades (shield = blocks first arrow), cosmetics (catapult skins, hero hats).
-No pay-to-win gates, no energy/lives system in v1.
-
-## Policy checklist
-- Data safety form: AdMob collects device ID/advertising ID; declare it.
-- Target audience 13+, not in Families programme.
-- Privacy policy URL required (ads SDK). Host a simple page (GitHub Pages is fine).
-- No ads that look like game buttons, no ad on app open in v1.
+## Policy rules we follow
+- Ad buttons always say "WATCH AD" with a video icon and the exact reward; nothing looks like a
+  game button that secretly opens an ad.
+- No ads before consent, mid-level, on app open, on Retry, or in the first session.
+- Prices are never hard-coded in the UI; they come from Play.
+- No random paid rewards, no fake timers, no "only today" pressure.
+- Full audit: `POLICY_AUDIT.md`.

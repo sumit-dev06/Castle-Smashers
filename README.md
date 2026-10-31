@@ -24,7 +24,11 @@ soldiers.
 | [docs/ART_DIRECTION.md](docs/ART_DIRECTION.md) | Style, palette, characters, asset list |
 | [docs/AI_ART_PROMPTS.md](docs/AI_ART_PROMPTS.md) | Prompts for AI-generated art and where files go |
 | [docs/AUDIO.md](docs/AUDIO.md) | Sound design plan and sources |
-| [docs/MONETIZATION.md](docs/MONETIZATION.md) | Ads, IAP, economy, policy rules |
+| [docs/MONETIZATION.md](docs/MONETIZATION.md) | Ads, IAP, economy, pricing rationale |
+| [docs/BILLING_SETUP.md](docs/BILLING_SETUP.md) | Play Console products, testing, regional prices, verification server |
+| [docs/FIREBASE_SETUP.md](docs/FIREBASE_SETUP.md) | Firebase Analytics + Crashlytics setup, events, Data safety answers |
+| [docs/NOTIFICATIONS.md](docs/NOTIFICATIONS.md) | Local reminders: rules, triggers, copy, push decision |
+| [docs/POLICY_AUDIT.md](docs/POLICY_AUDIT.md) | Play / AdMob / Billing compliance checklist |
 | [docs/TECH_STACK.md](docs/TECH_STACK.md) | Engine, plugins, tooling, versions |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Code structure, scenes, data flow |
 | [docs/PLAY_STORE.md](docs/PLAY_STORE.md) | Release checklist for Google Play |

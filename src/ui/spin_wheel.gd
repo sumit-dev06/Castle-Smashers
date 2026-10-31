@@ -62,8 +62,10 @@ static func use_spin(ad: bool, roll: float) -> int:
 		if r.has(k):
 			Save.add(k, int(r[k]), false, false)
 	Save.write()
+	for k: String in r:
+		Analytics.event("spin_used", {"paid_with_ad": ad, "reward_type": k, "reward_amount": int(r[k])})
+		break
 	return i
-
 
 func _title() -> String:
 	return "Spin Wheel"

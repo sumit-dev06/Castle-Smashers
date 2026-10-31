@@ -322,3 +322,34 @@ vector icons in `assets/art/svg/` of the same name (run through `tools/cutout.py
 | `gem.png` | A faceted purple gem with a white highlight |
 | `blueprint.png` | A rolled-open parchment with a red catapult sketch |
 | `chest_open.png` | A red treasure chest with the lid wide open, gold light and coins spilling out |
+
+
+# Skins and siege engines, higher-detail versions (added 2026-10-31)
+The game already ships generated overlays (`skin_<id>_base` / `skin_<id>_arm`, built by
+`tools/gen_art.py`) that change each skin's silhouette. These prompts are for painted versions.
+Each skin needs **two separate images**: the base (frame + wheels) and the throwing arm with cup,
+in the same pose as `assets/art/svg/catapult_base.svg` / `catapult_arm.svg`: side view facing
+right, arm resting at about 45° up-left, flat even lighting, plain white background, no shadow on
+the ground, thin dark-brown `#3a2212` outline. Files go to `assets/art/ai/skin_<id>_base.png` and
+`skin_<id>_arm.png`, then run `python3 tools/cutout.py --preview`.
+
+Style block (paste first): *"2D mobile game asset, glossy cartoon style like a premium casual
+strategy game, chunky readable shapes, soft cel shading with one highlight, thin dark brown
+outline, side view, isolated on pure white background, no text, no ground shadow"*
+
+| Skin id | Prompt (after the style block) |
+|---|---|
+| `sakura` (Sakura Shrine) | "shrine catapult in red-lacquered wood with black iron, small pagoda roof over the frame, cherry-blossom branches wrapped round the arm, paper lantern hanging from the arm, cup shaped like a temple bell" |
+| `desert_gold` (Sunforged) | "sun-temple catapult in sandstone and polished gold, sun-disc emblem on the front, scarab ornaments, cup shaped like a golden lotus" |
+| `pirate` (Dread Corsair) | "pirate catapult built from ship parts, barrel-hoop wheels, rope rigging, small black skull flag, anchor counterweight, cup shaped like a rowboat" |
+| `forge` (Magma Foundry) | "foundry catapult in blackened iron with glowing orange magma cracks, bellows at the back, chimney with a puff of smoke, cup shaped like a crucible" |
+| `royal` (King's Parade) | "royal parade catapult, white and gold with royal-blue cloth banners, crown finial on the arm tip, gold-rimmed wheels, velvet-lined cup" |
+| `sky` (Stormwing) | "sky-island catapult in white enamel and brass, feathered wing fins on the frame, small propeller, lightning-bolt trim, cloud-shaped wheel caps" |
+| `shadow` (Night Wraith) | "haunted catapult in dark purple-black wood, ghostly teal glow in the seams, tattered cloth flags, bone accents, skull-shaped cup" |
+
+Siege engines (same rules, files `weapon_<id>_base.png` / `weapon_<id>_arm.png` /
+`weapon_<id>_cup.png`):
+- **Ballista**: "heavy wooden ballista on a four-wheel carriage, giant crossbow limbs with iron
+  caps, taut rope bowstring, crank winch at the back, bolt groove on top"
+- **Trebuchet**: "tall counterweight trebuchet on a wide wheeled frame, iron-banded stone
+  counterweight box, long throwing arm with a rope sling and leather pouch"
