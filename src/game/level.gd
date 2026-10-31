@@ -816,6 +816,7 @@ func _finish(won: bool) -> void:
 		for s: Soldier in soldiers:
 			s.charge(stage.ledge_right - Data.bf("stage", "soldier_stop_px"))
 	_update_hud()
+	count_match()
 	if not training.is_empty():
 		Save.mark_seen("training:" + training)
 		get_tree().create_timer(float(Data.balance["result_delay_s"]), true, false, true).timeout.connect(func() -> void:
@@ -880,6 +881,20 @@ func live_stars() -> int:
 		if score >= int(th[i]):
 			n = i + 1
 	return n
+
+
+## Ads: this attempt counts as one match once it ends, or when it is left after the first shot.
+## Training and test runs never count.
+var _match_counted: bool = false
+
+
+func count_match() -> void:
+	if _match_counted or test_mode or not training.is_empty():
+		return
+	if not is_finished() and hero_index == 0 and projectiles.is_empty():
+		return  # left before firing: not a match
+	_match_counted = true
+	Ads.match_played()
 
 
 func restart() -> void:

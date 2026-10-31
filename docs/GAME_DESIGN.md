@@ -135,8 +135,17 @@ Settling contacts never deal damage. Physics starts in "sleep" for the first 1.0
   Rocky has a range too, reachable only from the Workshop. Tap a hero card in Master Orin's Workshop to practise again.
 - Source: `TRAINING` in `tools/campaign.py`, generated to `data/training/`. Coach texts in `balance.training`.
 
+## Rocky addons
+- Hats (pirate hat, cap, crown, viking helmet, top hat) and glasses (shades, specs), one per slot, sold as Play
+  one-time products. Worn on Rocky everywhere he appears (catapult, queue, flight, home). Looks only.
+- Code: `src/game/hero_addons.gd`; catalogue `balance.cosmetics.hero_addons`; art `assets/art/svg/addon_*.svg`.
+
+## Upgrade prices
+- All Workshop upgrade tracks (Vanguard and each siege engine) cost twice the earlier prices. Forge (unlock) prices are unchanged.
+
 ## Profile name
 - Default `balance.profile.default_name`. Rename is free once level `free_rename_level` (5) is reached, else 20 gems.
+- The rename popup uses an in-game keyboard on the lower screen (the system keyboard floated over the field in landscape).
 
 ## Controls
 - Drag anywhere on the left third to aim (not only on the catapult, easier on phones).

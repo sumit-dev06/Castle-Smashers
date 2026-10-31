@@ -16,9 +16,13 @@ console work in Google Play.
 | Product ID | Name | Description | Type in Play | Default price |
 |---|---|---|---|---|
 | `remove_ads` | Remove Ads | Removes every ad. Video rewards are given instantly. | One-time product (the code acknowledges and never consumes it) | USD 2.99 |
-| `rocky_skin_lava` | Lava Rocky | Cosmetic Rocky skin | One-time product (acknowledged, never consumed) | USD 0.99 |
-| `rocky_skin_frost` | Frost Rocky | Cosmetic Rocky skin | One-time product (acknowledged, never consumed) | USD 0.99 |
-| `rocky_skin_gold` | Golden Rocky | Cosmetic Rocky skin | One-time product (acknowledged, never consumed) | USD 1.99 |
+| `addon_pirate_hat` | Pirate Hat | Rocky addon (decoration, looks only) | One-time product (acknowledged, never consumed) | USD 0.99 |
+| `addon_cap` | Slugger Cap | Rocky addon (decoration, looks only) | One-time product (acknowledged, never consumed) | USD 0.99 |
+| `addon_crown` | Royal Crown | Rocky addon (decoration, looks only) | One-time product (acknowledged, never consumed) | USD 1.99 |
+| `addon_viking` | Viking Helmet | Rocky addon (decoration, looks only) | One-time product (acknowledged, never consumed) | USD 0.99 |
+| `addon_top_hat` | Top Hat | Rocky addon (decoration, looks only) | One-time product (acknowledged, never consumed) | USD 0.99 |
+| `addon_shades` | Cool Shades | Rocky addon (decoration, looks only) | One-time product (acknowledged, never consumed) | USD 0.99 |
+| `addon_specs` | Smart Specs | Rocky addon (decoration, looks only) | One-time product (acknowledged, never consumed) | USD 0.99 |
 | `coin_crate` | Coin Crate | 30,000 coins | One-time product (the code consumes it, so it can be bought again) | USD 1.99 |
 | `gem_crate` | Gem Crate | 400 gems | One-time product (consumed) | USD 4.99 |
 | `hellfire_crate` | Hellfire Crate | 3 Hellfire strikes: fire boulders destroy every enemy structure | One-time product (consumed) | USD 2.99 |

@@ -585,11 +585,12 @@
     ]
   },
   "ads": {
-    "_doc": "Interstitial: only when the player taps NEXT after this many finished levels; never mid-level, never first session, never with Remove Ads.",
-    "interstitial_min_level": 4,
-    "interstitial_every_levels": 4,
-    "interstitial_min_gap_s": 90,
-    "skip_first_session": true,
+    "_doc": "Interstitial: one after every interstitial_every_matches matches (a match = a finished level, or one left or restarted after a shot; wins and losses both count; training never). Shown only at the break when the player taps a results or pause button (Next, Retry, Map, Restart), never during play, never with Remove Ads. Counter is saved (Save.data.ad_matches). load_retry_s: retry after a failed ad load.",
+    "interstitial_min_level": 3,
+    "interstitial_every_matches": 4,
+    "interstitial_min_gap_s": 60,
+    "skip_first_session": false,
+    "load_retry_s": 30,
     "extra_rocky_per_level": 1
   },
   "loadout": {
@@ -1288,16 +1289,16 @@
           },
           "cost": [
             {
-              "coins": 2500
+              "coins": 5000
             },
             {
-              "coins": 6000
+              "coins": 12000
             },
             {
-              "coins": 12500
+              "coins": 25000
             },
             {
-              "coins": 24000
+              "coins": 48000
             }
           ]
         },
@@ -1311,16 +1312,16 @@
           },
           "cost": [
             {
-              "coins": 3000
-            },
-            {
-              "coins": 7000
+              "coins": 6000
             },
             {
               "coins": 14000
             },
             {
-              "coins": 27000
+              "coins": 28000
+            },
+            {
+              "coins": 54000
             }
           ]
         },
@@ -1334,16 +1335,16 @@
           },
           "cost": [
             {
-              "coins": 2200
-            },
-            {
-              "coins": 5500
+              "coins": 4400
             },
             {
               "coins": 11000
             },
             {
-              "coins": 21000
+              "coins": 22000
+            },
+            {
+              "coins": 42000
             }
           ]
         }
@@ -1407,16 +1408,16 @@
           },
           "cost": [
             {
-              "coins": 6500
-            },
-            {
               "coins": 13000
             },
             {
-              "coins": 24000
+              "coins": 26000
             },
             {
-              "coins": 42000
+              "coins": 48000
+            },
+            {
+              "coins": 84000
             }
           ]
         },
@@ -1430,16 +1431,16 @@
           },
           "cost": [
             {
-              "coins": 7500
-            },
-            {
               "coins": 15000
             },
             {
-              "coins": 28000
+              "coins": 30000
             },
             {
-              "coins": 48000
+              "coins": 56000
+            },
+            {
+              "coins": 96000
             }
           ]
         },
@@ -1453,16 +1454,16 @@
           },
           "cost": [
             {
-              "coins": 6000
-            },
-            {
               "coins": 12000
             },
             {
-              "coins": 22500
+              "coins": 24000
             },
             {
-              "coins": 40000
+              "coins": 45000
+            },
+            {
+              "coins": 80000
             }
           ]
         }
@@ -1526,16 +1527,16 @@
           },
           "cost": [
             {
-              "coins": 10000
-            },
-            {
               "coins": 20000
             },
             {
-              "coins": 36000
+              "coins": 40000
             },
             {
-              "coins": 60000
+              "coins": 72000
+            },
+            {
+              "coins": 120000
             }
           ]
         },
@@ -1549,16 +1550,16 @@
           },
           "cost": [
             {
-              "coins": 11000
-            },
-            {
               "coins": 22000
             },
             {
-              "coins": 40000
+              "coins": 44000
             },
             {
-              "coins": 68000
+              "coins": 80000
+            },
+            {
+              "coins": 136000
             }
           ]
         },
@@ -1572,16 +1573,16 @@
           },
           "cost": [
             {
-              "coins": 9000
-            },
-            {
               "coins": 18000
             },
             {
-              "coins": 34000
+              "coins": 36000
             },
             {
-              "coins": 58000
+              "coins": 68000
+            },
+            {
+              "coins": 116000
             }
           ]
         }
@@ -1598,13 +1599,13 @@
         "per_level": 1,
         "cost": [
           {
-            "coins": 3000
+            "coins": 6000
           },
           {
-            "coins": 8000
+            "coins": 16000
           },
           {
-            "coins": 18000
+            "coins": 36000
           }
         ]
       },
@@ -1615,24 +1616,29 @@
         "per_level": 0.08,
         "cost": [
           {
-            "coins": 3500
+            "coins": 7000
           },
           {
-            "coins": 9000
+            "coins": 18000
           },
           {
-            "coins": 20000
+            "coins": 40000
           }
         ]
       }
     }
   },
   "cosmetics": {
-    "rock_skins": {
-      "_doc": "Rocky looks sold as Play in-app products (shop.products). Looks only, never stronger. Art: assets/art/svg/hero_stone_<id>.svg.",
-      "lava": {"name": "Lava Rocky", "product": "rocky_skin_lava", "desc": "Basalt shell with glowing magma cracks."},
-      "frost": {"name": "Frost Rocky", "product": "rocky_skin_frost", "desc": "Glacier stone with a snow cap and icicles."},
-      "gold": {"name": "Golden Rocky", "product": "rocky_skin_gold", "desc": "Solid gold nugget, crown and gemstones."}
+    "hero_addons": {
+      "_doc": "Decorations worn by Rocky (heroes: stone only for now). One per slot (head, face). Sold as Play one-time products (shop.products addon_<id>). Looks only, never stronger. Art: assets/art/svg/addon_<id>.svg, drawn for a body radius of 30 SVG units. pos = sprite centre in body radii from the body centre, rot in degrees.",
+      "heroes": ["stone"],
+      "pirate_hat": {"name": "Pirate Hat", "slot": "head", "pos": [0.12, -1.02], "scale": 1.0, "rot": 4, "product": "addon_pirate_hat", "desc": "Black tricorn with a gold trim and a skull badge."},
+      "cap": {"name": "Slugger Cap", "slot": "head", "pos": [0.14, -0.98], "scale": 0.95, "rot": 6, "product": "addon_cap", "desc": "Red baseball cap with a white star."},
+      "crown": {"name": "Royal Crown", "slot": "head", "pos": [0.1, -1.08], "scale": 0.95, "rot": 4, "product": "addon_crown", "desc": "Solid gold crown set with three gems."},
+      "viking": {"name": "Viking Helmet", "slot": "head", "pos": [0.1, -1.0], "scale": 1.05, "rot": 3, "product": "addon_viking", "desc": "Steel helmet with a bronze band and two horns."},
+      "top_hat": {"name": "Top Hat", "slot": "head", "pos": [0.12, -1.25], "scale": 0.9, "rot": 5, "product": "addon_top_hat", "desc": "Tall black hat with a red ribbon."},
+      "shades": {"name": "Cool Shades", "slot": "face", "pos": [0.27, -0.24], "scale": 0.92, "rot": 3, "product": "addon_shades", "desc": "Dark sunglasses. Rocky has never looked cooler."},
+      "specs": {"name": "Smart Specs", "slot": "face", "pos": [0.27, -0.23], "scale": 0.92, "rot": 3, "product": "addon_specs", "desc": "Round gold glasses for the brains of the army."}
     },
     "_doc": "Looks only, never stronger. price {coins|gems}; source shown when locked.",
     "skins": {
@@ -2276,14 +2282,22 @@
       "coin_crate",
       "gem_crate",
       "remove_ads",
-      "rocky_skin_lava",
-      "rocky_skin_frost",
-      "rocky_skin_gold"
+      "addon_pirate_hat",
+      "addon_cap",
+      "addon_crown",
+      "addon_viking",
+      "addon_top_hat",
+      "addon_shades",
+      "addon_specs"
     ],
     "products": {
-      "rocky_skin_lava": {"type": "non_consumable", "name": "Lava Rocky", "icon": "hero_stone_lava", "gives": {}, "price_hint_usd": 0.99, "desc": "Rocky skin: basalt with glowing magma cracks. Looks only."},
-      "rocky_skin_frost": {"type": "non_consumable", "name": "Frost Rocky", "icon": "hero_stone_frost", "gives": {}, "price_hint_usd": 0.99, "desc": "Rocky skin: glacier stone with a snow cap. Looks only."},
-      "rocky_skin_gold": {"type": "non_consumable", "name": "Golden Rocky", "icon": "hero_stone_gold", "gives": {}, "price_hint_usd": 1.99, "desc": "Rocky skin: solid gold with a crown and gems. Looks only."},
+      "addon_pirate_hat": {"type": "non_consumable", "name": "Pirate Hat", "icon": "addon_pirate_hat", "gives": {}, "price_hint_usd": 0.99, "desc": "Rocky addon: Black tricorn with a gold trim and a skull badge. Looks only."},
+      "addon_cap": {"type": "non_consumable", "name": "Slugger Cap", "icon": "addon_cap", "gives": {}, "price_hint_usd": 0.99, "desc": "Rocky addon: Red baseball cap with a white star. Looks only."},
+      "addon_crown": {"type": "non_consumable", "name": "Royal Crown", "icon": "addon_crown", "gives": {}, "price_hint_usd": 1.99, "desc": "Rocky addon: Solid gold crown set with three gems. Looks only."},
+      "addon_viking": {"type": "non_consumable", "name": "Viking Helmet", "icon": "addon_viking", "gives": {}, "price_hint_usd": 0.99, "desc": "Rocky addon: Steel helmet with a bronze band and two horns. Looks only."},
+      "addon_top_hat": {"type": "non_consumable", "name": "Top Hat", "icon": "addon_top_hat", "gives": {}, "price_hint_usd": 0.99, "desc": "Rocky addon: Tall black hat with a red ribbon. Looks only."},
+      "addon_shades": {"type": "non_consumable", "name": "Cool Shades", "icon": "addon_shades", "gives": {}, "price_hint_usd": 0.99, "desc": "Rocky addon: Dark sunglasses. Rocky has never looked cooler. Looks only."},
+      "addon_specs": {"type": "non_consumable", "name": "Smart Specs", "icon": "addon_specs", "gives": {}, "price_hint_usd": 0.99, "desc": "Rocky addon: Round gold glasses for the brains of the army. Looks only."},
       "remove_ads": {
         "type": "non_consumable",
         "name": "Remove Ads",

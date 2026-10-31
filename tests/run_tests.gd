@@ -1120,7 +1120,7 @@ func _progression_tests() -> void:
 			"upgrades belong to one engine")
 	var cost_steps: Array = Progression.weapon_cfg("catapult")["tracks"]["torsion"]["cost"]
 	_check(int(cost_steps[-1]["coins"]) >= 5 * int(cost_steps[0]["coins"]), "upgrade costs climb steeply (heavy coin sink)")
-	Save.data["coins"] = 5000
+	Save.data["coins"] = int(Data.balance["upgrades"]["vanguard"]["armor"]["cost"][0]["coins"]) + 2000
 	var hp0: int = Progression.soldier_hp()
 	_check(Progression.buy_up("vanguard", "armor") and Progression.soldier_hp() == hp0 + 1, "Vanguard armor adds soldier HP")
 	_check(not Progression.buy_up("vanguard", "armor"), "the next armor level costs more coins than are left")
@@ -1475,8 +1475,8 @@ func _billing_tests() -> void:
 	Save.data["hellfire"] = 0
 	var fake: RefCounted = await _fake_store()
 	_check(Store.available() and not Store.price_text("coin_crate").is_empty(), "store connects and loads Play prices")
-	_check(Data.balance["shop"]["order"].size() == 7 and Store.product("remove_ads")["type"] == "non_consumable"
-			and Store.product("hellfire_crate")["gives"]["hellfire"] == 3, "catalog: Remove Ads + 3 crates + 3 rock skins (Hellfire gives 3)")
+	_check(Data.balance["shop"]["order"].size() == 4 + HeroAddons.ids().size() and Store.product("remove_ads")["type"] == "non_consumable"
+			and Store.product("hellfire_crate")["gives"]["hellfire"] == 3, "catalog: Remove Ads + 3 crates + Rocky addons (Hellfire gives 3)")
 	# Every product delivers exactly its contents once.
 	var expect: Dictionary = {"coin_crate": ["coins", 30000], "gem_crate": ["gems", 400], "hellfire_crate": ["hellfire", 3]}
 	for id: String in expect:
@@ -1586,26 +1586,33 @@ func _ad_flow_tests() -> void:
 	Save.data["no_ads"] = false
 	Save.data["iap"] = {}
 	Save.data["sessions"] = 5
-	Ads.levels_since = 0
-	var every: int = int(Data.b("ads", "interstitial_every_levels"))
+	Save.data["ad_matches"] = 0
+	var every: int = int(Data.b("ads", "interstitial_every_matches"))
 	for i: int in every - 1:
-		Ads.level_finished()
-	_check(not Ads.interstitial_due(10), "no interstitial before %d finished levels" % every)
+		Ads.match_played()
+	_check(not Ads.interstitial_due(10), "no interstitial before %d matches" % every)
 	_check(String(Data.b("settings", "privacy_url")) == "https://castle-smashers.pages.dev/privacy/", "privacy link points at the Pages site")
 	_check(not Ads.privacy_options_required() and Ads.has_method("show_privacy_options"), "Ad Privacy entry hidden on desktop, API present")
 	var admob_src: String = FileAccess.get_file_as_string("res://src/autoload/ads_admob.gd")
 	_check(admob_src.contains("MAX_AD_CONTENT_RATING_PG") and admob_src.contains("show_privacy_options_form"), "ads capped at PG, privacy options form wired")
 	var policy: String = FileAccess.get_file_as_string("res://web/privacy/index.html")
 	_check(policy.is_empty() or (policy.contains("Intercore") and policy.contains("intercoreapp@gmail.com") and policy.contains("Ad Privacy")), "privacy page names the developer, contact and Ad Privacy")
-	Ads.level_finished()
+	Ads.match_played()
 	_check(Ads.interstitial_due(10) and not Ads.interstitial_due(int(Data.b("ads", "interstitial_min_level")) - 1),
-			"interstitial is due after %d levels, never before the minimum level" % every)
+			"interstitial is due after %d matches, never before the minimum level" % every)
 	var went: Array = [false]
-	Ads.next_level_break(10, func() -> void: went[0] = true)
-	_check(went[0], "NEXT always continues (no ad backend: straight on)")
-	Save.data["sessions"] = 1
-	_check(not Ads.interstitial_due(10), "no interstitial in the first session")
-	Save.data["sessions"] = 5
+	Ads.match_break(10, func() -> void: went[0] = true)
+	_check(went[0] and Ads.matches_since() == every, "a break always continues; with no ad shown the count is kept")
+	var ad_ids: Array[String] = HeroAddons.ids()
+	var ad_ok: bool = ad_ids.size() >= 5
+	for aid: String in ad_ids:
+		ad_ok = ad_ok and ResourceLoader.exists("res://assets/art/svg/addon_%s.svg" % aid) \
+				and (Data.balance["shop"]["order"] as Array).has("addon_" + aid) and not HeroAddons.owns(aid)
+	var rocky: Sprite2D = Projectile.make_sprite("stone")
+	_check(ad_ok and rocky.get_child_count() == 0, "%d Rocky addons: art, Play products, nothing worn unless bought" % ad_ids.size())
+	rocky.free()
+	var hud_src: String = FileAccess.get_file_as_string("res://src/ui/hud.gd")
+	_check(hud_src.count("Ads.match_break(") >= 5, "results Next/Retry/Map and pause Map/Restart are all ad breaks")
 	Save.data["no_ads"] = true
 	_check(not Ads.interstitial_due(10) and Ads.rewarded_ready(), "Remove Ads: no interstitial, bonuses still available")
 	var got: Array = [""]

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://omi1f6xd3xqc"
-path="res://.godot/imported/hero_stone_frost.svg-2244c405a34dcff0fd54342e0192ab99.ctex"
+uid="uid://cd62yik8igyh2"
+path="res://.godot/imported/addon_specs.svg-15ccea0d85abf941d24b5a76a9c401bc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/svg/hero_stone_frost.svg"
-dest_files=["res://.godot/imported/hero_stone_frost.svg-2244c405a34dcff0fd54342e0192ab99.ctex"]
+source_file="res://assets/art/svg/addon_specs.svg"
+dest_files=["res://.godot/imported/addon_specs.svg-15ccea0d85abf941d24b5a76a9c401bc.ctex"]
 
 [params]
 

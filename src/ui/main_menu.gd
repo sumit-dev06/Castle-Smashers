@@ -165,14 +165,22 @@ func _open_rename() -> void:
 	var cost: Dictionary = {} if free else {"gems": int(cfg["rename_gems"])}
 	var layer: CanvasLayer = UIFx.overlay()
 	layer.add_child(UIKit.dim())
+	# Name panel at the top, our own keyboard on the lower screen: the system keyboard floats over
+	# the middle in landscape and hid the field.
+	var col: VBoxContainer = VBoxContainer.new()
+	col.set_anchors_preset(Control.PRESET_FULL_RECT)
+	col.add_theme_constant_override("separation", 0)
+	layer.add_child(col)
+	var top: MarginContainer = MarginContainer.new()
+	top.add_theme_constant_override("margin_top", 14)
+	col.add_child(top)
 	var center: CenterContainer = CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
-	layer.add_child(center)
+	top.add_child(center)
 	var p: PanelContainer = UIKit.panel()
-	p.custom_minimum_size = Vector2(560, 0)
+	p.custom_minimum_size = Vector2(760, 0)
 	center.add_child(p)
 	var v: VBoxContainer = VBoxContainer.new()
-	v.add_theme_constant_override("separation", 14)
+	v.add_theme_constant_override("separation", 6)
 	p.add_child(v)
 	var head: HBoxContainer = HBoxContainer.new()
 	head.add_child(UIKit.tex_rect("icon_edit", 44))
@@ -184,7 +192,8 @@ func _open_rename() -> void:
 	field.custom_minimum_size = Vector2(500, 64)
 	field.add_theme_font_override("font", UIKit.body_font())
 	field.add_theme_font_size_override("font_size", 30)
-	field.select_all_on_focus = true
+	field.virtual_keyboard_enabled = false
+	field.custom_minimum_size = Vector2(700, 60)
 	v.add_child(field)
 	var note: Label = UIKit.body("Free: you have reached level %d." % int(cfg["free_rename_level"]) if free \
 			else "Costs %d gems. Renaming is free from level %d." % [int(cfg["rename_gems"]), int(cfg["free_rename_level"])], 20)
@@ -227,9 +236,76 @@ func _open_rename() -> void:
 	for b: Button in [cancel, save]:
 		UIFx.press_juice(b)
 		row.add_child(b)
-	p.pivot_offset = Vector2(280, 140)
+	var gap: Control = Control.new()
+	gap.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	gap.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	col.add_child(gap)
+	col.add_child(_name_keyboard(field))
+	p.pivot_offset = Vector2(380, 100)
 	UIFx.pop_in(p)
 	field.grab_focus.call_deferred()
+	field.caret_column = field.text.length()
+
+
+## In-game keyboard for the name field: digits, QWERTY, shift (one letter), backspace, space.
+func _name_keyboard(field: LineEdit) -> Control:
+	var pad: PanelContainer = PanelContainer.new()
+	var sb: StyleBoxFlat = StyleBoxFlat.new()
+	sb.bg_color = Color(0.11, 0.08, 0.06, 0.94)
+	sb.border_color = Color("#3a2212")
+	sb.border_width_top = 3
+	sb.content_margin_top = 10
+	sb.content_margin_bottom = 12
+	pad.add_theme_stylebox_override("panel", sb)
+	var rows: VBoxContainer = VBoxContainer.new()
+	rows.add_theme_constant_override("separation", 6)
+	pad.add_child(rows)
+	var letters: Array[Button] = []
+	var shift: Array[bool] = [field.text.is_empty()]
+	var relabel: Callable = func() -> void:
+		for b: Button in letters:
+			b.text = b.text.to_upper() if shift[0] else b.text.to_lower()
+	var type: Callable = func(t: String) -> void:
+		if field.text.length() >= field.max_length:
+			return
+		field.insert_text_at_caret(t)
+		Sound.play("ui_tap", 0.4)
+	for line: String in ["1234567890", "qwertyuiop", "asdfghjkl", "^zxcvbnm<", " "]:
+		var r: HBoxContainer = HBoxContainer.new()
+		r.alignment = BoxContainer.ALIGNMENT_CENTER
+		r.add_theme_constant_override("separation", 6)
+		rows.add_child(r)
+		for ch: String in line:
+			var b: Button
+			if ch == "^":
+				b = UIKit.button("SHIFT", "blue", 20, Vector2(140, 56))
+				b.pressed.connect(func() -> void:
+					shift[0] = not shift[0]
+					relabel.call())
+			elif ch == "<":
+				b = UIKit.button("DEL", "orange", 20, Vector2(140, 56))
+				b.pressed.connect(func() -> void:
+					var at: int = field.caret_column
+					if at > 0:
+						field.text = field.text.substr(0, at - 1) + field.text.substr(at)
+						field.caret_column = at - 1
+					Sound.play("ui_tap", 0.4))
+			elif ch == " ":
+				b = UIKit.button("SPACE", "dark", 20, Vector2(520, 52))
+				b.pressed.connect(func() -> void: type.call(" "))
+			else:
+				b = UIKit.button(ch.to_upper() if shift[0] and ch >= "a" else ch, "dark", 26, Vector2(96, 56))
+				var letter: bool = ch >= "a" and ch <= "z"
+				if letter:
+					letters.append(b)
+				b.pressed.connect(func() -> void:
+					type.call(b.text)
+					if letter and shift[0]:
+						shift[0] = false
+						relabel.call())
+			b.focus_mode = Control.FOCUS_NONE
+			r.add_child(b)
+	return pad
 
 
 ## Letters, digits and single spaces only, trimmed.

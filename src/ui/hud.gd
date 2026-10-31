@@ -572,9 +572,15 @@ func show_pause() -> void:
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	row.add_theme_constant_override("separation", 14)
 	var mp: Button = UIKit.icon_button("icon_levels", "blue", 80)
-	mp.pressed.connect(func() -> void: Game.goto_back_from(level.level_id))
+	mp.pressed.connect(func() -> void:
+		level.count_match()
+		get_tree().paused = false
+		Ads.match_break(level.level_id, func() -> void: Game.goto_back_from(level.level_id)))
 	var rs: Button = UIKit.icon_button("icon_restart", "orange", 80)
-	rs.pressed.connect(func() -> void: level.restart())
+	rs.pressed.connect(func() -> void:
+		level.count_match()
+		get_tree().paused = false
+		Ads.match_break(level.level_id, level.restart))
 	var st: Button = UIKit.icon_button("icon_settings", "dark", 80)
 	st.pressed.connect(func() -> void: SettingsPopup.open(self).closed.connect(show_pause))
 	var mu: Button = UIKit.icon_button("icon_music", "blue" if bool(Save.data["music"]) else "dark", 80)
@@ -639,16 +645,18 @@ func show_result(won: bool, stars: int, score: int, earned: Dictionary, has_next
 		v.add_child(cr)
 	if won and int(earned.get("coins", 0)) > 0 and Game.rush.is_empty():
 		v.add_child(_double_coins_button(int(earned["coins"]), wallet))
-	Ads.level_finished()
 	var btns: HBoxContainer = HBoxContainer.new()
 	btns.alignment = BoxContainer.ALIGNMENT_CENTER
 	btns.add_theme_constant_override("separation", 18)
 	var mp: Button = UIKit.icon_button("icon_levels", "blue", 84)
-	mp.pressed.connect(func() -> void: Game.goto_back_from(level.level_id))
+	mp.pressed.connect(func() -> void:
+		mp.disabled = true
+		Ads.match_break(level.level_id, func() -> void: Game.goto_back_from(level.level_id)))
 	var rs: Button = UIKit.icon_button("icon_restart", "orange", 84)
 	rs.pressed.connect(func() -> void:
+		rs.disabled = true
 		Analytics.event("level_retry", {"level_id": level.level_id})
-		level.restart())
+		Ads.match_break(level.level_id, level.restart))
 	btns.add_child(mp)
 	btns.add_child(rs)
 	if bool(info.get("replay", false)):
@@ -660,7 +668,7 @@ func show_result(won: bool, stars: int, score: int, earned: Dictionary, has_next
 		nx.pressed.connect(func() -> void:
 			nx.disabled = true
 			var next_id: int = level.level_id + 1
-			Ads.next_level_break(level.level_id, func() -> void: Game.goto_level_entry(next_id)))
+			Ads.match_break(level.level_id, func() -> void: Game.goto_level_entry(next_id)))
 		btns.add_child(nx)
 	v.add_child(btns)
 	_celebrate_result(won, stars, score, earned, info, star_nodes, score_l, cr, wallet)

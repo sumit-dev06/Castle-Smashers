@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bkq46a3inro5m"
-path="res://.godot/imported/hero_stone_lava.svg-c48a6ba27f51fb4128396a92b6f94a58.ctex"
+uid="uid://c0tcwl53ra2pu"
+path="res://.godot/imported/addon_viking.svg-adab0ad277f7054c5a317761cff6c3bd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/svg/hero_stone_lava.svg"
-dest_files=["res://.godot/imported/hero_stone_lava.svg-c48a6ba27f51fb4128396a92b6f94a58.ctex"]
+source_file="res://assets/art/svg/addon_viking.svg"
+dest_files=["res://.godot/imported/addon_viking.svg-adab0ad277f7054c5a317761cff6c3bd.ctex"]
 
 [params]
 

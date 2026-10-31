@@ -27,7 +27,7 @@ python3 tools/gen_levels.py                         # rebuild levels from tools/
 python3 tools/make_app_icon.py                      # app icon (adaptive layers, 192, 512, Play Store) from art_source/brand
 $GODOT --path . -- --map | --story=N | --level=N | --loadout=N | --workshop | --challenges | --challenge=N   # jump to a screen
 $GODOT --path . -- --meta=spin|daily|shop|upgrades|skins|achievements   # meta screens; --no-popups skips the daily popup
-$GODOT --path . -- --training=fire | --meta=shop --tab=rocks | --energy-popup=2 | --rename-popup   # debug previews
+$GODOT --path . -- --training=fire | --meta=shop --tab=addons | --addons=crown,shades | --energy-popup=2 | --rename-popup   # debug previews
 $GODOT --path . -- --level=11 --debug-roll                    # print rolling-log rams
 $GODOT --path . -- --level=N --force-win=1 --screenshot=build/shots/r.png --shot-delay=9   # results screen capture (debug)
 $GODOT --headless --path . --editor --quit          # refresh the class cache after adding a class_name file
@@ -74,7 +74,7 @@ Test device: Realme RMX3870, Android 16 (API 36), 1080×2400 (20:9), 480 dpi, ar
    notifications only in `Notifications`). Gameplay never calls a plugin
    directly. Both autoloads must work (as no-op stubs) when the Android plugin is missing, so the
    game runs on desktop.
-6. Never show an interstitial ad mid-level or on the first session. See `docs/MONETIZATION.md`.
+6. Never show an interstitial ad during play; only at a break between matches (`Ads.match_break`). See `docs/MONETIZATION.md`.
 7. Art: follow `docs/ART_DIRECTION.md` and `docs/reference/level_style_reference.png` (the owner's
    target look). Glossy cartoon with a **thin dark-brown outline `#3a2212`** on every piece.
    Never copy Rovio characters, birds, pigs or the slingshot shape.

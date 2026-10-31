@@ -81,18 +81,9 @@ func _apply_ability_mult(mult: float) -> void:
 static func make_sprite(hero_kind: String, suffix: String = "") -> Sprite2D:
 	var c: Dictionary = Data.projectiles[hero_kind]
 	var art: String = String(c["texture"])
-	if hero_kind == "stone" and not rock_skin().is_empty():
-		return Art.hero_sprite("hero_stone_" + rock_skin(), float(c["radius"]))  # skins have no hit pose
-	return Art.hero_sprite(art + suffix, float(c["radius"]))
-
-
-## Equipped Rocky skin id ("" = classic). Only counts while the Play purchase is owned.
-static func rock_skin() -> String:
-	var id: String = String(Save.data.get("rock_skin", ""))
-	var skins: Dictionary = Data.balance["cosmetics"]["rock_skins"]
-	if id.is_empty() or not skins.has(id) or not Store.owns(String(skins[id]["product"])):
-		return ""
-	return id
+	var s: Sprite2D = Art.hero_sprite(art + suffix, float(c["radius"]))
+	HeroAddons.attach(s, hero_kind, art + suffix)
+	return s
 
 
 func launch(pos: Vector2, vel: Vector2) -> void:

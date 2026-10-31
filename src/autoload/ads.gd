@@ -17,8 +17,6 @@ const TEST_INTERSTITIAL: String = "ca-app-pub-3940256099942544/1033173712"
 const TEST_REWARDED: String = "ca-app-pub-3940256099942544/5224354917"
 
 var _last_interstitial_ms: int = -1000000000
-## Levels finished (win or lose) since the last interstitial.
-var levels_since: int = 0
 var _backend: RefCounted = null
 
 
@@ -73,12 +71,17 @@ func unit_ids() -> Array[String]:
 	return ids
 
 
-## Results screen: a level ended (win or lose).
-func level_finished() -> void:
-	levels_since += 1
+## One match played (a level finished, or left/restarted after a shot). Saved, so the count
+## survives app restarts.
+func match_played() -> void:
+	Save.data["ad_matches"] = int(Save.data.get("ad_matches", 0)) + 1
 
 
-## True when tapping NEXT may show an interstitial now (every frequency rule).
+func matches_since() -> int:
+	return int(Save.data.get("ad_matches", 0))
+
+
+## True when the next break may show an interstitial (every frequency rule).
 func interstitial_due(level_id: int) -> bool:
 	if ads_removed():
 		return false
@@ -86,17 +89,22 @@ func interstitial_due(level_id: int) -> bool:
 		return false
 	if level_id < int(Data.b("ads", "interstitial_min_level")):
 		return false
-	if levels_since < int(Data.b("ads", "interstitial_every_levels")):
+	if matches_since() < int(Data.b("ads", "interstitial_every_matches")):
 		return false
 	return Time.get_ticks_msec() - _last_interstitial_ms >= int(Data.b("ads", "interstitial_min_gap_s")) * 1000
 
 
-## NEXT button: show the interstitial if due, then run `then` once it closes (or right away).
-func next_level_break(level_id: int, then: Callable) -> void:
+## A break between matches (results NEXT / RETRY / MAP, pause MAP / RESTART): show the
+## interstitial if due, then run `then` once it closes (or right away). If no ad is loaded the
+## count is kept, so it shows at the next break instead.
+func match_break(level_id: int, then: Callable) -> void:
 	if not interstitial_due(level_id) or _backend == null or not bool(_backend.call("has_interstitial")):
+		if _backend != null and interstitial_due(level_id):
+			_backend.call("load_interstitial")
 		then.call()
 		return
-	levels_since = 0
+	Save.data["ad_matches"] = 0
+	Save.write()
 	_last_interstitial_ms = Time.get_ticks_msec()
 	Analytics.event("interstitial_shown", {"level_id": level_id})
 	Analytics.set_crash_key("phase", "ad_interstitial")

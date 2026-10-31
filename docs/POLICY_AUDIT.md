@@ -24,8 +24,8 @@ policies, and Android platform rules. **Pass** = verified in code/tests/device;
 | Consent can be changed later (EU User Consent Policy, US states) | Pass | Settings → Ad Privacy (shown when UMP says privacy options are required) re-opens the form via `Ads.show_privacy_options()`. Owner: in AdMob → Privacy & messaging create the GDPR message and the US states message |
 | Ad content suits the audience | Pass | `max_ad_content_rating` = PG, matching the Everyone / PEGI 7 content rating |
 | Rewarded ads are opt-in and say what you get | Pass | Every button reads "WATCH AD: …" with a video icon (spin, +1 Rocky, double coins) |
-| No interstitials at unexpected moments | Pass | Only after tapping NEXT, never mid-level/Retry/app open; tests cover pacing |
-| Interstitial frequency reasonable | Pass | 1 per 4 levels, ≥ 90 s apart, none before L4 or in the first session |
+| No interstitials at unexpected moments | Pass | Only at a break the player chose (results Next/Retry/Map, pause Map/Restart), never during play or on app open; tests cover pacing |
+| Interstitial frequency reasonable | Pass | 1 per 4 matches, ≥ 60 s apart, none before level 3 |
 | Ads not placed to cause accidental clicks | Pass | No banners, no ad next to buttons |
 | Remove Ads actually removes all ads | Pass | `Ads.ads_removed()` blocks every format and shuts the SDK down |
 | Ads declaration in Play Console = Yes | Owner | |
@@ -33,7 +33,7 @@ policies, and Android platform rules. **Pass** = verified in code/tests/device;
 
 - Energy refill ad is opt-in, names its reward, and is limited to one level at a time.
 - Full-screen ads use `Theme.CastleAd` (castle_notify AAR) on AdActivity: fullscreen, edge-to-edge under the cutout.
-- Rocky skins are cosmetic only; no gameplay advantage.
+- Rocky addons (hats, glasses) are cosmetic only; no gameplay advantage.
 
 ## Privacy and data
 | Rule | Status | Evidence |

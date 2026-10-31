@@ -11,7 +11,7 @@ Setup steps for the consoles: `BILLING_SETUP.md` (Play), `FIREBASE_SETUP.md`, an
 | Rewarded | Out of boulders: "WATCH AD: +1 Rocky" | Once per attempt. After that: Hellfire or Give up/replay |
 | Rewarded | Win screen: "WATCH AD: +N coins" (doubles the level's coins) | Once per result screen |
 | Rewarded | Out of energy: "WATCH AD" in the exhausted popup (placement `energy_refill`) | Pays for that one level; the next level needs rested bars |
-| Interstitial | Only when the player taps **NEXT** on the result screen | After every 4 finished levels (`ads.every_levels`), never before level 4 (`min_level`), never in the first session, at least 90 s apart (`gap_s`). Map, Retry, Home and mid-level never show one |
+| Interstitial | At the break after a match: the player taps **NEXT**, **RETRY** or **MAP** on the result screen, or **MAP** / **RESTART** in the pause menu | One per 4 matches (`ads.interstitial_every_matches`). A match is any attempt that ended, or was left or restarted after the first shot; wins and losses both count, training never. Count is saved across app restarts. Never during play, never before level 3, at least 60 s apart. If no ad is loaded the count is kept and it shows at the next break |
 | Banner / app-open | Not used | They clash with the art and annoy players |
 
 - **Remove Ads** turns off every format. Rewards that used to need a video (extra spins, +1 Rocky,
@@ -27,12 +27,12 @@ Setup steps for the consoles: `BILLING_SETUP.md` (Play), `FIREBASE_SETUP.md`, an
 - The AdMob **App ID** goes in project setting `admob/general/android/app_id`. It is still Google's
   test App ID `ca-app-pub-3940256099942544~3347511713`: replace it before release.
 
-### Why interstitials only on NEXT after 4 levels
-The player has just finished and chosen to move on, so a break there costs no progress and no
-frustration. Retry stays clean because a player who just failed is the most likely to quit if
-shown an ad. Four levels at roughly 1-2 minutes each is about one interstitial every 5-8 minutes,
-which matches what casual physics games run without hurting day-1 retention. Increase
-`every_levels` if retention drops, decrease it only after looking at Firebase data.
+### Why one interstitial per 4 matches
+The owner asked for one ad per 4 matches, counting retries, not only new levels. The ad still
+appears only at a break the player chose (a results or pause button), so it never interrupts play,
+which is what the AdMob "unexpected interstitial" policy forbids. A match counts once its first
+shot is fired, so opening and quitting a level does not count. Raise `interstitial_every_matches`
+if day-1 retention drops; lower it only after looking at Firebase data.
 
 ## In-app products (Google Play Billing)
 | Product ID | Type | US price | Gives |

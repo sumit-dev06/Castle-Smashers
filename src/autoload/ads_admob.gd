@@ -70,6 +70,7 @@ func load_interstitial() -> void:
 		ad.full_screen_content_callback = c
 	cb.on_ad_failed_to_load = func(e: LoadAdError) -> void:
 		push_warning("Ads: interstitial failed to load: %s" % e.message)
+		_retry(load_interstitial)
 	InterstitialAdLoader.new().load(interstitial_id, AdRequest.new(), cb)
 
 
@@ -79,6 +80,13 @@ func _drop_interstitial() -> void:
 	_interstitial = null
 	interstitial_closed.emit()
 	load_interstitial()
+
+
+## A failed load is tried again after ads.load_retry_s (no fill, offline).
+func _retry(fn: Callable) -> void:
+	var tree: SceneTree = Engine.get_main_loop() as SceneTree
+	if tree and not stopped:
+		tree.create_timer(float(Data.b("ads", "load_retry_s")), true, false, true).timeout.connect(fn)
 
 
 func has_interstitial() -> bool:
@@ -117,6 +125,7 @@ func load_rewarded() -> void:
 		ad.full_screen_content_callback = c
 	cb.on_ad_failed_to_load = func(e: LoadAdError) -> void:
 		push_warning("Ads: rewarded failed to load: %s" % e.message)
+		_retry(load_rewarded)
 	RewardedAdLoader.new().load(rewarded_id, AdRequest.new(), cb)
 
 

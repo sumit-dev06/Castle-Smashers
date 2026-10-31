@@ -7,7 +7,7 @@ extends MetaFrame
 ## Owned, Unavailable. In-game items (gold, skins) go through Save.spend.
 
 const TABS: Array = [["crates", "Crates", "chest_open"], ["noads", "Remove Ads", "icon_noads"], ["gold", "Gold", "coin"],
-		["skins", "Skins", "icon_skins"], ["rocks", "Rock Skins", "hero_stone"], ["weapons", "Siege Engines", "icon_weapon_trebuchet"]]
+		["skins", "Skins", "icon_skins"], ["addons", "Hero Addons", "addon_crown"], ["weapons", "Siege Engines", "icon_weapon_trebuchet"]]
 const CRATE_COLORS: Dictionary = {"hellfire_crate": Color("#7a1a0a"), "coin_crate": Color("#6a4a0a"), "gem_crate": Color("#4a1a7a")}
 
 var tab: String = "crates"
@@ -135,13 +135,17 @@ func _show() -> void:
 					r5 = _row(v)
 				r5.add_child(_skin_card(sid, skins[sid]))
 				n += 1
-		"rocks":
+		"addons":
+			var note: Label = UIKit.label("Dress up Rocky: one hat and one pair of glasses at a time. Looks only.", 20, Color("#f4e2b8"), 5, false)
+			note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			v.add_child(note)
 			var r6: HBoxContainer = _row(v)
-			r6.add_child(_rock_card("", {"name": "Classic Rocky", "desc": "The original mossy boulder."}))
-			var rocks: Dictionary = Data.balance["cosmetics"]["rock_skins"]
-			for rid: String in rocks:
-				if not rid.begins_with("_"):
-					r6.add_child(_rock_card(rid, rocks[rid]))
+			var n6: int = 0
+			for aid: String in HeroAddons.ids():
+				if n6 == 4:
+					r6 = _row(v)
+				r6.add_child(_addon_card(aid, HeroAddons.catalog()[aid]))
+				n6 += 1
 			v.add_child(_footer())
 		"weapons":
 			var r4: HBoxContainer = _row(v)
@@ -326,30 +330,29 @@ func _skin_card(id: String, c: Dictionary) -> Control:
 	return parts[0]
 
 
-## Rocky skin: Play price until owned, then EQUIP / EQUIPPED. id "" is the free classic look.
-func _rock_card(id: String, c: Dictionary) -> Control:
-	var parts: Array = _card(Color("#3a2414"), 240, 380)
+## Rocky addon: Rocky wearing it, then the Play price until owned, then WEAR / TAKE OFF.
+func _addon_card(id: String, c: Dictionary) -> Control:
+	var parts: Array = _card(Color("#3a2414"), 240, 360)
 	var v: VBoxContainer = parts[1]
-	v.add_child(UIKit.tex_rect("hero_stone" if id.is_empty() else "hero_stone_" + id, 120))
+	var pv: Control = HeroAddons.preview("stone", [id], 140)
+	pv.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	v.add_child(pv)
 	v.add_child(UIKit.label(String(c["name"]), 24, Color("#ffd23a"), 7))
 	var d: Label = UIKit.label(String(c["desc"]), 16, Color("#f4e2b8"), 4, false)
 	d.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	d.custom_minimum_size.x = 200
 	d.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(d)
-	var product: String = String(c.get("product", ""))
-	var owned: bool = id.is_empty() or Store.owns(product)
-	if not owned:
+	var product: String = String(c["product"])
+	if not HeroAddons.owns(id):
 		v.add_child(_iap_button(product))
 		_cards[product] = parts[0]
 	else:
-		var on: bool = Projectile.rock_skin() == id
-		var b: Button = UIKit.button("EQUIPPED" if on else "EQUIP", "dark" if on else "green", 24, Vector2(190, 60))
-		b.disabled = on
+		var on: bool = HeroAddons.is_on(id)
+		var b: Button = UIKit.button("TAKE OFF" if on else "WEAR", "orange" if on else "green", 24, Vector2(190, 60))
 		b.pressed.connect(func() -> void:
 			Sound.play("upgrade")
-			Save.data["rock_skin"] = id
-			Save.write()
+			HeroAddons.toggle(id)
 			_show.call_deferred())
 		UIFx.press_juice(b)
 		v.add_child(b)
@@ -358,9 +361,8 @@ func _rock_card(id: String, c: Dictionary) -> Control:
 
 func _on_granted(product_id: String, gives: Dictionary) -> void:
 	var name: String = String(Store.product(product_id).get("name", "Purchase"))
-	if product_id.begins_with("rocky_skin_"):
-		Save.data["rock_skin"] = product_id.trim_prefix("rocky_skin_")
-		Save.write()
+	if product_id.begins_with("addon_") and not HeroAddons.is_on(product_id.trim_prefix("addon_")):
+		HeroAddons.toggle(product_id.trim_prefix("addon_"))
 	_say("%s delivered. Thank you!" % name, Color("#9aff8a"))
 	var card: Control = _cards.get(product_id)
 	if card and is_instance_valid(card):
