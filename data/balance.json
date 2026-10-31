@@ -806,19 +806,91 @@
     "no_ad_text": "No video available right now. Try again in a moment."
   },
   "training": {
-    "_doc": "Practice range before the first level with a new hero (Level.training, data/training). Coach texts per step: aim (hero loaded), tap (in flight), done (ability used), again (next shots).",
+    "_doc": "Practice range before the first level with a new hero (Level.training, data/training). Opens with a How-to card (title, steps, best). In flight, when the hero passes the fort front + tap_dx (or falls short), time slows to slowmo_scale and a TAP NOW prompt shows the 'tap' text until the ability is used or prompt_hold_s real seconds pass. Other steps: aim (hero loaded), fly (launched), done (ability used), again (after a good shot), missed (no tap last shot).",
     "hint_s": 5.0,
     "done_title": "TRAINING DONE!",
     "done_body": "You know how %s works. Time for the real battle!",
     "retry_title": "GOOD PRACTICE!",
     "retry_body": "%s is ready for battle. Practise again, or march on.",
     "coach": {
-      "stone": {"aim": "This is Rocky! Drag back and let go to fling him at the stone tower.", "tap": "TAP NOW! Rocky slams straight down, heavy as a mountain.", "done": "The slam smashes through stone and the guards under it.", "again": "Fly above the tower, then tap to slam down."},
-      "fire": {"aim": "Meet Blaze! Drag back and let go to fling him at the tower.", "tap": "TAP NOW! Blaze dashes forward and sets wood on fire.", "done": "Fire spreads along every wooden beam it touches.", "again": "Hit the wooden tower, then tap to dash."},
-      "bomb": {"aim": "Meet Boomer! Fling him into the guards.", "tap": "TAP to explode! (He also blows up by himself after landing.)", "done": "Boom! One blast hits everything nearby.", "again": "Land between the guards, then tap to explode."},
-      "cyclone": {"aim": "Meet Twister! Fling him over the tall tower.", "tap": "TAP to turn into a tornado!", "done": "The tornado lifts light planks and guards and throws them.", "again": "Fly over the planks, then tap for the tornado."},
-      "quake": {"aim": "Meet Quaky! Fling him in front of the tower.", "tap": "TAP to dive and shake the ground!", "done": "The shockwave shakes the tower's legs. Weak supports break first.", "again": "Tap above the ground near the tower for a big quake."}
-    }
+      "stone": {
+        "title": "Rocky's SLAM",
+        "steps": [
+          "Drag back on the catapult and let go to fling Rocky.",
+          "While he is flying over the tower, tap anywhere on the screen.",
+          "Rocky drops straight down like a boulder and crushes stone and the guards below."
+        ],
+        "best": "Best on: stone towers and guards under a roof.",
+        "tap_dx": 30,
+        "aim": "This is Rocky! Drag back and let go to fling him at the stone tower.",
+        "tap": "Rocky is over the tower. Tap to slam down!",
+        "done": "The slam smashes through stone and the guards under it.",
+        "again": "Fly above the tower, then tap to slam down."
+      },
+      "fire": {
+        "title": "Blaze's FIRE DASH",
+        "steps": [
+          "Drag back on the catapult and let go to fling Blaze.",
+          "Before he reaches the tower, tap anywhere on the screen.",
+          "He speeds forward and sets the wood he touches on fire. The fire keeps spreading along wood."
+        ],
+        "best": "Best on: wooden towers. Weak against stone.",
+        "tap_dx": -320,
+        "aim": "Meet Blaze! Drag back and let go to fling him at the tower.",
+        "tap": "Tap to dash into the wood!",
+        "done": "Fire spreads along every wooden beam it touches.",
+        "again": "Hit the wooden tower, then tap to dash."
+      },
+      "bomb": {
+        "title": "Boomer's BOOM",
+        "steps": [
+          "Fling Boomer into the middle of the guards.",
+          "Tap anywhere on the screen to blow him up, in the air or after he lands.",
+          "If you don't tap, he explodes by himself a moment after landing."
+        ],
+        "best": "Best on: guards standing close together.",
+        "tap_dx": 40,
+        "aim": "Meet Boomer! Fling him into the guards.",
+        "tap": "He is among the guards. Tap to explode!",
+        "done": "Boom! One blast hits everything nearby.",
+        "again": "Land between the guards, then tap to explode."
+      },
+      "cyclone": {
+        "title": "Twister's TORNADO",
+        "steps": [
+          "Fling Twister high, towards the top of the tower.",
+          "When he is above the planks, tap anywhere on the screen.",
+          "He turns into a tornado that lifts light planks and guards and throws them away."
+        ],
+        "best": "Best on: light wood and guards in the open. Weak against stone.",
+        "tap_dx": -60,
+        "aim": "Meet Twister! Fling him over the tall tower.",
+        "tap": "Tap to become a tornado!",
+        "done": "The tornado lifts light planks and guards and throws them.",
+        "again": "Fly over the planks, then tap for the tornado."
+      },
+      "quake": {
+        "title": "Quaky's EARTHBREAK",
+        "steps": [
+          "Fling Quaky towards the tower.",
+          "Just in front of the tower, tap anywhere on the screen.",
+          "He dives into the ground and the shockwave shakes the whole fort. Thin legs break first."
+        ],
+        "best": "Best on: towers standing on thin supports.",
+        "tap_dx": -200,
+        "aim": "Meet Quaky! Fling him in front of the tower.",
+        "tap": "Tap to dive into the ground!",
+        "done": "The shockwave shakes the tower's legs. Weak supports break first.",
+        "again": "Tap above the ground near the tower for a big quake."
+      }
+    },
+    "slowmo_scale": 0.25,
+    "prompt_hold_s": 3.5,
+    "intro_sub": "How to use %s",
+    "intro_button": "LET'S TRY!",
+    "tap_now": "TAP NOW!",
+    "fly": "Watch %s fly. Get ready to tap!",
+    "missed": "You didn't tap that time. When TAP NOW shows, tap anywhere on the screen."
   },
   "profile": {
     "_doc": "Commander name on the home card (MainMenu._open_rename). Free from free_rename_level, otherwise rename_gems.",

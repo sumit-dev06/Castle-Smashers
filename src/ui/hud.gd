@@ -185,6 +185,114 @@ func training_skip(on_skip: Callable) -> void:
 	_root.add_child(b)
 
 
+## Training range opener: what the hero's tap ability does and the three steps to use it.
+## The game is paused until LET'S TRY. Texts: balance.training.coach.<hero>.
+func show_training_intro(hero: String, on_go: Callable) -> void:
+	var cfg: Dictionary = Data.balance["training"]
+	var c: Dictionary = (cfg["coach"] as Dictionary)[hero]
+	var hero_name: String = String(Data.projectiles[hero]["name"])
+	get_tree().paused = true
+	Sound.play("popup_open", 0.7)
+	var v: VBoxContainer = _open_popup()
+	v.add_theme_constant_override("separation", 8)
+	var head: HBoxContainer = HBoxContainer.new()
+	head.alignment = BoxContainer.ALIGNMENT_CENTER
+	head.add_theme_constant_override("separation", 14)
+	var face: TextureRect = UIKit.tex_rect(String(Data.projectiles[hero]["texture"]), 84)
+	head.add_child(face)
+	var tv: VBoxContainer = VBoxContainer.new()
+	tv.add_theme_constant_override("separation", 0)
+	tv.add_child(UIKit.label(String(c["title"]), 40, Color("#ffd23a"), 10))
+	tv.add_child(UIKit.label(String(cfg["intro_sub"]) % hero_name, 22, UIKit.TEXT_DARK, 0, false))
+	head.add_child(tv)
+	v.add_child(head)
+	var steps: Array = c["steps"]
+	var icons: Array = ["hand", "hand", String(Data.projectiles[hero]["texture"])]
+	for i: int in steps.size():
+		var row: HBoxContainer = HBoxContainer.new()
+		row.add_theme_constant_override("separation", 12)
+		var num: Label = UIKit.label(str(i + 1), 30, Color.WHITE, 8)
+		num.custom_minimum_size = Vector2(34, 0)
+		num.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		row.add_child(num)
+		var ic: TextureRect = UIKit.tex_rect(String(icons[mini(i, icons.size() - 1)]), 44)
+		ic.custom_minimum_size.x = 48
+		if i == 1:
+			# Step 2 is the tap: the hand pulses like a finger tapping.
+			ic.pivot_offset = Vector2(24, 22)
+			var tw: Tween = ic.create_tween().set_loops()
+			tw.tween_property(ic, "scale", Vector2.ONE * 0.8, 0.25)
+			tw.tween_property(ic, "scale", Vector2.ONE, 0.35)
+		row.add_child(ic)
+		var tl: Label = UIKit.body(String(steps[i]), 21)
+		tl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		tl.custom_minimum_size.x = 440
+		tl.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		row.add_child(tl)
+		v.add_child(row)
+	var best: Label = UIKit.body(String(c["best"]), 20, Color("#2f7a2a"))
+	best.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	best.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	best.custom_minimum_size.x = 520
+	v.add_child(best)
+	var go: Button = UIKit.button(String(cfg["intro_button"]), "green", 30, Vector2(260, 72))
+	go.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	go.pressed.connect(func() -> void:
+		Sound.play("play_press")
+		get_tree().paused = false
+		close_popup()
+		on_go.call())
+	UIFx.press_juice(go)
+	v.add_child(go)
+
+
+var _prompt: Control
+
+
+## Training: big "TAP NOW!" with a tapping hand while time runs slow. Input passes through it.
+func coach_prompt(text: String) -> void:
+	coach_prompt_hide()
+	hide_hint()
+	_prompt = VBoxContainer.new()
+	_prompt.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	(_prompt as VBoxContainer).alignment = BoxContainer.ALIGNMENT_CENTER
+	(_prompt as VBoxContainer).add_theme_constant_override("separation", 4)
+	UIKit.place(_prompt, Vector2(0.5, 0.5), Vector2(-360, -40), Vector2(720, 260))
+	var big: Label = UIKit.label(String(Data.balance["training"]["tap_now"]), 76, Color("#ffd23a"), 14)
+	big.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	big.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_prompt.add_child(big)
+	var sub: Label = UIKit.label(text, 28, Color.WHITE, 8)
+	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	sub.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_prompt.add_child(sub)
+	var hand: TextureRect = UIKit.tex_rect("hand", 90)
+	hand.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hand.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	hand.custom_minimum_size = Vector2(90, 90)
+	hand.pivot_offset = Vector2(45, 20)
+	_prompt.add_child(hand)
+	_root.add_child(_prompt)
+	big.pivot_offset = Vector2(360, 40)
+	var tw: Tween = _prompt.create_tween().set_loops().set_ignore_time_scale(true)
+	tw.tween_property(big, "scale", Vector2.ONE * 1.12, 0.22)
+	tw.parallel().tween_property(hand, "scale", Vector2.ONE * 0.78, 0.22)
+	tw.tween_property(big, "scale", Vector2.ONE, 0.28)
+	tw.parallel().tween_property(hand, "scale", Vector2.ONE, 0.28)
+
+
+func coach_prompt_hide() -> void:
+	if _prompt and is_instance_valid(_prompt):
+		_prompt.queue_free()
+	_prompt = null
+
+
+func hide_hint() -> void:
+	if _hint_tw:
+		_hint_tw.kill()
+	_hint_box.modulate.a = 0.0
+
+
 ## End of a training range: well done (or try again), then on to the real level.
 func show_training_done(won: bool, hero: String) -> void:
 	var cfg: Dictionary = Data.balance["training"]

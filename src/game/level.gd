@@ -227,6 +227,8 @@ func _ready() -> void:
 	else:
 		hud.set_title_text(String(data.get("name", "")))
 		hud.training_skip(leave_training)
+		if not test_mode and not Game.args.has("autoshot"):
+			hud.show_training_intro.call_deferred(training, _coach.bind("aim"))
 	if mode:
 		add_child(mode)
 		mode.setup()
@@ -509,6 +511,7 @@ func _layout_waiting() -> void:
 
 
 func _process(_delta: float) -> void:
+	_tick_coach()
 	var t: float = Time.get_ticks_msec() * 0.001
 	# Waiting heroes sit on the ground and breathe (squash), so they never look like they float.
 	for i: int in _waiting.size():
@@ -783,7 +786,7 @@ func fire_hero(vel: Vector2) -> void:
 	_reload_t = Data.bf("catapult", "reload_s") * _w_reload
 	_update_hud()
 	_hide_tutorial()
-	_coach("tap")
+	_coach_shot_start()
 	if not test_mode:
 		Analytics.set_crash_key("phase", "physics")
 		Analytics.set_crash_key("projectile", kind)
@@ -1205,10 +1208,13 @@ func _hide_dots() -> void:
 func _coach(step: String) -> void:
 	if training.is_empty():
 		return
-	var texts: Dictionary = (Data.balance["training"]["coach"] as Dictionary).get(training, {})
-	if step == "aim" and _coach_tapped:
-		step = "again"
+	var cfg: Dictionary = Data.balance["training"]
+	var texts: Dictionary = (cfg["coach"] as Dictionary).get(training, {})
 	var text: String = String(texts.get(step, ""))
+	if step == "aim" and _coach_shots > 0:
+		text = String(texts["again"]) if _coach_shot_tapped else String(cfg["missed"])
+	elif step == "fly":
+		text = String(cfg["fly"]) % String(Data.projectiles[training]["name"])
 	if not text.is_empty():
 		hud.hint(text, float(Data.balance["training"]["hint_s"]), String(Data.projectiles[training]["texture"]) if step != "done" else "icon_check")
 
@@ -1223,9 +1229,73 @@ func leave_training() -> void:
 
 
 func coach_ability_used() -> void:
-	if not training.is_empty() and not _coach_tapped:
+	if training.is_empty():
+		return
+	_coach_shot_tapped = true
+	_coach_prompt_end()
+	if not _coach_tapped:
 		_coach_tapped = true
 		_coach("done")
+
+
+var _coach_shots: int = 0
+var _coach_shot_tapped: bool = false
+var _coach_prompted: bool = false
+var _coach_prompt_ms: int = -1
+var _coach_front_x: float = 0.0
+
+
+## A shot on the training range: remember where the fort starts so the TAP NOW prompt can show
+## when the hero gets there (front + tap_dx).
+func _coach_shot_start() -> void:
+	if training.is_empty():
+		return
+	_coach_shots += 1
+	_coach_shot_tapped = false
+	_coach_prompted = false
+	_coach_front_x = INF
+	for b: Block in blocks:
+		if is_instance_valid(b) and not b.dead:
+			_coach_front_x = minf(_coach_front_x, b.global_position.x - b.size.x * 0.5)
+	_coach("fly")
+
+
+## Per frame on the training range: slow time and show TAP NOW at the right moment; end it once the
+## ability fires, the hero lands (Boomer can still be tapped after landing) or prompt_hold_s pass.
+func _tick_coach() -> void:
+	if training.is_empty() or test_mode or not is_instance_valid(projectile):
+		if _coach_prompt_ms >= 0 and not is_instance_valid(projectile):
+			_coach_prompt_end()
+		return
+	var p: Projectile = projectile
+	var cfg: Dictionary = Data.balance["training"]
+	if _coach_prompt_ms >= 0:
+		var gone: bool = p.done or p.ability_used or (p.impacted and p.kind != "bomb")
+		if gone or Time.get_ticks_msec() - _coach_prompt_ms > int(float(cfg["prompt_hold_s"]) * 1000.0):
+			_coach_prompt_end()
+		return
+	if _coach_prompted or p.done or p.ability_used or (p.impacted and p.kind != "bomb"):
+		return
+	var dx: float = float(((cfg["coach"] as Dictionary)[training] as Dictionary)["tap_dx"])
+	var there: bool = p.global_position.x >= _coach_front_x + dx
+	var short: bool = p.linear_velocity.y > 0.0 and p.global_position.y > -120.0
+	if there or short or p.impacted:
+		_coach_prompted = true
+		_coach_prompt_ms = Time.get_ticks_msec()
+		_slowmo = true
+		Engine.time_scale = float(cfg["slowmo_scale"])
+		Sound.play("slowmo", 0.8)
+		hud.coach_prompt(String(((cfg["coach"] as Dictionary)[training] as Dictionary)["tap"]))
+
+
+func _coach_prompt_end() -> void:
+	if _coach_prompt_ms < 0:
+		return
+	_coach_prompt_ms = -1
+	_slowmo = false
+	Engine.time_scale = 1.0
+	Sound.play("slowmo_out", 0.7)
+	hud.coach_prompt_hide()
 
 
 # ------------------------------------------------------------------------------------ tutorial
