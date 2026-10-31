@@ -101,11 +101,12 @@
 			<p>The game only sends events from a fixed list. It drops any other event before it leaves your phone. Events never contain your name, email, contacts, payment details or anything you type.</p>
 			<ul>
 				<li>Game start and end, session count and length, days since install</li>
-				<li>Level started, completed, failed or retried, with level number, attempt, stars, score, time, shots and heroes used</li>
-				<li>Tutorial finished</li>
-				<li>Rewarded ad watched and full-screen ad shown, with the level and reward</li>
-				<li>Purchases and failed purchases (product and reward only), crates opened, coins spent on upgrades and skins</li>
+				<li>Level started, completed, failed, retried or left from the pause menu, with level number, attempt, stars, score, time, shots and heroes used</li>
+				<li>Tutorial started and finished</li>
+				<li>Rewarded ad watched or failed to load, and full-screen ad shown, with the level and reward</li>
+				<li>Purchases started, completed or failed (product and reward only), crates opened, coins spent on upgrades and skins</li>
 				<li>Daily spin used and notification opened</li>
+				<li>Google Play rating card requested and update offered (with the new version number)</li>
 			</ul>
 			<p>Firebase also records a few standard events on its own, such as first open and app update. Crash reports are sent the next time you open the game after a crash.</p>
 			<p>You can turn off both analytics and crash reports in <strong>Settings &rarr; Analytics</strong>. Nothing more is collected until you turn it back on.</p>
@@ -120,6 +121,9 @@
 
 			<h2 id="purchases">6. Purchases</h2>
 			<p>Purchases are handled by Google Play. Your card or other payment details go to Google and never reach us. The game receives a purchase record (product, order ID and purchase token) to give you the item and to restore Remove Ads. Refunds follow <a href="https://support.google.com/googleplay/answer/2479637">Google Play's refund policy</a>.</p>
+
+			<h2 id="play">Ratings and updates</h2>
+			<p>The game can ask Google Play to show its rating card after you win a level, and can ask Google Play whether a newer version of the game exists. Both run inside the Google Play Store app on your phone. Your rating and review go to Google Play under your Play account, and we only see what Google shows on the public store page.</p>
 
 			<h2 id="device">7. Data kept on your device</h2>
 			<p>Your levels, stars, coins, upgrades, skins and settings are stored in a save file inside the game's private storage on your phone. We cannot see it. It is deleted when you uninstall the game or clear its storage in Android settings. If backup is turned on in your phone settings, Android saves a copy of this one file in your Google account backup (encrypted by Google, not sent to us) and puts it back when you reinstall the game or move to a new phone. You can turn this off in Android Settings → Google → Backup.</p>

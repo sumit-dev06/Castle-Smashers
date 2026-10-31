@@ -1,74 +1,86 @@
-# Policy compliance audit (2026-10-31)
+# Policy compliance audit (final, 2026-11-01, version 1.0.0)
 
 Engineering checklist against Google Play Developer Policy, Play Billing policy, AdMob program
-policies, and Android platform rules. **Pass** = verified in code/tests/device;
-**Owner** = needs a console action. This is an engineering review, not legal advice.
+policies and Android platform rules, checked on the release bundle, the live website and the
+automated tests. **Pass** = verified; **Owner** = a Play Console / AdMob action (steps in
+`docs/FINAL_RELEASE_STEPS.md`). This is an engineering review, not legal advice.
 
 ## Google Play Billing / Payments
 | Rule | Status | Evidence |
 |---|---|---|
-| Digital goods sold only through Play Billing | Pass | All four products go through `Store` → GodotGooglePlayBilling 3.3.0 (Billing Library 9.1, above the required v7+) |
-| Purchases acknowledged/consumed within 3 days | Pass | Consumables consumed and Remove Ads acknowledged right after the reward is saved; unfinished ones are retried at every launch and resume |
+| Digital goods sold only through Play Billing | Pass | All 11 products (`balance.shop.order`) go through `Store` → Billing Library 9.1.0 |
+| Product IDs match Play Console | Pass | coin_crate, gem_crate, hellfire_crate, remove_ads, addon_pirate_hat, addon_cap, addon_crown, addon_viking, addon_top_hat, addon_shades, addon_specs (owner created all 11, purchase option `buy`) |
+| Purchases acknowledged/consumed within 3 days | Pass | Consumed / acknowledged right after the reward is saved; unfinished ones retried at every launch and resume |
 | Rewards only for PURCHASED; pending handled | Pass | `PurchaseProcessor.process`; tests "pending grants nothing", "pending → purchased grants once" |
 | No double grant, crash recovery | Pass | Token ledger in the save, written before consume; restart test |
-| Remove Ads restorable | Pass | `query_purchases` at start + "Restore Purchases" button |
-| Prices shown are Play's localized prices | Pass | `Store.price_text` uses `formatted_price`; the US value is shown only as "(test)" in debug builds |
-| Loot boxes: odds disclosed | Pass (n/a) | Crates have fixed, displayed contents; no randomized paid items |
-| No secrets in the client | Pass | Verification goes to an owner server via `verify_url`; no service-account keys in the repo |
-| Merchant account, products, prices | Owner | `BILLING_SETUP.md` |
+| Non-consumables restorable, refunds revoked | Pass | `query_purchases` at start and on resume, Restore button; refunded addons / Remove Ads are removed |
+| Prices are Play's localized prices | Pass | `Store.price_text` from Play; products created after install are re-queried when the shop opens |
+| Loot boxes | Pass (n/a) | Crates have fixed, displayed contents |
+| Payment sheet doesn't rotate the game | Pass | `ProxyBillingActivity` / `V2` locked to `sensorLandscape` (checked in the bundle by `release.py verify`) |
+| No secrets in the client | Pass | No service-account keys in the repo or bundle |
 
 ## AdMob / Ads policy
 | Rule | Status | Evidence |
 |---|---|---|
-| Consent (UMP) before ads in EEA/UK | Pass | `ads_admob.gd` requests consent before the first load |
-| Consent can be changed later (EU User Consent Policy, US states) | Pass | Settings → Ad Privacy (shown when UMP says privacy options are required) re-opens the form via `Ads.show_privacy_options()`. Owner: in AdMob → Privacy & messaging create the GDPR message and the US states message |
-| Ad content suits the audience | Pass | `max_ad_content_rating` = T (MA blocked), set in code and in AdMob; target audience 13+, not in Families. If under-13 ages are ever targeted, drop to G/PG and join Families |
-| Rewarded ads are opt-in and say what you get | Pass | Every button reads "WATCH AD: …" with a video icon (spin, +1 Rocky, double coins) |
-| No interstitials at unexpected moments | Pass | Only at a break the player chose (results Next/Retry/Map, pause Map/Restart), never during play or on app open; tests cover pacing |
-| Interstitial frequency reasonable | Pass | 1 per 4 matches, ≥ 60 s apart, none before level 3 |
-| Ads not placed to cause accidental clicks | Pass | No banners, no ad next to buttons |
-| Remove Ads actually removes all ads | Pass | `Ads.ads_removed()` blocks every format and shuts the SDK down |
-| Ads declaration in Play Console = Yes | Owner | |
-| Real App ID / ad units, app-ads.txt | Owner | Replace the test App ID; send the AdMob publisher ID (`pub-…`) so `web/app-ads.txt` can be published at `https://castle-smashers.pages.dev/app-ads.txt`. Set the Play listing website to `https://castle-smashers.pages.dev` |
-
-- Energy refill ad is opt-in, names its reward, and is limited to one level at a time.
-- Full-screen ads use `Theme.CastleAd` (castle_notify AAR) on AdActivity: fullscreen, edge-to-edge under the cutout.
-- Rocky addons (hats, glasses) are cosmetic only; no gameplay advantage.
+| Real App ID and ad units in the release build | Pass | `ca-app-pub-1292430265619610~9195063737`, units `/6882407348` (interstitial) and `/1846749261` (rewarded), checked inside the bundle; debug builds use Google test units |
+| Consent (UMP 4.0.0) before ads; can be changed | Pass | Requested before the first load; Settings → Ad Privacy where required. GDPR + US messages published in AdMob |
+| app-ads.txt | Pass | `https://castle-smashers.pages.dev/app-ads.txt` = `google.com, pub-1292430265619610, DIRECT, f08c47fec0942fa0`. Owner: website field in the store listing must be `https://castle-smashers.pages.dev` |
+| Ad content rating | Pass | Max rating T in code and AdMob; audience 13+ |
+| Rewarded ads opt-in, reward named | Pass | "WATCH AD: …" buttons only |
+| Interstitials only at natural breaks | Pass | Only after the player taps Next/Retry/Map/Restart; 1 per 4 matches, ≥ 60 s apart, none before level 3, never during play or on app open |
+| No accidental clicks | Pass | No banners; full-screen ads use their own close button |
+| Remove Ads removes every ad | Pass | `Ads.ads_removed()` blocks every format |
+| Link the app in AdMob after it is live | Owner | AdMob → Apps → App settings → Add app store details |
 
 ## Privacy and data
 | Rule | Status | Evidence |
 |---|---|---|
-| Privacy policy linked in the app and listing | Pass | Live at `https://castle-smashers.pages.dev/privacy/` (Cloudflare Pages, source `web/`). Settings → Privacy opens it (`settings.privacy_url`). Developer Intercore, India; contact intercoreapp@gmail.com. Owner: paste the URL in Play Console → App content → Privacy policy and in the AdMob app settings |
-| Analytics without personal data | Pass | Whitelist in `Analytics.EVENTS`; tests drop unknown events |
-| User control | Pass | Settings toggles for Analytics and Reminders |
-| Data safety form | Owner | Answers in `FIREBASE_SETUP.md` |
-| AD_ID permission declared | Pass | Present in the APK manifest (needed for AdMob on Android 13+) |
+| Privacy policy in app and listing | Pass | `https://castle-smashers.pages.dev/privacy/` (live, updated 2026-11-01: new events, rating/update prompts, backup). Settings → Privacy opens it |
+| Analytics without personal data, user can turn off | Pass | Whitelist `Analytics.EVENTS` (unknown events dropped, tested); Settings → Analytics switch |
+| Support contact | Pass | Settings → Contact Support (email); same email in the listing and policy |
+| Backup | Pass | Only `save.json` + `save.json.bak` (`cs_data_rules.xml`); ad/Firebase IDs never restored |
+| Data safety form | Owner | Answers in `FIREBASE_SETUP.md`; no new data types this release |
+| Advertising ID declaration | Owner | AD_ID permission present → answer Yes (advertising + analytics) |
+| Account deletion | Pass (n/a) | The game has no accounts |
+
+## Ratings and updates (Play In-App Review / In-App Updates)
+| Rule | Status | Evidence |
+|---|---|---|
+| Review prompt not incentivised or pre-filtered | Pass | No reward, no "do you like it?" question first; Google's own card after a 3-star win from level 8, max 3 asks, 30 days apart |
+| Updates use Play's own flow | Pass | `CastlePlay.startUpdate`; immediate only for release priority ≥ 4 |
 
 ## Families / target audience
 | Rule | Status | Notes |
 |---|---|---|
-| Not directed at children | Decided | Game is for everyone but not designed for children. Set target audience **13+** (cartoon violence, ads, purchases). If you pick under-13 ages you must join the Families policy: certified ad SDK settings (`tag_for_child_directed_treatment`), no personalized ads, and different analytics settings |
-| Content rating | Owner | IARC questionnaire: cartoon/fantasy violence, in-app purchases, ads. Expect PEGI 7 / Everyone 10+ |
+| Not directed at children | Decided | Target audience **13+**. Under-13 groups would require the Families policy (child-directed ad settings, different analytics) |
+| Content rating | Owner | IARC: cartoon/fantasy violence, in-app purchases, ads; no user interaction, no location sharing |
 
-## Notifications (Android 13+ and Play spam policy)
+## Notifications (Android 13+, Play spam policy)
 | Rule | Status | Evidence |
 |---|---|---|
-| POST_NOTIFICATIONS requested at runtime, in context | Pass | Asked once after winning level 3 |
-| No spammy/misleading notifications | Pass | 1 per day max, quiet hours, real triggers only, no purchase pushes, opt-out |
-| Exact alarms not used | Pass | Inexact `AlarmManager.set`; no `SCHEDULE_EXACT_ALARM` permission needed |
+| POST_NOTIFICATIONS asked at runtime | Pass | About 1 s after the first home screen (Android never asks at install); fallback after a won level |
+| Not spammy or misleading | Pass | Max 1 reminder a day, quiet hours 22:00–09:00, real triggers only (energy full, spin, daily reward, chest, special levels, update, 2/5/10 days away), no purchase pushes, Settings switch |
+| No exact alarms | Pass | Inexact `AlarmManager.set`; no `SCHEDULE_EXACT_ALARM` |
+
+## Permissions in the bundle (all granted at install except notifications)
+INTERNET, ACCESS_NETWORK_STATE, VIBRATE, WAKE_LOCK, POST_NOTIFICATIONS (runtime), BILLING,
+AD_ID + ACCESS_ADSERVICES_AD_ID / ATTRIBUTION (AdMob), c2dm RECEIVE (push), install referrer,
+READ_BASIC_PHONE_STATE (normal permission added by a Google library, no prompt) and plain
+FOREGROUND_SERVICE (from Google's WorkManager library; the game declares no foreground-service type,
+so no foreground-service declaration applies). No location, camera, contacts, storage or SMS.
 
 ## Technical requirements
 | Rule | Status | Evidence |
 |---|---|---|
-| Target API level | Pass | targetSdk 36 (requirement for new apps from Aug 2025 is 35) |
-| 64-bit | Pass | arm64-v8a included |
-| 16 KB page size (required for targetSdk 35+ updates from Nov 2025) | Pass | Godot 4.7 templates and NDK 29 build 16 KB-aligned libraries; check "16 KB support" in the Play Console bundle explorer after upload |
-| App Bundle | Owner | Export `.aab` for Play (`PLAY_STORE.md`) |
-| Closed test with 12 testers for 14 days (new personal accounts) | Owner | |
+| Target API | Pass | targetSdk 36 (Android 16), minSdk 24 |
+| 64-bit | Pass | arm64-v8a + armeabi-v7a |
+| 16 KB page size | Pass | Every 64-bit native library in the bundle has 16 KB (0x4000) LOAD alignment (checked 2026-11-01). The 32-bit libraries are 4 KB, which is allowed (the rule is for 64-bit) |
+| App Bundle, signed with the upload key | Pass | `release.py verify`: signer CN=Intercore matches `~/castle_upload.keystore`; Play App Signing re-signs |
+| Size | Pass | About 133 MB, under the 200 MB limit |
+| Automated tests | Pass | Full suite, `contraptions` (31) and `specials` (44) |
+| Closed test, 12 testers for 14 days | Owner | `FINAL_RELEASE_STEPS.md` step 4 |
 
-## Remaining owner actions
-1. Payments profile + four products + prices (`BILLING_SETUP.md`).
-2. AdMob app, real App ID in project settings, `ad_ids.cfg`, `app-ads.txt`.
-3. Firebase project + `google-services.json` (`FIREBASE_SETUP.md`).
-4. Paste `https://castle-smashers.pages.dev/privacy/` into Play Console and AdMob; set the listing website to `https://castle-smashers.pages.dev`.
-5. Data safety, content rating, target audience, ads declaration forms.
+## Known risk
+Levels 6, 32–36 and 42–48 were made harder on 2026-10-31. The automated tests check that they load,
+stay stable and that their set-pieces work, but nobody has beaten every one of them yet. Ask closed
+testers to report any level they can't beat.

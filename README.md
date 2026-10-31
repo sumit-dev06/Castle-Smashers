@@ -5,7 +5,7 @@ cyclones, bring down enemy fortresses, and defeat the archers before their arrow
 soldiers.
 
 - Engine: Godot 4.7 (GDScript), Android only, Google Play.
-- Status: pre-alpha, see `docs/ROADMAP.md`.
+- Status: 1.0.0 release candidate. Release steps: `docs/FINAL_RELEASE_STEPS.md`; management: `docs/RELEASE_GUIDE.md`.
 
 ## Quick start
 1. Open Godot 4.7 → Import → select `project.godot`.
@@ -13,6 +13,8 @@ soldiers.
 3. Android: Project → Export → "Android" → Export Project (debug APK), or see `docs/PLAY_STORE.md`.
 
 ## Documentation
+**Not sure which doc to open? Start with [docs/WHICH_DOC.md](docs/WHICH_DOC.md).**
+
 | Doc | What it covers |
 |---|---|
 | [AGENTS.md](AGENTS.md) | Rules and commands for anyone (human or AI) changing the code |

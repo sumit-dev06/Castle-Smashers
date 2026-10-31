@@ -658,15 +658,29 @@ func _load_now() -> void:
 				force_finish(true))
 	if Game.args.has("autoshot") and not _autoshot_done:
 		_autoshot_done = true
-		var parts: PackedStringArray = String(Game.args["autoshot"]).split(",")
-		var ang: float = deg_to_rad(float(parts[0]))
-		var power: float = float(parts[1]) if parts.size() > 1 else 1.0
-		var vel: Vector2 = Vector2(cos(ang), -sin(ang)) * power * Data.bf("catapult", "max_speed")
-		get_tree().create_timer(0.4).timeout.connect(fire_hero.bind(vel))
+		# "angle,power,ability_delay" or several shots "a,p,d;a,p,d;..." (debug captures and trailers).
+		_autoshots(String(Game.args["autoshot"]).split(";"), 0)
+
+
+## Fires shot `i` of a debug autoshot list once the catapult is loaded, then the next one.
+func _autoshots(shots: PackedStringArray, i: int) -> void:
+	if i >= shots.size() or is_finished() or not is_inside_tree():
+		return
+	if not _loaded or (is_instance_valid(projectile) and not projectile.is_queued_for_deletion() and i > 0 and projectile.linear_velocity.length() > 40.0):
+		get_tree().create_timer(0.25).timeout.connect(_autoshots.bind(shots, i))
+		return
+	var parts: PackedStringArray = shots[i].split(",")
+	var ang: float = deg_to_rad(float(parts[0]))
+	var power: float = float(parts[1]) if parts.size() > 1 else 1.0
+	var vel: Vector2 = Vector2(cos(ang), -sin(ang)) * power * Data.bf("catapult", "max_speed")
+	get_tree().create_timer(0.4 if i == 0 else 0.9).timeout.connect(func() -> void:
+		fire_hero(vel)
+		var fired: Projectile = projectile
 		if parts.size() > 2:
-			get_tree().create_timer(0.4 + float(parts[2])).timeout.connect(func() -> void:
-				if is_instance_valid(projectile) and projectile.use_ability():
+			get_tree().create_timer(float(parts[2])).timeout.connect(func() -> void:
+				if is_instance_valid(fired) and fired.use_ability():
 					coach_ability_used())
+		_autoshots(shots, i + 1))
 
 
 func _tick_archers(delta: float) -> void:
@@ -900,6 +914,8 @@ func _notification(what: int) -> void:
 		return
 	if test_mode or hud == null or is_finished() or get_tree().paused or hellfire_running:
 		return
+	if not Engine.get_write_movie_path().is_empty() or Game.args.has("autoshot"):
+		return  # video recordings and automatic debug shots run in an unfocused window
 	if Ads.showing():
 		return  # a full-screen ad also takes focus; the ad flow handles that
 	hud.show_pause()
@@ -2103,5 +2119,9 @@ func play_best_replay() -> bool:
 
 
 func _exit_tree() -> void:
+	if OS.is_debug_build() and Game.args.has("autoshot") and not test_mode:
+		# Debug: lets tools/record_trailer.py pick shots that look good on video.
+		print("AUTOSHOT_RESULT score=%d blocks=%d/%d guards=%d won=%s" % [score,
+			blocks_total - blocks.size(), blocks_total, archers.size(), str(is_finished() and archers.is_empty())])
 	Engine.time_scale = 1.0
 	Sound.stretch_stop()

@@ -1038,6 +1038,8 @@ func _mode_tests() -> void:
 	await _wait(0.1)
 	# Special Missions open one by one (index unlock_level), each with its own emblem.
 	var keep_u: int = int(Save.data["unlocked"])
+	var keep_stars: Dictionary = (Save.data["stars"] as Dictionary).duplicate()
+	Save.data["stars"] = {}  # stars on an unlock level also open a mission; start clean
 	Save.data["unlocked"] = 11
 	var open_ids: Array = []
 	var icons: Dictionary = {}
@@ -1055,6 +1057,7 @@ func _mode_tests() -> void:
 	Save.data["unlocked"] = 45
 	_check(Game.can_enter_level(locked_id), "clearing its campaign level opens the mission")
 	Save.data["unlocked"] = 51
+	Save.data["stars"] = keep_stars
 	# Daily challenge: picked by date from the list, pays once a day.
 	var d1: int = Save.daily_challenge_id("2026-01-01")
 	var d2: int = Save.daily_challenge_id("2026-01-02")

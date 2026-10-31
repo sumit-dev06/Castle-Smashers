@@ -51,6 +51,7 @@ AAB = os.path.join(ROOT, "build", "castle_smashers.aab")
 APK = os.path.join(ROOT, "build", "castle_smashers_debug.apk")
 LOGS = os.path.join(ROOT, "build", "tmp")
 HISTORY = os.path.join(ROOT, "docs", "RELEASE_HISTORY.md")
+ARCHIVE = os.path.expanduser(os.environ.get("CASTLE_RELEASES", "~/Documents/Castle Smashers Releases"))
 SECRETS = os.path.expanduser(os.environ.get("CASTLE_SECRETS", "~/.castle_secrets"))
 SERVICE_ACCOUNT = os.environ.get("PLAY_SERVICE_ACCOUNT", os.path.join(SECRETS, "play-service-account.json"))
 TEST_PUBLISHER = "3940256099942544"  # Google's public test ads account
@@ -429,7 +430,15 @@ def cmd_aab(a=None):
     export("release", AAB)
     r.ok(f"built {os.path.relpath(AAB, ROOT)}")
     r.end()
-    return cmd_verify()
+    if not cmd_verify():
+        return False
+    # Keep every verified bundle: build/ is overwritten by the next build.
+    code, name = version()
+    os.makedirs(ARCHIVE, exist_ok=True)
+    keep = os.path.join(ARCHIVE, f"castle_smashers_{name}_code{code}.aab")
+    shutil.copy(AAB, keep)
+    print(f"  [ OK ] copy kept: {keep}")
+    return True
 
 
 def cmd_apk(a=None):

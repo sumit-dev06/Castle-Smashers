@@ -23,3 +23,6 @@ tools/android_plugins/local.properties
 # Firebase config (owner downloads it; it lives in the git-ignored android/ template)
 google-services.json
 .wrangler/
+
+# Large gameplay clips (recreate with tools/record_trailer.py)
+store_listing/video/*.mp4
