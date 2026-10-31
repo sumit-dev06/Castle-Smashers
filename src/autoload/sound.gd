@@ -1,7 +1,10 @@
 extends Node
 ## Adaptive audio. Buses (created at startup): Master <- Music, Ambience, SFX, UI.
 ##   Sound.play(name, vol, pitch)     one-shot SFX: random variant, cooldowns, UI names go to the UI bus
-##   Sound.set_music(song, state)     two synced stems per song (base + action), crossfaded between songs
+##   Sound.play_at(name, pos, vol, pitch)  the same, placed in the world: panned and spread by
+##                                    AudioStreamPlayer2D relative to the camera (impacts, breaks, units)
+##   Sound.set_music(song, state)     three stems per song (base, action, climax) in one
+##                                    AudioStreamSynchronized, sample-locked; crossfaded between songs
 ##   Sound.music_state(state)         menu / map / aim / flight / destruction / result
 ##   Sound.excite(amount)             destruction energy: pushes the action stem up, then decays
 ##   Sound.stinger(name)              win / lose / boss_intro / siege_start / reward (ducks the music)
@@ -9,18 +12,20 @@ extends Node
 ## Pause and slow motion muffle music and ambience with a low-pass. Numbers: data/balance.json -> audio.
 
 const SFX_DIR: String = "res://assets/audio/sfx/%s_%d.wav"
-const MUSIC_DIR: String = "res://assets/audio/music/%s.wav"
-const AMB_DIR: String = "res://assets/audio/ambience/%s.wav"
+const MUSIC_DIR: String = "res://assets/audio/music/%s.ogg"
+const AMB_DIR: String = "res://assets/audio/ambience/%s.ogg"
+const STEMS: PackedStringArray = ["base", "action", "climax"]
 const AMB_VARIANT: String = "res://assets/audio/ambience/amb_%s_%d.wav"
 const MAX_VARIANTS: int = 6
 const SILENT_DB: float = -60.0
 
 
-## One song: base + action stems started together so they stay in sync.
+## One song: its stems inside one AudioStreamSynchronized, so they start and loop on the same sample.
+## Stem levels are the synchronized stream's per-stem volumes (read by the mixer every block).
 class Deck:
 	extends RefCounted
-	var base: AudioStreamPlayer
-	var action: AudioStreamPlayer
+	var player: AudioStreamPlayer
+	var sync: AudioStreamSynchronized
 	var song: String = ""
 	var gain: float = 0.0
 	var target: float = 0.0
@@ -35,6 +40,8 @@ var _last_ms: Dictionary = {}
 var _pool: Array[AudioStreamPlayer] = []
 var _ui_pool: Array[AudioStreamPlayer] = []
 var _amb_pool: Array[AudioStreamPlayer] = []
+var _pool_2d: Array[AudioStreamPlayer2D] = []
+var _amb_2d: Array[AudioStreamPlayer2D] = []
 var _decks: Array[Deck] = []
 var _sting: AudioStreamPlayer
 var _beds: Array[AudioStreamPlayer] = []
@@ -45,6 +52,7 @@ var _amb_details: Array = []
 var _amb_next: Array[float] = []
 var _ui_names: Dictionary = {}
 var _action_db: float = SILENT_DB
+var _climax_db: float = SILENT_DB
 var _energy: float = 0.0
 var _energy_hold: float = 0.0
 var _duck_db: float = 0.0
@@ -72,10 +80,13 @@ func _ready() -> void:
 		_amb_pool.append(_player("Ambience"))
 	for i: int in 2:
 		var d: Deck = Deck.new()
-		d.base = _player("Music")
-		d.action = _player("Music")
+		d.player = _player("Music")
 		_decks.append(d)
 		_beds.append(_player("Ambience"))
+	for i: int in int(_cfg("pool_2d_size", 12)):
+		_pool_2d.append(_player_2d("SFX"))
+	for i: int in int(_cfg("ambience_pool_size", 3)):
+		_amb_2d.append(_player_2d("Ambience"))
 	_sting = _player("Music")
 	_stretch = _player("SFX")
 	var loop_path: String = "res://assets/audio/sfx/stretch_loop.wav"
@@ -144,6 +155,19 @@ func _player(bus_name: String) -> AudioStreamPlayer:
 	return p
 
 
+## A world voice. Godot pans it by its position on screen and attenuates it with distance from the
+## camera. The autoload is a plain Node, so the player's position is its world position.
+func _player_2d(bus_name: String) -> AudioStreamPlayer2D:
+	var p: AudioStreamPlayer2D = AudioStreamPlayer2D.new()
+	var pos_cfg: Dictionary = _cfg("positional", {})
+	p.bus = bus_name
+	p.max_distance = float(pos_cfg.get("max_distance", 6000.0))
+	p.attenuation = float(pos_cfg.get("attenuation", 0.6))
+	p.panning_strength = float(pos_cfg.get("panning_strength", 1.0))
+	add_child(p)
+	return p
+
+
 func _build_buses() -> void:
 	for bus_name: String in ["Music", "Ambience", "SFX", "UI"]:
 		if AudioServer.get_bus_index(bus_name) == -1:
@@ -163,6 +187,10 @@ func _build_buses() -> void:
 		if ClassDB.class_exists("AudioEffectHardLimiter"):
 			var lim: AudioEffect = ClassDB.instantiate("AudioEffectHardLimiter") as AudioEffect
 			lim.set("ceiling_db", Data.bf("audio", "limiter_ceiling_db"))
+			# Make-up into the limiter: phones play games quietly, so the mix is mastered toward the
+			# mobile target (about -18 LUFS) while the limiter keeps the peaks under the ceiling.
+			lim.set("pre_gain_db", float(_cfg("limiter_pre_gain_db", 0.0)))
+			lim.set("release", float(_cfg("limiter_release_s", 0.1)))
 			AudioServer.add_bus_effect(master, lim)
 	var sfx: int = AudioServer.get_bus_index("SFX")
 	if AudioServer.get_bus_effect_count(sfx) == 0:
@@ -217,6 +245,18 @@ func _variants(sound: String) -> Array:
 
 ## volume01 in 0..1, scaled to dB. Repeated sounds use data-driven cooldowns.
 func play(sound: String, volume01: float = 1.0, pitch: float = 1.0) -> void:
+	_start(sound, volume01, pitch, Vector2.ZERO, false)
+
+
+## A world sound at a world position: panned across the stereo field by where it is on screen and
+## a little quieter far from the camera. Without a 2D camera (menus) it plays like play().
+func play_at(sound: String, pos: Vector2, volume01: float = 1.0, pitch: float = 1.0) -> void:
+	var positional: bool = _pool_2d.size() > 0 and not _ui_names.has(sound) \
+			and is_inside_tree() and get_viewport().get_camera_2d() != null
+	_start(sound, volume01, pitch, pos, positional)
+
+
+func _start(sound: String, volume01: float, pitch: float, pos: Vector2, positional: bool) -> void:
 	var audio_cfg: Dictionary = Data.balance["audio"]
 	var cooldowns: Dictionary = audio_cfg.get("cooldown_ms", {})
 	var interval_ms: int = int(cooldowns.get(sound, Data.b("audio", "min_interval_ms")))
@@ -229,29 +269,36 @@ func play(sound: String, volume01: float = 1.0, pitch: float = 1.0) -> void:
 	var gains: Dictionary = audio_cfg.get("sound_gain_db", {})
 	var requested_db: float = linear_to_db(clampf(volume01, 0.0, 1.0)) + float(gains.get(sound, 0.0))
 	var ui: bool = _ui_names.has(sound)
-	var player: AudioStreamPlayer = _free_voice(_ui_pool if ui else _pool, requested_db)
+	if positional:
+		# Godot's 2D pan law halves each side at the centre; make_up keeps the level of play().
+		requested_db += float((_cfg("positional", {}) as Dictionary).get("make_up_db", 0.0))
+	var player: Node = _free_voice(_pool_2d if positional else _ui_pool if ui else _pool, requested_db)
 	if player == null:
 		return
 	_last_ms[sound] = now
 	var vary: float = Data.bf("audio", "pitch_variation") * (0.5 if ui else 1.0)
-	player.stream = list[_rng.randi() % list.size()]
-	player.volume_db = requested_db
-	player.pitch_scale = maxf(0.2, pitch * _rng.randf_range(1.0 - vary, 1.0 + vary) * (1.0 if ui else _slow_pitch()))
-	player.play()
+	if positional:
+		(player as AudioStreamPlayer2D).global_position = pos
+	player.set("stream", list[_rng.randi() % list.size()])
+	player.set("volume_db", requested_db)
+	player.set("pitch_scale", maxf(0.2, pitch * _rng.randf_range(1.0 - vary, 1.0 + vary) * (1.0 if ui else _slow_pitch())))
+	player.call("play")
 
 
-func _free_voice(pool: Array[AudioStreamPlayer], requested_db: float) -> AudioStreamPlayer:
-	for candidate: AudioStreamPlayer in pool:
-		if not candidate.playing:
+## A free voice from the pool, else the quietest one (never a loud impact for a quiet sound).
+## Works for AudioStreamPlayer and AudioStreamPlayer2D pools.
+func _free_voice(pool: Array, requested_db: float) -> Node:
+	for candidate: Node in pool:
+		if not bool(candidate.get("playing")):
 			return candidate
-	var quiet: AudioStreamPlayer = pool[0]
-	for candidate: AudioStreamPlayer in pool:
-		if candidate.volume_db < quiet.volume_db:
+	var quiet: Node = pool[0]
+	for candidate: Node in pool:
+		if float(candidate.get("volume_db")) < float(quiet.get("volume_db")):
 			quiet = candidate
 	# Preserve an existing loud impact instead of replacing it with a quiet incidental sound.
-	if requested_db + 3.0 < quiet.volume_db:
+	if requested_db + 3.0 < float(quiet.get("volume_db")):
 		return null
-	quiet.stop()
+	quiet.call("stop")
 	return quiet
 
 
@@ -303,7 +350,29 @@ func _looped(path: String) -> AudioStream:
 		w.loop_mode = AudioStreamWAV.LOOP_FORWARD
 		w.loop_begin = 0
 		w.loop_end = int(w.get_length() * w.mix_rate)
+	var o: AudioStreamOggVorbis = s as AudioStreamOggVorbis
+	if o and not o.loop:
+		# Vorbis keeps the exact sample count, so looping the whole file is seamless.
+		o.loop = true
+		o.loop_offset = 0.0
 	return s
+
+
+## The song's stems as one synchronized stream (base first). Missing stems are skipped.
+func _song_stream(p_song: String) -> AudioStreamSynchronized:
+	var streams: Array[AudioStream] = []
+	for stem: String in STEMS:
+		var st: AudioStream = _looped(MUSIC_DIR % (p_song + "_" + stem))
+		if st == null and stem == "base":
+			return null
+		if st:
+			streams.append(st)
+	var sync: AudioStreamSynchronized = AudioStreamSynchronized.new()
+	sync.stream_count = streams.size()
+	for i: int in streams.size():
+		sync.set_sync_stream(i, streams[i])
+		sync.set_sync_stream_volume(i, SILENT_DB)
+	return sync
 
 
 ## Old API: maps a track name onto the adaptive player.
@@ -317,25 +386,29 @@ func set_music(p_song: String, p_state: String = "") -> void:
 		music_state(p_state)
 	if p_song == song and _decks[0].song == p_song and _decks[0].target > 0.0:
 		return
-	var base: AudioStream = _looped(MUSIC_DIR % (p_song + "_base"))
-	if base == null:
-		return
+	var sync: AudioStreamSynchronized = _streams.get("song:" + p_song) as AudioStreamSynchronized
+	if sync == null:
+		sync = _song_stream(p_song)
+		if sync == null:
+			return
+		_streams["song:" + p_song] = sync
 	song = p_song
 	# The current deck fades out, the other one takes the new song.
 	var old: Deck = _decks[0]
 	var nxt: Deck = _decks[1]
 	_decks = [nxt, old]
 	old.target = 0.0
+	if nxt.sync == sync:
+		# Coming back to the song the other deck is still fading out of: give it its own copy so the
+		# per-stem volumes of the two decks don't fight.
+		sync = sync.duplicate() as AudioStreamSynchronized
 	nxt.song = p_song
-	nxt.base.stream = base
-	nxt.action.stream = _looped(MUSIC_DIR % (p_song + "_action"))
+	nxt.sync = sync
+	nxt.player.stream = sync
 	nxt.gain = 0.0
 	nxt.target = 1.0
-	nxt.base.volume_db = SILENT_DB
-	nxt.action.volume_db = SILENT_DB
-	nxt.base.play()
-	if nxt.action.stream:
-		nxt.action.play()
+	nxt.player.volume_db = SILENT_DB
+	nxt.player.play()
 
 
 func music_state(p_state: String) -> void:
@@ -426,15 +499,25 @@ func _tick_details(dt: float) -> void:
 		var list: Array = _amb_variants(String(d["name"]))
 		if list.is_empty():
 			continue
-		var p: AudioStreamPlayer = _free_voice(_amb_pool, 0.0)
+		# In a level or on the map, each detail comes from a random point across (and a little
+		# beyond) the screen: birds to the left, a gull to the right, never the same spot twice.
+		var cam: Camera2D = get_viewport().get_camera_2d() if is_inside_tree() else null
+		var p: Node = _free_voice(_amb_2d if cam and _amb_2d.size() > 0 else _amb_pool, 0.0)
 		if p == null:
 			continue
 		var db: Array = d.get("db", [-12.0, -6.0])
 		var pitch: Array = d.get("pitch", [0.95, 1.05])
-		p.stream = list[_rng.randi() % list.size()]
-		p.volume_db = _rng.randf_range(float(db[0]), float(db[1])) + _bed_db
-		p.pitch_scale = _rng.randf_range(float(pitch[0]), float(pitch[1]))
-		p.play()
+		var level_db: float = _rng.randf_range(float(db[0]), float(db[1])) + _bed_db
+		if p is AudioStreamPlayer2D:
+			var half: Vector2 = get_viewport().get_visible_rect().size * 0.5 / cam.zoom
+			var spread: float = float((_cfg("positional", {}) as Dictionary).get("ambience_spread", 1.1))
+			(p as AudioStreamPlayer2D).global_position = cam.get_screen_center_position() + Vector2(
+					_rng.randf_range(-spread, spread) * half.x, _rng.randf_range(-0.8, 0.2) * half.y)
+			level_db += float((_cfg("positional", {}) as Dictionary).get("make_up_db", 0.0))
+		p.set("stream", list[_rng.randi() % list.size()])
+		p.set("volume_db", level_db)
+		p.set("pitch_scale", _rng.randf_range(float(pitch[0]), float(pitch[1])))
+		p.call("play")
 
 
 # ------------------------------------------------------------------------------------------- mixer
@@ -455,19 +538,20 @@ func _process(_delta: float) -> void:
 ## Pause holds the music, ambience and world sounds where they are; resume carries on from there.
 ## UI clicks (their own pool) keep working in the pause menu.
 func _hold_world_audio(hold: bool) -> void:
-	var players: Array[AudioStreamPlayer] = []
+	var players: Array[Node] = []
 	for d: Deck in _decks:
-		players.append(d.base)
-		players.append(d.action)
+		players.append(d.player)
 	players.append_array(_beds)
+	players.append_array(_pool_2d)
+	players.append_array(_amb_2d)
 	players.append_array(_amb_pool)
 	players.append_array(_pool)
 	for p: AudioStreamPlayer in [_sting, _stretch]:
 		if p:
 			players.append(p)
-	for p: AudioStreamPlayer in players:
+	for p: Node in players:
 		if is_instance_valid(p):
-			p.stream_paused = hold
+			p.set("stream_paused", hold)
 
 
 func is_holding() -> bool:
@@ -491,18 +575,29 @@ func _mix_music(dt: float) -> void:
 		target = lerpf(floor_db, float(e.get("max_db", 0.0)), _energy)
 	var rate: float = float(_cfg("stem_attack_db_s", 30.0)) if target > _action_db else float(_cfg("stem_release_db_s", 8.0))
 	_action_db = move_toward(_action_db, target, rate * dt)
+	# Climax: choir, low brass and taiko join only at the peak of a destruction chain.
+	var c_on: float = float(e.get("climax_on", 0.6))
+	var c_target: float = SILENT_DB
+	if bool(sc.get("reacts", false)) and state == "destruction" and _energy >= c_on:
+		c_target = lerpf(float(e.get("climax_floor_db", -12.0)), float(e.get("climax_max_db", -2.0)),
+				clampf((_energy - c_on) / maxf(0.01, 1.0 - c_on), 0.0, 1.0))
+	var c_rate: float = float(e.get("climax_attack_db_s", 24.0)) if c_target > _climax_db else float(e.get("climax_release_db_s", 6.0))
+	if c_target > _climax_db and _climax_db < float(e.get("climax_floor_db", -12.0)):
+		c_rate *= 4.0  # from silence to the floor in about half a second, then a musical swell
+	_climax_db = move_toward(_climax_db, c_target, c_rate * dt)
 	_duck_db = move_toward(_duck_db, 0.0, float((_cfg("duck", {}) as Dictionary).get("release_db_s", 10.0)) * dt)
 	var fade_rate: float = 1.0 / maxf(0.05, float(_cfg("music_fade_s", 1.6)))
+	var stem_db: Array[float] = [float(sc.get("base", 0.0)), _action_db, _climax_db]
 	for d: Deck in _decks:
 		d.gain = move_toward(d.gain, d.target, fade_rate * dt)
 		if d.gain <= 0.0 and d.target <= 0.0:
-			if d.base.playing:
-				d.base.stop()
-				d.action.stop()
+			if d.player.playing:
+				d.player.stop()
 			continue
-		var g: float = linear_to_db(maxf(d.gain, 0.0001))
-		d.base.volume_db = maxf(SILENT_DB, g + float(sc.get("base", 0.0)) + _duck_db)
-		d.action.volume_db = maxf(SILENT_DB, g + _action_db + _duck_db)
+		d.player.volume_db = maxf(SILENT_DB, linear_to_db(maxf(d.gain, 0.0001)) + _duck_db)
+		if d.sync:
+			for i: int in d.sync.stream_count:
+				d.sync.set_sync_stream_volume(i, maxf(SILENT_DB, stem_db[mini(i, 2)]))
 
 
 func _mix_ambience(dt: float) -> void:

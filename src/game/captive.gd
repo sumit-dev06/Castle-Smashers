@@ -45,5 +45,5 @@ func rescue() -> void:
 		_cage.queue_free()
 		_cage = null
 	level.on_captive_rescued(self)
-	Sound.play("cage_break", 0.85)
-	Sound.play("rescue", 0.8)
+	Sound.play_at("cage_break", global_position, 0.85)
+	Sound.play_at("rescue", global_position, 0.8)

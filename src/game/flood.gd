@@ -82,8 +82,8 @@ func release() -> void:
 		return
 	flowing = true
 	_t = 0.0
-	Sound.play("splash", 1.0)
-	Sound.play("gate_drop", 0.7)
+	Sound.play_at("splash", global_position, 1.0)
+	Sound.play_at("gate_drop", global_position, 0.7)
 
 
 func _physics_process(delta: float) -> void:

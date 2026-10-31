@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
 """Composes and renders the adaptive music (owned by the project, no samples).
 
-Each song has two stems of identical length that loop seamlessly and play in sync:
-  <song>_base.wav    harmony, bass and the lead melody (always on: aiming, menus)
-  <song>_action.wav  drums, ostinato and a melody double (faded in by Sound during flight and
-                     destruction, see data/balance.json -> audio.music_states)
-Stingers (win, lose, boss intro, siege start, reward) are one-shots.
+Each song has three stereo stems of identical length that loop seamlessly and play in sync
+(Godot's AudioStreamSynchronized, see src/autoload/sound.gd):
+  <song>_base.ogg    harmony, bass and the lead melody (always on: aiming, menus)
+  <song>_action.ogg  drums, ostinato and a melody double (faded in during flight and destruction,
+                     see data/balance.json -> audio.music_states)
+  <song>_climax.ogg  choir, low brass counter-line, taiko and cymbal swells (only at the peak of a
+                     destruction chain: audio.energy.climax_*)
+Stingers (win, lose, boss intro, siege start, reward) are stereo one-shots.
 
-Output: assets/audio/music/*.wav at 32 kHz (Godot imports them as QOA; loop points are written
-into a WAV `smpl` chunk so they loop without import tweaks).
+Every instrument has a seat in the stereo field (PAN), pads and choir are wide, the low end is
+kept in the centre, and each stem runs through a stereo convolution hall. One loudness gain is
+shared by the stems (the full mix sits at -18 LUFS), then each stem gets a look-ahead limiter.
+Output: assets/audio/music/*.ogg, 44.1 kHz Ogg Vorbis (exact length, so loops are seamless).
 Run:    python3 tools/gen_music.py [song ...]
 """
 import os
@@ -18,7 +23,8 @@ import numpy as np
 
 import audio_dsp as A
 
-RATE = 32000
+RATE = 44100
+OGG_Q = 4
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "assets", "audio", "music")
 
@@ -49,6 +55,8 @@ def _inst(name):
         "pad": lambda hz, d, v: A.pad(hz, d, v, 0.7, 0.15),
         "bass": lambda hz, d, v: A.bass(hz, d, v, 0.4),
         "bass_long": lambda hz, d, v: A.bass(hz, d, v, 1.2, 1.0),
+        "choir": lambda hz, d, v: A.choir(hz, d, v, "a"),
+        "choir_o": lambda hz, d, v: A.choir(hz, d, v, "o"),
     }
     return f[name]
 
@@ -69,6 +77,27 @@ KIT = {
     "A": lambda v: A.anvil(0.6, v * 0.5, 1320),
     "Y": lambda v: A.cymbal(1.8, v * 0.35),
 }
+
+# Stereo seat per instrument / drum (-1 left .. 1 right) and width (0 point source .. 1 wide).
+# Leads near the centre, accompaniment around them, low end always centred.
+PAN = {
+    "koto": (-0.18, 0.1), "shaku": (0.15, 0.15), "flute": (0.2, 0.15), "oud": (-0.15, 0.1), "harp": (-0.42, 0.3),
+    "pizz": (0.3, 0.2), "banjo": (0.35, 0.1), "accordion": (-0.12, 0.2), "reed_drone": (0.0, 0.6),
+    "marimba": (-0.25, 0.15), "celesta": (0.3, 0.2), "bells": (0.45, 0.25), "brass": (0.12, 0.25),
+    "horn": (-0.1, 0.3), "tuba": (0.0, 0.0), "strings": (0.0, 0.9), "strings_short": (-0.3, 0.5),
+    "pad": (0.0, 0.9), "bass": (0.0, 0.0), "bass_long": (0.0, 0.0), "choir": (0.0, 1.0), "choir_o": (0.0, 1.0),
+    "K": (0.0, 0.0), "S": (0.08, 0.1), "H": (0.38, 0.0), "O": (0.38, 0.1), "s": (-0.32, 0.1), "T": (0.0, 0.2),
+    "t": (-0.25, 0.1), "W": (0.42, 0.0), "D": (0.0, 0.1), "k": (0.28, 0.0), "J": (-0.4, 0.1), "C": (0.15, 0.3),
+    "A": (0.3, 0.1), "Y": (-0.2, 0.7),
+}
+
+# The climax stem added to every song: the "everything is collapsing" layer.
+CLIMAX = [
+    dict(kind="pad", inst="choir", stem="climax", gain=0.3),
+    dict(kind="melody", inst="brass", stem="climax", gain=0.24, oct=-1, pan=-0.2),
+    dict(kind="hits", stem="climax", gain=0.9),
+    dict(kind="swells", stem="climax", gain=0.5),
+]
 
 
 # ----------------------------------------------------------------------------- songs
@@ -249,17 +278,29 @@ def render(name):
         assert sum(n for _, n in b) == bar_e, (name, b)
     chords = song["chords"] * 2
     chords[14:16] = song["end_chords"]
-    stems = {"base": np.zeros(A.n_of(total)), "action": np.zeros(A.n_of(total))}
+    stems = {key: np.zeros((A.n_of(total), 2)) for key in ("base", "action", "climax")}
     rng = np.random.default_rng(5)
+    steps = bar_e * 2
 
     def hum():
         return rng.uniform(0.0, 0.006)
 
-    for part in song["parts"]:
-        buf = stems[part["stem"]]
+    for part in song["parts"] + CLIMAX:
+        stem = stems[part["stem"]]
         g = part.get("gain", 0.5)
         k = part["kind"]
         oct_ = part.get("oct", 0)
+        seat = PAN.get(part.get("inst", ""), (0.0, 0.2))
+        seat = (part.get("pan", seat[0]), part.get("width", seat[1]))
+        seed = [0]
+
+        def buf_place(x, t, p=None, w=None, s=seat, st=stem):
+            # Each note goes to its seat with a little random spread so repeated notes breathe.
+            seed[0] += 1
+            pp = (s[0] if p is None else p) + rng.uniform(-0.04, 0.04)
+            A.place_st(st, x, t, pp, 1.0, s[1] if w is None else w, seed[0] % 7)
+
+
         if k == "melody":
             fn = _inst(part["inst"])
             half = part.get("half", 0)
@@ -273,17 +314,17 @@ def render(name):
                         hz = A.midi(degree_midi(song, deg) + 12 * oct_)
                         dur = n * eighth * 0.94
                         vel = g * (1.0 if pos % 4 == 0 else 0.85) * rng.uniform(0.92, 1.0)
-                        A.place(buf, fn(hz, dur, vel), b * bar_s + pos * eighth + hum())
+                        buf_place(fn(hz, dur, vel), b * bar_s + pos * eighth + hum())
                     pos += n
         elif k == "pad":
             fn = _inst(part["inst"])
             for b in range(bars):
                 for m in chord_midis(song, chords[b], oct_):
-                    A.place(buf, fn(A.midi(m), bar_s + 0.25, g * 0.6), b * bar_s)
+                    buf_place(fn(A.midi(m), bar_s + 0.25, g * 0.6), b * bar_s)
         elif k == "drone":
             fn = _inst(part["inst"])
             for m in (song["root"] - 12, song["root"] - 5):
-                A.place(buf, fn(A.midi(m), loop_s + 1.0, g), 0.0)
+                buf_place(fn(A.midi(m), loop_s + 1.0, g), 0.0)
         elif k == "bass":
             fn = _inst(part["inst"])
             pat = part["pattern"]
@@ -297,7 +338,7 @@ def render(name):
                     while i + span < len(pat) and pat[i + span] == ".":
                         span += 1
                     dur = span * eighth * part.get("short", 0.95)
-                    A.place(buf, fn(A.midi(m), dur, g), b * bar_s + i * eighth + hum())
+                    buf_place(fn(A.midi(m), dur, g), b * bar_s + i * eighth + hum())
         elif k == "arp":
             fn = _inst(part["inst"])
             pat = part["pattern"]
@@ -307,7 +348,7 @@ def render(name):
                 for i, idx in enumerate(pat[:bar_e]):
                     m = tones[idx % len(tones)]
                     vel = g * (1.0 if i % 2 == 0 else 0.75)
-                    A.place(buf, fn(A.midi(m), eighth * 0.9, vel), b * bar_s + i * eighth + hum())
+                    buf_place(fn(A.midi(m), eighth * 0.9, vel), b * bar_s + i * eighth + hum())
         elif k == "stab":
             fn = _inst(part["inst"])
             for b in range(bars):
@@ -315,7 +356,7 @@ def render(name):
                     if ch != "x":
                         continue
                     for j, m in enumerate(chord_midis(song, chords[b], oct_)):
-                        A.place(buf, fn(A.midi(m), eighth * 0.8, g * 0.5), b * bar_s + i * eighth + j * 0.012)
+                        buf_place(fn(A.midi(m), eighth * 0.8, g * 0.5), b * bar_s + i * eighth + j * 0.012)
         elif k == "drums":
             step = eighth / 2
             for b in range(bars):
@@ -327,19 +368,34 @@ def render(name):
                         if ch == ".":
                             continue
                         vel = g * (1.0 if ch == "x" else 0.55) * rng.uniform(0.9, 1.0)
-                        A.place(buf, KIT[drum](vel), b * bar_s + i * step + hum())
+                        dp, dw = PAN.get(drum, (0.0, 0.0))
+                        buf_place(KIT[drum](vel), b * bar_s + i * step + hum(), dp, dw)
+        elif k == "hits":
+            # Taiko on the downbeats with a low tom answer: weight under the collapse.
+            for b in range(bars):
+                buf_place(A.taiko(1.0, g, 52), b * bar_s, 0.0, 0.2)
+                buf_place(A.tom(0.5, g * 0.6, 95), b * bar_s + bar_s * 0.5, -0.2, 0.1)
+                if b % 4 == 3:
+                    for j in range(4):
+                        buf_place(A.taiko(0.6, g * (0.5 + 0.12 * j), 60), b * bar_s + bar_s * (0.75 + j / 16), 0.15 * (j - 1.5), 0.1)
+        elif k == "swells":
+            # Reverse-cymbal swell into every fourth bar, a crash on it (wraps at the loop point).
+            for b in range(0, bars, 4):
+                sw = A.cymbal(bar_s, g, swell=True)
+                buf_place(sw, b * bar_s - len(sw) / RATE if b else loop_s - len(sw) / RATE, 0.0, 1.0)
+                buf_place(A.cymbal(2.4, g * 0.8), b * bar_s, -0.15, 0.8)
     loop_n = A.n_of(loop_s)
     decay, wet = song["verb"]
     out = {}
     for key, buf in stems.items():
-        y = A.hp(A.reverb(buf, decay, wet, 6000, 0.018), 35)
-        out[key] = A.loop_wrap(y, loop_n)
-    # One gain for both stems keeps their balance; the full mix sits at about -18 dB RMS.
-    full = out["base"] + out["action"]
-    gain = 10 ** (-18.0 / 20) / (np.sqrt(np.mean(full * full)) or 1.0)
+        y = A.reverb_st(buf, decay * (1.25 if key == "climax" else 1.0), wet, 6500, 0.02, True, len(name))
+        y = A.mono_bass(A.hp_st(y, 32), 150)
+        out[key] = A.loop_wrap_st(y, loop_n)
+    # One gain for every stem keeps their balance: base + action sits at -18 LUFS, the climax adds on top.
+    gain = 10 ** ((-18.0 - A.lufs(out["base"] + out["action"], RATE)) / 20.0)
     for key in out:
-        y = A.softclip(out[key] * gain / 0.7, 1.1) * 0.7
-        out[key] = y
+        y = out[key] * gain
+        out[key] = A.limit(y, -1.5, 3.0, 120.0)
     return out, loop_s
 
 
@@ -347,66 +403,69 @@ def render(name):
 def stinger(name):
     A.set_rate(RATE, seed=17)
     m = A.midi
+
+    def put(buf, x, t, p=0.0, w=0.15):
+        A.place_st(buf, x, t, p, 1.0, w, int(t * 100) % 7)
     if name == "win":
         d = 3.2
-        buf = np.zeros(A.n_of(d))
+        buf = np.zeros((A.n_of(d), 2))
         for i, (n, t0, ln) in enumerate([(67, 0.0, 0.16), (72, 0.14, 0.16), (76, 0.28, 0.16), (79, 0.42, 0.16),
                                          (84, 0.58, 1.6)]):
-            A.place(buf, A.brass(m(n), ln, 0.6), t0)
-            A.place(buf, A.bell(m(n + 12), 1.2, 1.0, 0.5) * 0.18, t0)
+            put(buf, A.brass(m(n), ln, 0.6), t0)
+            put(buf, A.bell(m(n + 12), 1.2, 1.0, 0.5) * 0.18, t0, 0.5 - 0.25 * i, 0.2)
         for n in (60, 64, 67, 72):
-            A.place(buf, A.strings(m(n), 1.8, 0.2, 0.08), 0.58)
-        A.place(buf, A.kick(0.5, 120, 45, 0.8), 0.58)
-        A.place(buf, A.cymbal(2.2, 0.5), 0.58)
-        A.place(buf, A.roll(0.5, 0.35), 0.05)
+            put(buf, A.strings(m(n), 1.8, 0.2, 0.08), 0.58, 0.0, 0.9)
+        put(buf, A.kick(0.5, 120, 45, 0.8), 0.58)
+        put(buf, A.cymbal(2.2, 0.5), 0.58, -0.2, 0.8)
+        put(buf, A.roll(0.5, 0.35), 0.05)
         for i, n in enumerate((84, 88, 91, 96)):
-            A.place(buf, A.bell(m(n), 1.0, 0.8, 0.6) * 0.12, 0.9 + i * 0.08)
-        y = A.reverb(buf, 1.6, 0.22)
+            put(buf, A.bell(m(n), 1.0, 0.8, 0.6) * 0.12, 0.9 + i * 0.08, -0.6 + 0.4 * i, 0.2)
+        y = A.reverb_st(buf, 1.6, 0.22)
     elif name == "lose":
         d = 3.0
-        buf = np.zeros(A.n_of(d))
+        buf = np.zeros((A.n_of(d), 2))
         for i, (n, t0, ln) in enumerate([(67, 0.0, 0.32), (66, 0.36, 0.32), (65, 0.72, 0.32), (64, 1.08, 1.3)]):
             tone = A.brass(m(n), ln, 0.55, 0.4)
             if i == 3:  # the last note droops and wobbles: a gentle comic "aww"
                 tt = A.t_axis(ln)
                 tone *= (1 + 0.25 * np.sin(2 * np.pi * 6 * tt) * np.clip(tt / 0.3, 0, 1)) / 1.25
-            A.place(buf, tone, t0)
-        A.place(buf, A.pluck(m(40), 1.6, 0.4, 0.9) * 0.4, 1.08)
-        A.place(buf, A.tom(0.5, 0.35, 90), 1.08)
-        y = A.reverb(buf, 1.4, 0.2)
+            put(buf, tone, t0)
+        put(buf, A.pluck(m(40), 1.6, 0.4, 0.9) * 0.4, 1.08)
+        put(buf, A.tom(0.5, 0.35, 90), 1.08)
+        y = A.reverb_st(buf, 1.4, 0.2)
     elif name == "boss_intro":
         d = 3.2
-        buf = np.zeros(A.n_of(d))
-        A.place(buf, A.cymbal(1.1, 0.5, swell=True), 0.0)
-        A.place(buf, A.roll(1.0, 0.5, 14, "taiko"), 0.0)
-        A.place(buf, A.taiko(1.6, 1.0, 50), 1.1)
+        buf = np.zeros((A.n_of(d), 2))
+        put(buf, A.cymbal(1.1, 0.5, swell=True), 0.0)
+        put(buf, A.roll(1.0, 0.5, 14, "taiko"), 0.0)
+        put(buf, A.taiko(1.6, 1.0, 50), 1.1)
         for n in (40, 47, 52):
-            A.place(buf, A.brass(m(n), 1.8, 0.5, 0.5), 1.1)
+            put(buf, A.brass(m(n), 1.8, 0.5, 0.5), 1.1)
         for i, n in enumerate((52, 51, 52, 55)):
-            A.place(buf, A.strings(m(n + 12), 0.25, 0.3, 0.02, 2), 1.15 + i * 0.22)
-        y = A.reverb(buf, 1.8, 0.24)
+            put(buf, A.strings(m(n + 12), 0.25, 0.3, 0.02, 2), 1.15 + i * 0.22)
+        y = A.reverb_st(buf, 1.8, 0.24)
     elif name == "siege_start":
         d = 2.2
-        buf = np.zeros(A.n_of(d))
-        A.place(buf, A.brass(m(55), 0.3, 0.5, 0.5), 0.0)
-        A.place(buf, A.brass(m(62), 0.22, 0.55, 0.6), 0.32)
-        A.place(buf, A.brass(m(67), 0.9, 0.6, 0.7), 0.56)
-        A.place(buf, A.taiko(0.9, 0.7, 60), 0.56)
-        A.place(buf, A.cymbal(1.5, 0.25), 0.56)
-        y = A.reverb(buf, 1.8, 0.26)
+        buf = np.zeros((A.n_of(d), 2))
+        put(buf, A.brass(m(55), 0.3, 0.5, 0.5), 0.0)
+        put(buf, A.brass(m(62), 0.22, 0.55, 0.6), 0.32)
+        put(buf, A.brass(m(67), 0.9, 0.6, 0.7), 0.56)
+        put(buf, A.taiko(0.9, 0.7, 60), 0.56)
+        put(buf, A.cymbal(1.5, 0.25), 0.56)
+        y = A.reverb_st(buf, 1.8, 0.26)
     elif name == "reward":
         d = 2.0
-        buf = np.zeros(A.n_of(d))
+        buf = np.zeros((A.n_of(d), 2))
         for i, n in enumerate((72, 76, 79, 84, 88)):
-            A.place(buf, A.bell(m(n), 1.2, 1.0, 0.5) * 0.5, i * 0.07)
-            A.place(buf, A.pluck(m(n - 12), 0.8, 0.6, 0.5) * 0.3, i * 0.07)
+            put(buf, A.bell(m(n), 1.2, 1.0, 0.5) * 0.5, i * 0.07, -0.5 + 0.25 * i, 0.15)
+            put(buf, A.pluck(m(n - 12), 0.8, 0.6, 0.5) * 0.3, i * 0.07)
         for n in (60, 64, 67):
-            A.place(buf, A.pad(m(n), 1.2, 0.25, 0.05, 0.1), 0.0)
-        y = A.reverb(buf, 1.6, 0.25)
+            put(buf, A.pad(m(n), 1.2, 0.25, 0.05, 0.1), 0.0)
+        y = A.reverb_st(buf, 1.6, 0.25)
     else:
         raise ValueError(name)
-    y = A.tail_trim(y, -60)
-    return A.master(y, -17.0, -3.0, 1.1, hp_hz=40)
+    y = A.tail_trim_st(y, -60)
+    return A.master_st(y, -17.5, -1.5, 40, 1.1)
 
 
 def main():
@@ -417,13 +476,13 @@ def main():
             continue
         stems, loop_s = render(name)
         for key, y in stems.items():
-            A.write_wav(os.path.join(OUT, f"{name}_{key}.wav"), y, loop=True, sr=RATE)
+            A.write_ogg(os.path.join(OUT, f"{name}_{key}.ogg"), y, RATE, OGG_Q)
         print(f"music {name}: {loop_s:.1f}s loop")
     for name in ("win", "lose", "boss_intro", "siege_start", "reward"):
         if want and name not in want:
             continue
         A.set_rate(RATE)
-        A.write_wav(os.path.join(OUT, f"sting_{name}.wav"), stinger(name), sr=RATE)
+        A.write_ogg(os.path.join(OUT, f"sting_{name}.ogg"), stinger(name), RATE, OGG_Q)
         print("stinger", name)
 
 

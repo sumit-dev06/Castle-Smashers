@@ -104,7 +104,7 @@ func _fire(c: Block) -> void:
 	level.fx.flash(muzzle(c), 40.0)
 	c.push(Vector2(260, -40))
 	shots += 1
-	Sound.play("cannon", 0.85)
+	Sound.play_at("cannon", global_position, 0.85)
 
 
 ## Fortress blocks broken near a living engineer are queued for rebuilding.
@@ -174,7 +174,7 @@ func _repair(e: Archer) -> void:
 	level.fx.beam(e.global_position + Vector2(0, -30), b.global_position, 10.0)
 	level.fx.sparks(b.global_position, 10)
 	level.fx.float_text(b.global_position, "REPAIRED!", Color("#ffb04a"), 26)
-	Sound.play("repair", 0.9)
+	Sound.play_at("repair", global_position, 0.9)
 	status_changed.emit()
 
 

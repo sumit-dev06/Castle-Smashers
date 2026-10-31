@@ -1647,7 +1647,7 @@ func _notification_tests() -> void:
 # ------------------------------------------------------------------------------------ audio
 func _audio_names_in(dir_path: String, out: Dictionary) -> void:
 	var re: RegEx = RegEx.new()
-	re.compile("Sound\\.play\\(\"([a-z_]+)\"")
+	re.compile("Sound\\.play(?:_at)?\\(\"([a-z_]+)\"")
 	var dir: DirAccess = DirAccess.open(dir_path)
 	if dir == null:
 		return
@@ -1675,11 +1675,16 @@ func _audio_tests() -> void:
 		songs.append(String(r["key"]))
 	var bad: Array = []
 	for sg: String in songs:
-		var b: AudioStreamWAV = Sound._looped(Sound.MUSIC_DIR % (sg + "_base")) as AudioStreamWAV
-		var a: AudioStreamWAV = Sound._looped(Sound.MUSIC_DIR % (sg + "_action")) as AudioStreamWAV
-		if b == null or a == null or absf(b.get_length() - a.get_length()) > 0.002 or b.loop_mode == AudioStreamWAV.LOOP_DISABLED:
+		var sync: AudioStreamSynchronized = Sound._song_stream(sg)
+		if sync == null or sync.stream_count != Sound.STEMS.size():
 			bad.append(sg)
-	_check(bad.is_empty(), "songs %s have synced looping base + action stems %s" % [songs, bad])
+			continue
+		var len0: float = sync.get_sync_stream(0).get_length()
+		for i: int in sync.stream_count:
+			var o: AudioStreamOggVorbis = sync.get_sync_stream(i) as AudioStreamOggVorbis
+			if o == null or not o.loop or absf(o.get_length() - len0) > 0.002:
+				bad.append("%s_%s" % [sg, Sound.STEMS[i]])
+	_check(bad.is_empty(), "songs %s have 3 equal-length looping Ogg stems (base, action, climax) %s" % [songs, bad])
 	var stings: Array = []
 	for st: String in ["win", "lose", "boss_intro", "siege_start", "reward"]:
 		if not ResourceLoader.exists(Sound.MUSIC_DIR % ("sting_" + st)):
@@ -1708,6 +1713,40 @@ func _audio_tests() -> void:
 	Events.level_finished.emit(1, true, 3, 1000)
 	_check(Sound.state == "result", "level end -> result state")
 	await _wait(0.3)
-	_check(Sound._decks[0].base.playing and Sound._decks[0].song == "mines", "the mines deck is playing")
+	_check(Sound._decks[0].player.playing and Sound._decks[0].song == "mines" and Sound._decks[0].player.stream is AudioStreamSynchronized, "the mines deck is playing its synchronized stems")
+	# Climax layer: silent through ordinary destruction, rises only at the peak of a chain.
+	Sound.music_state("destruction")
+	Sound._energy = 0.3
+	Sound._energy_hold = 5.0
+	Sound._climax_db = Sound.SILENT_DB
+	Sound._mix_music(0.5)
+	var c_low: float = Sound._climax_db
+	Sound._energy = 1.0
+	for i: int in 10:
+		Sound._mix_music(0.1)
+	var c_high: float = Sound._climax_db
+	var vol2: float = Sound._decks[0].sync.get_sync_stream_volume(2)
+	_check(c_low <= Sound.SILENT_DB + 0.1 and c_high > -10.0 and absf(vol2 - c_high) < 0.01, "climax stem silent at low energy (%.0f dB), up at peak (%.1f dB) on the synced stream" % [c_low, c_high])
+	Sound.music_state("result")
+	Sound._energy = 0.0
+	# Positional voices: a world sound with a 2D camera goes to an AudioStreamPlayer2D at its position.
+	var cam_host: Node2D = Node2D.new()
+	add_child(cam_host)
+	var cam: Camera2D = Camera2D.new()
+	cam_host.add_child(cam)
+	cam.make_current()
+	Sound._last_ms.erase("stone_hit")
+	Sound.play_at("stone_hit", Vector2(321, -45), 0.8)
+	var placed: AudioStreamPlayer2D = null
+	for v: AudioStreamPlayer2D in Sound._pool_2d:
+		if v.playing and v.global_position.is_equal_approx(Vector2(321, -45)):
+			placed = v
+	_check(placed != null and placed.bus == "SFX", "play_at uses a positional SFX voice at the world position")
+	Sound._last_ms.erase("ui_tap")
+	var busy_before: int = Sound._pool_2d.filter(func(v: AudioStreamPlayer2D) -> bool: return v.playing).size()
+	Sound.play_at("ui_tap", Vector2(10, 10))
+	var busy_after: int = Sound._pool_2d.filter(func(v: AudioStreamPlayer2D) -> bool: return v.playing).size()
+	_check(busy_after == busy_before, "UI sounds never become positional")
+	cam_host.queue_free()
 	Sound.set_music("menu", "menu")
 	Sound.set_surroundings("blossom", true)

@@ -685,7 +685,7 @@ func _shoot_one(a: Archer) -> void:
 	world.add_child(arrow)
 	arrow.setup(from, to, t, soldiers, stage)
 	arrows_fired += 1
-	Sound.play("arrow_shoot", 0.8)
+	Sound.play_at("arrow_shoot", from, 0.8)
 
 
 func _check_end(delta: float) -> void:
@@ -753,7 +753,7 @@ func fire_hero(vel: Vector2) -> void:
 		Save.data["tutorial_done"] = true
 		Save.write()
 		Analytics.event("tutorial_complete", {"level_id": level_id})
-	Sound.play("launch")
+	Sound.play_at("launch", catapult.global_position)
 	Game.haptic()
 	Events.projectile_launched.emit(kind)
 
@@ -972,7 +972,7 @@ func _drop_hellfire(b: Block, fall: float, cfg: Dictionary) -> void:
 		fx.flash(to, 70.0)
 		fx.debris(to, "clay", 4, 380.0)
 		camera.add_shake(4.0)
-		Sound.play("explosion", 0.55)
+		Sound.play_at("explosion", to, 0.55)
 		if is_instance_valid(b) and not b.dead:
 			b.destroy(true))
 
@@ -1153,7 +1153,7 @@ func _hide_tutorial() -> void:
 # ------------------------------------------------------------------------------------ callbacks
 func on_impact(b: Block, impulse: float, from_projectile: bool) -> void:
 	var snd: String = String(b.mat["sound"])
-	Sound.play(String(HIT_SOUND.get(snd, "wood_hit")), Sound.impact_volume(impulse))
+	Sound.play_at(String(HIT_SOUND.get(snd, "wood_hit")), b.global_position, Sound.impact_volume(impulse))
 	var hs: float = Data.bf("fx", "hitstop_impulse")
 	if impulse > hs * 0.25:
 		camera.add_shake(impulse * Data.bf("fx", "shake_per_impulse"))
@@ -1175,9 +1175,9 @@ func on_block_destroyed(b: Block, scored: bool) -> void:
 	var m: Dictionary = b.mat
 	fx.debris(pos, String(m["debris"]), int(Data.b("fx", "debris_per_block")), 520.0)
 	fx.puff(pos, 4, Color(0.95, 0.9, 0.8, 0.8), 1.0)
-	Sound.play(String(BREAK_SOUND.get(String(m["sound"]), "wood_break")), 0.9)
+	Sound.play_at(String(BREAK_SOUND.get(String(m["sound"]), "wood_break")), pos, 0.9)
 	if b.is_weak_point():
-		Sound.play("weak_point", 0.9)
+		Sound.play_at("weak_point", pos, 0.9)
 	if scored:
 		blocks_destroyed += 1
 		_stat("blocks")
@@ -1223,12 +1223,12 @@ func on_archer_defeated(a: Archer) -> void:
 	if a.is_boss and hud:
 		hud.set_boss(0.0, _boss_phase)
 		camera.add_shake(Data.bf("boss", "phase_shake"))
-		Sound.play("boss_roar", 0.9, 1.3)
+		Sound.play_at("boss_roar", a.global_position, 0.9, 1.3)
 	score += pts
 	_update_hud()
 	fx.float_text(a.global_position + Vector2(0, -40), Hud.fmt(pts), Color("#ffe27a"), 40)
 	fx.puff(a.global_position, 6, Color(1, 1, 1, 0.9), 0.9)
-	Sound.play("enemy_ko")
+	Sound.play_at("enemy_ko", a.global_position)
 	Events.archer_defeated.emit(a, pts)
 	_chain_link(a.global_position, pts, "boss" if a.is_boss else "archer")
 	replay.event("ko", a.global_position, 60.0)
@@ -1329,7 +1329,7 @@ func splash(pos: Vector2, size: float) -> void:
 	if stage.gap_kind == "lava":
 		fx.flame_puff(p)
 		fx.sparks(p, 5)
-	Sound.play(stage.splash_sound(), clampf(size / 80.0, 0.45, 1.0))
+	Sound.play_at(stage.splash_sound(), p, clampf(size / 80.0, 0.45, 1.0))
 	replay.event("splash", pos, size)
 
 
@@ -1341,7 +1341,7 @@ func explode(pos: Vector2, radius: float, impulse: float, damage: float) -> void
 	cut_ropes_near(pos, radius * Data.bf("ropes", "explosion_cut_mult"))
 	_snap_bolts_near(pos, radius * Data.bf("bolts", "explosion_break_mult"))
 	hit_mechanisms_near.call_deferred(pos, radius * 0.6)
-	Sound.play("explosion")
+	Sound.play_at("explosion", pos)
 	camera.add_shake(Data.bf("camera", "shake_max_px"))
 	Game.haptic(60)
 	Events.explosion.emit(pos, radius)
@@ -1370,7 +1370,7 @@ func explode(pos: Vector2, radius: float, impulse: float, damage: float) -> void
 
 
 func fire_burst(pos: Vector2, radius: float, damage: float) -> void:
-	Sound.play("fire")
+	Sound.play_at("fire", pos)
 	camera.add_shake(10.0)
 	for i: int in 14:
 		fx.flame_puff(pos + Vector2.from_angle(randf() * TAU) * randf() * radius * 0.6)
@@ -1438,7 +1438,7 @@ func quake(pos: Vector2, quake_cfg: Dictionary, power: float = 1.0) -> void:
 	_snap_bolts_near(Vector2(pos.x, ground_y), radius * Data.bf("bolts", "quake_break_radius_mult"))
 	hit_mechanisms_near.call_deferred(Vector2(pos.x, ground_y), radius * 0.4)
 	camera.add_shake(Data.bf("camera", "shake_max_px"))
-	Sound.play("quake", 0.95)
+	Sound.play_at("quake", pos, 0.95)
 	Game.haptic(70)
 	for b: Block in blocks.duplicate():
 		if not is_instance_valid(b) or b.dead:
@@ -1513,7 +1513,7 @@ func on_block_damaged(b: Block) -> void:
 func on_bolt_snapped(bolt: Bolt) -> void:
 	bolts.erase(bolt)
 	fx.sparks(bolt.position_now(), 6)
-	Sound.play("metal_hit", 0.7, 1.3)
+	Sound.play_at("metal_hit", bolt.position_now(), 0.7, 1.3)
 	_chain_link(bolt.position_now(), 0, "bolt")
 
 
@@ -1545,7 +1545,7 @@ func on_block_bent(b: Block) -> void:
 	_stat("iron_bent")
 	var pts: int = int(b.mat["bend"]["score"])
 	score += pts
-	Sound.play("metal_bend", 0.9)
+	Sound.play_at("metal_bend", b.global_position, 0.9)
 	fx.sparks(b.global_position, 10)
 	fx.float_text(b.global_position + Vector2(0, -30), "BENT!", Color("#d8e0ea"), 28)
 	camera.add_shake(8.0)
@@ -1567,7 +1567,7 @@ func rune_beam(src: Block) -> void:
 	var mults: Dictionary = cfg["material_mult"]
 	fx.beam(a, e, float(cfg["width"]))
 	replay.event("beam", a, float(cfg["width"]), e)
-	Sound.play("rune_beam", 0.95)
+	Sound.play_at("rune_beam", a, 0.95)
 	camera.add_shake(12.0)
 	Game.haptic(40)
 	var step: float = float(cfg["width"])
@@ -1697,8 +1697,8 @@ func on_core_down(at: Vector2) -> void:
 	camera.add_shake(Data.bf("boss", "phase_shake"))
 	fx.flash(at, 220.0)
 	fx.shockwave(at.x, 400.0, at.y)
-	Sound.play("explosion", 1.0, 0.8)
-	Sound.play("boss_roar", 0.9, 0.85)
+	Sound.play_at("explosion", at, 1.0, 0.8)
+	Sound.play_at("boss_roar", at, 0.9, 0.85)
 	Game.haptic(80)
 	if is_instance_valid(boss):
 		boss.lock_shield(false)

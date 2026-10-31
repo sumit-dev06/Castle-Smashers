@@ -52,7 +52,7 @@ Test device: Realme RMX3870, Android 16 (API 36), 1080×2400 (20:9), 480 dpi, ar
 | `assets/art/svg/` | Hand-written vector art (source of truth, Godot imports SVG directly) |
 | `assets/art/ai/cut/` | Refined AI art + `meta.json` (output of `tools/cutout.py`, shipped) |
 | `art_source/ai/` | Original AI images (kept, never shipped: has `.gdignore`) |
-| `assets/audio/` | `sfx/`, `music/` (two stems per song + stingers), `ambience/` (beds + details), all generated |
+| `assets/audio/` | `sfx/` (stereo WAV), `music/` (three synced Ogg stems per song + stingers), `ambience/` (Ogg beds + details), all generated |
 | `assets/fonts/` | Lilita One (titles), Fredoka (body). Both SIL OFL. |
 | `tools/` | Python generators: art, sfx, levels, AI cutout. Not shipped. |
 | `tests/` | Headless test scripts |

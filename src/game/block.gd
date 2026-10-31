@@ -350,12 +350,12 @@ func ignite(seconds: float) -> void:
 		return
 	if mat.has("melt_dps"):
 		if _melt_left <= 0.0:
-			Sound.play("sizzle", 0.6)
+			Sound.play_at("sizzle", global_position, 0.6)
 		_melt_left = maxf(_melt_left, seconds)
 		return
 	if mat.has("heat"):
 		if _hot_left <= 0.0:
-			Sound.play("sizzle", 0.7)
+			Sound.play_at("sizzle", global_position, 0.7)
 			_glow = Art.sprite("heat_glow", maxf(size.x, size.y) / 46.0)
 			_glow.scale.y = _glow.scale.x * clampf(minf(size.x, size.y) / maxf(size.x, size.y) * 1.6, 0.35, 1.0)
 			var add: CanvasItemMaterial = CanvasItemMaterial.new()
@@ -373,7 +373,7 @@ func ignite(seconds: float) -> void:
 		_flame.offset = Vector2(0, -60)
 		_flame.z_index = 2
 		add_child(_flame)
-		Sound.play("fire", 0.5)
+		Sound.play_at("fire", global_position, 0.5)
 	_burn_left = maxf(_burn_left, seconds)
 	_spread_t = 0.0
 	_spread_done = false
@@ -460,7 +460,7 @@ func absorb(_kind: String) -> bool:
 	_rune_charge = float(mat["rune"]["charge_s"])
 	sleeping = false
 	_sprite.modulate = Color(1.7, 1.4, 2.0)
-	Sound.play("rune_charge", 0.8)
+	Sound.play_at("rune_charge", global_position, 0.8)
 	return true
 
 

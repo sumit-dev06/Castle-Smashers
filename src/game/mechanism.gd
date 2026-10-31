@@ -333,11 +333,11 @@ func activate(scored: bool = true) -> void:
 				_counterweight.create_tween().tween_property(_counterweight, "position:y", _counterweight.position.y + float(cfg["counterweight_travel"]), float(cfg["duration_s"]))
 	if scored:
 		level.on_mechanism_activated(self)
-	Sound.play("chain", 0.72)
-	Sound.play("creak", 0.62)
+	Sound.play_at("chain", global_position, 0.72)
+	Sound.play_at("creak", global_position, 0.62)
 	var duration: float = float(cfg.get("duration_s", 0.7))
 	get_tree().create_timer(duration, true, false, true).timeout.connect(func() -> void:
-		Sound.play("gate_drop", 0.82 if kind == "gate" else 0.62))
+		Sound.play_at("gate_drop", global_position, 0.82 if kind == "gate" else 0.62))
 
 
 func _on_hazard_body(other: Node) -> void:
@@ -350,7 +350,7 @@ func _on_hazard_body(other: Node) -> void:
 	elif other is Block:
 		(other as Block).take_damage(Data.bf("mechanics", "hazard_damage"))
 	level.fx.sparks(other.global_position, 5)
-	Sound.play("hazard_hit", 0.75, 0.78 if kind == "lava" else 1.05)
+	Sound.play_at("hazard_hit", other.global_position, 0.75, 0.78 if kind == "lava" else 1.05)
 
 
 # ------------------------------------------------------------------------------------ ropes

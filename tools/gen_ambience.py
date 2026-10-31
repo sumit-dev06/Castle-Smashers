@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """Synthesises the per-realm ambience (owned by the project, no recordings).
 
-Beds (seamless loops):   assets/audio/ambience/bed_<realm>.wav
-Details (one-shots):     assets/audio/ambience/amb_<name>_<n>.wav
+Beds (seamless stereo loops, Ogg Vorbis): assets/audio/ambience/bed_<realm>.ogg
+Details (stereo one-shots):              assets/audio/ambience/amb_<name>_<n>.wav
+Beds are stereo from independent noise per channel with shared movement, so gusts and swells move
+together but the field is wide (harbor waves also roll from side to side). Details carry a stereo
+room tail; Sound places each one at a random point across the screen (AudioStreamPlayer2D).
 `Sound` (src/autoload/sound.gd) crossfades beds per realm and scatters the details at random times,
 pitches and levels from data/balance.json -> audio.ambience, so the surroundings never loop audibly.
 Run: python3 tools/gen_ambience.py
@@ -13,7 +16,7 @@ import numpy as np
 
 import audio_dsp as A
 
-RATE = 32000
+RATE = 44100
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "assets", "audio", "ambience")
 BED_S = 24.0
@@ -39,8 +42,24 @@ def periodic_am(dur, period, depth, seed):
 
 
 def bed(realm):
+    """Stereo bed: the mono recipe rendered once per channel with different noise but the same
+    seeded movement, blended 20% across so it stays coherent, then mastered as a seamless loop."""
+    chans = [_bed_channel(realm, ch) for ch in range(2)]
+    x = np.stack([chans[0] * 0.85 + chans[1] * 0.2, chans[1] * 0.85 + chans[0] * 0.2], axis=1)
+    if realm == "harbor":  # waves roll from one side to the other every 8 s (divides the 24 s loop)
+        t = A.t_axis(len(x) / RATE)[:len(x)]
+        sw = 0.18 * np.sin(2 * np.pi * t / 8.0)
+        x[:, 0] *= 1 + sw
+        x[:, 1] *= 1 - sw
+    # All filtering happens before the fold; after it only a gain and the limiter (no IIR state).
+    x = A.mono_bass(A.hp_st(x, 30), 120)
+    loop = A.loop_crossfade_st(x, A.n_of(BED_S), 1.8)
+    return A.master_st(loop, -27.5, -12.0, 0, 0, 0)
+
+
+def _bed_channel(realm, ch):
     d = BED_S + 2.0
-    A.set_rate(RATE, seed=sum(map(ord, realm)))
+    A.set_rate(RATE, seed=sum(map(ord, realm)) + 1000 * ch)
     if realm == "blossom":
         breeze = A.lp(A.pink(d), 700) * slow_am(d, 0.15, 0.6, 1) * 0.5
         leaves = A.bp(A.pink(d), 1800, 6000) * slow_am(d, 0.35, 0.85, 2) * 0.12
@@ -75,9 +94,7 @@ def bed(realm):
     else:
         raise ValueError(realm)
     # Filter before folding the loop: an IIR filter run on the loop itself would click at sample 0.
-    x = A.lp(A.hp(x, 30), 11000)
-    loop = A.loop_crossfade(x, A.n_of(BED_S), 1.8)
-    return A.master(loop, -27.0, -12.0, 0)
+    return A.lp(A.hp(x, 30), 12000)
 
 
 # ----------------------------------------------------------------------------- details
@@ -96,7 +113,7 @@ def bird(i):
         A.place(buf, s * r.uniform(0.6, 1.0), pos)
         pos += ln + r.uniform(0.02, 0.09)
         base *= r.uniform(0.92, 1.1)
-    return A.reverb(buf, 1.2, 0.25, 7000)
+    return A.reverb_st(buf, 1.2, 0.25, 7000)
 
 
 def dove(i):
@@ -107,7 +124,7 @@ def dove(i):
         s = np.sin(2 * np.pi * np.cumsum(f * (1 + 0.04 * np.sin(np.pi * tt / ln))) / A.SR)
         s = A.lp(s + 0.3 * s ** 3, 1500) * A.env(ln, 0.05, 1e4, 1.0, ln * 0.5)
         A.place(buf, s * (0.8 + 0.1 * i), t0)
-    return A.reverb(buf, 1.5, 0.3, 4000)
+    return A.reverb_st(buf, 1.5, 0.3, 4000)
 
 
 def gull(i):
@@ -125,11 +142,11 @@ def gull(i):
         s = A.bp(s, 900, 3500) * A.env(ln, 0.015, ln * 0.6)
         A.place(buf, s * r.uniform(0.7, 1.0), pos)
         pos += ln + r.uniform(0.05, 0.12)
-    return A.reverb(buf, 1.6, 0.3, 5000)
+    return A.reverb_st(buf, 1.6, 0.3, 5000)
 
 
 def ship_bell(i):
-    return A.reverb(A.bell(820 + 60 * i, 2.5, 1.8, 0.5), 2.0, 0.35, 4000)
+    return A.reverb_st(A.bell(820 + 60 * i, 2.5, 1.8, 0.5), 2.0, 0.35, 4000)
 
 
 def rope_creak(i):
@@ -138,14 +155,14 @@ def rope_creak(i):
     f0 = 110 + 25 * i
     saw = ((np.cumsum(f0 * (1 + 0.3 * np.sin(2 * np.pi * 1.5 * t))) / A.SR) % 1.0) * 2 - 1
     x = A.bp(saw * (0.5 + 0.5 * np.sin(2 * np.pi * 23 * t)), 300, 1600) * A.env(d, 0.12, 0.3)
-    return A.reverb(x, 0.8, 0.2, 3000)
+    return A.reverb_st(x, 0.8, 0.2, 3000)
 
 
 def drip(i):
     d = 0.08
     f = lambda tt: 900 + 1800 * (tt / d) ** 0.7 + 150 * i
     x = A.sine(f, d) * A.env(d, 0.002, 0.02)
-    return A.reverb(np.pad(x, (0, A.n_of(0.1))), 2.8, 0.55, 5000)
+    return A.reverb_st(np.pad(x, (0, A.n_of(0.1))), 2.8, 0.55, 5000)
 
 
 def lava_bubble(i):
@@ -158,12 +175,12 @@ def lava_bubble(i):
         s = A.sine(lambda tt, f0=f0, ln=ln: f0 * (1 + 1.2 * tt / ln), ln) * A.env(ln, 0.005, ln * 0.5)
         s = s + A.lp(A.noise(ln), 600) * A.env(ln, 0.001, 0.02) * 0.4
         A.place(buf, s, r.uniform(0, 0.35))
-    return A.reverb(buf, 1.6, 0.3, 2000)
+    return A.reverb_st(buf, 1.6, 0.3, 2000)
 
 
 def pick(i):
     x = A.mix(A.bell(1450 + 140 * i, 0.4, 0.15, 0.9), A.lp(A.noise(0.02), 4000) * 0.3)
-    return A.reverb(np.pad(x, (0, A.n_of(0.2))) * 0.6, 3.0, 0.6, 3000)
+    return A.reverb_st(np.pad(x, (0, A.n_of(0.2))) * 0.6, 3.0, 0.6, 3000)
 
 
 def chime(i):
@@ -174,7 +191,7 @@ def chime(i):
     for k in range(r.integers(3, 6)):
         A.place(buf, A.bell(A.midi(notes[r.integers(0, len(notes))]), 2.2, 1.6, 0.5) * r.uniform(0.4, 0.9),
                 r.uniform(0, 0.8))
-    return A.reverb(buf, 2.0, 0.3, 7000)
+    return A.reverb_st(buf, 2.0, 0.3, 7000)
 
 
 def hawk(i):
@@ -184,14 +201,14 @@ def hawk(i):
     ph = 2 * np.pi * np.cumsum(f) / A.SR
     x = (np.sin(ph) + 0.3 * np.sin(2 * ph)) * A.env(d, 0.04, 0.35)
     x += A.bp(A.noise(d), 2000, 5000) * A.env(d, 0.04, 0.3) * 0.25
-    return A.reverb(A.lp(x, 6000), 2.2, 0.45, 4000)
+    return A.reverb_st(A.lp(x, 6000), 2.2, 0.45, 4000)
 
 
 def gust(i):
     d = 2.6
     x = A.pink(d)
     x = A.sweep_lp(x, 300 + 100 * i, 2200) * np.sin(np.pi * A.t_axis(d) / d) ** 2
-    return A.hp(x, 120) * 0.6
+    return A.pan(A.hp(x, 120) * 0.6, 0.0, 0.9, i)
 
 
 DETAILS = {
@@ -204,12 +221,12 @@ DETAILS = {
 def main():
     os.makedirs(OUT, exist_ok=True)
     for realm in ("blossom", "desert", "harbor", "mines", "sky"):
-        A.write_wav(os.path.join(OUT, f"bed_{realm}.wav"), bed(realm), loop=True, sr=RATE)
+        A.write_ogg(os.path.join(OUT, f"bed_{realm}.ogg"), bed(realm), RATE, 3)
     for name, (fn, count) in DETAILS.items():
         for i in range(count):
             A.set_rate(RATE, seed=sum(map(ord, name)) + i)
-            y = A.tail_trim(fn(i), -55)
-            A.write_wav(os.path.join(OUT, f"amb_{name}_{i}.wav"), A.master(y, -24.0, -9.0, 0, hp_hz=60), sr=RATE)
+            y = A.tail_trim_st(A.stereo(fn(i)), -55)
+            A.write_wav_st(os.path.join(OUT, f"amb_{name}_{i}.wav"), A.master_st(y, -24.5, -9.0, 60, 0, 0), RATE)
     print("ambience:", len([f for f in os.listdir(OUT) if f.endswith(".wav")]), "files")
 
 

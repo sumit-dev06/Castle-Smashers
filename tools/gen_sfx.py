@@ -129,43 +129,58 @@ def at(x, offset, total):
     return out
 
 
+# Stereo width of the short room per family. The direct sound stays where the recipe put it (world
+# sounds are then placed on screen by AudioStreamPlayer2D); the room around it is wide.
+ROOM_WIDTH = {"ui": 0.35, "voice": 0.5, "impact": 0.75, "big": 1.0}
+# Families that get psychoacoustic bass: their weight survives on phone speakers (~300 Hz roll-off).
+PHONE_BASS = {"impact": 0.28, "big": 0.4}
+# The layered core set has a designed top end; it keeps more air than the older recipes.
+# dB of look-ahead limiting allowed on the first crack of the layered set (louder, same peak).
+LIMIT_DB = {"wood_hit": 3.0, "wood_break": 4.0, "stone_hit": 3.0, "stone_break": 4.0, "explosion": 4.0,
+            "launch": 3.0, "crystal_break": 5.0, "ice_break": 6.0, "slam": 3.0}
+BRIGHT = {"wood_break", "stone_break", "explosion", "crystal_break", "ice_break", "launch"}
+
+
 def polish(name, x):
-    """Smoothing chain shared by every sound: rumble cut, gentle top roll-off, short room, soft knee."""
+    """Shared chain: rumble cut, top roll-off, phone bass, short stereo room, soft knee. Stereo out."""
     fam = "ui" if name in UI_SOUNDS else "big" if name in BIG_SOUNDS else "voice" if name in VOICE_SOUNDS else "impact"
     decay, wet = ROOM[fam]
     D.set_rate(SR, seed=len(name))
-    x = filt(np.asarray(x, dtype=float), "high", 40)
-    x = filt(x, "low", 9500 if fam == "ui" else 8500)
-    x = D.tail_trim(D.reverb(x, decay, wet, 6000, 0.008), -62)
+    x = D.stereo(np.asarray(x, dtype=float))
+    x = D.hp_st(x, 40)
+    x = D.lp_st(x, 9500 if fam == "ui" else 12000 if name in BRIGHT else 8500)
+    if fam in PHONE_BASS:
+        x = D.phone_bass(x, 110.0, PHONE_BASS[fam])
+    x = D.tail_trim_st(D.reverb_st(x, decay, wet, 6000, 0.008, True, len(name), ROOM_WIDTH[fam]), -62)
+    x = D.mono_bass(x, 120)
     return D.softclip(x / (np.max(np.abs(x)) or 1.0), 1.25)
 
 
-def save(path, x, peak_db=-6.0, rms_db=-20.0):
-    x = np.asarray(x, dtype=float)
-    x -= np.mean(x)
-    rms = np.sqrt(np.mean(x * x)) or 1.0
+def save(path, x, peak_db=-6.0, rms_db=-20.0, name=""):
+    """RMS target on the mid signal, the peak ceiling wins (keeps transients), click-free edges."""
+    x = D.stereo(np.asarray(x, dtype=float))
+    x -= np.mean(x, axis=0)
+    m = x.mean(axis=1)
+    rms = np.sqrt(np.mean(m * m)) or 1.0
     x *= 10 ** (rms_db / 20.0) / rms
+    # A 1 ms fade-in only: a longer one would shave the crack that starts most impacts.
+    fin, fout = min(len(x) // 2, int(SR * 0.001)), min(len(x) // 2, int(SR * 0.008))
+    x[:fin] *= (np.sin(np.linspace(0.0, np.pi * 0.5, fin)) ** 2)[:, None]
+    x[-fout:] *= (np.cos(np.linspace(0.0, np.pi * 0.5, fout)) ** 2)[:, None]
     ceiling = 10 ** (peak_db / 20.0)
+    allow = ceiling * 10 ** (LIMIT_DB.get(name, 0.0) / 20.0)
     peak = np.max(np.abs(x)) or 1.0
+    if peak > allow:
+        x *= allow / peak
     if peak > ceiling:
-        x *= ceiling / peak
-    fade = min(len(x) // 2, int(SR * 0.008))
-    if fade > 0:
-        ramp = np.sin(np.linspace(0.0, np.pi * 0.5, fade)) ** 2
-        x[:fade] *= ramp
-        x[-fade:] *= ramp[::-1]
-    data = (np.clip(x, -1.0, 1.0) * 32767).astype("<i2").tobytes()
-    with wave.open(path, "wb") as w:
-        w.setnchannels(1)
-        w.setsampwidth(2)
-        w.setframerate(SR)
-        w.writeframes(data)
+        x = D.limit(x, peak_db, 1.0, 40.0)
+    D.write_wav_st(path, x, SR)
 
 
 def sfx(name, variants, fn):
     peak_db, rms_db = MASTERING.get(name, (-8.0, -21.0))
     for i in range(variants):
-        save(os.path.join(SFX, f"{name}_{i}.wav"), polish(name, fn(i)), peak_db, rms_db)
+        save(os.path.join(SFX, f"{name}_{i}.wav"), polish(name, fn(i)), peak_db, rms_db, name)
 
 
 # ----------------------------------------------------------------------------- impacts
@@ -270,7 +285,7 @@ def hazard_hit(i):
 
 def cage_break(i):
     d = 0.85
-    timber = pad(wood_break(i % 3), d) * 0.55
+    timber = pad(mono(wood_break(i % 3)), d) * 0.55
     metal = pad(chain(i), d) * 0.45
     return filt(mix(timber, metal), "low", 5000)
 
@@ -293,17 +308,6 @@ def splash(i):
         drop = sine(rng.uniform(900, 2200), 0.04) * env(0.04, 0.001, 0.012)
         out += at(drop * rng.uniform(0.08, 0.22), rng.uniform(0.15, d - 0.05), d)
     return filt(out, "low", 7000)
-
-
-def crystal_break(i):
-    """Glassy shatter: bright inharmonic pings over a noisy crack."""
-    d = 0.9
-    out = filt(noise(0.12), "high", 3000) * env(0.12, 0.0005, 0.03)
-    out = pad(out, d)
-    for k in range(9):
-        f0 = rng.uniform(2200, 5200)
-        out += at(sine(f0, 0.35) * env(0.35, 0.001, 0.09) * rng.uniform(0.15, 0.4), rng.uniform(0.0, 0.35), d)
-    return filt(out, "high", 500)
 
 
 def metal_hit(i):
@@ -342,18 +346,6 @@ def upgrade(i):
     for f, off in [(523, 0.0), (659, 0.09), (784, 0.18), (1047, 0.27)]:
         out += at(bell(f, 0.6, 0.3) * 0.4, off, d)
     return filt(out, "low", 7000)
-
-
-def ice_break(i):
-    """Ice shatter: a hard crack, falling glassy tinkles and a crunchy slide."""
-    d = 1.0
-    out = filt(noise(0.06), "band", (1800, 9000)) * env(0.06, 0.0003, 0.015) * 1.2
-    out = pad(out, d)
-    out += at(filt(noise(0.4), "band", (2500, 8000)) * env(0.4, 0.01, 0.12) * 0.35, 0.02, d)
-    for k in range(14):
-        f0 = rng.uniform(3000, 7500)
-        out += at(sine(f0, 0.12) * env(0.12, 0.0005, 0.03) * rng.uniform(0.1, 0.3), rng.uniform(0.03, 0.6), d)
-    return filt(out, "high", 900)
 
 
 def ice_hit(i):
@@ -624,73 +616,6 @@ def _knock(f0, d, q=1.0, i=0):
     return mix(out * env(d, 0.0015, 1e4), contact)
 
 
-def wood_hit(i):
-    d = 0.4
-    body = _knock(165 + 22 * i, d, 1.0, i)
-    thump = sine(lambda t: 95 * np.exp(-t * 18) + 60, d) * env(d, 0.002, 0.06) * 0.6
-    return filt(mix(body, thump), "low", 6500)
-
-
-def wood_break(i):
-    d = 0.9
-    out = np.zeros(int(SR * d))
-    out += pad(wood_hit(i) * 0.9, d)
-    for k in range(10 + 2 * i):
-        off = 0.01 + rng.uniform(0, 0.32) * (k / 12)
-        f = rng.uniform(900, 2400)
-        splinter = filt(D.pink(0.05), "band", (f, f * 2.8)) * env(0.05, 0.001, 0.012)
-        out += at(splinter * rng.uniform(0.25, 0.7), off, d)
-    for k in range(3):  # pieces tumbling after the break
-        out += at(_knock(rng.uniform(220, 380), 0.2, 0.6) * rng.uniform(0.15, 0.3), 0.18 + k * rng.uniform(0.08, 0.14), d)
-    groan = filt(sine(lambda t: 120 - 50 * t, d), "low", 800) * env(d, 0.01, 0.12) * 0.35
-    return filt(mix(out, groan), "low", 6500)
-
-
-def stone_hit(i):
-    d = 0.5
-    thud = sine(lambda t: 70 + 70 * np.exp(-t * 28) + 8 * i, d) * env(d, 0.0015, 0.09)
-    body = filt(D.pink(d), "band", (180, 900)) * env(d, 0.002, 0.05) * 0.6
-    grit = filt(D.pink(d), "band", (1400, 5500)) * env(d, 0.001, 0.025) * 0.25
-    return filt(mix(thud, body, grit), "low", 6000)
-
-
-def stone_break(i):
-    d = 1.1
-    out = pad(stone_hit(i) * 1.0, d)
-    rubble = filt(D.pink(d), "band", (200, 2200)) * env(d, 0.004, 0.25) * 0.45
-    out = mix(out, rubble)
-    for k in range(14):
-        f = rng.uniform(1200, 4200)
-        chip = filt(D.pink(0.05), "band", (f, f * 1.8)) * env(0.05, 0.001, 0.01)
-        out += at(chip * rng.uniform(0.15, 0.45), rng.uniform(0.02, 0.7) ** 1.4, d)
-    for k in range(4):
-        out += at(stone_hit(k % 3)[: int(SR * 0.25)] * rng.uniform(0.12, 0.25), 0.2 + k * rng.uniform(0.1, 0.16), d)
-    return filt(out, "low", 6000)
-
-
-def explosion(i):
-    d = 2.2
-    t = t_axis(d)
-    sub = sine(lambda t: 38 + 60 * np.exp(-t * 7), d) * env(d, 0.003, 0.45) * 1.3
-    boom = D.sweep_lp(D.pink(d), 2600, 110) * env(d, 0.004, 0.5)
-    crack = filt(D.pink(0.08), "band", (700, 5000)) * env(0.08, 0.001, 0.02) * 0.9
-    debris = np.zeros_like(t)
-    for k in range(18):
-        f = rng.uniform(800, 3500)
-        c = filt(D.pink(0.04), "band", (f, f * 2)) * env(0.04, 0.001, 0.01)
-        debris += at(c * rng.uniform(0.05, 0.2), 0.15 + rng.uniform(0, 1.0) ** 1.5, d)
-    x = mix(sub, boom, crack, debris)
-    return D.softclip(filt(x, "low", 7000) * 1.2, 1.4)
-
-
-def launch(i):
-    d = 0.9
-    thunk = mix(_knock(110 + 15 * i, 0.4, 1.4) * 0.8, sine(lambda t: 62 + 50 * np.exp(-t * 20), 0.4) * env(0.4, 0.002, 0.08))
-    twang = D.pluck(98 + 8 * i, 0.5, 0.35, 0.18, 0.25) * 0.35
-    air = whoosh(1) * 0.7
-    return filt(mix(thunk, at(twang, 0.005, d), at(air, 0.03, d)), "low", 7000)
-
-
 def whoosh(i):
     d = 0.55
     t = t_axis(d)
@@ -915,19 +840,203 @@ def talk_high(i):
     return _babble(380 + 30 * i, i, VOWELS, 4, 0.07)
 
 
+# ----------------------------------------------------------------------------- core impacts (layered, stereo)
+# The sounds heard most often are built like a film/AAA layer stack:
+#   transient (crack, 1-4 ms)  +  body (modal resonance of the material)  +  low weight (pitched thump)
+#   +  texture (granular splinters / grit / shards, spread across the stereo field)
+#   +  tail (tumbling pieces that bounce with shrinking gaps, dust, ground reflection).
+# Each variant draws new modal frequencies, grain timings and pans, so repeats never sound identical.
+def mono(x):
+    x = np.asarray(x, dtype=float)
+    return x.mean(axis=1) if x.ndim == 2 else x
+
+
+def st(x, p=0.0, w=0.0, seed=0):
+    x = np.asarray(x, dtype=float)
+    return x if x.ndim == 2 else D.pan(x, p, w, seed)
+
+
+def mix_st(*parts):
+    parts = [st(p) for p in parts]
+    out = np.zeros((max(len(p) for p in parts), 2))
+    for p in parts:
+        out[:len(p)] += p
+    return out
+
+
+def at_st(x, offset, total, p=0.0, w=0.0):
+    buf = np.zeros((int(SR * total), 2))
+    D.place_st(buf, x, offset, p, 1.0, w, int(offset * 1000) % 7)
+    return buf
+
+
+def _modes(f0, d, ratios, decays, gains, jitter=0.03, r=None):
+    """Bank of damped sine modes (a struck plank, stone or glass body). Ratios jitter per variant."""
+    r = r or rng
+    t = t_axis(d)
+    out = np.zeros_like(t)
+    for ratio, dec, g in zip(ratios, decays, gains):
+        f = f0 * ratio * r.uniform(1 - jitter, 1 + jitter)
+        if f > SR * 0.45:
+            continue
+        out += g * np.sin(2 * np.pi * f * t + r.random() * 6) * np.exp(-t / dec)
+    return out * env(d, 0.0008, 1e4)
+
+
+def _grains(d, count, lo, hi, glen, start, spread, decay_pow=1.4, gain=(0.15, 0.5), width=1.0, tone=None):
+    """Granular texture: short filtered noise grains scattered over `spread` s, panned across the
+    field (width), denser near the start. tone=(f_lo, f_hi) adds a tiny pitched ring to each grain."""
+    out = np.zeros((int(SR * d), 2))
+    for k in range(count):
+        gl = glen * rng.uniform(0.6, 1.4)
+        f = rng.uniform(lo, hi)
+        g = filt(D.pink(gl), "band", (f, min(f * 2.2, SR * 0.45))) * env(gl, 0.0006, gl * 0.25)
+        if tone:
+            g = g + sine(rng.uniform(*tone), gl) * env(gl, 0.0005, gl * 0.3) * 0.4
+        off = start + spread * rng.uniform(0, 1) ** decay_pow
+        D.place_st(out, g * rng.uniform(*gain), off, rng.uniform(-width, width), 1.0, 0.0)
+    return out
+
+
+def _bounces(d, first, n, piece, gap=(0.09, 0.16), shrink=0.72, width=0.6):
+    """Pieces landing after a break: each bounce quieter and sooner than the one before."""
+    out = np.zeros((int(SR * d), 2))
+    t = first
+    g = 1.0
+    p = rng.uniform(-width, width)
+    for k in range(n):
+        D.place_st(out, piece(k) * g, t, p + rng.uniform(-0.1, 0.1), 1.0, 0.0)
+        t += rng.uniform(*gap) * shrink ** k
+        g *= rng.uniform(0.5, 0.7)
+        if k % 2 == 1:
+            p = rng.uniform(-width, width)
+            g = rng.uniform(0.4, 0.7)
+    return out
+
+
+def _thump(d, f_hi, f_lo, rate, decay):
+    return sine(lambda t: f_lo + (f_hi - f_lo) * np.exp(-t * rate), d) * env(d, 0.0015, decay)
+
+
+def _crack(gl, lo, hi, gain=1.0):
+    return filt(noise(gl), "band", (lo, hi)) * env(gl, 0.0002, gl * 0.18) * gain
+
+
+WOOD_RATIOS = (1.0, 2.42, 3.9, 5.3, 0.55)
+WOOD_DECAYS = (0.075, 0.05, 0.032, 0.022, 0.11)
+WOOD_GAINS = (1.0, 0.55, 0.32, 0.18, 0.5)
+
+
+def wood_hit(i):
+    """Plank knock: soft contact, hollow modal body, a low thump and a tiny rattle."""
+    d = 0.42
+    f0 = rng.uniform(150, 230)
+    body = _modes(f0, d, WOOD_RATIOS, WOOD_DECAYS, WOOD_GAINS, 0.05)
+    contact = filt(D.pink(0.01), "band", (900, 4200)) * env(0.01, 0.0004, 0.0025) * 0.7
+    thump = _thump(d, 120, 62, 22, 0.05) * 0.7
+    rattle = at(_modes(f0 * 2.7, 0.08, (1.0, 2.1), (0.012, 0.008), (0.3, 0.2)), rng.uniform(0.03, 0.06), d)
+    return filt(mix(body, contact, thump, rattle), "low", 7500)
+
+
+def wood_break(i):
+    """Timber snapping: crack, fibre tear, splinter spray across the field, planks tumbling, groan."""
+    d = 1.1
+    crack = _crack(0.012, 1800, 9000, 1.2)
+    tear = filt(D.pink(0.16), "band", (700, 3800)) * env(0.16, 0.003, 0.05) * (0.5 + 0.5 * np.abs(sine(rng.uniform(35, 60), 0.16)))
+    body = pad(wood_hit(i) * 0.9, d)
+    splinters = _grains(d, 18 + 3 * i, 1100, 4200, 0.03, 0.006, 0.38, 1.6, (0.15, 0.5), 0.75)
+    planks = _bounces(d, rng.uniform(0.2, 0.3), 5, lambda k: pad(_modes(rng.uniform(230, 360), 0.16, WOOD_RATIOS, WOOD_DECAYS, WOOD_GAINS) * 0.35, 0.16))
+    groan = filt(sine(lambda t: rng.uniform(110, 140) - 55 * t, d), "low", 700) * env(d, 0.012, 0.13) * 0.3
+    return mix_st(st(mix(pad(crack, d), pad(tear * 0.8, d), body, groan)), splinters, planks)
+
+
+def stone_hit(i):
+    """Heavy block knock: weighty pitched thud, a short stony body and grit."""
+    d = 0.5
+    thud = _thump(d, rng.uniform(135, 160), rng.uniform(55, 70), 26, 0.085)
+    body = _modes(rng.uniform(320, 420), d, (1.0, 1.73, 2.61, 3.4), (0.035, 0.026, 0.018, 0.012), (1.0, 0.7, 0.45, 0.3), 0.06) * 0.6
+    chunk = filt(D.pink(d), "band", (280, 1500)) * env(d, 0.0015, 0.05) * 0.85
+    grit = filt(D.pink(d), "band", (1500, 6000)) * env(d, 0.0008, 0.02) * 0.28
+    return filt(mix(thud, body, chunk, grit), "low", 7000)
+
+
+def stone_break(i):
+    """Masonry giving way: crack, crumble (dense grit decaying), rubble roll, chunks bouncing, dust."""
+    d = 1.3
+    crack = pad(_crack(0.018, 900, 6500, 1.1), d)
+    hit = pad(stone_hit(i), d)
+    crumble = _grains(d, 34, 900, 4800, 0.035, 0.01, 0.75, 1.5, (0.1, 0.4), 0.8)
+    roll = filt(D.brown(d), "low", 650) * env(d, 0.02, 0.32) * (0.6 + 0.4 * np.abs(sine(rng.uniform(9, 14), d))) * 0.55
+    chunks = _bounces(d, rng.uniform(0.22, 0.32), 6, lambda k: pad(stone_hit(k % 3)[: int(SR * 0.2)] * 0.3, 0.2), (0.1, 0.17), 0.7, 0.7)
+    dust = st(filt(noise(d), "band", (2500, 7000)) * env(d, 0.08, 0.35) * 0.05, 0.0, 0.9, i)
+    return mix_st(st(mix(crack, hit, roll)), crumble, chunks, dust)
+
+
+def explosion(i):
+    """Bomb: snap, chest punch, roaring body that darkens, sub tail, debris rain and a ground slap-back."""
+    d = 2.6
+    snap = pad(_crack(0.01, 1200, 9000, 1.0), d)
+    punch = pad(_thump(0.35, rng.uniform(150, 175), 42, 14, 0.09) * 1.25, d)
+    body = D.sweep_lp(D.pink(d), rng.uniform(3200, 4200), 120) * env(d, 0.003, 0.42)
+    sub = _thump(d, 60, 32, 2.0, 0.6) * 0.9
+    core = mix(snap, punch, body, sub)
+    # Distant terrain reflection: a darker copy arriving 160-240 ms later, slightly off to one side.
+    slap_t = rng.uniform(0.16, 0.24)
+    side = rng.choice([-0.55, 0.55])
+    slap = at_st(filt(core, "low", 1400) * 0.22, slap_t, d, side, 0.3)
+    debris = _grains(d, 40, 700, 4200, 0.04, 0.12, 1.4, 1.7, (0.05, 0.22), 0.9, (1800, 4200))
+    crackle = _grains(d, 26, 2500, 7500, 0.012, 0.05, 0.8, 1.2, (0.04, 0.14), 0.7)
+    wide = st(D.sweep_lp(D.pink(d), 2400, 160) * env(d, 0.01, 0.6) * 0.35, 0.0, 1.0, i)
+    out = mix_st(st(D.softclip(filt(core, "low", 9000) * 1.15, 1.35)), wide, slap, debris, crackle)
+    return out
+
+
+def launch(i):
+    """Catapult release: latch click, arm whoosh, rope twang dropping in pitch, crossbar thunk."""
+    d = 1.0
+    latch = pad(_modes(rng.uniform(1700, 2100), 0.05, (1.0, 2.3), (0.008, 0.005), (1.0, 0.5)) * 0.5, d)
+    twang = D.pluck(rng.uniform(92, 108), 0.55, 0.38, 0.22, 0.25) * 0.4
+    arm = whoosh(1) * 0.75
+    thunk_t = rng.uniform(0.11, 0.14)
+    thunk = mix(_modes(rng.uniform(105, 125), 0.4, WOOD_RATIOS, WOOD_DECAYS, WOOD_GAINS) * 1.1, _thump(0.4, 105, 52, 20, 0.08))
+    rattle = _grains(d, 6, 900, 2600, 0.025, thunk_t + 0.02, 0.18, 1.0, (0.08, 0.2), 0.4)
+    core = mix(latch, at(twang, 0.006, d), at(arm, 0.02, d), at(thunk, thunk_t, d))
+    return mix_st(st(filt(core, "low", 8000)), rattle)
+
+
+def crystal_break(i):
+    """Crystal shatter: a glassy crack, a high inharmonic ring and bright shards across the field."""
+    d = 1.1
+    crack = pad(_crack(0.01, 2500, 11000, 1.0), d)
+    ring = _modes(rng.uniform(1500, 1900), d, (1.0, 2.32, 4.25, 6.63), (0.35, 0.22, 0.12, 0.08), (0.5, 0.35, 0.25, 0.15), 0.02) * 0.45
+    shards = _grains(d, 22, 2600, 6500, 0.05, 0.005, 0.5, 1.6, (0.12, 0.38), 0.85, (2400, 6200))
+    body = filt(noise(0.2), "band", (1500, 6000)) * env(0.2, 0.002, 0.05) * 0.3
+    return mix_st(st(filt(mix(crack, ring, pad(body, d)), "high", 450)), shards)
+
+
+def ice_break(i):
+    """Ice: a hard crunchy crack, a short glassy ring, tinkles falling and a crisp slide."""
+    d = 1.1
+    crack = pad(_crack(0.02, 1600, 9500, 1.2), d)
+    crunch = filt(D.pink(0.3), "band", (2000, 8000)) * env(0.3, 0.004, 0.08) * (0.6 + 0.4 * np.abs(sine(rng.uniform(40, 70), 0.3))) * 0.4
+    ring = _modes(rng.uniform(2300, 2800), d, (1.0, 2.6, 4.1), (0.12, 0.07, 0.04), (0.4, 0.25, 0.15), 0.03) * 0.35
+    tinkles = _grains(d, 26, 3000, 7500, 0.03, 0.03, 0.7, 1.4, (0.08, 0.3), 0.85, (3500, 7500))
+    return mix_st(st(filt(mix(crack, pad(crunch, d), ring), "high", 700)), tinkles)
+
+
 SOUNDS = [
-    ("wood_hit", 3, wood_hit), ("wood_break", 3, wood_break), ("stone_hit", 3, stone_hit),
-    ("stone_break", 2, stone_break), ("straw_break", 2, straw_break), ("explosion", 2, explosion),
-    ("creak", 3, creak), ("launch", 2, launch), ("whoosh", 2, whoosh), ("slam", 1, slam),
+    ("wood_hit", 5, wood_hit), ("wood_break", 4, wood_break), ("stone_hit", 5, stone_hit),
+    ("stone_break", 4, stone_break), ("straw_break", 2, straw_break), ("explosion", 3, explosion),
+    ("creak", 3, creak), ("launch", 3, launch), ("whoosh", 2, whoosh), ("slam", 1, slam),
     ("fire", 2, fire), ("wind", 1, wind), ("arrow_shoot", 3, arrow_shoot), ("arrow_hit", 3, arrow_hit),
     ("soldier_hit", 3, soldier_hit), ("soldier_ko", 2, soldier_ko), ("enemy_ko", 3, enemy_ko),
     ("enemy_laugh", 2, enemy_laugh), ("ui_tap", 1, ui_tap), ("pop", 1, pop), ("star", 3, star),
     ("win", 1, win), ("lose", 1, lose), ("quake", 2, quake),
     ("weak_point", 2, weak_point), ("chain", 3, chain), ("gate_drop", 2, gate_drop),
     ("hazard_hit", 2, hazard_hit), ("cage_break", 2, cage_break), ("rescue", 1, rescue),
-    ("splash", 3, splash), ("crystal_break", 3, crystal_break), ("metal_hit", 3, metal_hit),
+    ("splash", 3, splash), ("crystal_break", 4, crystal_break), ("metal_hit", 3, metal_hit),
     ("rope_snap", 2, rope_snap), ("geyser", 2, geyser), ("boss_roar", 1, boss_roar), ("upgrade", 1, upgrade),
-    ("ice_break", 3, ice_break), ("ice_hit", 3, ice_hit), ("metal_bend", 2, metal_bend), ("sizzle", 2, sizzle),
+    ("ice_break", 4, ice_break), ("ice_hit", 3, ice_hit), ("metal_bend", 2, metal_bend), ("sizzle", 2, sizzle),
     ("rune_charge", 1, rune_charge), ("rune_beam", 2, rune_beam),
     ("coin_tink", 3, coin_tink), ("gem_tink", 2, gem_tink), ("purchase", 1, purchase),
     ("chest_open", 1, chest_open), ("wheel_tick", 1, wheel_tick), ("anvil", 2, anvil),

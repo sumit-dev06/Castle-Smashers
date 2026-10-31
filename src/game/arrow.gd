@@ -51,7 +51,7 @@ func _physics_process(delta: float) -> void:
 					_deflected = true
 					velocity = Vector2(-velocity.x * 0.25, -320.0)
 					return
-				Sound.play("arrow_hit", 0.8)
+				Sound.play_at("arrow_hit", global_position, 0.8)
 				_stick(s)
 				return
 	if _stage and not _stage.ground_at(position.x):
@@ -66,13 +66,13 @@ func _physics_process(delta: float) -> void:
 		if hits > 1:
 			_burst()
 			return
-		Sound.play("arrow_hit", 0.5)
+		Sound.play_at("arrow_hit", global_position, 0.5)
 		_stick(null)
 
 
 func _burst() -> void:
 	flying = false
-	Sound.play("explosion", 0.55, 1.3)
+	Sound.play_at("explosion", global_position, 0.55, 1.3)
 	var lv: Level = get_parent().get_parent() as Level if get_parent() else null
 	if lv and lv.fx:
 		lv.fx.puff(global_position, 5, Color(0.5, 0.48, 0.45, 0.85), 1.0)

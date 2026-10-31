@@ -150,12 +150,16 @@
   },
   "audio": {
     "pool_size": 14,
+    "pool_2d_size": 12,
+    "positional": {"max_distance": 6000.0, "attenuation": 0.6, "panning_strength": 1.3, "make_up_db": 6.0, "ambience_spread": 1.1},
     "min_interval_ms": 45,
     "pitch_variation": 0.055,
     "impact_ref_impulse": 3500.0,
     "music_db": -9.0,
     "sfx_db": 0.0,
-    "limiter_ceiling_db": -2.0,
+    "limiter_ceiling_db": -1.5,
+    "limiter_pre_gain_db": 3.5,
+    "limiter_release_s": 0.12,
     "sound_gain_db": {
       "ui_tap": 0.0,
       "pop": -2.0,
@@ -222,11 +226,11 @@
     "stem_release_db_s": 7.0,
     "music_states": {
       "menu": {
-        "base": 3.0,
+        "base": 5.0,
         "action": -60.0
       },
       "map": {
-        "base": 2.0,
+        "base": 4.0,
         "action": -60.0
       },
       "aim": {
@@ -256,7 +260,12 @@
       "per_chain": 0.1,
       "decay_per_s": 0.22,
       "hold_s": 2.5,
-      "max_db": -3.0
+      "max_db": -3.0,
+      "climax_on": 0.6,
+      "climax_floor_db": -12.0,
+      "climax_max_db": -2.0,
+      "climax_attack_db_s": 24.0,
+      "climax_release_db_s": 6.0
     },
     "duck": {
       "explosion_db": -5.0,

@@ -170,13 +170,13 @@ func use_ability() -> bool:
 		"stone", "quake":
 			mass *= float(cfg["slam_mass_mult"])
 			linear_velocity = Vector2(linear_velocity.x * float(cfg["slam_keep_x"]), float(cfg["slam_speed"]))
-			Sound.play("slam", 1.0, 0.82 if kind == "quake" else 1.0)
+			Sound.play_at("slam", global_position, 1.0, 0.82 if kind == "quake" else 1.0)
 			level.fx.puff(global_position, 8 if kind == "quake" else 6, Color("#bdefff") if kind == "quake" else Color(0.95, 0.95, 1.0), 0.8 if kind == "quake" else 0.6)
 		"fire":
 			_dashing = true
 			linear_velocity *= float(cfg["dash_mult"])
 			gravity_scale = 0.5
-			Sound.play("fire")
+			Sound.play_at("fire", global_position)
 		"bomb":
 			_explode()
 		"cyclone":
@@ -206,7 +206,7 @@ func _start_whirl() -> void:
 	set_deferred("freeze", true)
 	set_deferred("collision_mask", 0)
 	set_deferred("collision_layer", 0)
-	Sound.play("wind")
+	Sound.play_at("wind", global_position)
 	var tw: Tween = create_tween()
 	tw.tween_property(_sprite, "scale", _sprite.scale * float(cfg["whirl_visual_scale"]), 0.25)
 	_sprite.modulate.a = 0.85
