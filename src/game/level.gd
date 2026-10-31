@@ -893,6 +893,26 @@ func live_stars() -> int:
 var _match_counted: bool = false
 
 
+## Leaving the app (home button, a call, the notification shade) mid-level opens the pause menu, so the
+## physics, archers and the clock never run on unseen and the player comes back to "PAUSED".
+func _notification(what: int) -> void:
+	if what != NOTIFICATION_APPLICATION_PAUSED and what != NOTIFICATION_APPLICATION_FOCUS_OUT:
+		return
+	if test_mode or hud == null or is_finished() or get_tree().paused or hellfire_running:
+		return
+	if Ads.showing():
+		return  # a full-screen ad also takes focus; the ad flow handles that
+	hud.show_pause()
+
+
+## Pause menu Map / Restart before the level ended: where players give up.
+func track_quit(how: String) -> void:
+	if test_mode or is_finished() or not training.is_empty():
+		return
+	Analytics.event("level_quit", {"level_id": level_id, "attempt": _attempt(), "duration_s": int(_play_t),
+			"shots_used": hero_index, "how": how})
+
+
 func count_match() -> void:
 	if _match_counted or test_mode or not training.is_empty():
 		return
@@ -962,6 +982,10 @@ func _log_level_start() -> void:
 	Analytics.set_crash_key("weapon", Progression.weapon())
 	Analytics.event("level_start", {"level_id": level_id, "attempt": _attempt(), "weapon": Progression.weapon(),
 			"heroes": ",".join(PackedStringArray(heroes)), "mode": String(data.get("mode", "siege"))})
+	if not test_mode and training.is_empty() and not bool(Save.data.get("tutorial_done", false)) and not bool(Save.data.get("tutorial_begun", false)):
+		Save.data["tutorial_begun"] = true
+		Save.write()
+		Analytics.event("tutorial_begin", {"level_id": level_id})
 
 
 # ------------------------------------------------------------------------------------ second chance

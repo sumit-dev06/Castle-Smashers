@@ -143,6 +143,7 @@ func buy(product_id: String) -> bool:
 	if not PurchaseProcessor.is_consumable(product_id) and owns(product_id):
 		return false
 	busy_product = product_id
+	Analytics.event("purchase_start", {"product_id": product_id})
 	backend.call("purchase", product_id)
 	return true
 

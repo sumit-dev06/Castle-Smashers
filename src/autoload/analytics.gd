@@ -10,13 +10,17 @@ const BACKEND: String = "res://src/autoload/analytics_firebase.gd"
 ## event -> allowed parameter keys.
 const EVENTS: Dictionary = {
 	"game_start": ["session_number", "days_since_install", "build"],
+	"tutorial_begin": ["level_id"],
 	"tutorial_complete": ["level_id"],
 	"level_start": ["level_id", "attempt", "weapon", "heroes", "mode"],
 	"level_complete": ["level_id", "attempt", "stars", "score", "duration_s", "weapon", "shots_used", "used_hellfire"],
 	"level_failed": ["level_id", "attempt", "reason", "duration_s", "weapon", "shots_used"],
 	"level_retry": ["level_id"],
+	"level_quit": ["level_id", "attempt", "duration_s", "shots_used", "how"],
 	"rewarded_ad_watched": ["placement", "reward_amount", "level_id"],
+	"rewarded_ad_failed": ["placement"],
 	"interstitial_shown": ["level_id"],
+	"purchase_start": ["product_id"],
 	"purchase_success": ["product_id", "reward_amount"],
 	"purchase_failed": ["product_id", "reason"],
 	"crate_opened": ["product_id", "reward_type", "reward_amount"],
@@ -26,6 +30,8 @@ const EVENTS: Dictionary = {
 	"skin_bought": ["skin_id", "cost"],
 	"spin_used": ["paid_with_ad", "reward_type", "reward_amount"],
 	"notification_opened": ["kind"],
+	"review_requested": ["level_id"],
+	"update_prompted": ["mode", "version_code", "staleness_days"],
 	"session_end": ["duration_s", "levels_played"],
 }
 const MAX_LOG: int = 200

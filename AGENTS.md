@@ -74,7 +74,7 @@ Test device: Realme RMX3870, Android 16 (API 36), 1080×2400 (20:9), 480 dpi, ar
 4. Signals go through the `Events` autoload for cross-system communication. Direct calls are fine
    inside one scene.
 5. **Monetization code only in `Ads` and `Store` autoloads** (analytics only in `Analytics`,
-   notifications only in `Notifications`). Gameplay never calls a plugin
+   notifications only in `Notifications`, Play review/updates only in `PlayServices`). Gameplay never calls a plugin
    directly. Both autoloads must work (as no-op stubs) when the Android plugin is missing, so the
    game runs on desktop.
 6. Never show an interstitial ad during play; only at a break between matches (`Ads.match_break`). See `docs/MONETIZATION.md`.

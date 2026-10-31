@@ -10,6 +10,7 @@
 | `Analytics` | `analytics.gd` | Whitelisted events, Crashlytics keys/breadcrumbs, error forwarder. Backend `analytics_firebase.gd` (CastleFirebase plugin) on Android, in-memory log elsewhere |
 | `Ads` | `ads.gd` | Ad rules: `match_played` / `match_break` (one interstitial per 4 matches, shown at a results or pause break), `show_rewarded(id)` for `spin`/`extra_rocky`/`double_coins`, Remove Ads bypass. Backend `ads_admob.gd` (UMP consent first), no-op stub on desktop |
 | `Store` | `store.gd` | BillingManager. Backends `store_play_billing.gd` (GodotGooglePlayBilling 3.3.0) or `store_fake_billing.gd` (tests/debug). Ledger `purchase_processor.gd`, optional server check `purchase_verifier.gd` |
+| `PlayServices` | `play_services.gd` | Google Play In-App Review (after a 3-star win, rules in `balance.play.review`) and In-App Updates (home screen check; release priority ≥ 4 = blocking, else background download installed when the app is backgrounded). CastlePlay plugin in `castle_notify.aar`. No-op off Android |
 | `Notifications` | `notifications.gd` | Local reminders (CastleNotify plugin): plan on pause, cancel on resume, caps, quiet hours. Copy in `data/notifications.json`. Push backend `notifications_push.gd` (GodotX Firebase Messaging): topic subscriptions follow the Settings switch + permission |
 | `Game` | `game.gd` | Scene switching (`Game.goto_level(id)`, `Game.goto_menu()`), command-line flags |
 
@@ -211,6 +212,12 @@ pop-ups are muted while `hellfire_running`. Timings live in `balance.hellfire`; 
 `--level=16 --hellfire=0.3`. Time attack, one-shot and boss rush fail directly.
 
 ## Save backup
+Every `Save.write()` checks the new file parses, keeps the previous good save as
+`user://save.json.bak`, then renames the temp file into place. An unreadable `save.json` is kept as
+`save.json.broken` and the backup is loaded (`save_recovered` counts it).
+A level opens the pause menu on `NOTIFICATION_APPLICATION_PAUSED` / `FOCUS_OUT`, except while a
+full-screen ad is open (`Ads.showing()`).
+
 `user://save.json` is the only file in Android Auto Backup (`user_data_backup/allow=true`; rules
 `cs_backup_rules.xml` / `cs_data_rules.xml` written by `tools/patch_android_template.py`). Ads,
 Firebase and billing caches are never restored, so IDs are not cloned to a new device.

@@ -480,8 +480,9 @@ def commit_edit(svc, edit_id):
         raise
 
 
-def release_body(code, notes, fraction, draft):
-    body = {"versionCodes": [str(code)], "releaseNotes": [{"language": "en-US", "text": notes}]}
+def release_body(code, notes, fraction, draft, priority=0):
+    body = {"versionCodes": [str(code)], "releaseNotes": [{"language": "en-US", "text": notes}],
+            "inAppUpdatePriority": int(priority)}
     if draft:
         body["status"] = "draft"
     elif fraction < 1.0:
@@ -521,7 +522,7 @@ def cmd_upload(a):
         die(f"version code {code} was already uploaded: run python3 tools/release.py version, then aab")
     r = Report(f"Upload {name} (code {code}) to {track}")
     if a.dry_run:
-        r.ok(f"dry run: would upload {os.path.relpath(AAB, ROOT)} to '{track}' at {fraction:.0%} with notes: {notes}")
+        r.ok(f"dry run: would upload {os.path.relpath(AAB, ROOT)} to '{track}' at {fraction:.0%}, update priority {a.priority}, notes: {notes}")
         r.check(os.path.exists(SERVICE_ACCOUNT), "Play upload key present", f"Play upload key missing: {SERVICE_ACCOUNT}", warn_only=True)
         return r.end()
     from googleapiclient.errors import HttpError
@@ -541,7 +542,7 @@ def cmd_upload(a):
         for attempt in (1, 2):
             try:
                 svc.edits().tracks().update(packageName=PACKAGE, editId=edit_id, track=track,
-                                            body={"track": track, "releases": with_live(svc, edit_id, track, release_body(code, notes, fraction, draft))}).execute()
+                                            body={"track": track, "releases": with_live(svc, edit_id, track, release_body(code, notes, fraction, draft, a.priority))}).execute()
                 break
             except HttpError as e:
                 if attempt == 1 and "draft" in http_error_text(e).lower() and not draft:
@@ -614,7 +615,7 @@ def cmd_promote(a):
         code = max(int(c) for c in rel["versionCodes"])
         notes = notes_ok(a.notes or next((n["text"] for n in rel.get("releaseNotes", []) if n.get("language") == "en-US"), "Bug fixes and improvements."))
         svc.edits().tracks().update(packageName=PACKAGE, editId=edit_id, track=dst,
-                                    body={"track": dst, "releases": with_live(svc, edit_id, dst, release_body(code, notes, fraction, a.draft))}).execute()
+                                    body={"track": dst, "releases": with_live(svc, edit_id, dst, release_body(code, notes, fraction, a.draft, a.priority))}).execute()
         r.ok(f"code {code} on '{dst}' at {fraction:.0%}: {commit_edit(svc, edit_id)}")
         add_history(code, rel.get("name", ""), dst, f"promote from {src} {fraction:.0%}", notes)
     except HttpError as e:
@@ -778,6 +779,8 @@ def main():
         sp.add_argument("--rollout", type=float, help="share of players, 0.01-1.0 (production only; default 1.0)")
         sp.add_argument("--confirm", action="store_true", help="required for production")
         sp.add_argument("--draft", action="store_true", help="save as draft, start it in Play Console")
+        sp.add_argument("--priority", type=int, default=0, choices=range(0, 6), metavar="0-5",
+                        help="in-app update priority: 0-3 = game offers a background update, 4-5 = blocking 'update now' screen (critical fixes only)")
         if notes:
             sp.add_argument("--notes", help=f"What's new text, max {NOTES_MAX} characters")
 

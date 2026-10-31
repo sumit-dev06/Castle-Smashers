@@ -10,6 +10,15 @@ var _root: Control
 var _panel: PanelContainer
 
 
+## mailto: link with the game version, build, phone model and Android version filled in, so a
+## player's report (or a purchase complaint) already says which build and device it is about.
+static func support_mailto() -> String:
+	var ver: String = String(ProjectSettings.get_setting("application/config/version", ""))
+	var subject: String = String(Data.b("settings", "support_subject")) % ver
+	var body: String = String(Data.b("settings", "support_body")) % [ver, OS.get_model_name(), OS.get_version(), int(Save.data.get("unlocked", 1))]
+	return "mailto:%s?subject=%s&body=%s" % [String(Data.b("settings", "support_email")), subject.uri_encode(), body.uri_encode()]
+
+
 static func open(parent: Node) -> SettingsPopup:
 	var s: SettingsPopup = SettingsPopup.new()
 	parent.add_child(s)
@@ -95,9 +104,20 @@ func _main() -> void:
 		UIFx.press_juice(b)
 		h.add_child(b)
 	v.add_child(note)
+	var foot: HBoxContainer = HBoxContainer.new()
+	foot.alignment = BoxContainer.ALIGNMENT_CENTER
+	foot.add_theme_constant_override("separation", 18)
 	var ver: Label = UIKit.body("Version " + String(ProjectSettings.get_setting("application/config/version", "")), 18, Color("#8a5a2a"))
 	ver.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	v.add_child(ver)
+	ver.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	ver.autowrap_mode = TextServer.AUTOWRAP_OFF
+	foot.add_child(ver)
+	var sp: Button = UIKit.button("Contact Support", "blue", 20, Vector2(200, 50))
+	sp.pressed.connect(func() -> void: OS.shell_open(support_mailto()))
+	sp.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	UIFx.press_juice(sp)
+	foot.add_child(sp)
+	v.add_child(foot)
 
 
 ## On/off row for a setting stored elsewhere (notifications, analytics).

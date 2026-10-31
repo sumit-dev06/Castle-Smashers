@@ -412,10 +412,22 @@ update. Purchases keep working on old versions too.
 This means: never change something on a server or in Play Console that would break old versions
 (for example, don't delete a product ID).
 
-If one day you **must** have everyone on a new version (a serious bug, a cheat), the game needs a
-"please update" screen. It isn't built yet. Two ways a developer can add it:
-- Google's **In-app updates** (the game shows Play's update screen; can block play until updated).
-- A **minimum version** setting in Firebase Remote Config that you change any time.
+**The game also offers updates itself (from version 0.5.3).** Once per session, on the home screen,
+it asks Play whether a newer version exists:
+- **Normal update** (priority 0 to 3, the default): Play shows a small "Update available" box. If the
+  player says yes it downloads in the background while they keep playing, and installs the next time
+  they leave the game. If they say no, the game asks again after 24 hours.
+- **Critical update** (priority 4 or 5): Play shows a full-screen "Update now" screen and the game
+  can't be played until it's updated. Use this only for serious bugs or broken purchases.
+
+You choose the priority when you upload (it can't be changed later for that version):
+```sh
+python3 tools/release.py upload --track production --priority 0 --notes "New levels." --confirm      # normal
+python3 tools/release.py upload --track production --priority 5 --notes "Fixes a crash." --confirm   # forces the update
+```
+Uploading by hand in Play Console always gives priority 0 (Play Console has no field for it).
+The update box only appears for copies installed from Play, and only when the newer version has
+reached that player (for example, inside the rollout percentage).
 
 ### 10.3 Telling players about an update
 - Write a good **"What's new"** text (`--notes`).
@@ -449,6 +461,9 @@ working; only new uploads are blocked. Updating means updating the plugin in `ad
   shows the game less.
 - Firebase → **Crashlytics**: new crashes, which level, which phone.
 - **Ratings and reviews**: reply politely, especially to 1 and 2 star reviews.
+  The game asks for ratings with Google's own review card: after a 3-star win from level 8, at most
+  3 times, 30 days apart (settings in `data/balance.json` → `"play"`). Google decides whether the
+  card actually appears and limits how often. Never offer rewards for ratings: that breaks Play policy.
 
 **Every week**
 - AdMob → **Home**: earnings, match rate. A sudden drop to 0 → check **Policy center**.
@@ -597,6 +612,7 @@ Always start with `cd "/Users/sumit/Documents/Castle Smashers 2"`.
 | `python3 tools/release.py verify` | Re-check the bundle |
 | `python3 tools/release.py upload --track internal --notes "TEXT"` | Send to Play |
 | `python3 tools/release.py upload --track internal --dry-run` | Check without sending |
+| `... upload ... --priority 5` | Critical fix: players must update before playing (part 10.2) |
 | `python3 tools/release.py status` | What's on each track |
 | `python3 tools/release.py promote --from internal --to closed` | Move a build to another track |
 | `python3 tools/release.py promote --from closed --to production --rollout 0.2 --confirm` | Go public to 20% |

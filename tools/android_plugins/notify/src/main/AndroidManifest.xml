@@ -5,6 +5,9 @@
         <meta-data
             android:name="org.godotengine.plugin.v2.CastleNotify"
             android:value="com.castlesmashers.notify.CastleNotify" />
+        <meta-data
+            android:name="org.godotengine.plugin.v2.CastlePlay"
+            android:value="com.castlesmashers.notify.CastlePlay" />
         <receiver android:name="com.castlesmashers.notify.NotifyReceiver" android:exported="false" />
     </application>
 </manifest>

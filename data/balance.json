@@ -2275,6 +2275,11 @@
       }
     ]
   },
+  "play": {
+    "_doc": "Google Play In-App Review and In-App Updates (src/autoload/play_services.gd). Review: asked after a win with min_stars from min_level, after min_sessions sessions, at most max_asks times, gap_days apart, delay_s after the results panel (Play may still decide not to show it). Updates: one check per session on the home screen (delay_s after it appears, never before the notification question). Release priority (tools/release.py upload --priority 0-5) >= immediate_priority opens Play's blocking update screen; lower offers the background download at most every ask_gap_hours per version.",
+    "review": {"min_level": 8, "min_stars": 3, "min_sessions": 2, "max_asks": 3, "gap_days": 30, "delay_s": 2.5},
+    "updates": {"delay_s": 2.0, "immediate_priority": 4, "ask_gap_hours": 24}
+  },
   "shop": {
     "_doc": "Play Billing catalogue. Product ids must match Play Console exactly. Contents are fixed (no random rewards). price_hint_usd is only for docs and debug builds: the real localized price always comes from Google Play.",
     "order": [
@@ -2386,6 +2391,9 @@
   },
   "settings": {
     "privacy_url": "https://castle-smashers.pages.dev/privacy/",
+    "support_email": "intercoreapp@gmail.com",
+    "support_subject": "Castle Smashers help (version %s)",
+    "support_body": "Hi Intercore,\n\nWhat happened:\n\n\nWhat I expected:\n\n\n---\nGame version: %s\nPhone: %s\nAndroid: %s\nLevel reached: %d\n(Purchase problem? Add the order number from your Google Play receipt, it starts with GPA.)",
     "credits": [
       "Fonts: Lilita One (Juan Montoreano), Fredoka (Milena Brand\u00e3o), SIL OFL 1.1",
       "Engine: Godot Engine, MIT licence, Godot contributors",

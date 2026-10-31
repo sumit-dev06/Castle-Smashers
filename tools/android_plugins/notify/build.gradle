@@ -9,4 +9,6 @@ android {
 dependencies {
     compileOnly files('../../../android/build/libs/release/godot-lib.template_release.aar')
     implementation 'androidx.core:core:1.13.1'
+    implementation 'com.google.android.play:review:2.0.2'
+    implementation 'com.google.android.play:app-update:2.1.0'
 }

@@ -1671,7 +1671,55 @@ func _ad_flow_tests() -> void:
 	_check(Analytics.log.size() == before, "analytics ignores unknown events")
 	Save.data = saved
 	Save.write()
-	_notification_tests()
+	await _notification_tests()
+
+
+func _play_services_tests() -> void:
+	print("-- play review / updates, save backup, support")
+	var rc: Dictionary = PlayServices.cfg("review")
+	var now: int = int(Time.get_unix_time_from_system())
+	var fresh: Dictionary = {"sessions": 5}
+	_check(PlayServices.review_allowed(fresh, rc, 12, true, 3, now), "review is asked after a 3-star win past min_level")
+	_check(not PlayServices.review_allowed(fresh, rc, 12, true, 2, now), "no review ask after a 2-star win")
+	_check(not PlayServices.review_allowed(fresh, rc, 12, false, 0, now), "no review ask after a loss")
+	_check(not PlayServices.review_allowed(fresh, rc, int(rc["min_level"]) - 1, true, 3, now), "no review ask on early levels")
+	_check(not PlayServices.review_allowed({"sessions": 5, "review_last": now - 86400}, rc, 12, true, 3, now), "review asks are gap_days apart")
+	_check(not PlayServices.review_allowed({"sessions": 5, "review_asks": int(rc["max_asks"])}, rc, 12, true, 3, now), "review is asked at most max_asks times")
+	var uc: Dictionary = PlayServices.cfg("updates")
+	_check(PlayServices.update_mode({}, uc, 9, 0, now) == "flexible", "a normal update is offered as a background download")
+	_check(PlayServices.update_mode({}, uc, 9, int(uc["immediate_priority"]), now) == "immediate", "a high-priority update opens the blocking update screen")
+	_check(PlayServices.update_mode({"update_asked": {"9": now - 600}}, uc, 9, 0, now) == "", "a declined update isn't offered again within ask_gap_hours")
+	_check(PlayServices.update_mode({"update_asked": {"9": now - 600}}, uc, 10, 0, now) == "flexible", "a newer version is offered again")
+	# Save backup: a damaged save.json loads the last good copy.
+	Save.write()
+	Save.write()
+	_check(FileAccess.file_exists(Save.BACKUP), "every save keeps the previous one as save.json.bak")
+	var good: Dictionary = Save._read(Save.BACKUP)
+	var f: FileAccess = FileAccess.open(Save.PATH + ".testbroken", FileAccess.WRITE)
+	f.store_string("{\"unlocked\": 12, \"coi")
+	f.close()
+	_check(Save._read(Save.PATH + ".testbroken") == null and good != null and good.has("unlocked"), "a cut-off save is detected as unreadable and the backup is readable")
+	DirAccess.remove_absolute(Save.PATH + ".testbroken")
+	for e: String in ["tutorial_begin", "level_quit", "purchase_start", "rewarded_ad_failed", "review_requested", "update_prompted"]:
+		_check(Analytics.EVENTS.has(e), "analytics event %s is registered" % e)
+	var mail: String = SettingsPopup.support_mailto()
+	_check(mail.begins_with("mailto:intercoreapp@gmail.com?subject=") and mail.contains(String(ProjectSettings.get_setting("application/config/version", "")).uri_encode()), "Contact Support opens an email with the game version")
+	_check(not Ads.showing(), "no full-screen ad is marked open at rest")
+	# Auto-pause: leaving the app mid-level opens the pause menu.
+	var lp: Level = _make(3)
+	await _wait(0.3)
+	lp.test_mode = false
+	Ads._full_screen(true)
+	lp._notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
+	_check(not get_tree().paused, "no auto-pause while a full-screen ad has focus")
+	Ads._full_screen(false)
+	lp._notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
+	_check(get_tree().paused and lp.hud._popup != null, "leaving the app mid-level opens the pause menu")
+	lp.hud.close_popup()
+	get_tree().paused = false
+	lp.test_mode = true
+	lp.queue_free()
+	await _wait(0.1)
 
 
 func _notification_tests() -> void:
@@ -1720,6 +1768,7 @@ func _notification_tests() -> void:
 	Save.data["unlocked"] = keep_unlocked
 	Notifications.set_enabled(false)
 	_check(not Notifications.enabled(), "players can turn reminders off")
+	await _play_services_tests()
 	# Push (FCM via GodotX Firebase): topics exist, the backend loads, and the export preset ships
 	# only Core + Messaging from GodotX (Analytics/Crashlytics come from CastleFirebase).
 	var push: Dictionary = cfg.get("push", {})

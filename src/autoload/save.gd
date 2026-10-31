@@ -2,6 +2,7 @@ extends Node
 ## Player progress + settings, stored in user://save.json (versioned, atomic write).
 
 const PATH: String = "user://save.json"
+const BACKUP: String = "user://save.json.bak"
 ## v4: blueprints retired (converted to coins), hero upgrades refunded, per-engine upgrades.
 const VERSION: int = 4
 ## The two wallet currencies, in display order.
@@ -13,11 +14,20 @@ var data: Dictionary = {}
 func _ready() -> void:
 	data = _defaults()
 	var old_version: int = VERSION
-	if FileAccess.file_exists(PATH):
-		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(PATH))
-		if parsed is Dictionary:
-			old_version = int((parsed as Dictionary).get("version", 1))
-			data.merge(parsed, true)
+	var recovered: bool = false
+	var parsed: Variant = _read(PATH)
+	if parsed == null and FileAccess.file_exists(PATH):
+		# Unreadable (cut off by a crash or a full disk): keep it aside and use the last good copy.
+		push_warning("Save: save.json unreadable, loading the backup")
+		DirAccess.copy_absolute(PATH, PATH + ".broken")
+		recovered = true
+	if parsed == null:
+		parsed = _read(BACKUP)
+	if parsed is Dictionary:
+		old_version = int((parsed as Dictionary).get("version", 1))
+		data.merge(parsed, true)
+	if recovered:
+		data["save_recovered"] = int(data.get("save_recovered", 0)) + 1
 	if old_version < 4:
 		migrate_v4(data)
 	data["version"] = VERSION
@@ -65,6 +75,16 @@ func _defaults() -> Dictionary:
 	}
 
 
+## A save file that parses to a Dictionary, or null.
+static func _read(path: String) -> Variant:
+	if not FileAccess.file_exists(path):
+		return null
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	return parsed if parsed is Dictionary and not (parsed as Dictionary).is_empty() else null
+
+
+## Atomic write (temp file + rename). Before replacing it, the previous good save becomes
+## save.json.bak, so a damaged file never costs more than the last change.
 func write() -> void:
 	var tmp: String = PATH + ".tmp"
 	var f: FileAccess = FileAccess.open(tmp, FileAccess.WRITE)
@@ -73,6 +93,12 @@ func write() -> void:
 		return
 	f.store_string(JSON.stringify(data, "\t"))
 	f.close()
+	if _read(tmp) == null:
+		push_error("Save: written file is unreadable (disk full?), keeping the old save")
+		DirAccess.remove_absolute(tmp)
+		return
+	if _read(PATH) != null:
+		DirAccess.copy_absolute(PATH, BACKUP)
 	DirAccess.rename_absolute(tmp, PATH)
 
 

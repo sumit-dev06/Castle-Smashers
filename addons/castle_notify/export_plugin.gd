@@ -23,7 +23,7 @@ class CastleNotifyExport extends EditorExportPlugin:
 		return PackedStringArray(["castle_notify/bin/castle_notify.aar"])
 
 	func _get_android_dependencies(_platform: EditorExportPlatform, _debug: bool) -> PackedStringArray:
-		return PackedStringArray(["androidx.core:core:1.13.1"])
+		return PackedStringArray(["androidx.core:core:1.13.1", "com.google.android.play:review:2.0.2", "com.google.android.play:app-update:2.1.0"])
 
 	## Firebase Cloud Messaging pushes (GodotX Firebase) use the same white castle small icon and the
 	## same "Siege reminders" channel as local reminders, so one Settings switch covers both.

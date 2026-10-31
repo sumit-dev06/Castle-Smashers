@@ -34,8 +34,14 @@ func _start_backend() -> void:
 	var ids: Array[String] = unit_ids()
 	_backend.set("interstitial_id", ids[0])
 	_backend.set("rewarded_id", ids[1])
-	_backend.connect("rewarded_earned", func(id: String) -> void: rewarded_earned.emit(id))
-	_backend.connect("rewarded_failed", func(id: String) -> void: rewarded_failed.emit(id))
+	_backend.connect("rewarded_earned", func(id: String) -> void:
+		_full_screen(false)
+		rewarded_earned.emit(id))
+	_backend.connect("interstitial_closed", func() -> void: _full_screen(false))
+	_backend.connect("rewarded_failed", func(id: String) -> void:
+		_full_screen(false)
+		Analytics.event("rewarded_ad_failed", {"placement": id})
+		rewarded_failed.emit(id))
 	_backend.call("start")
 
 
@@ -97,6 +103,19 @@ func interstitial_due(level_id: int) -> bool:
 ## A break between matches (results NEXT / RETRY / MAP, pause MAP / RESTART): show the
 ## interstitial if due, then run `then` once it closes (or right away). If no ad is loaded the
 ## count is kept, so it shows at the next break instead.
+## A full-screen ad is open (or opening). Level auto-pause ignores the focus loss it causes.
+var _full_screen_until_ms: int = 0
+
+
+func showing() -> bool:
+	return Time.get_ticks_msec() < _full_screen_until_ms
+
+
+func _full_screen(on: bool) -> void:
+	# Capped at 3 minutes so a lost callback can never block auto-pause for good.
+	_full_screen_until_ms = Time.get_ticks_msec() + 180000 if on else 0
+
+
 func match_break(level_id: int, then: Callable) -> void:
 	if not interstitial_due(level_id) or _backend == null or not bool(_backend.call("has_interstitial")):
 		if _backend != null and interstitial_due(level_id):
@@ -109,7 +128,9 @@ func match_break(level_id: int, then: Callable) -> void:
 	Analytics.event("interstitial_shown", {"level_id": level_id})
 	Analytics.set_crash_key("phase", "ad_interstitial")
 	_backend.connect("interstitial_closed", then, CONNECT_ONE_SHOT)
+	_full_screen(true)
 	if not bool(_backend.call("show_interstitial")):
+		_full_screen(false)
 		_backend.disconnect("interstitial_closed", then)
 		then.call()
 
@@ -139,6 +160,7 @@ func show_rewarded(reward_id: String) -> void:
 	if ads_removed():
 		rewarded_earned.emit.call_deferred(reward_id)
 	elif _backend:
+		_full_screen(true)
 		_backend.call("show_rewarded", reward_id)
 	elif OS.is_debug_build():
 		rewarded_earned.emit.call_deferred(reward_id)

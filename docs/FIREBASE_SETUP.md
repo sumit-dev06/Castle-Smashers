@@ -75,6 +75,12 @@ emails, device IDs, purchase tokens or free text are ever logged.
 | `level_complete` | `level_id`, `attempt`, `stars`, `score`, `duration_s`, `weapon`, `shots_used`, `used_hellfire` |
 | `level_failed` | `level_id`, `attempt`, `reason`, `duration_s`, `weapon`, `shots_used` |
 | `level_retry` | `level_id` |
+| `level_quit` | `level_id`, `attempt`, `duration_s`, `shots_used`, `how` (map / restart from the pause menu) |
+| `tutorial_begin` | `level_id` |
+| `purchase_start` | `product_id` |
+| `rewarded_ad_failed` | `placement` |
+| `review_requested` | `level_id` |
+| `update_prompted` | `mode` (flexible / immediate), `version_code`, `staleness_days` |
 | `rewarded_ad_watched` | `placement` (spin / extra_rocky / double_coins), `reward_amount`, `level_id` |
 | `interstitial_shown` | `level_id` |
 | `purchase_success` / `purchase_failed` | `product_id`, `reward_amount` / `reason` |

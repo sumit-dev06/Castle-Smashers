@@ -91,21 +91,24 @@ def patch_splash():
 
 
 BACKUP_RULES = """<?xml version="1.0" encoding="utf-8"?>
-<!-- castle-smashers: Android 11 and older. Back up only the player's progress file (user://save.json). -->
+<!-- castle-smashers: Android 11 and older. Back up only the player's progress (user://save.json + its backup copy). -->
 <full-backup-content>
     <include domain="file" path="save.json" />
+    <include domain="file" path="save.json.bak" />
 </full-backup-content>
 """
 
 DATA_RULES = """<?xml version="1.0" encoding="utf-8"?>
-<!-- castle-smashers: Android 12+. Google Drive backup and phone-to-phone transfer of the progress file only.
+<!-- castle-smashers: Android 12+. Google Drive backup and phone-to-phone transfer of the progress files only.
      Ads, Firebase and billing caches are never restored, so IDs are not cloned between devices. -->
 <data-extraction-rules>
     <cloud-backup>
         <include domain="file" path="save.json" />
+        <include domain="file" path="save.json.bak" />
     </cloud-backup>
     <device-transfer>
         <include domain="file" path="save.json" />
+        <include domain="file" path="save.json.bak" />
     </device-transfer>
 </data-extraction-rules>
 """

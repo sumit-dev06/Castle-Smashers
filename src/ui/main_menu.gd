@@ -33,6 +33,7 @@ func _ready() -> void:
 	Sound.set_surroundings(String(Background.realm_info(_realm()).get("key", "blossom")), true)
 	if not "--no-popups" in OS.get_cmdline_user_args():
 		Notifications.ask_on_home(self)
+		PlayServices.on_home(self)
 	_daily_popup()
 
 

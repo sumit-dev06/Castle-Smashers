@@ -573,11 +573,13 @@ func show_pause() -> void:
 	row.add_theme_constant_override("separation", 14)
 	var mp: Button = UIKit.icon_button("icon_levels", "blue", 80)
 	mp.pressed.connect(func() -> void:
+		level.track_quit("map")
 		level.count_match()
 		get_tree().paused = false
 		Ads.match_break(level.level_id, func() -> void: Game.goto_back_from(level.level_id)))
 	var rs: Button = UIKit.icon_button("icon_restart", "orange", 80)
 	rs.pressed.connect(func() -> void:
+		level.track_quit("restart")
 		level.count_match()
 		get_tree().paused = false
 		Ads.match_break(level.level_id, level.restart))
