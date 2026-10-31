@@ -15,7 +15,7 @@ console work in Google Play.
 
 | Product ID | Name | Description | Type in Play | Default price |
 |---|---|---|---|---|
-| `remove_ads` | Remove Ads | Removes every ad. Video rewards are given instantly. | One-time product (the code acknowledges and never consumes it) | USD 2.99 |
+| `remove_ads` | Remove Ads | Removes every ad. Video rewards are given instantly. | One-time product (the code acknowledges and never consumes it) | USD 4.99 |
 | `addon_pirate_hat` | Pirate Hat | Rocky addon (decoration, looks only) | One-time product (acknowledged, never consumed) | USD 0.99 |
 | `addon_cap` | Slugger Cap | Rocky addon (decoration, looks only) | One-time product (acknowledged, never consumed) | USD 0.99 |
 | `addon_crown` | Royal Crown | Rocky addon (decoration, looks only) | One-time product (acknowledged, never consumed) | USD 1.99 |
@@ -65,29 +65,29 @@ the day you set them (exchange rates move).
 
 | Region (currency) | Remove Ads | Coin Crate | Gem Crate | Hellfire Crate |
 |---|---|---|---|---|
-| United States (USD) | 2.99 | 1.99 | 4.99 | 2.99 |
-| Eurozone (EUR, VAT incl.) | 2.99 | 1.99 | 4.99 | 2.99 |
-| United Kingdom (GBP) | 2.49 | 1.79 | 4.49 | 2.49 |
-| Canada (CAD) | 3.99 | 2.79 | 6.99 | 3.99 |
-| Australia (AUD) | 4.49 | 2.99 | 7.99 | 4.49 |
-| Japan (JPY) | 450 | 300 | 750 | 450 |
-| South Korea (KRW) | 3,900 | 2,500 | 6,500 | 3,900 |
-| India (INR) | 149 | 99 | 249 | 149 |
-| Indonesia (IDR) | 29,000 | 19,000 | 49,000 | 29,000 |
-| Philippines (PHP) | 129 | 89 | 229 | 129 |
-| Vietnam (VND) | 59,000 | 39,000 | 99,000 | 59,000 |
-| Thailand (THB) | 79 | 55 | 139 | 79 |
-| Pakistan (PKR) | 450 | 300 | 750 | 450 |
-| Brazil (BRL) | 9.90 | 6.90 | 16.90 | 9.90 |
-| Mexico (MXN) | 49 | 35 | 89 | 49 |
-| Turkey (TRY) | 59.99 | 39.99 | 99.99 | 59.99 |
-| Egypt (EGP) | 99 | 69 | 169 | 99 |
-| Saudi Arabia (SAR) | 10.99 | 7.49 | 18.99 | 10.99 |
-| South Africa (ZAR) | 44.99 | 29.99 | 79.99 | 44.99 |
+| United States (USD) | 4.99 | 1.99 | 4.99 | 2.99 |
+| Eurozone (EUR, VAT incl.) | 4.99 | 1.99 | 4.99 | 2.99 |
+| United Kingdom (GBP) | 4.49 | 1.79 | 4.49 | 2.49 |
+| Canada (CAD) | 6.99 | 2.79 | 6.99 | 3.99 |
+| Australia (AUD) | 7.99 | 2.99 | 7.99 | 4.49 |
+| Japan (JPY) | 750 | 300 | 750 | 450 |
+| South Korea (KRW) | 6,500 | 2,500 | 6,500 | 3,900 |
+| India (INR) | 249 | 99 | 249 | 149 |
+| Indonesia (IDR) | 49,000 | 19,000 | 49,000 | 29,000 |
+| Philippines (PHP) | 229 | 89 | 229 | 129 |
+| Vietnam (VND) | 99,000 | 39,000 | 99,000 | 59,000 |
+| Thailand (THB) | 139 | 55 | 139 | 79 |
+| Pakistan (PKR) | 750 | 300 | 750 | 450 |
+| Brazil (BRL) | 16.90 | 6.90 | 16.90 | 9.90 |
+| Mexico (MXN) | 89 | 35 | 89 | 49 |
+| Turkey (TRY) | 99.99 | 39.99 | 99.99 | 59.99 |
+| Egypt (EGP) | 169 | 69 | 169 | 99 |
+| Saudi Arabia (SAR) | 18.99 | 7.49 | 18.99 | 10.99 |
+| South Africa (ZAR) | 79.99 | 29.99 | 79.99 | 44.99 |
 
 Rules of thumb: keep the **ratio** between the four products the same everywhere (Coin Crate is
-the cheapest entry point, Gem Crate the most expensive), and never price the Hellfire Crate below
-Remove Ads. Russia and Belarus currently have Play paid purchases suspended; leave them on the
+the cheapest entry point, Gem Crate the most expensive), and keep Remove Ads at the Gem Crate price
+(it is permanent and grants every video reward instantly). Russia and Belarus currently have Play paid purchases suspended; leave them on the
 default price.
 
 ## 4. Optional server verification

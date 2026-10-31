@@ -247,7 +247,7 @@ the billing permission is uploaded.
 
 | Product ID | Name | Description | Price (USD) |
 |---|---|---|---|
-| `remove_ads` | Remove Ads | No more ads. Video bonuses are granted instantly. | 2.99 |
+| `remove_ads` | Remove Ads | No more ads. Video bonuses are granted instantly. | 4.99 |
 | `coin_crate` | Coin Crate | 30,000 coins for engines and upgrades. | 1.99 |
 | `gem_crate` | Gem Crate | 400 gems. | 4.99 |
 | `hellfire_crate` | Hellfire Crate | 3 Hellfire strikes that burn down enemy structures. | 2.99 |

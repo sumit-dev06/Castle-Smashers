@@ -2303,7 +2303,7 @@
         "name": "Remove Ads",
         "icon": "icon_noads",
         "gives": {},
-        "price_hint_usd": 2.99,
+        "price_hint_usd": 4.99,
         "desc": "No ads ever again. Ad bonuses (extra Rocky, spins, double coins) are granted instantly.",
         "perks": [
           "No interstitial or video ads",

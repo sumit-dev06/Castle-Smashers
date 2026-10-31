@@ -40,7 +40,7 @@ if day-1 retention drops; lower it only after looking at Firebase data.
 ## In-app products (Google Play Billing)
 | Product ID | Type | US price | Gives |
 |---|---|---|---|
-| `remove_ads` | Non-consumable (acknowledged, never consumed, restored automatically) | $2.99 | No ads ever; ad rewards granted instantly |
+| `remove_ads` | Non-consumable (acknowledged, never consumed, restored automatically) | $4.99 | No ads ever; ad rewards granted instantly |
 | `coin_crate` | Consumable | $1.99 | 30,000 coins |
 | `gem_crate` | Consumable | $4.99 | 400 gems |
 | `hellfire_crate` | Consumable | $2.99 | 3 Hellfire strikes (purchase only) |
