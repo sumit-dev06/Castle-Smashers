@@ -122,7 +122,7 @@ game handles that and retries every 30 seconds.
 
 ### 3.5 Content rating and app-ads.txt
 1. Left menu → **Blocking controls** → **Content rating** (or app settings → **Max ad content rating**):
-   choose **PG**. The game also requests PG from code.
+   choose **T** (Teens). The game also requests T from code. MA stays blocked.
 2. Left menu → **Apps** → **View all apps** → the **app-ads.txt** tab. When Castle Smashers is
    public on Play with the website `https://castle-smashers.pages.dev` in its store listing,
    AdMob shows the app as **Verified** within about a day. Nothing to do on the website; the file

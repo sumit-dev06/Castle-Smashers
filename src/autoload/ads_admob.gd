@@ -53,7 +53,7 @@ func _init_sdk() -> void:
 		load_interstitial()
 		load_rewarded()
 	var cfg: RequestConfiguration = RequestConfiguration.new()
-	cfg.max_ad_content_rating = RequestConfiguration.MAX_AD_CONTENT_RATING_PG
+	cfg.max_ad_content_rating = RequestConfiguration.MAX_AD_CONTENT_RATING_T  # owner choice: T (13+ game), MA blocked
 	MobileAds.set_request_configuration(cfg)
 	MobileAds.initialize(listener)
 

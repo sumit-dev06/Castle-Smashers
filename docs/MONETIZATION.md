@@ -24,8 +24,11 @@ Setup steps for the consoles: `BILLING_SETUP.md` (Play), `FIREBASE_SETUP.md`, an
   interstitial="ca-app-pub-XXXX/YYYY"
   rewarded="ca-app-pub-XXXX/ZZZZ"
   ```
-- The AdMob **App ID** goes in project setting `admob/general/android/app_id`. It is still Google's
-  test App ID `ca-app-pub-3940256099942544~3347511713`: replace it before release.
+- The AdMob **App ID** is in project setting `admob/general/android/app_id`:
+  `ca-app-pub-1292430265619610~9195063737` (real; debug builds still request Google's test units).
+- Release ad units (in `ad_ids.cfg`): interstitial `ca-app-pub-1292430265619610/6882407348`,
+  rewarded `ca-app-pub-1292430265619610/1846749261`.
+- Max ad content rating: **T** (in code and in AdMob → Blocking controls). MA is blocked.
 
 ### Why one interstitial per 4 matches
 The owner asked for one ad per 4 matches, counting retries, not only new levels. The ad still

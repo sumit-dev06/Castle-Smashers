@@ -1594,7 +1594,7 @@ func _ad_flow_tests() -> void:
 	_check(String(Data.b("settings", "privacy_url")) == "https://castle-smashers.pages.dev/privacy/", "privacy link points at the Pages site")
 	_check(not Ads.privacy_options_required() and Ads.has_method("show_privacy_options"), "Ad Privacy entry hidden on desktop, API present")
 	var admob_src: String = FileAccess.get_file_as_string("res://src/autoload/ads_admob.gd")
-	_check(admob_src.contains("MAX_AD_CONTENT_RATING_PG") and admob_src.contains("show_privacy_options_form"), "ads capped at PG, privacy options form wired")
+	_check(admob_src.contains("MAX_AD_CONTENT_RATING_T") and admob_src.contains("show_privacy_options_form"), "ads capped at T (no MA), privacy options form wired")
 	var policy: String = FileAccess.get_file_as_string("res://web/privacy/index.html")
 	_check(policy.is_empty() or (policy.contains("Intercore") and policy.contains("intercoreapp@gmail.com") and policy.contains("Ad Privacy")), "privacy page names the developer, contact and Ad Privacy")
 	Ads.match_played()

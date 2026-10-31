@@ -8,6 +8,10 @@
 
 config_version=5
 
+[admob]
+
+general/android/app_id="ca-app-pub-1292430265619610~9195063737"
+
 [application]
 
 config/name="Castle Smashers"
