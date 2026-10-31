@@ -10,7 +10,7 @@ console work in Google Play.
    account (needs bank and tax details). Without it you cannot create paid products.
 2. **Upload a build that contains the BILLING permission** (any build from this repo has it) to
    the **Internal testing** track. Play only lets you create products after such an upload.
-3. **Create the four products**: Monetize → Products → **One-time products** → Create product.
+3. **Create the eleven products** (step-by-step owner guide: `OWNER_SETUP_ADMOB_BILLING.md`): Monetize → Products → **One-time products** → Create product.
    The IDs must match exactly (they are in `data/balance.json` → `shop.products`):
 
 | Product ID | Name | Description | Type in Play | Default price |
@@ -119,7 +119,7 @@ so a snapshot upload/download is enough).
 
 ## 6. Go-live checklist
 - [ ] Merchant account active
-- [ ] Four products created with the exact IDs, Active, regional prices set
+- [ ] Eleven products created with the exact IDs, Active, regional prices set
 - [ ] Licence testers added; all test-card cases above pass on an internal-track install
 - [ ] Real AdMob App ID and `ad_ids.cfg` in place (see `MONETIZATION.md`)
 - [ ] Data safety form updated (`POLICY_AUDIT.md`)
