@@ -187,7 +187,7 @@ dl.contact dd { margin: 0; }
 @media (max-width: 600px) {
 	.bar nav { gap: 14px; font-size: 0.95rem; }
 	.brand span { display: none; }
-	.hero > img { height: auto; aspect-ratio: 1450 / 510; object-position: center; }
+	.hero > img { height: auto; aspect-ratio: 2900 / 880; object-position: center; }
 	.hero-copy { position: static; padding: 26px 20px 38px; background: var(--plank-dark); }
 	.heroes, .hero-notes { grid-template-columns: 1fr; }
 	.heroes { display: none; }
