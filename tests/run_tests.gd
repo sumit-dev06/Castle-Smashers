@@ -1713,6 +1713,31 @@ func _audio_tests() -> void:
 		if not ResourceLoader.exists(Sound.SFX_DIR % [n, 0]):
 			missing.append("%s (%s)" % [n, names[n]])
 	_check(missing.is_empty() and names.size() > 40, "every Sound.play name has a file (%d names) %s" % [names.size(), missing])
+	# Collapse layer: data-driven sounds exist, and a burst of breaks escalates once per tier.
+	var col: Dictionary = Data.balance["audio"]["collapse"]
+	var col_missing: Array = []
+	for t: Dictionary in col["tiers"]:
+		if not ResourceLoader.exists(Sound.SFX_DIR % [String(t["sound"]), 0]):
+			col_missing.append(t["sound"])
+	if not ResourceLoader.exists(Sound.SFX_DIR % [String(col["settle_sound"]), 0]):
+		col_missing.append(col["settle_sound"])
+	_check(col_missing.is_empty(), "collapse layer sounds exist %s" % [col_missing])
+	Sound._fall.clear()
+	Sound._fall_tier = -1
+	var dummies: Array = []
+	for i: int in 7:
+		var dn: Node2D = Node2D.new()
+		dn.position = Vector2(1200 + i * 20, -100)
+		add_child(dn)
+		dummies.append(dn)
+		Sound._on_break(dn)
+	_check(Sound._fall_tier == 1, "7 quick breaks = a medium collapse (tier %d)" % Sound._fall_tier)
+	Sound._fall_last_ms -= 5000
+	Sound._settle_fall()
+	_check(Sound._fall_tier == -1 and Sound._fall.is_empty(), "the rubble tail ends the fall")
+	for dn: Node2D in dummies:
+		dn.queue_free()
+	_check(int(Data.balance["audio"]["max_voices"]["wood_break"]) > 0, "per-material break voices are capped")
 	var songs: Array = ["menu", "boss"]
 	for r: Dictionary in Data.balance["realms"]:
 		songs.append(String(r["key"]))

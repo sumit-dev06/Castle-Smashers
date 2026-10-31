@@ -56,6 +56,12 @@ var _climax_db: float = SILENT_DB
 var _energy: float = 0.0
 var _energy_hold: float = 0.0
 var _duck_db: float = 0.0
+# Collapse layer: recent breaks [ms, pos, mass], the size already played for this fall, last break.
+var _fall: Array = []
+var _fall_tier: int = -1
+var _fall_last_ms: int = 0
+var _fall_count: int = 0
+var _fall_pos: Vector2 = Vector2.ZERO
 var _cutoff: float = 20000.0
 var _slow_real_s: float = 0.0
 var _last_us: int = 0
@@ -103,7 +109,10 @@ func _ready() -> void:
 	Events.big_impact.connect(func(_pos: Vector2, _impulse: float) -> void:
 		_hit("per_impact")
 		duck(float((_cfg("duck", {}) as Dictionary).get("impact_db", 0.0))))
-	Events.block_destroyed.connect(func(_b: Node2D, _s: int) -> void: _hit("per_block"))
+	Events.block_destroyed.connect(func(b: Node2D, _s: int) -> void:
+		_on_break(b)
+		_hit("per_block")
+		duck(float((_cfg("duck", {}) as Dictionary).get("block_db", 0.0))))
 	Events.archer_defeated.connect(func(_a: Node2D, _s: int) -> void: _hit("per_block"))
 	Events.explosion.connect(func(_pos: Vector2, _r: float) -> void: _boom())
 	Events.quake.connect(func(_pos: Vector2, _r: float) -> void: _boom())
@@ -266,6 +275,9 @@ func _start(sound: String, volume01: float, pitch: float, pos: Vector2, position
 	var list: Array = _variants(sound)
 	if list.is_empty() or volume01 <= 0.01:
 		return
+	var cap: int = int((audio_cfg.get("max_voices", {}) as Dictionary).get(sound, 0))
+	if cap > 0 and _voices_playing(sound) >= cap:
+		return
 	var gains: Dictionary = audio_cfg.get("sound_gain_db", {})
 	var requested_db: float = linear_to_db(clampf(volume01, 0.0, 1.0)) + float(gains.get(sound, 0.0))
 	var ui: bool = _ui_names.has(sound)
@@ -279,10 +291,68 @@ func _start(sound: String, volume01: float, pitch: float, pos: Vector2, position
 	var vary: float = Data.bf("audio", "pitch_variation") * (0.5 if ui else 1.0)
 	if positional:
 		(player as AudioStreamPlayer2D).global_position = pos
+	player.set_meta("snd", sound)
 	player.set("stream", list[_rng.randi() % list.size()])
 	player.set("volume_db", requested_db)
 	player.set("pitch_scale", maxf(0.2, pitch * _rng.randf_range(1.0 - vary, 1.0 + vary) * (1.0 if ui else _slow_pitch())))
 	player.call("play")
+
+
+## Voices of one sound still playing (per-material cap: twenty planks breaking at once read as one
+## wall of noise; three voices plus the collapse layer read as a building falling).
+func _voices_playing(sound: String) -> int:
+	var n: int = 0
+	for pool: Array in [_pool_2d, _pool]:
+		for v: Node in pool:
+			if bool(v.get("playing")) and String(v.get_meta("snd", "")) == sound:
+				n += 1
+	return n
+
+
+## Collapse layer (data: audio.collapse). Breaks close together in time are one fall: as the count
+## or mass inside the window passes each tier, the matching collapse sound plays once at the
+## centre of the breaks; when the breaks stop, a rubble tail settles.
+func _on_break(b: Node2D) -> void:
+	var c: Dictionary = _cfg("collapse", {})
+	if c.is_empty() or not is_instance_valid(b):
+		return
+	var now: int = Time.get_ticks_msec()
+	var mass: float = float(b.get("mass")) if b.get("mass") != null else 1.0
+	_fall.append([now, b.global_position, mass])
+	var window: int = int(c.get("window_ms", 700))
+	while not _fall.is_empty() and now - int(_fall[0][0]) > window:
+		_fall.pop_front()
+	var sum_m: float = 0.0
+	var centre: Vector2 = Vector2.ZERO
+	for e: Array in _fall:
+		sum_m += float(e[2])
+		centre += e[1] as Vector2
+	centre /= float(_fall.size())
+	_fall_pos = centre
+	_fall_last_ms = now
+	_fall_count += 1
+	var tiers: Array = c.get("tiers", [])
+	var tier: int = -1
+	for i: int in tiers.size():
+		var t: Dictionary = tiers[i]
+		if _fall.size() >= int(t.get("count", 99)) or sum_m >= float(t.get("mass", 1e9)):
+			tier = i
+	if tier > _fall_tier:
+		_fall_tier = tier
+		play_at(String(tiers[tier]["sound"]), centre, float(tiers[tier].get("volume", 1.0)))
+		if OS.is_debug_build() and "--log-audio" in OS.get_cmdline_user_args():
+			print("Sound: collapse tier %d (%d breaks, mass %.1f)" % [tier, _fall.size(), sum_m])
+		duck(float(c.get("duck_db", -6.0)))
+
+
+func _settle_fall() -> void:
+	if _fall_tier < 0 or Time.get_ticks_msec() - _fall_last_ms < int((_cfg("collapse", {}) as Dictionary).get("settle_ms", 900)):
+		return
+	var c: Dictionary = _cfg("collapse", {})
+	play_at(String(c.get("settle_sound", "rubble_settle")), _fall_pos, clampf(0.4 + 0.05 * _fall_count, 0.4, 1.0))
+	_fall_tier = -1
+	_fall_count = 0
+	_fall.clear()
 
 
 ## A free voice from the pool, else the quietest one (never a loud impact for a quiet sound).
@@ -526,6 +596,7 @@ func _process(_delta: float) -> void:
 	var dt: float = clampf(float(now - _last_us) / 1000000.0, 0.0, 0.1)
 	_last_us = now
 	_slow_real_s = _slow_real_s + dt if Engine.time_scale < 0.6 else 0.0
+	_settle_fall()
 	if get_tree().paused != _was_paused:
 		_was_paused = get_tree().paused
 		_hold_world_audio(_was_paused)

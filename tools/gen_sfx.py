@@ -48,9 +48,11 @@ MASTERING = {
     "tab": (-14.0, -27.0), "popup_open": (-13.0, -25.0), "popup_close": (-14.0, -26.0), "locked": (-12.0, -24.0),
     "deny": (-12.0, -24.0), "count_tick": (-16.0, -29.0), "toast": (-12.0, -24.0), "map_select": (-11.0, -23.0),
     "play_press": (-9.0, -21.0), "aim_grab": (-9.0, -21.0), "ability": (-11.0, -23.0),
-    "ratchet": (-8.0, -20.0), "bell": (-6.0, -19.0), "creak": (-9.0, -21.0),
+    "ratchet": (-14.0, -26.0), "bell": (-6.0, -19.0), "creak": (-9.0, -21.0),
     "screen_whoosh": (-14.0, -26.0), "wallet_land": (-12.0, -24.0),
     "talk_hero": (-12.0, -23.0), "talk_enemy": (-12.0, -23.0), "talk_high": (-12.0, -23.0),
+    "collapse_s": (-6.0, -19.0), "collapse_m": (-4.5, -17.5), "collapse_l": (-3.0, -16.0),
+    "rubble_settle": (-12.0, -25.0),
 }
 
 # Short room per sound family (decay s, wet): gives synthetic sounds a body instead of a dry click.
@@ -59,7 +61,7 @@ ROOM = {"ui": (0.18, 0.04), "voice": (0.3, 0.1), "impact": (0.45, 0.12), "big": 
 UI_SOUNDS = {"ui_tap", "pop", "ui_back", "tab", "popup_open", "popup_close", "locked", "deny", "count_tick",
              "toast", "map_select", "swoosh_ui", "wheel_tick", "coin_tink", "gem_tink", "screen_whoosh",
              "wallet_land", "combo", "star", "purchase", "upgrade", "play_press"}
-BIG_SOUNDS = {"bell", "explosion", "quake", "cannon", "boss_roar", "gate_drop", "slam", "reveal", "chest_open"}
+BIG_SOUNDS = {"collapse_s", "collapse_m", "collapse_l", "bell", "explosion", "quake", "cannon", "boss_roar", "gate_drop", "slam", "reveal", "chest_open"}
 VOICE_SOUNDS = {"talk_hero", "talk_enemy", "talk_high", "soldier_hit", "soldier_ko", "enemy_ko", "enemy_laugh"}
 
 
@@ -759,32 +761,31 @@ def bell_hit(i):
 
 
 def ratchet(i):
-    """One tooth of the catapult's winch ratchet: a short, dry wooden click with a tiny metal pawl."""
-    d = 0.12
-    click = _knock(520 + 60 * i, d, 0.18, i) * 0.9
-    pawl = filt(noise(0.02), "band", (2500, 6500)) * env(0.02, 0.0005, 0.004) * 0.35
-    return mix(click, pawl)
+    """Soft detent while pulling: a muted wooden tick, felt more than heard (playtest: the old
+    click-and-creak felt fake)."""
+    d = 0.09
+    tick = filt(_knock(380 + 30 * i, d, 0.12, i), "low", 2400) * 0.55
+    return tick * env(d, 0.002, 0.05)
 
 
 def stretch_loop():
-    """Seamless 1.2 s loop: twisted rope fibres under tension (stick-slip crackle) over a low wooden
-    groan. Played continuously while aiming; the game raises its pitch and volume with the pull."""
-    d, loop = 1.6, 1.2
+    """Seamless 1.5 s loop: a smooth elastic band drawing taut. A warm tone (soft sine harmonics
+    with a slow, narrow vibrato) under a breathy, low-passed air layer that swells gently. No
+    crackle, creak or saw buzz. The game raises pitch and volume with the pull."""
+    d, loop = 2.0, 1.5
     t = t_axis(d)
     D.set_rate(SR, seed=31)
-    groan_f = 72 + 6 * np.sin(2 * np.pi * t / loop * 2)
-    saw = ((np.cumsum(groan_f) / SR) % 1.0) * 2 - 1
-    groan = filt(saw, "band", (180, 1100)) * (0.55 + 0.45 * np.abs(np.sin(2 * np.pi * 9.0 * t)))
-    fibres = filt(D.pink(d), "band", (900, 4200)) * 0.5
-    slips = np.zeros_like(t)
-    for k in range(int(d * 34)):
-        s = int(SR * (k / 34.0 + rng.uniform(0, 0.012)))
-        g = rng.uniform(0.25, 1.0)
-        burst = filt(noise(0.008), "band", (1200, 5200)) * env(0.008, 0.0004, 0.002) * g
-        slips[s:s + len(burst)] += burst[: len(slips) - s]
-    x = mix(groan * 0.55, fibres * 0.35, slips * 0.8)
-    x = filt(filt(x, "high", 90), "low", 7500)
-    return D.loop_crossfade(x, int(SR * loop), 0.35)
+    vib = 1.0 + 0.004 * np.sin(2 * np.pi * (4.0 / loop) * t)
+    ph = 2 * np.pi * np.cumsum(165.0 * vib) / SR
+    tone = np.sin(ph) * 0.6 + np.sin(2 * ph) * 0.22 + np.sin(3 * ph + 0.4) * 0.07
+    # Two slightly detuned voices give a soft chorus, like a band humming under tension.
+    ph2 = 2 * np.pi * np.cumsum(165.0 * 1.006 * vib) / SR
+    tone = tone + (np.sin(ph2) * 0.4 + np.sin(2 * ph2) * 0.12)
+    breathe = 0.8 + 0.2 * np.sin(2 * np.pi * (1.0 / loop) * t)
+    air = filt(filt(D.pink(d), "band", (250, 1600)), "low", 1800) * 0.18
+    x = mix(tone * 0.3 * breathe, air * breathe)
+    x = filt(filt(x, "high", 80), "low", 3200)
+    return D.loop_crossfade(x, int(SR * loop), 0.4)
 
 
 def ability(i):
@@ -972,6 +973,52 @@ def stone_break(i):
     return mix_st(st(mix(crack, hit, roll)), crumble, chunks, dust)
 
 
+def _collapse(i, size):
+    """A tower coming down (cartoon-physics style, after Angry Birds' castle falls): a chunky low
+    "whump" as the mass lands, a cascade of wood clacks and stone knocks that tumbles left to right
+    and thins out, a dusty air swell that darkens, and a few late pieces. size 0..2 scales length,
+    weight and density. Layered on top of the per-block break sounds, never instead of them."""
+    d = (1.4, 2.0, 2.7)[size]
+    whump = pad(mix(_thump(0.6 + 0.2 * size, rng.uniform(120, 140) - 15 * size, 38 - 4 * size, 9.0, 0.16 + 0.08 * size) * 1.2,
+                    filt(D.brown(0.5), "low", 260) * env(0.5, 0.004, 0.14 + 0.05 * size) * 0.8), d)
+    n = (14, 24, 36)[size]
+    spread = (0.7, 1.0, 1.4)[size]
+    out = np.zeros((int(SR * d), 2))
+    for k in range(n):
+        u = rng.uniform(0, 1) ** 1.6
+        off = 0.03 + spread * u
+        pan = -0.7 + 1.4 * u + rng.uniform(-0.25, 0.25)
+        if rng.random() < 0.6:
+            piece = _modes(rng.uniform(160, 340), 0.18, WOOD_RATIOS, WOOD_DECAYS, WOOD_GAINS, 0.06)
+        else:
+            piece = mix(_thump(0.18, rng.uniform(140, 180), 70, 28, 0.04), _modes(rng.uniform(330, 450), 0.18, (1.0, 1.73, 2.61), (0.03, 0.02, 0.014), (1.0, 0.6, 0.35)) * 0.5)
+        D.place_st(out, piece * rng.uniform(0.25, 0.6) * (1.0 - 0.55 * u), off, float(np.clip(pan, -0.9, 0.9)), 1.0, 0.0)
+    crumble = _grains(d, 20 + 14 * size, 700, 4200, 0.035, 0.04, spread * 0.9, 1.5, (0.06, 0.25), 0.9)
+    dust = st(D.sweep_lp(D.pink(d), 2600, 260) * env(d, 0.06, 0.4 + 0.2 * size) * 0.22, 0.0, 1.0, i)
+    late = _bounces(d, spread * 0.8 + 0.1, 3, lambda k: pad(_modes(rng.uniform(260, 420), 0.14, WOOD_RATIOS, WOOD_DECAYS, WOOD_GAINS) * 0.18, 0.14), (0.12, 0.2), 0.8, 0.8)
+    return mix_st(st(D.softclip(whump, 1.2)), out, crumble, dust, late)
+
+
+def collapse_s(i):
+    return _collapse(i, 0)
+
+
+def collapse_m(i):
+    return _collapse(i, 1)
+
+
+def collapse_l(i):
+    return _collapse(i, 2)
+
+
+def rubble_settle(i):
+    """After the fall: a few pebbles and splinters trickling and a last plank tipping over."""
+    d = 1.2
+    trickle = _grains(d, 14, 1400, 5200, 0.02, 0.02, 0.9, 1.1, (0.05, 0.2), 0.9, (2200, 4200))
+    last = at_st(_modes(rng.uniform(200, 300), 0.25, WOOD_RATIOS, WOOD_DECAYS, WOOD_GAINS) * 0.3, rng.uniform(0.5, 0.8), d, rng.uniform(-0.5, 0.5), 0.2)
+    return mix_st(trickle, last)
+
+
 def explosion(i):
     """Bomb: snap, chest punch, roaring body that darkens, sub tail, debris rain and a ground slap-back."""
     d = 2.6
@@ -1048,6 +1095,8 @@ SOUNDS = [
     ("deny", 1, deny), ("count_tick", 1, count_tick), ("toast", 1, toast), ("map_select", 1, map_select),
     ("play_press", 1, play_press), ("aim_grab", 2, aim_grab), ("ability", 2, ability), ("ratchet", 3, ratchet), ("bell", 2, bell_hit),
     ("screen_whoosh", 2, screen_whoosh), ("wallet_land", 2, wallet_land),
+    ("collapse_s", 2, collapse_s), ("collapse_m", 2, collapse_m), ("collapse_l", 2, collapse_l),
+    ("rubble_settle", 3, rubble_settle),
     ("talk_hero", 4, talk_hero), ("talk_enemy", 4, talk_enemy), ("talk_high", 3, talk_high),
 ]
 
@@ -1057,5 +1106,5 @@ if __name__ == "__main__":
     for name, n, fn in SOUNDS:
         sfx(name, n, fn)
     # Looping sounds skip polish() (its room tail would break the loop) and carry a WAV loop point.
-    D.write_wav(os.path.join(SFX, "stretch_loop.wav"), D.master(stretch_loop(), -19.0, -7.0), loop=True, sr=SR)
+    D.write_wav(os.path.join(SFX, "stretch_loop.wav"), D.master(stretch_loop(), -22.0, -9.0), loop=True, sr=SR)
     print("sfx:", len([f for f in os.listdir(SFX) if f.endswith(".wav")]), "files (music: tools/gen_music.py)")

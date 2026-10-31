@@ -31,9 +31,18 @@ Measured with `--record-audio` (Master output, 14 s from launch through the coll
 | Level 31, now | −18.2 LUFS | −1.5 dBFS, 0 clipped samples | 0.71 (wide) | 11.7 dB |
 | Level 12, now | −18.0 LUFS | −1.5 dBFS | 0.86 | 12.6 dB |
 | Home screen, now | −20.6 LUFS | −9.2 dBFS | 0.57 | music and ambience only |
+| Level 4, playtest fix (2026-10-31), before | −19.8 LUFS | −1.5 dBFS | | 13.6 dB |
+| Level 4, after | −17.8 LUFS | −1.7 dBFS | | 19.6 dB |
+| Level 31, after | −18.1 LUFS | −1.8 dBFS | | 17.0 dB |
 
-−18 LUFS is a common target for mobile game mixes: loud enough on a phone speaker without
-squashing the hits, which still stand 12 dB above the music bed.
+"Impacts over the bed" = 98th-percentile minus 20th-percentile short-term RMS (0.4 s windows).
+
+**Gameplay rule (playtest 2026-10-31: "music and ambience too loud, the focus should be the
+match SFX"):** in aim / flight / destruction the music base stem sits at −10 / −10 / −11 dB, the
+action stem tops out 12–26 dB down, the energy and climax stems peak at −9 dB, and the ambience
+bus is −11 dB with a −6 dB action duck. Every block break ducks the music 4 dB, a big impact 5,
+an explosion 9, a collapse 6; it recovers at 7 dB/s. Menus keep their level (menu ambience offset
+0 dB on the lower bus). Target: hits 17 dB or more over the bed.
 
 ### Positional sound
 `Sound.play_at(name, world_pos, vol, pitch)` plays a world sound on an `AudioStreamPlayer2D`
@@ -137,6 +146,19 @@ build them:
 | `explosion` | 3 | snap, chest punch, darkening roar, sub tail, wide roar, 40 debris grains, crackle, ground slap-back |
 | `launch` | 3 | latch click, rope twang, arm whoosh, crossbar thunk, rattle |
 | `crystal_break` / `ice_break` | 4 / 4 | glassy crack, inharmonic ring, shards or tinkles spread across the field |
+| `collapse_s/m/l` | 2 each | the fall of a tower: chunky low whump, 14/24/36 wood and stone clacks tumbling left to right and thinning out, crumble grains, a darkening dust swell, late pieces |
+| `rubble_settle` | 3 | pebbles and splinters trickling, one last plank tipping over |
+| `stretch_loop` | loop | a smooth elastic band drawing taut: warm sine harmonics in two slightly detuned voices, a 0.4% slow vibrato, a soft breathy air layer, low-passed at 3.2 kHz (1% of energy above 3 kHz; the old rope creak had 31%) |
+
+### Collapse layer (after how Angry Birds sells a falling castle)
+Per-block break sounds alone make a big fall sound like a pile of separate clicks. Angry Birds
+treats a collapse as one event: the individual cracks, then a body for the whole fall, then
+the debris settling. `Sound._on_break` (data `audio.collapse`) groups breaks inside a 700 ms
+window into one fall. When the window holds 3 / 6 / 10 breaks (or 9 / 20 / 36 mass), the
+small / medium / large collapse sound plays once at the centre of the breaks and ducks the
+music. 900 ms after the last break, `rubble_settle` plays. `audio.max_voices` caps each break
+sound (wood_break 3, stone_break 3, ...), so twenty planks at once don't turn into noise; the
+collapse layer carries the size instead. `--log-audio` prints each collapse tier.
 
 `gen_sfx.py` runs every sound through `polish()`:
 - a 40 Hz rumble cut and a top roll-off (12 kHz for the layered set, 8.5–9.5 kHz for the rest);
@@ -153,7 +175,7 @@ the sound is louder at the same peak.
 
 | Action | Sound(s) |
 |---|---|
-| Grab the catapult / pull | `aim_grab`, looping `stretch_loop` rope creak (`Sound.stretch(power)`), `ratchet_0..2` clicks every `ratchet_step` of power |
+| Grab the catapult / pull | `aim_grab`, looping `stretch_loop` elastic tension tone (`Sound.stretch(power)`: pitch 0.88→1.16, −20→−8 dB), soft `ratchet_0..2` ticks every 0.2 of power |
 | Bell set-pieces | `bell_0/1` (bronze strike) |
 | Launch / flight | `launch`, `whoosh` |
 | Hero ability | `ability` sparkle + the hero's own `slam` / `fire` / `explosion` / `wind` / `quake` |
