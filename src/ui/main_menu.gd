@@ -218,8 +218,8 @@ func _left_tiles() -> void:
 		if Save.stars(chal_lv) > 0:
 			Game.goto_challenges()
 		else:
-			_toast("Clear Level %d to unlock Challenges" % chal_lv)
-	var ch: Button = _tile("challenges", "Challenges", "icon_challenges", Vector2(14, 246), Vector2(150, 112), Vector2.ZERO, false, open_chal)
+			_toast("Clear Level %d to unlock Special Missions" % chal_lv)
+	var ch: Button = _tile("challenges", "Special Missions", "icon_challenges", Vector2(14, 246), Vector2(150, 112), Vector2.ZERO, false, open_chal)
 	var sh: Button = _tile("shop", "Shop", "icon_shop", Vector2(14, 368), Vector2(150, 112), Vector2.ZERO, false, func() -> void: Game.goto_meta("shop"))
 	for i: int in 2:
 		UIFx.slide_in([ch, sh][i], Vector2(-1, 0), 0.1 + i * 0.05)

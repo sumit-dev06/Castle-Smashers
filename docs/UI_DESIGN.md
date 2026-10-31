@@ -9,7 +9,7 @@ Colours and sizes live in `data/balance.json` → `ui`.
 ## Screen flow
 ```
 Splash → Home ─┬─ PLAY → Kingdom map → (story scene) → Level (flyover → Plan the Assault) → Results
-               ├─ Challenges → mode card → Level → Results
+               ├─ Special Missions → mission card → Level → Results
                ├─ Workshop (heroes, Vanguard, siege weapons)
                ├─ Armory (skins and trails)
                ├─ Achievements
@@ -28,7 +28,7 @@ enemy castle with red banners across a valley) with wooden UI framed around it.
   we ship coins only until a second currency is designed (see `MONETIZATION.md`), and the slot
   stays ready. Then square wooden buttons: mail (inbox for rewards), friends (later, hidden for
   now) and settings.
-- **Left column: tall wooden tiles** with an icon and label: Campaign (gold, selected), Challenges,
+- **Left column: tall wooden tiles** with an icon and label: Campaign (gold, selected), Special Missions,
   Events (daily challenge for now), Shop. Red dots mark something new.
 - **Right column:** a season/kingdom card ("Castle Conquest", crown and a star bar like "15/50",
   our realm star progress), Daily Rewards (chest), Achievements (target).
@@ -49,7 +49,7 @@ Army opened the old loadout; bottom Upgrades repeated the hero card; Trails is a
 - Profile card: soldier portrait, rank name with a crown, star bar to the next rank (opens Achievements).
 - Currency bar (coins, gems, blueprints); each "+" opens its own Shop tab (`ShopScreen.tab_for`).
   Mail (one-time welcome gift, `home.welcome_mail`) and settings.
-- Left: Campaign (gold, opens the map), Challenges (locked until L10 with a toast), Shop.
+- Left: Campaign (gold, opens the map), Special Missions (locked until L10 with a toast), Shop.
 - Right: Daily Rewards, Spin Wheel, Achievements.
 - Gold PLAY plank "Level N · Realm" (opens the next level).
 - Hero card: the hero cheapest to upgrade, its level bar and an UPGRADE button that opens Upgrades
@@ -143,9 +143,20 @@ paused): music and SFX on/off with volume sliders (`music_volume`, `sfx_volume` 
 haptics, language (English), Replay Tutorial, Credits page, Privacy (balance
 `settings.privacy_url`) and the version from `project.godot`.
 
-## Challenges screen
-Cards in a row, one per mode, each with a big icon, the mode name, a one-line rule, best result
-and stars. The daily challenge card is first, gold-trimmed, with a countdown. Master Sieges is a
+## Special Missions screen
+(Called "Challenges" in code: `challenges_screen.gd`, `data/challenges/`.) Cards in a row, one per
+mission. Every mission has its own emblem (`icon_mission_<id>`, `tools/gen_art.py mission_icons`:
+a gold-rimmed badge in the mission's colour with its own scene: mine cart of gold, pirate chest,
+stopwatch with lightning, anvil and hammer, powder keg in a crosshair, battlement with shields,
+war balloon, warship firing). Each card shows the emblem, name, mode, rule, best result and stars.
+
+Missions open one at a time: each needs a campaign level cleared (`unlock_level`, set in
+`tools/campaign.py MISSION_UNLOCK`): Beat the Clock L10, Hold the Line L14, Gold Rush L17, Harbor
+Assault L24, Pirate Hoard L27, Forge Sprint L33, One Perfect Shot L37, Sky Raiders L44, so each
+opens in its own realm after its heroes are introduced. A locked card shows the emblem dimmed
+under a padlock, "Clear campaign Level N to open this mission", a progress bar and LEVEL N. A
+freshly opened mission shows NEW! once. Today's mission (picked only from open missions) is
+first, gold-trimmed, with a countdown; then open missions, then locked ones in unlock order. Master Sieges is a
 separate ten-level hard pack. Below 25 campaign stars the row shows one locked pack card with live
 progress; at 25 stars it expands to ten violet-gold `MASTER SIEGE n / 10` cards. Special levels use
 fixed four-shot loadouts and never enter the daily rotation.

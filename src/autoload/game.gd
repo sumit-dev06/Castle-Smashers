@@ -126,7 +126,9 @@ func goto_workshop(back_to_level: int = 0) -> void:
 
 
 func can_enter_level(id: int) -> bool:
-	return not Data.is_special(id) or Save.special_pack_unlocked()
+	if Data.is_special(id):
+		return Save.special_pack_unlocked()
+	return Save.mission_unlocked(id)
 
 
 func goto_level(id: int) -> void:

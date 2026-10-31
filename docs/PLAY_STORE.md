@@ -25,7 +25,7 @@
 ## Store listing assets
 | Asset | Size |
 |---|---|
-| App icon | 512×512 PNG, 32-bit |
+| App icon | 512×512 PNG, 32-bit: `assets/art/brand/play_store_icon_512.png` (built by `tools/make_app_icon.py`) |
 | Feature graphic | 1024×500 |
 | Phone screenshots | 2–8, 16:9 landscape, min 1080 px short side recommended |
 | Tablet screenshots (7" and 10") | optional but improves reach |

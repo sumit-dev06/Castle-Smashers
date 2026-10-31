@@ -874,7 +874,7 @@ def build(lid, entry=None):
 
 
 def write_challenges():
-    from campaign import CHALLENGES, SECRETS, SPECIALS, SPECIAL_REQUIRED  # noqa: E402
+    from campaign import CHALLENGES, MISSION_UNLOCK, SECRETS, SPECIALS, SPECIAL_REQUIRED  # noqa: E402
     out = os.path.join(ROOT, "data", "challenges")
     os.makedirs(out, exist_ok=True)
     index = []
@@ -883,7 +883,8 @@ def write_challenges():
         d = build(cid, e)
         with open(os.path.join(out, "challenge_%03d.json" % cid), "w") as fh:
             json.dump(d, fh, indent=1)
-        index.append({"id": cid, "name": e[0], "realm": e[1], "mode": e[5], "rule": e[7], "heroes": e[3]})
+        index.append({"id": cid, "name": e[0], "realm": e[1], "mode": e[5], "rule": e[7], "heroes": e[3],
+                      "unlock_level": MISSION_UNLOCK[cid], "icon": "icon_mission_%d" % cid})
         print(f"challenge {cid} {e[0]:20s} {e[5]:14s} b{len(d['blocks']):2d} a{len(d['archers'])}")
     specials = []
     expected = list(range(int(BAL["special_pack"]["first_id"]), int(BAL["special_pack"]["last_id"]) + 1))

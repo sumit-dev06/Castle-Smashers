@@ -1036,18 +1036,38 @@ func _mode_tests() -> void:
 	Game.rush.clear()
 	lb.queue_free()
 	await _wait(0.1)
+	# Special Missions open one by one (index unlock_level), each with its own emblem.
+	var keep_u: int = int(Save.data["unlocked"])
+	Save.data["unlocked"] = 11
+	var open_ids: Array = []
+	var icons: Dictionary = {}
+	for c: Dictionary in Data.challenge_list():
+		if Save.mission_unlocked(int(c["id"])):
+			open_ids.append(int(c["id"]))
+		icons[String(c.get("icon", ""))] = true
+		_check(int(c.get("unlock_level", 0)) >= int(Data.b("modes", "challenges_unlock_level")) and Art.exists(String(c.get("icon", ""))),
+				"mission %d has an unlock level and its own emblem" % int(c["id"]))
+	_check(open_ids.size() == 1, "after level 10 only one mission is open (%s)" % [open_ids])
+	_check(icons.size() == Data.challenge_list().size(), "no two missions share an icon")
+	var locked_id: int = 107
+	_check(not Game.can_enter_level(locked_id), "a locked mission can't be entered")
+	_check(Save.daily_challenge_id("2026-01-05") in open_ids, "today's mission is always an open one")
+	Save.data["unlocked"] = 45
+	_check(Game.can_enter_level(locked_id), "clearing its campaign level opens the mission")
+	Save.data["unlocked"] = 51
 	# Daily challenge: picked by date from the list, pays once a day.
 	var d1: int = Save.daily_challenge_id("2026-01-01")
 	var d2: int = Save.daily_challenge_id("2026-01-02")
 	_check(d1 > Data.CHALLENGE_BASE and d1 != d2, "the daily challenge changes by date (%d, %d)" % [d1, d2])
 	var saved: Dictionary = Save.data.duplicate(true)
+	saved["unlocked"] = keep_u
 	Save.data["daily_paid"] = ""
 	var daily: int = Save.daily_challenge_id()
 	Save.data["challenges"][str(daily)] = {"stars": 1, "best": 0}
 	var r1: Dictionary = Save.record_result(daily, true, 1, 1000)
 	var r2: Dictionary = Save.record_result(daily, true, 1, 1000)
 	_check(int(r1["coins"]) - int(r2["coins"]) == int(Data.b("modes", "daily_coins")), "the daily bonus pays once per day")
-	_check(int(Save.data["unlocked"]) == int(saved["unlocked"]), "challenges do not unlock campaign levels")
+	_check(int(Save.data["unlocked"]) == 51, "challenges do not unlock campaign levels")
 	Save.data = saved
 	Save.write()
 

@@ -93,6 +93,14 @@ func challenge_list() -> Array:
 	return challenges.get("challenges", [])
 
 
+## Index entry of a Special Mission ({} for campaign levels and Master Sieges).
+func mission_info(id: int) -> Dictionary:
+	for item: Dictionary in challenge_list():
+		if int(item.get("id", 0)) == id:
+			return item
+	return {}
+
+
 ## Hard mechanic-puzzle cards, kept out of daily challenge rotation.
 func special_list() -> Array:
 	return challenges.get("specials", [])

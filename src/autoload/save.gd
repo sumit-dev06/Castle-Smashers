@@ -222,8 +222,18 @@ func today() -> String:
 
 
 ## Days since 1970-01-01 (local date) pick the daily challenge.
+## A Special Mission opens once its campaign level (index "unlock_level") is cleared.
+func mission_unlocked(id: int) -> bool:
+	var info: Dictionary = Data.mission_info(id)
+	var need: int = int(info.get("unlock_level", 0))
+	return info.is_empty() or need <= 0 or int(data.get("unlocked", 1)) > need or stars(need) > 0
+
+
+## Today's mission rotates through the missions the player has opened (all of them if none yet).
 func daily_challenge_id(date: String = "") -> int:
-	var list: Array = Data.challenge_list()
+	var list: Array = Data.challenge_list().filter(func(c: Dictionary) -> bool: return mission_unlocked(int(c["id"])))
+	if list.is_empty():
+		list = Data.challenge_list()
 	if list.is_empty():
 		return 0
 	var d: Dictionary = Time.get_datetime_dict_from_datetime_string(today() if date.is_empty() else date, false)

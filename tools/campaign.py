@@ -738,6 +738,10 @@ def C108(f):  # reverse siege: a war galleon and a raft cross the harbor
     f.tower(2150, ["stone", "wood"], archers=[1])
 
 
+# Special Missions open one by one: each needs its campaign level cleared. Picked so every mission
+# opens in its own realm, after the heroes it hands out have been introduced (cyclone L12, quake L22).
+MISSION_UNLOCK = {103: 10, 106: 14, 101: 17, 108: 24, 102: 27, 104: 33, 105: 37, 107: 44}
+
 CHALLENGES = {
     101: ("Gold Rush", 2, C101, ["bomb", "cyclone", "stone", "stone"], {}, "heist", {"need": 2},
           "Break open at least 2 of the 3 chests. A chest that falls off is lost."),

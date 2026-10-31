@@ -2193,6 +2193,147 @@ def mode_icons():
     write("icon_mode_siege", d.svg(64, 64, b))
 
 
+def mission_icons():
+    """One emblem per Special Mission (128x128): a gold-rimmed badge in the mission's colour with
+    its own scene, so no two missions share an icon (playtest: "all the icons look the same")."""
+    gold = lambda d: d.lin([(0, "#fff3a0"), (0.5, "#ffc93a"), (1, "#b87a14")])
+    iron = lambda d: d.lin([(0, "#dfe4e9"), (0.5, "#7d8792"), (1, "#343d47")])
+    wood = lambda d: d.lin([(0, "#e8ad66"), (0.5, "#b06a32"), (1, "#6e3e1c")])
+
+    def badge(d, c1, c2):
+        b = circle(64, 64, 60, gold(d), extra=ol(3.4))
+        b += circle(64, 64, 51, d.rad([(0, c1), (1, c2)], 0.4, 0.3, 0.8), extra=ol(2.4))
+        return b
+
+    def clip(d, scene):
+        """Scene clipped to the inner disc, with the rim line drawn again on top."""
+        i = d._id()
+        d.defs.append(f'<clipPath id="{i}"><circle cx="64" cy="64" r="50"/></clipPath>')
+        return f'<g clip-path="url(#{i})">{scene}</g>' + circle(64, 64, 51, "none", extra=ol(2.4))
+
+    def gloss():
+        return ellipse(52, 34, 30, 13, "#ffffff", 0.22, -18)
+
+    def nugget(x, y, r):
+        return circle(x, y, r, "#ffc93a", extra=ol(1.6)) + circle(x - r * 0.3, y - r * 0.35, r * 0.35, "#fff6c0", 0.9)
+
+    # 101 Gold Rush: a mine cart heaped with gold, pickaxe behind it.
+    d = Doc("mi1")
+    bg = badge(d, "#ffd27a", "#b8521a")
+    b = ""
+    b += path("M30 34 L92 92", stroke=OL, sw=9) + path("M30 34 L92 92", stroke="#b06a32", sw=5)
+    b += path("M16 46 Q30 20 58 22", stroke=OL, sw=9) + path("M16 46 Q30 20 58 22", stroke="#c3ccd4", sw=5)
+    for x, y, r in [(44, 66, 9), (60, 60, 11), (77, 64, 10), (88, 70, 7), (52, 70, 8), (70, 70, 8)]:
+        b += nugget(x, y, r)
+    b += poly([(30, 72), (98, 72), (90, 98), (38, 98)], iron(d), extra=ol(3))
+    b += rect(34, 78, 60, 5, 2, "#343d47", 0.6)
+    b += circle(48, 100, 8, "#4a4f57", extra=ol(2.4)) + circle(82, 100, 8, "#4a4f57", extra=ol(2.4))
+    b += circle(48, 100, 3, "#c3ccd4") + circle(82, 100, 3, "#c3ccd4")
+    b += poly([(96, 40), (99, 48), (107, 50), (99, 53), (96, 61), (93, 53), (85, 50), (93, 48)], "#ffffff", 0.95)
+    write("icon_mission_101", d.svg(128, 128, bg + clip(d, b) + gloss()))
+
+    # 102 Pirate Hoard: open pirate chest with a skull plate, coins spilling, sea below.
+    d = Doc("mi2")
+    bg = badge(d, "#6fe3d6", "#0f5a66")
+    b = ""
+    b += path("M14 96 Q26 88 38 96 Q50 104 62 96 Q74 88 86 96 Q98 104 112 96 L112 112 L14 112 Z", "#2a8fd0", 0.9)
+    b += path("M30 58 L36 30 Q64 20 92 30 L98 58 Z", d.lin([(0, "#8a3a1c"), (1, "#4a1a0c")]), extra=ol(3))
+    b += path("M38 56 Q64 40 90 56", "#ffc93a", extra=ol(1.6))
+    for x, y in [(50, 50), (64, 46), (78, 50), (58, 54), (72, 54)]:
+        b += circle(x, y, 6, gold(d), extra=ol(1.4))
+    b += rect(28, 56, 72, 38, 5, d.lin([(0, "#c84a2a"), (1, "#7a1a12")]), extra=ol(3))
+    b += rect(28, 56, 72, 7, 2, gold(d), extra=ol(1.6)) + rect(28, 84, 72, 6, 2, gold(d), extra=ol(1.4))
+    b += circle(64, 74, 11, "#fff6e0", extra=ol(2)) + rect(58, 80, 12, 8, 2, "#fff6e0", extra=ol(1.6))
+    b += circle(60, 73, 3, OL) + circle(68, 73, 3, OL) + path("M62 85 L62 88 M66 85 L66 88", stroke=OL, sw=1.4)
+    b += circle(100, 92, 6, gold(d), extra=ol(1.4)) + circle(28, 96, 5, gold(d), extra=ol(1.4))
+    write("icon_mission_102", d.svg(128, 128, bg + clip(d, b) + gloss()))
+
+    # 103 Beat the Clock: stopwatch struck by a lightning bolt.
+    d = Doc("mi3")
+    bg = badge(d, "#ffb3d6", "#a8285e")
+    b = ""
+    b += rect(56, 16, 16, 12, 3, gold(d), extra=ol(2.4)) + rect(60, 26, 8, 8, 2, "#7d8792", extra=ol(1.8))
+    b += path("M88 34 L96 26", stroke=OL, sw=8) + path("M88 34 L96 26", stroke="#c3ccd4", sw=4)
+    b += circle(64, 70, 34, "#fff6e0", extra=ol(3.4)) + circle(64, 70, 28, "#ffffff", extra=ol(1.4))
+    for k in range(12):
+        a = math.radians(k * 30)
+        r0 = 22 if k % 3 else 19
+        b += path(f"M{f(64 + math.sin(a) * r0)} {f(70 - math.cos(a) * r0)} L{f(64 + math.sin(a) * 26)} {f(70 - math.cos(a) * 26)}", stroke=OL, sw=2.2)
+    b += path("M64 70 L64 50", stroke="#e8402e", sw=4) + path("M64 70 L78 76", stroke=OL, sw=4) + circle(64, 70, 4, OL)
+    b += poly([(92, 40), (74, 72), (86, 72), (70, 104), (100, 64), (88, 64), (102, 40)], "#ffd23a", extra=ol(2.6))
+    write("icon_mission_103", d.svg(128, 128, bg + clip(d, b) + gloss()))
+
+    # 104 Forge Sprint: hammer on a glowing bar over the anvil, sparks flying.
+    d = Doc("mi4")
+    bg = badge(d, "#ff9a4a", "#5a1408")
+    b = ""
+    b += path("M30 72 L98 72 L90 82 L78 84 L78 96 L92 104 L36 104 L50 96 L50 84 L38 82 Z", iron(d), extra=ol(3))
+    b += rect(44, 64, 40, 9, 4, d.lin([(0, "#fff3a0"), (0.5, "#ff9a2a"), (1, "#e8402e")]), extra=ol(2))
+    b += path("M76 30 L56 58", stroke=OL, sw=9) + path("M76 30 L56 58", stroke="#b06a32", sw=5)
+    b += group(rect(-18, -9, 36, 18, 4, iron(d), extra=ol(2.6)), 82, 28, 1, 36)
+    for x, y, r in [(36, 54, 4), (28, 44, 3), (92, 56, 4), (100, 46, 3), (46, 44, 2.5), (88, 64, 2.5)]:
+        b += poly([(x, y - r * 2), (x + r * 0.6, y - r * 0.6), (x + r * 2, y), (x + r * 0.6, y + r * 0.6), (x, y + r * 2), (x - r * 0.6, y + r * 0.6), (x - r * 2, y), (x - r * 0.6, y - r * 0.6)], "#ffe066")
+    write("icon_mission_104", d.svg(128, 128, bg + clip(d, b) + gloss()))
+
+    # 105 One Perfect Shot: a powder keg with a lit fuse inside a crosshair.
+    d = Doc("mi5")
+    bg = badge(d, "#c9a2ff", "#3d1a7a")
+    b = ""
+    b += circle(64, 68, 38, "none", extra=f'stroke="#ffffff" stroke-width="4" opacity="0.85"')
+    b += path("M64 22 L64 36 M64 100 L64 114 M18 68 L32 68 M96 68 L110 68", stroke="#ffffff", sw=4, op=0.85)
+    b += rect(42, 50, 44, 46, 12, wood(d), extra=ol(3))
+    b += rect(40, 58, 48, 6, 3, iron(d), extra=ol(1.6)) + rect(40, 82, 48, 6, 3, iron(d), extra=ol(1.6))
+    b += rect(56, 66, 16, 12, 3, "#3a2212", 0.85) + path("M60 72 L68 72", stroke="#ffd23a", sw=2)
+    b += path("M64 50 Q70 38 80 36 Q88 34 90 26", stroke=OL, sw=4) + path("M64 50 Q70 38 80 36 Q88 34 90 26", stroke="#d6ad72", sw=2)
+    b += circle(91, 24, 7, "#ffd23a", 0.9) + circle(91, 24, 4, "#ff6a2a")
+    write("icon_mission_105", d.svg(128, 128, bg + clip(d, b) + gloss()))
+
+    # 106 Hold the Line: battlement with three shields, arrows raining in.
+    d = Doc("mi6")
+    bg = badge(d, "#8fd0ff", "#1f4aa8")
+    b = ""
+    for x0 in (16, 40, 64, 88):
+        b += rect(x0 + 2, 26, 18, 14, 2, "#ffffff", 0.0)
+    for k, (x, y) in enumerate([(84, 22), (98, 32), (70, 30)]):
+        b += path(f"M{x} {y} L{x - 18} {y + 18}", stroke=OL, sw=4) + path(f"M{x} {y} L{x - 18} {y + 18}", stroke="#d6ad72", sw=2)
+        b += poly([(x - 18, y + 18), (x - 12, y + 18), (x - 18, y + 12)], "#7d8792", extra=ol(1))
+        b += path(f"M{x} {y} L{x + 4} {y - 6} M{x} {y} L{x + 6} {y - 2}", stroke="#e8402e", sw=2)
+    b += path("M20 62 L20 52 L32 52 L32 60 L44 60 L44 52 L56 52 L56 60 L72 60 L72 52 L84 52 L84 60 L96 60 L96 52 L108 52 L108 62 L108 108 Q64 118 20 108 Z",
+              d.lin([(0, "#dfe4e9"), (1, "#7d8792")]), extra=ol(3))
+    b += path("M20 84 L108 84 M40 62 L40 84 M76 62 L76 84 M58 84 L58 106 M92 84 L92 104", stroke="#5c6670", sw=1.6, op=0.7)
+    for x, c in [(40, "#e8402e"), (64, "#ffc93a"), (88, "#3a8ae0")]:
+        b += path(f"M{x - 11} 66 L{x + 11} 66 L{x + 10} 82 Q{x} 94 {x} 94 Q{x} 94 {x - 10} 82 Z", c, extra=ol(2.4))
+        b += path(f"M{x} 68 L{x} 90", stroke="#ffffff", sw=2, op=0.6)
+    write("icon_mission_106", d.svg(128, 128, bg + clip(d, b) + gloss()))
+
+    # 107 Sky Raiders: a striped war balloon with a gondola, over clouds.
+    d = Doc("mi7")
+    bg = badge(d, "#b8f0ff", "#2f7fc8")
+    b = ""
+    b += ellipse(34, 96, 18, 9, "#ffffff", 0.95) + ellipse(92, 100, 22, 10, "#ffffff", 0.95) + ellipse(64, 104, 24, 9, "#ffffff", 0.9)
+    b += path("M64 18 Q96 18 96 50 Q96 70 72 80 L56 80 Q32 70 32 50 Q32 18 64 18 Z", d.lin([(0, "#ff7a5a"), (1, "#a8201a")]), extra=ol(3))
+    b += path("M64 18 Q50 40 56 80 M64 18 Q78 40 72 80", stroke="#fff6e0", sw=5, op=0.9)
+    b += path("M56 80 L54 90 M72 80 L74 90", stroke=OL, sw=2)
+    b += rect(48, 88, 32, 13, 3, wood(d), extra=ol(2.4))
+    b += path("M80 94 L92 94", stroke=OL, sw=2.4) + ellipse(94, 94, 3, 9, "#c3ccd4", extra=ol(1.4))
+    b += rect(56, 82, 4, 6, 1, OL) + poly([(58, 70), (58, 60), (68, 64)], "#ffd23a", extra=ol(1.2))
+    write("icon_mission_107", d.svg(128, 128, bg + clip(d, b) + gloss()))
+
+    # 108 Harbor Assault: a ship's bow firing its cannon over the waves.
+    d = Doc("mi8")
+    bg = badge(d, "#7fb8f0", "#122a5a")
+    b = ""
+    b += rect(56, 18, 5, 52, 1, "#6e3e1c", extra=ol(1.6)) + path("M61 22 L92 36 L61 52 Z", "#fff6e0", extra=ol(2.2))
+    b += path("M58 18 L70 22 L58 26 Z", "#e8402e", extra=ol(1.2))
+    b += path("M18 70 L104 70 L94 94 L30 94 Z", wood(d), extra=ol(3))
+    b += path("M22 78 L100 78", stroke="#3a2212", sw=1.6, op=0.6)
+    b += rect(78, 72, 26, 9, 4, "#343d47", extra=ol(2)) + circle(110, 64, 6, "#2a2f36", extra=ol(1.6))
+    b += circle(106, 72, 7, "#ffd23a", 0.85) + circle(98, 70, 4, "#ffffff", 0.8)
+    b += path("M12 100 Q24 92 36 100 Q48 108 60 100 Q72 92 84 100 Q96 108 116 98 L116 112 L12 112 Z", "#4ac0ff", 0.95)
+    b += path("M18 104 Q28 99 38 104", stroke="#ffffff", sw=2.4, op=0.8) + path("M70 104 Q80 99 90 104", stroke="#ffffff", sw=2.4, op=0.8)
+    write("icon_mission_108", d.svg(128, 128, bg + clip(d, b) + gloss()))
+
+
 def weapon_icons():
     """Siege weapon icons (72x64) for the loadout picker and the Workshop rail."""
     wood = lambda d: d.lin([(0, "#e8ad66"), (0.5, "#b06a32"), (1, "#6e3e1c")], 0, 0, 0, 1)
@@ -2531,6 +2672,7 @@ if __name__ == "__main__":
     phase_d_mechanisms()
     boss_rig_assets()
     mode_icons()
+    mission_icons()
     weapon_icons()
     meta_icons()
     hellfire_assets()

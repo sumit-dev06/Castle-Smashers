@@ -24,6 +24,7 @@ python3 tools/gen_music.py; python3 tools/gen_ambience.py   # adaptive music ste
 $GODOT --path . -- --level=N --autoshot=38,0.85,0.9 --record-audio=14   # record the Master mix to build/shots/audio.wav
 python3 tools/cutout.py --preview                   # new AI images in assets/art/ai/ -> refined PNGs in assets/art/ai/cut
 python3 tools/gen_levels.py                         # rebuild levels from tools/campaign.py into data/levels
+python3 tools/make_app_icon.py                      # app icon (adaptive layers, 192, 512, Play Store) from art_source/brand
 $GODOT --path . -- --map | --story=N | --level=N | --loadout=N | --workshop | --challenges | --challenge=N   # jump to a screen
 $GODOT --path . -- --meta=spin|daily|shop|upgrades|skins|achievements   # meta screens; --no-popups skips the daily popup
 $GODOT --path . -- --level=N --force-win=1 --screenshot=build/shots/r.png --shot-delay=9   # results screen capture (debug)

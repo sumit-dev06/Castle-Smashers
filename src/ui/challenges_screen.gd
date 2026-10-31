@@ -1,8 +1,11 @@
 class_name ChallengesScreen
 extends CanvasLayer
-## Challenges: a card per challenge level (mode icon, name, rule, stars, best score), the daily
-## challenge first and gold-trimmed with a countdown, and the Boss Rush card after level 50.
-## Opens after level modes.challenges_unlock_level. See docs/UI_DESIGN.md "Challenges screen".
+## Special Missions: a card per mission (its own emblem, name, mode, rule, stars, best score).
+## Missions open one by one as campaign levels are cleared (index "unlock_level"); a locked card
+## shows its emblem dimmed, a padlock and which level opens it. Today's mission (open ones only)
+## comes first, gold-trimmed with a countdown; then open missions, then locked ones in unlock
+## order, then Boss Rush and the Master Sieges. Opens after modes.challenges_unlock_level.
+## See docs/UI_DESIGN.md "Special Missions screen".
 
 var _countdown: Label
 var _cards: Array[Control] = []
@@ -35,9 +38,9 @@ func _ready() -> void:
 	var sh: HBoxContainer = HBoxContainer.new()
 	sh.add_theme_constant_override("separation", 10)
 	sh.add_child(UIKit.tex_rect("icon_mode_siege", 44))
-	sh.add_child(UIKit.label("CHALLENGES", 38, Color("#ffd23a"), 9))
+	sh.add_child(UIKit.label("SPECIAL MISSIONS", 34, Color("#ffd23a"), 9))
 	sign.add_child(sh)
-	UIKit.place(sign, Vector2(0, 0), Vector2(100, 14), Vector2(360, 80))
+	UIKit.place(sign, Vector2(0, 0), Vector2(100, 14), Vector2(470, 80))
 	root.add_child(sign)
 	var bar: CurrencyBar = CurrencyBar.new(Save.WALLET, false)
 	UIKit.place(bar, Vector2(1, 0), Vector2(-680, 22), Vector2(660, 56))
@@ -56,9 +59,14 @@ func _ready() -> void:
 	scroll.add_child(row)
 	var daily: int = Save.daily_challenge_id()
 	var list: Array = Data.challenge_list().duplicate()
-	list.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a["id"]) == daily and int(b["id"]) != daily)
+	# Today's mission, then open missions, then locked ones by the level that opens them.
+	var rank: Callable = func(c: Dictionary) -> int:
+		var cid: int = int(c["id"])
+		var open: bool = Save.mission_unlocked(cid)
+		return (0 if cid == daily and open else 1 if open else 2) * 1000 + int(c.get("unlock_level", 0))
+	list.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return rank.call(a) < rank.call(b))
 	for c: Dictionary in list:
-		var card: Control = _card(c, int(c["id"]) == daily)
+		var card: Control = _card(c, int(c["id"]) == daily and Save.mission_unlocked(int(c["id"])))
 		row.add_child(card)
 		_cards.append(card)
 	row.add_child(_rush_card())
@@ -77,7 +85,7 @@ func _ready() -> void:
 	if OS.is_debug_build() and Game.args.has("preview-special"):
 		get_tree().create_timer(0.15).timeout.connect(func() -> void:
 			scroll.scroll_horizontal = int(scroll.get_h_scroll_bar().max_value))
-	var hint: Control = UIKit.info_pill("coin", "Daily challenge: +%d coins once a day" % int(Data.b("modes", "daily_coins")))
+	var hint: Control = UIKit.info_pill("coin", "Today's mission: +%d coins once a day" % int(Data.b("modes", "daily_coins")))
 	UIKit.place(hint, Vector2(0.5, 1), Vector2(-260, -58), Vector2(520, 48))
 	hint.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	root.add_child(hint)
@@ -87,6 +95,8 @@ func _ready() -> void:
 
 func _card(c: Dictionary, daily: bool, special: bool = false) -> Control:
 	var id: int = int(c["id"])
+	if not special and not Save.mission_unlocked(id):
+		return _locked_card(c)
 	var p: PanelContainer = UIKit.panel()
 	p.custom_minimum_size = Vector2(250, 440)
 	if daily:
@@ -98,13 +108,15 @@ func _card(c: Dictionary, daily: bool, special: bool = false) -> Control:
 	v.add_theme_constant_override("separation", 6)
 	p.add_child(v)
 	if daily:
-		v.add_child(UIKit.label("DAILY", 26, Color("#c46a0a"), 0))
+		v.add_child(UIKit.label("TODAY'S MISSION", 22, Color("#c46a0a"), 0))
 		_countdown = UIKit.label("", 18, UIKit.TEXT_DARK, 0, false)
 		v.add_child(_countdown)
 	elif special:
 		v.add_child(UIKit.label("MASTER SIEGE %d / %d" % [int(c.get("order", 1)), Data.special_list().size()], 21, Color("#7b3fb2"), 0))
-	var icon: TextureRect = UIKit.tex_rect(String(ModeRules.ICONS.get(String(c["mode"]), "icon_mode_siege")), 92)
-	v.add_child(icon)
+	elif not Save.seen("mission:%d" % id):
+		v.add_child(UIKit.label("NEW!", 24, Color("#e8402e"), 0))
+		Save.mark_seen("mission:%d" % id, false)
+	v.add_child(UIKit.tex_rect(_icon_of(c), 104 if not special else 92))
 	v.add_child(UIKit.label(String(c["name"]), 28, UIKit.TEXT_DARK, 0))
 	v.add_child(UIKit.label(ModeRules.display_name(String(c["mode"])), 20, Color("#7a3a10"), 0, false))
 	var rule: Label = UIKit.label(String(c["rule"]), 17, UIKit.TEXT_DARK, 0, false)
@@ -134,6 +146,49 @@ func _card(c: Dictionary, daily: bool, special: bool = false) -> Control:
 	return p
 
 
+
+
+func _icon_of(c: Dictionary) -> String:
+	var own: String = String(c.get("icon", ""))
+	if not own.is_empty() and Art.exists(own):
+		return own
+	return String(ModeRules.ICONS.get(String(c.get("mode", "")), "icon_mode_siege"))
+
+
+## Not open yet: the emblem in silhouette-dim, a padlock, the mode and the level that opens it.
+func _locked_card(c: Dictionary) -> Control:
+	var need: int = int(c.get("unlock_level", 1))
+	var p: PanelContainer = UIKit.panel()
+	p.custom_minimum_size = Vector2(250, 440)
+	p.modulate = Color(0.8, 0.78, 0.86)
+	var v: VBoxContainer = VBoxContainer.new()
+	v.alignment = BoxContainer.ALIGNMENT_CENTER
+	v.add_theme_constant_override("separation", 8)
+	p.add_child(v)
+	var holder: Control = Control.new()
+	holder.custom_minimum_size = Vector2(104, 104)
+	holder.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	var emblem: TextureRect = UIKit.tex_rect(_icon_of(c), 104)
+	emblem.modulate = Color(0.35, 0.33, 0.42)
+	holder.add_child(emblem)
+	var lock: TextureRect = UIKit.tex_rect("icon_lock", 52)
+	lock.position = Vector2(26, 30)
+	holder.add_child(lock)
+	v.add_child(holder)
+	v.add_child(UIKit.label(String(c["name"]), 28, UIKit.TEXT_DARK, 0))
+	v.add_child(UIKit.label(ModeRules.display_name(String(c["mode"])), 20, Color("#7a3a10"), 0, false))
+	var why: Label = UIKit.label("Clear campaign Level %d to open this mission." % need, 18, UIKit.TEXT_DARK, 0, false)
+	why.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	why.custom_minimum_size = Vector2(220, 60)
+	v.add_child(why)
+	var bar: ProgressBar = ProgressBar.new()
+	bar.custom_minimum_size = Vector2(200, 20)
+	bar.max_value = need
+	bar.value = mini(int(Save.data.get("unlocked", 1)) - 1, need)
+	bar.show_percentage = false
+	v.add_child(bar)
+	v.add_child(UIKit.label("LEVEL %d" % need, 24, Color("#7a3a10"), 0))
+	return p
 
 
 func _special_gate_card() -> Control:

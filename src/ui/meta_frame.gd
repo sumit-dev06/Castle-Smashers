@@ -5,7 +5,7 @@ extends CanvasLayer
 ## optional left rail of tabs (selected tab gold). Subclasses fill `body` in _build().
 
 const RAIL_REWARDS: Array = [["spin", "Spin Wheel", "icon_spin"], ["daily", "Daily Rewards", "icon_daily"],
-		["shop", "Shop", "icon_shop"], ["challenges", "Challenges", "icon_challenges"], ["achievements", "Achievements", "icon_achievements"]]
+		["shop", "Shop", "icon_shop"], ["challenges", "Missions", "icon_challenges"], ["achievements", "Achievements", "icon_achievements"]]
 
 var root: Control
 var body: Control

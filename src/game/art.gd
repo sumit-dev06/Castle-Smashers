@@ -95,6 +95,11 @@ static func _is_ui_fit(art_name: String) -> bool:
 	return false
 
 
+static func exists(art_name: String) -> bool:
+	var key: String = resolve(art_name)
+	return has_ai(key) or ResourceLoader.exists(SVG_DIR % key)
+
+
 static func tex(art_name: String) -> Texture2D:
 	var key: String = resolve(art_name)
 	if not _cache.has(key):
