@@ -212,7 +212,7 @@ static func has_news(key: String) -> bool:
 		"spin":
 			return SpinWheel.free_spin_ready()
 		"achievements":
-			return Progression.ready_count() > 0
+			return Progression.ready_count() + Feats.ready_count() > 0
 		"challenges", "events":
 			return not Save.daily_paid_today() and Save.stars(int(Data.b("modes", "challenges_unlock_level"))) > 0
 	return false

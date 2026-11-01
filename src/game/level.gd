@@ -74,6 +74,9 @@ var _waiting_shadows: Array[Sprite2D] = []
 var bolts: Array[Bolt] = []
 var tethers: Array[Tether] = []
 var gadgets: Array[Gadget] = []
+## Level challenge facts (Feats): hero powers used and soldiers knocked out this attempt.
+var abilities_used: int = 0
+var soldiers_lost: int = 0
 var background: Background
 ## Current horizontal wind acceleration on heroes in flight (px/s², + = toward the fortress).
 var wind_now: float = 0.0
@@ -437,7 +440,10 @@ func _build_foreground() -> void:
 	if Art.has_ai("fg_%s_left" % key) or Art.has_ai("fg_%s_right" % key):
 		for side: int in 2:
 			# The left corner sits over the waiting heroes: keep it low so they stay in view.
-			var h: float = get_viewport_rect().size.y * Data.bf("stage", "fg_ai_left_height_frac" if side == 0 else "fg_ai_height_frac")
+			# A realm with a bulky right corner (Storm Crags' tree) sets a lower fg_height_frac.
+			var frac: float = Data.bf("stage", "fg_ai_left_height_frac") if side == 0 \
+					else float(realm_info.get("fg_height_frac", Data.bf("stage", "fg_ai_height_frac")))
+			var h: float = get_viewport_rect().size.y * frac
 			var art_name: String = "fg_%s_%s" % [key, "left" if side == 0 else "right"]
 			var mirror: bool = false
 			if not Art.has_ai(art_name):
@@ -579,6 +585,9 @@ func _physics_process(delta: float) -> void:
 				_log_level_start()
 				if boss == null:
 					Sound.stinger("siege_start")
+				var feat: Dictionary = Feats.shown_for_level(level_id) if training.is_empty() and not is_challenge() else {}
+				if not feat.is_empty() and not Game.args.has("autoshot"):
+					hud.hint("CHALLENGE: %s" % Feats.goal_text(feat), 3.5, "icon_achievements")
 				if not bool(Save.data.get("tutorial_done", false)):
 					_show_tutorial()
 		State.PLAY:
@@ -683,14 +692,16 @@ func _load_now() -> void:
 func _autoshots(shots: PackedStringArray, i: int) -> void:
 	if i >= shots.size() or is_finished() or not is_inside_tree():
 		return
-	if not _loaded or (is_instance_valid(projectile) and not projectile.is_queued_for_deletion() and i > 0 and projectile.linear_velocity.length() > 40.0):
+	# --autoshot-rapid: fire as soon as the catapult reloads (a quick player), not when the last shot stops.
+	var rapid: bool = Game.args.has("autoshot-rapid")
+	if not _loaded or (not rapid and is_instance_valid(projectile) and not projectile.is_queued_for_deletion() and i > 0 and projectile.linear_velocity.length() > 40.0):
 		get_tree().create_timer(0.25).timeout.connect(_autoshots.bind(shots, i))
 		return
 	var parts: PackedStringArray = shots[i].split(",")
 	var ang: float = deg_to_rad(float(parts[0]))
 	var power: float = float(parts[1]) if parts.size() > 1 else 1.0
 	var vel: Vector2 = Vector2(cos(ang), -sin(ang)) * power * Data.bf("catapult", "max_speed")
-	get_tree().create_timer(0.4 if i == 0 else 0.9).timeout.connect(func() -> void:
+	get_tree().create_timer(0.4 if i == 0 or rapid else 0.9).timeout.connect(func() -> void:
 		fire_hero(vel)
 		var fired: Projectile = projectile
 		if parts.size() > 2:
@@ -866,6 +877,12 @@ func _finish(won: bool) -> void:
 		Progression.best("chain_best", chain.best)
 		if won:
 			Progression.bump("wins")
+			if training.is_empty() and not is_challenge() and not (mode and mode.kind == "boss_rush") \
+						and not Game.args.has("autoshot"):
+				var got: Array = Feats.on_win(level_id, {"shots": hero_index, "abilities": abilities_used,
+						"soldiers_lost": soldiers_lost, "chain": chain.best, "time": _play_t})
+				for f: Dictionary in got:
+					hud.hint("CHALLENGE DONE: %s! Claim it in Achievements." % Feats.goal_text(f), 4.0, "icon_achievements")
 	if mode and mode.kind == "boss_rush" and not test_mode:
 		if won and Game.rush_advance(self):
 			return
@@ -931,7 +948,7 @@ func _notification(what: int) -> void:
 		return
 	if test_mode or hud == null or is_finished() or get_tree().paused or hellfire_running:
 		return
-	if not Engine.get_write_movie_path().is_empty() or Game.args.has("autoshot"):
+	if not Engine.get_write_movie_path().is_empty() or Game.args.has("autoshot") or Game.args.has("screenshot"):
 		return  # video recordings and automatic debug shots run in an unfocused window
 	if Ads.showing():
 		return  # a full-screen ad also takes focus; the ad flow handles that
@@ -1460,6 +1477,7 @@ func on_archer_defeated(a: Archer) -> void:
 
 
 func _on_soldier_ko(_s: Node2D) -> void:
+	soldiers_lost += 1
 	score = maxi(0, score + int(Data.b("score", "soldier_ko")))
 	_update_hud()
 
@@ -2156,7 +2174,8 @@ func play_best_replay() -> bool:
 func _exit_tree() -> void:
 	if OS.is_debug_build() and Game.args.has("autoshot") and not test_mode:
 		# Debug: lets tools/record_trailer.py pick shots that look good on video.
-		print("AUTOSHOT_RESULT score=%d blocks=%d/%d guards=%d won=%s" % [score,
-			blocks_total - blocks.size(), blocks_total, archers.size(), str(is_finished() and archers.is_empty())])
+		print("AUTOSHOT_RESULT score=%d blocks=%d/%d guards=%d won=%s shots=%d powers=%d lost=%d chain=%d time=%.1f" % [score,
+			blocks_total - blocks.size(), blocks_total, archers.size(), str(is_finished() and archers.is_empty()),
+			hero_index, abilities_used, soldiers_lost, chain.best, _play_t])
 	Engine.time_scale = 1.0
 	Sound.stretch_stop()

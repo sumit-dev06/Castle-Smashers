@@ -62,7 +62,7 @@ Done when: `castle_upload.keystore` exists, is backed up twice, and you know its
 
 Without a payments profile you cannot sell anything, and the product page stays locked.
 
-1. Open https://play.google.com/console and sign in with the account that owns Castle Smashers.
+1. Open https://play.google.com/console and sign in with the account that owns Stone Storm.
 2. In the left menu, click **Settings** (gear icon, near the bottom).
 3. Click **Payments profile**.
 4. Click **Create payments profile** (or **Set up a merchant account**).
@@ -91,7 +91,7 @@ Done when: Settings → Payments profile shows your merchant account as **active
 1. Left menu → **Apps** → **Add app**.
 2. Platform: **Android**.
 3. "Is the app listed on a supported app store?":
-   - If Castle Smashers is **not yet public** on Play, choose **No**. Name it `Castle Smashers`.
+   - If Stone Storm is **not yet public** on Play, choose **No**. Name it `Stone Storm`.
      You link it to the store later (step 3.5).
    - If it is already public, choose **Yes** and search `com.castlesmashers.game`.
 4. Keep **user metrics** on. Click **Add app**.
@@ -115,7 +115,7 @@ game handles that and retries every 30 seconds.
 
 ### 3.4 Privacy and consent messages (required)
 1. Left menu → **Privacy & messaging**.
-2. **European regulations (GDPR)** → **Create message**. Select the Castle Smashers app. Add the privacy
+2. **European regulations (GDPR)** → **Create message**. Select the Stone Storm app. Add the privacy
    policy URL `https://castle-smashers.pages.dev/privacy/`. Keep the default choices
    ("Consent" and "Manage options"). Click **Publish**.
 3. **US state regulations** → **Create message** → select the app → **Publish**.
@@ -125,11 +125,11 @@ game handles that and retries every 30 seconds.
 ### 3.5 Content rating and app-ads.txt
 1. Left menu → **Blocking controls** → **Content rating** (or app settings → **Max ad content rating**):
    choose **T** (Teens). The game also requests T from code. MA stays blocked.
-2. Left menu → **Apps** → **View all apps** → the **app-ads.txt** tab. When Castle Smashers is
+2. Left menu → **Apps** → **View all apps** → the **app-ads.txt** tab. When Stone Storm is
    public on Play with the website `https://castle-smashers.pages.dev` in its store listing,
    AdMob shows the app as **Verified** within about a day. Nothing to do on the website; the file
    is already live.
-3. Once the game is public on Play, go to **Apps** → Castle Smashers → **App settings** → **Link to app store**,
+3. Once the game is public on Play, go to **Apps** → Stone Storm → **App settings** → **Link to app store**,
    and pick it from Google Play.
 
 ### 3.6 Payments (so you get paid)
@@ -162,7 +162,7 @@ What I will do with them:
 - Raise the version code, then build `build/castle_smashers.aab`.
 
 ### 4.3 The one step you type yourself (keystore password)
-1. Open Godot → open the Castle Smashers project.
+1. Open Godot → open the Stone Storm project.
 2. Top menu **Project** → **Export...**.
 3. Click the **Android** preset on the left.
 4. On the right, scroll to **Keystore**:
@@ -188,7 +188,7 @@ There are three kinds of "test users". You need all three.
 | **AdMob test devices** | See "Test Ad" on real ad units, so clicks never count | AdMob → Settings → Test devices (Part 7) |
 
 ### 5.1 Upload the AAB to Internal testing
-1. Play Console → select **Castle Smashers**.
+1. Play Console → select **Stone Storm**.
 2. Left menu → **Test and release** → **Testing** → **Internal testing**.
 3. Click **Create new release**.
 4. If asked about **Play App Signing**, click **Continue** / **Use Google-generated key**. Google
@@ -224,7 +224,7 @@ There are three kinds of "test users". You need all three.
 Why this matters: purchases only work on a copy installed from Play. My USB builds show
 "Loading..." on prices, because Play refuses product queries from apps it did not install.
 
-Done when: the phone has Castle Smashers installed **from Play**, and the Play page shows
+Done when: the phone has Stone Storm installed **from Play**, and the Play page shows
 "(Internal testing)" or "You're a tester".
 
 ---
@@ -234,7 +234,7 @@ Done when: the phone has Castle Smashers installed **from Play**, and the Play p
 You can do this after Part 5.1, because Play unlocks products only after a build with
 the billing permission is uploaded.
 
-1. Play Console → Castle Smashers → left menu **Monetize with Play** → **Products** → **One-time products**.
+1. Play Console → Stone Storm → left menu **Monetize with Play** → **Products** → **One-time products**.
 2. Click **Create one-time product**.
 3. Fill in one product (the table below lists all of them):
    - **Product ID**: exactly as in the table. It cannot be changed or reused later.

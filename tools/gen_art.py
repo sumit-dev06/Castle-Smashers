@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generates all vector art for Castle Smashers into assets/art/svg/.
+"""Generates all vector art for Stone Storm into assets/art/svg/.
 
 Style rules (docs/ART_DIRECTION.md): soft 3D cartoon, gradients for volume, light from the
 top-left, white highlight, no black outlines. SVG sizes are 1x world pixels; Godot imports

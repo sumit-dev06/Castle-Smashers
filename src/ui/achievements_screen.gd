@@ -71,6 +71,21 @@ func _fill() -> void:
 	items.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
 		return int(order[Progression.ach_state(a)]) < int(order[Progression.ach_state(b)]))
 	var i: int = 0
+	var feats: Array = Feats.listed()
+	if not feats.is_empty():
+		var left_s: int = int(float(Feats.cfg().get("rotate_hours", 24)) * 3600.0)
+		left_s = left_s - int(Time.get_unix_time_from_system()) % maxi(1, left_s)
+		var head: Label = UIKit.label("LEVEL CHALLENGES  ·  new set in %dh %02dm" % [left_s / 3600, (left_s % 3600) / 60], 24, Color("#ffe27a"), 6)
+		head.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+		_list.add_child(head)
+		for f: Dictionary in feats:
+			var fr: Control = _feat_row(f)
+			_list.add_child(fr)
+			UIFx.pop_in(fr, 0.03 * i)
+			i += 1
+		var head2: Label = UIKit.label("ACHIEVEMENTS", 24, Color("#ffe27a"), 6)
+		head2.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+		_list.add_child(head2)
 	for a: Dictionary in items:
 		var row: Control = _row(a)
 		_list.add_child(row)
@@ -93,6 +108,55 @@ static func _bar(frac: float, w: float) -> ProgressBar:
 	pb.add_theme_stylebox_override("background", bg)
 	pb.add_theme_stylebox_override("fill", fg)
 	return pb
+
+
+const FEAT_ICONS: Dictionary = {"max_shots": "icon_mode_oneshot", "no_ability": "icon_lock", "all_soldiers": "soldier_idle",
+		"chain": "icon_challenges", "fast": "icon_mode_time"}
+
+
+func _feat_row(f: Dictionary) -> Control:
+	var st: String = Feats.state(f)
+	var p: PanelContainer = PanelContainer.new()
+	p.add_theme_stylebox_override("panel", card_box(Color("#24345e"), Color("#ffd23a") if st == "done" else Color("#5a78c0")))
+	p.custom_minimum_size.y = 90
+	var h: HBoxContainer = HBoxContainer.new()
+	h.add_theme_constant_override("separation", 14)
+	p.add_child(h)
+	var icon: String = String(FEAT_ICONS.get(String(f["kind"]), "icon_achievements"))
+	h.add_child(UIKit.tex_rect(icon if Art.exists(icon) else "icon_achievements", 60))
+	var mid: VBoxContainer = VBoxContainer.new()
+	mid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var t: Label = UIKit.label("%s  ·  Level %d" % [String(f.get("name", "Challenge")), int(f["level"])], 26, Color.WHITE, 6)
+	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	mid.add_child(t)
+	var d: Label = UIKit.label(Feats.describe(f), 18, Color("#dbe6ff"), 0, false)
+	d.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	mid.add_child(d)
+	h.add_child(mid)
+	h.add_child(reward_row(f["reward"], 30))
+	var b: Button
+	if st == "done":
+		b = UIKit.button("CLAIM", "green", 26, Vector2(150, 62))
+		UIFx.nudge(b)
+		b.pressed.connect(func() -> void:
+			var r: Dictionary = Feats.claim(String(f["id"]))
+			if r.is_empty():
+				return
+			UIFx.celebrate(p, "CLAIMED!")
+			var from: Vector2 = p.get_global_rect().get_center()
+			var tw: Tween = create_tween()
+			tw.tween_interval(0.3)
+			tw.tween_callback(pay.bind(r, from))
+			tw.tween_interval(0.9)
+			tw.tween_callback(_fill))
+	else:
+		b = UIKit.button("GO", "orange", 26, Vector2(150, 62))
+		b.pressed.connect(func() -> void:
+			Sound.play("ui_tap")
+			Game.goto_level_entry(int(f["level"])))
+	UIFx.press_juice(b)
+	h.add_child(b)
+	return p
 
 
 func _row(a: Dictionary) -> Control:

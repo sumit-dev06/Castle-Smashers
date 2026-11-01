@@ -19,7 +19,7 @@ import org.godotengine.godot.plugin.GodotPlugin
 import org.godotengine.godot.plugin.UsedByGodot
 
 /**
- * Local notifications for Castle Smashers (singleton "CastleNotify"). Notifications are
+ * Local notifications for Stone Storm (singleton "CastleNotify"). Notifications are
  * scheduled with AlarmManager (inexact, battery friendly) and shown by NotifyReceiver even when
  * the game is closed. Tapping one opens the game; lastOpenedKind() tells Godot which one it was.
  */

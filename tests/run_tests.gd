@@ -651,6 +651,7 @@ func _phase_d_tests() -> void:
 	await _wait(0.1)
 	await _material_tests()
 	_wallet_tests()
+	_feat_tests()
 	await _mechanism_d_tests()
 	await _boss_rig_tests()
 	await _special_pack_tests()
@@ -665,6 +666,38 @@ func _phase_d_tests() -> void:
 func _put(l: Level, shape: String, x: float, decor: Dictionary = {}, stack_y: float = 0.0) -> Block:
 	var h: float = float(Data.shapes[shape]["size"][1])
 	return l.spawn_block(shape, Vector2(x, l.stage.top_at(x) - h * 0.5 - stack_y), decor)
+
+
+## Level challenges (Feats): data is valid, the shown set rotates, a win checks the goal, a claim pays once.
+func _feat_tests() -> void:
+	var saved: Dictionary = Save.data.duplicate(true)
+	var kinds: Array = ["max_shots", "no_ability", "all_soldiers", "chain", "fast"]
+	var ids: Dictionary = {}
+	for f: Dictionary in Feats.pool():
+		_check(String(f["kind"]) in kinds and int(f["level"]) >= 1 and int(f["level"]) <= Data.level_count()
+				and not ids.has(String(f["id"])) and (f["reward"] as Dictionary).size() > 0 and not Feats.describe(f).is_empty(),
+				"feat %s is valid" % String(f.get("id", "?")))
+		ids[String(f["id"])] = true
+	_check(Feats.pool().size() >= 10, "feats: a real pool of level challenges")
+	var two: Array = Feats.pool().filter(func(f: Dictionary) -> bool: return String(f["kind"]) == "max_shots" and int(f["n"]) == 2)
+	_check(two.size() >= 3, "feats: several 'two shots or fewer' challenges")
+	Save.data["feats"] = {}
+	Save.data["unlocked"] = Data.level_count()
+	var a: Array = Feats.showing(0)
+	var b: Array = Feats.showing(int(float(Feats.cfg()["rotate_hours"]) * 3600.0) * 7)
+	_check(a.size() == int(Feats.cfg()["show"]) and a != b, "feats: a fixed number are shown and the set rotates")
+	var f0: Dictionary = two[0]
+	var lid: int = int(f0["level"])
+	var miss: Dictionary = {"shots": 3, "abilities": 0, "soldiers_lost": 0, "chain": 0, "time": 1.0}
+	var hit: Dictionary = {"shots": 2, "abilities": 0, "soldiers_lost": 0, "chain": 0, "time": 1.0}
+	_check(not Feats.on_win(lid, miss).has(f0) and Feats.state(f0) == "open", "feats: three shots does not pass a two-shot challenge")
+	_check(Feats.on_win(lid, hit).has(f0) and Feats.state(f0) == "done" and Feats.ready_count() >= 1, "feats: two shots passes")
+	_check(Feats.listed().has(f0), "feats: a done challenge stays listed until claimed")
+	var coins: int = Save.coins()
+	var r: Dictionary = Feats.claim(String(f0["id"]))
+	_check(Save.coins() == coins + int(r.get("coins", 0)) and r.size() > 0 and Feats.claim(String(f0["id"])).is_empty()
+			and Feats.state(f0) == "claimed", "feats: claim pays once")
+	Save.data = saved
 
 
 ## Wallet: three currencies, spend is all-or-nothing, premium rewards only on first clears.
@@ -1150,7 +1183,7 @@ func _progression_tests() -> void:
 	for a: Dictionary in Progression.achievements():
 		if String(a["id"]) == "chain_20":
 			chain_ach = a
-	_check(Progression.achievements().size() == 20 and Progression.ach_state(chain_ach) == "ready", "20 achievements; a chain of 22 completes Chain of 20")
+	_check(Progression.achievements().size() == 23 and Progression.ach_state(chain_ach) == "ready", "23 achievements; a chain of 22 completes Chain of 20")
 	Progression.claim_achievement("chain_20")
 	_check(Progression.ach_state(chain_ach) == "claimed" and Progression.owns("skins", "sky"), "the Chain of 20 reward grants the Sky skin")
 	# Secrets: the scroll crate in level 7 reveals realm 1's secret level.
@@ -1757,6 +1790,14 @@ func _notification_tests() -> void:
 	_check(not fresh.has("spin_ready") and not fresh.has("daily_reward"), "no spin/daily reminder while today's free one is still unclaimed")
 	var a: Array = Notifications._pick("idle_2d", cfg["kinds"]["idle_2d"]["lines"])
 	var b: Array = Notifications._pick("idle_2d", cfg["kinds"]["idle_2d"]["lines"])
+	# Energy refills from the saved wall-clock time, so bars come back while the app is closed.
+	var steps: Array = Energy.cfg()["refill_s"]
+	_check(Energy.max_bars() == 8 and steps.size() == Energy.max_bars(), "8 energy bars, one refill step per bar")
+	var away: float = float(steps[1]) + float(steps[2]) + 5.0
+	Save.data["energy"] = {"bars": 1, "t": Time.get_unix_time_from_system() - away, "ad_lock": false}
+	_check(Energy.bars() == 3, "bars rested while the app was closed are there on the next start")
+	Save.data["energy"] = {"bars": 0, "t": Time.get_unix_time_from_system() - 86400.0, "ad_lock": false}
+	_check(Energy.bars() == Energy.max_bars(), "a day away refills every bar (never above the max)")
 	_check(a != b, "the same reminder line is never sent twice in a row")
 	# Energy: a "refilled" reminder only after bars were spent, at the moment they are full again.
 	Save.data["energy"] = {"bars": Energy.max_bars(), "t": Time.get_unix_time_from_system(), "ad_lock": false}

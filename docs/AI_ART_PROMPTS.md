@@ -61,7 +61,7 @@ fortress itself).
 | File | Prompt |
 |---|---|l
 | `icon_1024.png` | (style block) App icon, square, close-up of the round blue-helmeted chubby soldier character grinning next to a round grumpy grey boulder character, bright blue sky background, bold and readable at small size, centred, no text |
-| `logo_title.png` | (style block) Game title logo reading "CASTLE SMASHERS", chunky rounded 3D letters, golden-yellow with orange gradient and thick dark brown 3D extrusion, a small cracked stone tower behind the text, plain white background |
+| `logo_title.png` | (style block) Game title logo reading "STONE STORM", chunky rounded 3D letters, golden-yellow with orange gradient and thick dark brown 3D extrusion, a small cracked stone tower behind the text, plain white background |
 | `feature_graphic.png` | (style block) Wide 1024×500 banner: a wooden wheeled catapult launching a grumpy round boulder character toward a crumbling cartoon fortress with red-hooded archers falling off, chubby blue soldiers cheering on the left, sunny green valley, no text |
 
 Note: AI tools often misspell words. If the logo text is wrong, generate it without text and we

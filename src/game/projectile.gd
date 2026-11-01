@@ -185,6 +185,8 @@ func use_ability() -> bool:
 			_explode()
 		"cyclone":
 			_start_whirl()
+	if level:
+		level.abilities_used += 1
 	Game.haptic()
 	return true
 

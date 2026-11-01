@@ -1,4 +1,4 @@
-# Castle Smashers 1.0.0: release it to everyone, step by step
+# Stone Storm 1.0.0: release it to everyone, step by step
 
 Read every step. Do them in order. Don't skip one because it looks small.
 Each step says **where to click**, **what to type** and **what you should see**.
@@ -45,7 +45,7 @@ update it from the Play Store. Your progress stays.
 ## Step 1. Upload 1.0.0 to Internal testing (today, 15 minutes)
 
 1. On the Mac, open **Google Chrome**. Go to **play.google.com/console**. Sign in.
-2. You see a list of apps. Click **Castle Smashers**.
+2. You see a list of apps. Click **Stone Storm**.
 3. In the left menu, click **Test and release**. It opens. Click **Testing**, then **Internal testing**.
 4. At the top right, click the blue button **Create new release**.
    - If Google asks about **Play App Signing**, it's already on. Click **Continue** if asked.
@@ -57,7 +57,7 @@ update it from the Play Store. Your progress stays.
 8. **Release name**: Google fills in `9 (1.0.0)`. Leave it.
 9. **Release notes**: there's a box with `<en-US>` and `</en-US>`. Click between them and type:
    ```
-   Castle Smashers 1.0! 50 levels, 5 heroes, Master Sieges, Hellfire, daily rewards and much more.
+   Stone Storm 1.0! 50 levels, 5 heroes, Master Sieges, Hellfire, daily rewards and much more.
    ```
    Keep the `<en-US>` and `</en-US>` lines as they are.
 10. Click **Next** (bottom right).
@@ -80,7 +80,7 @@ update it from the Play Store. Your progress stays.
 
 ## Step 2. Test 1.0.0 on your phone (today, 20 minutes)
 
-1. On your phone, open the **Play Store**. Search **Castle Smashers** and open its page.
+1. On your phone, open the **Play Store**. Search **Stone Storm** and open its page.
 2. Tap **Update**. If there's no Update button: close the Play Store completely (swipe it away
    from recent apps), wait 10 minutes, open it again. Repeat for up to 1 hour.
 3. Open the game. Check each thing and tick it:
@@ -138,7 +138,7 @@ Get 15, because someone always forgets.
    2 days. Play Console → **Publishing overview** shows "In review", then "Published".
 5. When it's published, send each tester this message on WhatsApp:
    ```
-   Hi! Please help me test my game Castle Smashers for 2 weeks.
+   Hi! Please help me test my game Stone Storm for 2 weeks.
    1. Open this link on your Android phone, signed in with the Gmail you gave me: [PASTE LINK]
    2. Tap "Become a tester".
    3. Tap "Download it on Google Play" and install it.
@@ -184,7 +184,7 @@ When every row is green, the **Dashboard** task list will show those as done.
 Everything is ready on the Mac in `Castle Smashers 2` → `store_listing`.
 
 1. Play Console → left menu **Grow users** → **Store presence** → **Main store listing**.
-2. **App name**: `Castle Smashers`
+2. **App name**: `Stone Storm`
 3. **Short description**: open `store_listing/listing.md` and copy the short description.
 4. **Full description**: copy the full description from the same file.
 5. **App icon**: upload `assets/art/brand/play_store_icon_512.png`.
@@ -233,8 +233,8 @@ Everything is ready on the Mac in `Castle Smashers 2` → `store_listing`.
 8. When it's live, your game has a public page. Open it on your phone and check it looks right.
 
 **Do this on launch day (AdMob, important for money):**
-1. Go to **admob.google.com** → **Apps** → **Castle Smashers** → **App settings**.
-2. Click **Add app store details** (or **Link**). Search "Castle Smashers", pick it, **Save**.
+1. Go to **admob.google.com** → **Apps** → **Stone Storm** → **App settings**.
+2. Click **Add app store details** (or **Link**). Search "Stone Storm", pick it, **Save**.
 3. Until you do this, few real ads show. AdMob then checks the app (a few days) until it says **Ready**.
 4. AdMob → Apps → **app-ads.txt** tab: after a few days it should say **Found**.
 

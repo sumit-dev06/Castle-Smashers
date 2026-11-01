@@ -125,8 +125,9 @@ Settling contacts never deal damage. Physics starts in "sleep" for the first 1.0
 - **Gems**: not in v1. One currency keeps it simple.
 
 ## Energy (army stamina)
-- Up to `energy.max` (5) shield bars. Refill is non-linear: `energy.refill_s` = 2, 4, 7, 10, 15 min per bar
-  (the first missing bar comes back fastest; empty to full is about 38 min).
+- Up to `energy.max` (8) shield bars. Refill is non-linear: `energy.refill_s` = 1:40, 3:20, 5:30, 8, 11, 12, 13,
+  14 min per bar (the first missing bar comes back fastest; empty to full is about 68 min). Refill runs on the
+  wall clock from the saved time, so it continues while the app is closed.
 - Levels up to `energy.free_until` (5) are free. A level costs 1 bar, 2 from realm 3, 3 for a boss. Retries cost too.
 - Short on bars: the "YOUR ARMY IS EXHAUSTED!" popup offers an opt-in rewarded ad that pays for that one level only.
   The next level after an ad-paid one needs rested bars. Training ranges never cost energy.

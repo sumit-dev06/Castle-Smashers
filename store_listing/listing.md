@@ -6,7 +6,7 @@ other game names, and no wording that suggests rewards the game doesn't give.
 
 ## App name (max 30 characters)
 ```
-Castle Smashers
+Stone Storm
 ```
 
 ## Short description (max 80 characters)
@@ -38,7 +38,7 @@ MORE TO DO
 • Upgrades, a daily reward and a daily free spin
 • Cosmetic hats and glasses for Rocky
 
-Castle Smashers is free to play. It contains ads and optional in-app purchases. Everything in the levels can be beaten without paying.
+Stone Storm is free to play. It contains ads and optional in-app purchases. Everything in the levels can be beaten without paying.
 
 Made by Intercore in India. Questions or ideas: intercoreapp@gmail.com
 ```

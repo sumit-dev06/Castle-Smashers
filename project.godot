@@ -14,7 +14,7 @@ general/android/app_id="ca-app-pub-1292430265619610~9195063737"
 
 [application]
 
-config/name="Castle Smashers"
+config/name="Stone Storm"
 config/description="Fling heroes from your catapult and smash cartoon castles."
 config/version="1.0.0"
 run/main_scene="res://scenes/main.tscn"

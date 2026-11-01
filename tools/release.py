@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Castle Smashers release tool: check, version, test, build, verify, upload, roll out.
+"""Stone Storm release tool: check, version, test, build, verify, upload, roll out.
 
 Owner manual: docs/RELEASE_GUIDE.md. Every command prints what it did and ends with OK or FAILED.
 
@@ -721,7 +721,7 @@ def cmd_phone(_a=None):
     vn = re.search(r"versionName=(\S+)", out)
     inst = re.search(r"installerPackageName=(\S+)", out)
     if not vc:
-        r.warn("Castle Smashers is not installed")
+        r.warn("Stone Storm is not installed")
         return r.end()
     src = {"com.android.vending": "Google Play"}.get(inst.group(1) if inst else "", "USB / file (debug or sideloaded)")
     r.ok(f"installed: {vn.group(1) if vn else '?'} (code {vc.group(1)}), from {src}")
@@ -753,7 +753,7 @@ def cmd_backup(a):
                 r.ok(f"added {arc}")
             else:
                 r.warn(f"not found, skipped: {arc}")
-        z.writestr("README.txt", "Castle Smashers secret files. Restore: docs/RELEASE_GUIDE.md part 2.\n"
+        z.writestr("README.txt", "Stone Storm secret files. Restore: docs/RELEASE_GUIDE.md part 2.\n"
                    "export_credentials.cfg contains the keystore password: keep this zip private.\n")
     r.ok(f"saved {out}. Keep a second copy somewhere else (Google Drive, another USB).")
     return r.end()
@@ -772,7 +772,7 @@ def cmd_web(_a=None):
 
 # ------------------------------------------------------------------------------------ main
 def main():
-    p = argparse.ArgumentParser(description="Castle Smashers release tool (docs/RELEASE_GUIDE.md)")
+    p = argparse.ArgumentParser(description="Stone Storm release tool (docs/RELEASE_GUIDE.md)")
     sub = p.add_subparsers(dest="cmd", required=True)
     sub.add_parser("check", help="is everything ready for a release build?")
     v = sub.add_parser("version", help="+1 version code and a new version name")

@@ -84,7 +84,7 @@ def montage(ff):
     print("montage ->", os.path.relpath(out, ROOT), "(" + ", ".join(parts) + ")")
 
 
-def search(level, shots, secs):
+def search(level, shots, secs, powers=True, fast=False, rapid=False):
     """Greedy headless search: best shot 1, then best shot 2 after it, ... Prints the autoshot string."""
     from concurrent.futures import ThreadPoolExecutor
     import re
@@ -92,18 +92,22 @@ def search(level, shots, secs):
 
     def run(seq):
         r = subprocess.run([GODOT, "--headless", "--path", ROOT, "--fixed-fps", str(FPS), "--quit-after",
-                            str(secs * FPS), "--", f"--level={level}", *COMMON[:3], "--autoshot=" + ";".join(seq)],
+                            str(secs * FPS), "--", f"--level={level}", *COMMON[:3], *(["--autoshot-rapid"] if rapid else []),
+                            "--autoshot=" + ";".join(seq)],
                            capture_output=True, text=True, timeout=300)
-        m = re.search(r"AUTOSHOT_RESULT score=(\d+) blocks=(\d+)/(\d+) guards=(\d+) won=(\w+)", r.stdout)
+        m = re.search(r"AUTOSHOT_RESULT score=(\d+) blocks=(\d+)/(\d+) guards=(\d+) won=(\w+).*", r.stdout)
         if not m:
             return (-1, seq, "no result")
         score, guards, won = int(m[1]), int(m[4]), m[5] == "true"
         return (score + (100000 if won else 0) - guards * 5000, seq, m[0])
 
     for n in range(shots):
-        cands = [chosen + [f"{a},{p / 100:.2f},{d}"] for a in range(24, 58, 3) for p in range(70, 101, 6)
-                 for d in (0.7, 1.1)]
-        with ThreadPoolExecutor(max_workers=6) as ex:
+        # --fast: a coarse grid (24 shots instead of 132) for quick "can it be won" checks.
+        angles, powers_, delays = (range(24, 58, 6), range(70, 101, 10), (1.0,)) if fast else \
+            (range(24, 58, 3), range(70, 101, 6), (0.7, 1.1))
+        cands = [chosen + [f"{a},{p / 100:.2f}" + (f",{d}" if powers else "")] for a in angles
+                 for p in powers_ for d in (delays if powers else (0,))]
+        with ThreadPoolExecutor(max_workers=7) as ex:
             res = sorted(ex.map(run, cands), key=lambda t: t[0], reverse=True)
         chosen = res[0][1]
         print(f"shot {n + 1}: {res[0][2]}  ->  --autoshot=\"{';'.join(chosen)}\"", flush=True)
@@ -113,9 +117,10 @@ def search(level, shots, secs):
 
 def main():
     if len(sys.argv) > 1 and sys.argv[1] == "--search":
-        # python3 tools/record_trailer.py --search LEVEL [SHOTS] [SECONDS]
-        a = sys.argv[2:]
-        search(int(a[0]), int(a[1]) if len(a) > 1 else 3, int(a[2]) if len(a) > 2 else 14)
+        # python3 tools/record_trailer.py --search LEVEL [SHOTS] [SECONDS] [--no-powers]
+        a = [x for x in sys.argv[2:] if not x.startswith("--")]
+        search(int(a[0]), int(a[1]) if len(a) > 1 else 3, int(a[2]) if len(a) > 2 else 14, "--no-powers" not in sys.argv,
+               "--fast" in sys.argv, "--rapid" in sys.argv)
         return
     os.makedirs(OUT, exist_ok=True)
     os.makedirs(TMP, exist_ok=True)

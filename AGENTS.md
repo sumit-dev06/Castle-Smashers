@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Instructions for AI coding agents (and humans) working on Castle Smashers.
+Instructions for AI coding agents (and humans) working on Stone Storm.
 Read this first, then `docs/ARCHITECTURE.md` before changing code.
 `docs/WHICH_DOC.md` says which doc covers what.
 

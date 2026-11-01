@@ -23,6 +23,7 @@ var _frac: float = 0.8
 var _ambient: Array[Sprite2D] = []
 var _ambient_speed: PackedFloat32Array = PackedFloat32Array()
 var _weather: String = ""
+var _hue_range: Array = [0.18, 0.34]
 ## Horizontal wind in world px/s² (set by the level during gusts); ambient particles drift with it.
 var wind: float = 0.0
 
@@ -93,6 +94,7 @@ func _ready() -> void:
 		blurred = false  # website / store captures: the full-resolution painting, no haze
 	_frac = ground_frac if ground_frac > 0.0 else Data.bf("camera", "ground_screen_frac")
 	var info: Dictionary = Background.realm_info(realm)
+	_hue_range = info.get("weather_hue", _hue_range)
 	var paint_name: String = Background.bg_name(realm, variant)
 	if not paint_name.is_empty():
 		_paint = Sprite2D.new()
@@ -202,7 +204,9 @@ func _build_ambient(weather: String) -> void:
 		elif weather == "petals":
 			particle.modulate = Color.from_hsv(randf_range(0.9, 0.98), randf_range(0.25, 0.45), 1.0, 0.8)
 		elif weather == "leaves":
-			particle.modulate = Color.from_hsv(randf_range(0.18, 0.34), 0.75, 0.9, 0.7)
+			# A realm may set its own leaf colour range (autumn highlands: red to orange).
+			var hue: Array = _hue_range
+			particle.modulate = Color.from_hsv(randf_range(float(hue[0]), float(hue[1])), 0.75, 0.9, 0.7)
 		else:
 			particle.modulate = Color(0.75, 0.88, 1.0, 0.38)
 		add_child(particle)

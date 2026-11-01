@@ -11,7 +11,7 @@ import org.godotengine.godot.plugin.GodotPlugin
 import org.godotengine.godot.plugin.UsedByGodot
 
 /**
- * Firebase Analytics + Crashlytics for Castle Smashers (singleton "CastleFirebase").
+ * Firebase Analytics + Crashlytics for Stone Storm (singleton "CastleFirebase").
  * Firebase initialises from the google_app_id/api_key/project_id strings that the
  * google-services Gradle plugin generates from google-services.json. Without that file the
  * plugin reports available() == false and every call is a no-op, so builds keep working.

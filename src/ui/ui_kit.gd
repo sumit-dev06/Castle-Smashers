@@ -241,7 +241,7 @@ static func dark_bubble() -> PanelContainer:
 	return p
 
 
-## "Castle Smashers" wordmark with the castle emblem (reference: top-left logo).
+## "Stone Storm" wordmark with the castle emblem (reference: top-left logo).
 static func logo(size: int = 40) -> Control:
 	var h: HBoxContainer = HBoxContainer.new()
 	h.add_theme_constant_override("separation", 4)
@@ -250,8 +250,8 @@ static func logo(size: int = 40) -> Control:
 	var v: VBoxContainer = VBoxContainer.new()
 	v.add_theme_constant_override("separation", -int(size * 0.45))
 	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var a: Label = label("Castle", size, Color("#ffcf3a"), int(size * 0.28))
-	var b: Label = label("Smashers", size, Color("#fff4dc"), int(size * 0.28))
+	var a: Label = label("Stone", size, Color("#ffcf3a"), int(size * 0.28))
+	var b: Label = label("Storm", size, Color("#fff4dc"), int(size * 0.28))
 	a.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	b.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	v.add_child(a)

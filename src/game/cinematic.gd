@@ -428,6 +428,9 @@ func _callout(p: Vector2, label: String) -> Node2D:
 		holder.add_child(sign)
 		c.add_child(holder)
 		sign.position = Vector2(-label.length() * 9.5 - 30.0, 0)
+		# High targets (boss towers) would put the sign under the HUD bars: show it below the ring.
+		if (c.get_global_transform_with_canvas() * holder.position).y < Data.bf("cinematic", "callout_top_safe"):
+			holder.position = Vector2(0, 120 * k)
 	_temp.append(c)
 	return c
 

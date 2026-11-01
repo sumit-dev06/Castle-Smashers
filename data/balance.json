@@ -714,7 +714,8 @@
       "tint": "#ffe8d8",
       "stage_tint": "#ffe2cc",
       "haze": "#ffc79a",
-      "weather": "leaves"
+      "weather": "leaves",
+      "weather_hue": [0.0, 0.09]
     },
     {
       "id": 7,
@@ -730,7 +731,8 @@
       "tint": "#dfe6ff",
       "stage_tint": "#c8d2f0",
       "haze": "#5a6a9a",
-      "weather": "leaves"
+      "weather": "rain",
+      "fg_height_frac": 0.34
     },
     {
       "id": 8,
@@ -837,8 +839,8 @@
   "energy": {
     "_doc": "Army energy (src/game/energy.gd, src/ui/energy_ui.gd). Each campaign attempt costs bars; refill_s[i] is the time for the next bar when i bars are full (fast first, slower after). One rewarded ad can top up a level, then the next level must be paid with rested bars.",
     "enabled": true,
-    "max": 5,
-    "refill_s": [120, 240, 420, 600, 900],
+    "max": 8,
+    "refill_s": [100, 200, 330, 480, 660, 720, 780, 840],
     "free_until_level": 5,
     "cost": 1,
     "cost_hard": 2,
@@ -1051,6 +1053,7 @@
     }
   },
   "cinematic": {
+    "callout_top_safe": 170,
     "boss_card_band_px": 210.0,
     "say_min_s": 1.6,
     "say_per_char_s": 0.045,
@@ -2038,6 +2041,36 @@
     "repair_stop_score": 3000,
     "gadget_score": 1500
   },
+  "feats": {
+    "_doc": "Level challenges on the Achievements screen (src/game/feats.gd). Every max_shots, chain and fast entry was checked winnable with tools/record_trailer.py --search.",
+    "show": 4,
+    "rotate_hours": 24,
+    "pool": [
+      {"id": "f14_two", "name": "Sharp Shooter", "level": 14, "kind": "max_shots", "n": 2, "reward": {"coins": 250}},
+      {"id": "f39_two", "name": "Two to Topple", "level": 39, "kind": "max_shots", "n": 2, "reward": {"coins": 400}},
+      {"id": "f44_two", "name": "Double Tap", "level": 44, "kind": "max_shots", "n": 2, "reward": {"coins": 450}},
+      {"id": "f35_one", "name": "One and Done", "level": 35, "kind": "max_shots", "n": 1, "reward": {"coins": 500, "gems": 1}},
+      {"id": "f35_chain", "name": "Domino Master", "level": 35, "kind": "chain", "n": 12, "reward": {"coins": 350}},
+      {"id": "f44_chain", "name": "Avalanche", "level": 44, "kind": "chain", "n": 18, "reward": {"coins": 400}},
+      {"id": "f14_safe", "name": "Shield Wall", "level": 14, "kind": "all_soldiers", "n": 0, "reward": {"coins": 200}},
+      {"id": "f39_safe", "name": "Not One Lost", "level": 39, "kind": "all_soldiers", "n": 0, "reward": {"coins": 350}},
+      {"id": "f14_fast", "name": "Blitz", "level": 14, "kind": "fast", "n": 25, "reward": {"coins": 250}},
+      {"id": "f44_fast", "name": "Lightning Siege", "level": 44, "kind": "fast", "n": 30, "reward": {"coins": 400}},
+      {"id": "f33_two", "name": "Clean Break", "level": 33, "kind": "max_shots", "n": 2, "reward": {"coins": 350}},
+      {"id": "f52_two", "name": "Gallery Crash", "level": 52, "kind": "max_shots", "n": 2, "reward": {"coins": 600, "gems": 1}},
+      {"id": "f54_two", "name": "Stone Cold", "level": 54, "kind": "max_shots", "n": 2, "reward": {"coins": 600}},
+      {"id": "f56_two", "name": "Balance Breaker", "level": 56, "kind": "max_shots", "n": 2, "reward": {"coins": 600}},
+      {"id": "f61_two", "name": "Raft Wrecker", "level": 61, "kind": "max_shots", "n": 2, "reward": {"coins": 650, "gems": 1}},
+      {"id": "f52_chain", "name": "Chain Reaction", "level": 52, "kind": "chain", "n": 20, "reward": {"coins": 500}},
+      {"id": "f59_chain", "name": "Load Shedding", "level": 59, "kind": "chain", "n": 18, "reward": {"coins": 550}},
+      {"id": "f61_chain", "name": "Shipwreck", "level": 61, "kind": "chain", "n": 20, "reward": {"coins": 550}},
+      {"id": "f67_safe", "name": "Keep Them Safe", "level": 67, "kind": "all_soldiers", "n": 0, "reward": {"coins": 600}},
+      {"id": "f59_safe", "name": "Steady Hands", "level": 59, "kind": "all_soldiers", "n": 0, "reward": {"coins": 550}},
+      {"id": "f72_fast", "name": "Outpace the Crystal", "level": 72, "kind": "fast", "n": 40, "reward": {"coins": 650, "gems": 1}},
+      {"id": "f64_fast", "name": "Thaw Fast", "level": 64, "kind": "fast", "n": 40, "reward": {"coins": 600}},
+      {"id": "f70_three", "name": "Witch Hunter", "level": 70, "kind": "max_shots", "n": 3, "reward": {"coins": 800, "gems": 2}}
+    ]
+  },
   "achievements": [
     {
       "id": "first_win",
@@ -2070,6 +2103,7 @@
         "coins": 1200
       }
     },
+    {"id": "wins_75", "name": "Iron Will", "desc": "Win 75 levels", "stat": "wins", "goal": 75, "reward": {"gems": 5, "coins": 2000}},
     {
       "id": "stars_30",
       "name": "Star Collector",
@@ -2083,7 +2117,7 @@
     {
       "id": "stars_150",
       "name": "Perfectionist",
-      "desc": "Earn all 150 stars",
+      "desc": "Earn 150 stars",
       "stat": "stars",
       "goal": 150,
       "reward": {
@@ -2091,6 +2125,7 @@
         "coins": 4000
       }
     },
+    {"id": "stars_225", "name": "Grand Perfectionist", "desc": "Earn all 225 stars", "stat": "stars", "goal": 225, "reward": {"gems": 15, "coins": 6000}},
     {
       "id": "chain_10",
       "name": "Domino",
@@ -2206,6 +2241,7 @@
         "coins": 2000
       }
     },
+    {"id": "bosses_8", "name": "Tyrant's End", "desc": "Defeat all 8 bosses", "stat": "bosses", "goal": 8, "reward": {"gems": 8, "coins": 3000}},
     {
       "id": "ships_5",
       "name": "Shipwrecker",
@@ -2472,12 +2508,12 @@
   "settings": {
     "privacy_url": "https://castle-smashers.pages.dev/privacy/",
     "support_email": "intercoreapp@gmail.com",
-    "support_subject": "Castle Smashers help (version %s)",
+    "support_subject": "Stone Storm help (version %s)",
     "support_body": "Hi Intercore,\n\nWhat happened:\n\n\nWhat I expected:\n\n\n---\nGame version: %s\nPhone: %s\nAndroid: %s\nLevel reached: %d\n(Purchase problem? Add the order number from your Google Play receipt, it starts with GPA.)",
     "credits": [
       "Fonts: Lilita One (Juan Montoreano), Fredoka (Milena Brand\u00e3o), SIL OFL 1.1",
       "Engine: Godot Engine, MIT licence, Godot contributors",
-      "Art, sound and levels: made for Castle Smashers"
+      "Art, sound and levels: made for Stone Storm"
     ],
     "slider_step": 0.05
   },

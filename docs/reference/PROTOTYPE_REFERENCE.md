@@ -1,6 +1,6 @@
 # Prototype Reference (archived HTML version)
 
-The first version of Castle Smashers was two HTML files (Matter.js physics + canvas drawing).
+The first version of Stone Storm was two HTML files (Matter.js physics + canvas drawing).
 They were deleted on 2026-10-29 when the project restarted in Godot. This file keeps what was
 worth knowing. Screenshots: `prototype_intro.png`, `prototype_map.png`.
 
@@ -34,7 +34,7 @@ Level names: 1 Wooden Watchtower, 2 Twin River Bastion, 3 Royal Cliff Citadel, 4
 5 Stonebridge Crossing, 6 Barrel Wharf, 7 Twin Watchtowers, 8 The Long Hall, 9 Cliffside Smithy,
 10 Powder Keg Keep, 11 Granite Sentinel, 12 Broken Span, 13 Twin Keeps, 14 Citadel Gate,
 15 Highwatch Spire, 16 Barrel Bastion, 17 The Great Wall, 18 Royal Arsenal, 19 Ruined Fortress,
-20 Castle Smashers Finale.
+20 Stone Storm Finale.
 
 ## Rules that worked
 - 3 shots per level (4 from level 13).

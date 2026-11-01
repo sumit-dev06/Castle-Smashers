@@ -1,6 +1,8 @@
 # Levels
 
 ## Campaign
+75 levels in 8 realms (10 per realm, the last realm has 5). Levels 51–75 are the expansion (git
+branch `expansion-75`); see "Expansion" below. Levels 1–50:
 50 levels in 5 realms, 10 per realm. Designed in `tools/campaign.py` and built by `tools/gen_levels.py`
 (pieces: floors in wood/stone/crystal/iron, towers with tiled roofs + flags, stacks, walls,
 terraces, balconies, bridges, pyramids, moving decks, rope loads, hanging platforms, crushers,
@@ -37,6 +39,42 @@ last towers.
 Phase D materials and mechanisms in the campaign: windmill (45), lever (18), rune switch +
 trap door (24), rune crystal (31, 36), ice (41, 47), iron (38, 40), shield ring (20, 40, 50).
 Challenges and secret levels 111-115 use them too.
+
+## Expansion: levels 51–75
+Harder than 1–50: more guards, iron and stone shelters, fewer power heroes, and set pieces that
+must be used. Bosses at 60, 70 and 75 have three or four phases.
+
+| Realm (gap) | Levels |
+|---|---|
+| 6 Scarlet Highlands (water) | 51 Powder Ridge, 52 Chain Gallery, 53 Hidden Switch, 54 Weight of Stone **(plate)**, 55 Twin Levers **(relay)**, 56 The Counterweight, 57 Turning Shields, 58 Hanging Fortress, 59 Load-Bearing, 60 Thane Brakk's Wagon **(boss)** |
+| 7 Storm Crags (sea) | 61 Raft Run, 62 Double Sluice, 63 Burning Bridge, 64 Frozen Stilts, 65 Lodestone **(magnet)**, 66 Upside Down **(gravity)**, 67 Portal Keep **(portals)**, 68 Bounce House **(bounce pads)**, 69 Storm Vault **(3-lamp relay)**, 70 Morwen's Barge **(boss, ward + portals)** |
+| 8 Iron Citadel (lava) | 71 Armoured Bastion, 72 Ever-Mending Wall **(repair crystal)**, 73 Prison Tower, 74 Forge Trap, 75 The Iron Citadel **(final boss)** |
+
+New realms set `"look"` in `balance.realms` (the older realm whose music and ambience they use).
+Their own stage, foreground and background art is used whenever the file exists
+(`Background.art_key`); a realm with one foreground corner mirrors it into the other.
+
+### Gadgets (`src/game/gadget.gd`, level JSON `gadgets`, numbers in `balance.gadgets`)
+| Type | What it does | Generator helper |
+|---|---|---|
+| `portal` | Pair of rings; shots and small blocks leave the partner along its `dir` | `f.portals(a, b, dir_a, dir_b)` |
+| `gravity` | Field that replaces gravity with `g`; `start_on`, `trigger`, `duration_s` | `f.gravity(x, y, w, h, g, ...)` |
+| `magnet` | Pulls (or `push`es) iron blocks in `radius`; its trigger toggles it | `f.magnet(x, y, ...)` |
+| `bumper` | Springy mushroom, bounces shots and blocks at least `kick` px/s | `f.bumper(x, y, ...)` |
+| `plate` | Fires `triggers` once `mass` of blocks or heroes rests on it | `f.plate(x, surface, triggers, mass)` |
+| `relay` | Fires `triggers` when all `inputs` fire within `window_s` | `f.relay(x, y, inputs, triggers, window)` |
+| `repair` | Crystal block that rebuilds broken blocks in `radius` until it breaks | `f.repair(block_index, radius, delay)` |
+
+Scene targets: `@@portal` (first gadget of that type) resolves to `gadget:<i>`.
+
+## Level challenges (`balance.feats`, `src/game/feats.gd`)
+Extra goals for one campaign level each, listed at the top of the Achievements screen. Four open
+ones are shown and the set changes every `rotate_hours` (24); a challenge done on any win counts even
+when not shown, and stays listed until claimed. Kinds: `max_shots` (win using at most `n` heroes),
+`no_ability`, `all_soldiers`, `chain` (at least `n`), `fast` (within `n` seconds of play). The level
+shows "CHALLENGE: ..." at the start when one of the shown set is for it. Every entry is checked
+winnable with `python3 tools/record_trailer.py --search LEVEL SHOTS [SECONDS] [--no-powers] [--fast]`
+(its result line prints shots, powers, lost, chain and time).
 
 ## Master Sieges special pack
 Master Sieges unlocks at **25 campaign stars**. It lives on the Challenges screen but is indexed

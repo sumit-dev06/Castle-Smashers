@@ -1,4 +1,4 @@
-# Castle Smashers
+# Stone Storm
 
 A cartoon physics siege game for Android. Load the catapult, fling stones, fire pots, bombs and
 cyclones, bring down enemy fortresses, and defeat the archers before their arrows wipe out your

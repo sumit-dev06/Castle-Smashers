@@ -203,7 +203,7 @@ func _audio_row(v: VBoxContainer, text: String, key: String, vol_key: String, ic
 func _credits() -> void:
 	var v: VBoxContainer = _clear()
 	_header(v, "Credits")
-	v.add_child(UIKit.label("CASTLE SMASHERS", 36, Color("#ffd23a"), 9))
+	v.add_child(UIKit.label("STONE STORM", 36, Color("#ffd23a"), 9))
 	for line: Variant in Data.b("settings", "credits"):
 		var l: Label = UIKit.body(String(line), 21)
 		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

@@ -21,14 +21,14 @@ plugin reads it. Without the file builds work and send nothing. The file is git-
 excluded from the packed game files.
 
 ## Steps for the owner
-1. <https://console.firebase.google.com> → **Add project** → "Castle Smashers". Enable Google
+1. <https://console.firebase.google.com> → **Add project** → "Stone Storm". Enable Google
    Analytics when asked. (Done: project `castle-smashers-a82d6`.)
 2. **Add app → Android**:
 
 | Field | Value |
 |---|---|
 | Android package name | `com.castlesmashers.game` (exactly) |
-| App nickname | Castle Smashers |
+| App nickname | Stone Storm |
 | Debug signing certificate SHA-1 | Optional (only needed for Google sign-in) |
 
 3. **Download `google-services.json`** and put it in the project root, next to `project.godot`.

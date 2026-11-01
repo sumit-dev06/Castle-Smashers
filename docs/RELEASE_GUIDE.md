@@ -1,4 +1,4 @@
-# Castle Smashers: owner's release and management guide
+# Stone Storm: owner's release and management guide
 
 This guide is for you (the owner) or a simple AI helper. It explains how to build the game,
 send it to Google Play, test it safely, go public, ship updates and look after the game
@@ -112,7 +112,7 @@ chmod 600 ~/.castle_secrets/play-service-account.json
 ### 3.4 Give it permission in Play Console
 1. Play Console (the main page with all your apps) → **Users and permissions** → **Invite new users**.
 2. Email address: paste the service account email from 3.2.
-3. **App permissions** → **Add app** → Castle Smashers → tick:
+3. **App permissions** → **Add app** → Stone Storm → tick:
    - View app information (read only)
    - Release apps to testing tracks
    - Release to production, exclude devices, and use Play App Signing
@@ -220,7 +220,7 @@ python3 tools/release.py upload --track internal --notes "New levels and bug fix
 `--notes` is the "What's new" text players see (max 500 characters).
 
 **Step 6B. Or upload by hand**
-1. Play Console → Castle Smashers → **Test and release** → **Testing** → **Internal testing** →
+1. Play Console → Stone Storm → **Test and release** → **Testing** → **Internal testing** →
    **Create new release**.
 2. **Upload** → pick `build/castle_smashers.aab` (in Finder: the project folder → `build`).
 3. Release name: leave as is. **Release notes**: write the "What's new" text between the
@@ -229,7 +229,7 @@ python3 tools/release.py upload --track internal --notes "New levels and bug fix
 5. Add a row to `docs/RELEASE_HISTORY.md` with the date, code and name.
 
 **Step 7. Test it on your phone from Play**
-Play Store → Castle Smashers → **Update** (if it doesn't show, close the Play Store and open it
+Play Store → Stone Storm → **Update** (if it doesn't show, close the Play Store and open it
 again, or wait 10 to 30 minutes). Play a few levels, open the shop, watch one rewarded ad.
 
 **Step 8. Save the work to GitHub**
@@ -311,8 +311,8 @@ Then **Store settings**: category **Games → Casual**, email and website as in 
   **Purchase options** → **Edit prices**. Play converts to each country; rounding is fine.
 
 ### 7.5 AdMob after the game is live (very important for earnings)
-1. When the game is public on Play: AdMob → **Apps** → Castle Smashers → **App settings** →
-   **Add app store details** (or **Link to app store**) → search "Castle Smashers" → pick it.
+1. When the game is public on Play: AdMob → **Apps** → Stone Storm → **App settings** →
+   **Add app store details** (or **Link to app store**) → search "Stone Storm" → pick it.
    Until you do this, AdMob serves few or no real ads.
 2. AdMob checks the app ("app review"). Wait until the app shows **Ready**.
 3. **app-ads.txt**: AdMob → Apps → **app-ads.txt** tab should show "Found" within a few days. It

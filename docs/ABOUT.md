@@ -1,4 +1,4 @@
-# About Castle Smashers
+# About Stone Storm
 
 ## One line
 Fling characterful projectiles from a catapult to topple cartoon fortresses and defeat the enemy
