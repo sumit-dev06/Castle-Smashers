@@ -1,5 +1,5 @@
 {
-  "level_count": 50,
+  "level_count": 75,
   "layers": {
     "world": 1,
     "blocks": 2,
@@ -699,6 +699,55 @@
       "stage_tint": "#ffffff",
       "haze": "#dcefff",
       "weather": "leaves"
+    },
+    {
+      "id": 6,
+      "key": "highlands",
+      "look": "desert",
+      "name": "Scarlet Highlands",
+      "bg": [
+        "bg_highlands_day",
+        "bg_highlands_dusk"
+      ],
+      "fallback_bg": "bg_scarlet_highlands",
+      "gap": "water",
+      "tint": "#ffe8d8",
+      "stage_tint": "#ffe2cc",
+      "haze": "#ffc79a",
+      "weather": "leaves"
+    },
+    {
+      "id": 7,
+      "key": "storm",
+      "look": "harbor",
+      "name": "Storm Crags",
+      "bg": [
+        "bg_storm_night",
+        "bg_storm_dawn"
+      ],
+      "fallback_bg": "bg_stormy_crags",
+      "gap": "sea",
+      "tint": "#dfe6ff",
+      "stage_tint": "#c8d2f0",
+      "haze": "#5a6a9a",
+      "weather": "leaves"
+    },
+    {
+      "id": 8,
+      "key": "citadel",
+      "look": "mines",
+      "name": "Iron Citadel",
+      "bg": [
+        "bg_citadel_fire",
+        "bg_citadel_eclipse"
+      ],
+      "fallback_bg": "bg_iron_citadel",
+      "gap": "lava",
+      "tint": "#ffd8c0",
+      "stage_tint": "#ffd2b8",
+      "haze": "#5a2a20",
+      "weather": "embers",
+      "chest_stars": [5, 10, 15]
     }
   ],
   "stage": {
@@ -1108,6 +1157,10 @@
     "confetti_s": 1.6,
     "breathe_scale": 1.05,
     "breathe_s": 0.7,
+    "shine_alpha": 0.42,
+    "shine_s": 0.7,
+    "shine_gap_s": 3.2,
+    "nudge_gap_s": 4.5,
     "sweep_every_s": 3.2,
     "rays_spin_dps": 40,
     "stamp_s": 0.3,
@@ -1957,6 +2010,33 @@
       "4": 36,
       "5": 46
     }
+  },
+  "gadgets": {
+    "_doc": "Round 4 gadgets (src/game/gadget.gd): portals, gravity fields, magnets, bounce pads, pressure plates, relays (timed multi-switch) and repair crystals.",
+    "portal_radius": 62.0,
+    "portal_cooldown_s": 0.6,
+    "portal_min_speed": 420.0,
+    "portal_grace_s": 0.12,
+    "portal_score": 1500,
+    "field_grace_s": 0.15,
+    "magnet_radius": 340.0,
+    "magnet_accel": 2600.0,
+    "magnet_head_r": 46.0,
+    "magnet_score": 1500,
+    "bumper_radius": 56.0,
+    "bumper_bounce": 0.6,
+    "bumper_restitution": 0.85,
+    "bumper_kick": 650.0,
+    "bumper_score": 800,
+    "plate_width": 140.0,
+    "plate_mass": 6.0,
+    "plate_check_s": 0.2,
+    "relay_window_s": 4.0,
+    "repair_radius": 300.0,
+    "repair_delay_s": 2.5,
+    "repair_max_per_spot": 3,
+    "repair_stop_score": 3000,
+    "gadget_score": 1500
   },
   "achievements": [
     {

@@ -30,7 +30,7 @@ func _ready() -> void:
 	_hero_card()
 	_skins_tile()
 	Sound.set_music("menu", "menu")
-	Sound.set_surroundings(String(Background.realm_info(_realm()).get("key", "blossom")), true)
+	Sound.set_surroundings(Background.look(Background.realm_info(_realm())), true)
 	if not "--no-popups" in OS.get_cmdline_user_args():
 		Notifications.ask_on_home(self)
 		PlayServices.on_home(self)
@@ -352,6 +352,13 @@ func _top_bar() -> void:
 	edit.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	edit.pressed.connect(_open_rename)
 	name_row.add_child(edit)
+	# The whole name line is the rename target (a 40 px pencil alone is hard to hit on a phone).
+	name_row.mouse_filter = Control.MOUSE_FILTER_STOP
+	name_row.gui_input.connect(func(e: InputEvent) -> void:
+		if e is InputEventMouseButton and (e as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT \
+				and not (e as InputEventMouseButton).pressed:
+			name_row.accept_event()
+			_open_rename())
 	v.add_child(name_row)
 	var th: Array = Data.balance["rank"]["stars"]
 	var ri: int = Progression.rank_index()
@@ -457,10 +464,7 @@ func _play_plank() -> void:
 	UIFx.press_juice(b)
 	root.add_child(b)
 	UIFx.pop_in(b, 0.15)
-	var tw: Tween = b.create_tween().set_loops()
-	tw.tween_interval(0.5)
-	tw.tween_property(b, "scale", Vector2.ONE * 1.05, 0.6).set_trans(Tween.TRANS_SINE)
-	tw.tween_property(b, "scale", Vector2.ONE, 0.6).set_trans(Tween.TRANS_SINE)
+	UIFx.shine(b, 0.8)
 
 
 ## True when Master Orin can forge or improve something with the current coin balance.
@@ -488,7 +492,13 @@ func _hero_card() -> void:
 	var h: HBoxContainer = HBoxContainer.new()
 	h.add_theme_constant_override("separation", 10)
 	p.add_child(h)
-	h.add_child(UIKit.tex_rect("wizard_idle", 82))
+	var orin: TextureRect = UIKit.tex_rect("wizard_idle", 82)
+	h.add_child(orin)
+	# Idle: Orin sways slowly from his feet, like he is breathing, never bouncing.
+	var sway: Tween = orin.create_tween().set_loops()
+	sway.tween_callback(func() -> void: orin.pivot_offset = Vector2(orin.size.x * 0.5, orin.size.y))
+	sway.tween_property(orin, "rotation_degrees", 2.0, 1.6).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	sway.tween_property(orin, "rotation_degrees", -1.5, 1.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	var v: VBoxContainer = VBoxContainer.new()
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	v.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -505,7 +515,7 @@ func _hero_card() -> void:
 		Game.goto_meta("upgrades"))
 	if _workshop_ready():
 		open.add_child(MetaFrame._red_dot(Vector2(102, -4)))
-		UIFx.breathe(open)
+		UIFx.nudge(open)
 	UIFx.press_juice(open)
 	h.add_child(open)
 	root.add_child(p)

@@ -1,0 +1,237 @@
+{
+ "id": 51,
+ "name": "Powder Ridge",
+ "realm": 6,
+ "heroes": [
+  "fire",
+  "stone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "No Boomer here. Light the first keg with Blaze: each blast sets off the next keg.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "The Highlands! Their keeps are stone, but look at all that powder."
+  },
+  {
+   "t": "focus",
+   "target": "fortress",
+   "label": "POWDER CHAIN!"
+  },
+  {
+   "t": "enter",
+   "who": "wizard",
+   "at": "catapult",
+   "style": "smoke"
+  },
+  {
+   "t": "say",
+   "who": "wizard",
+   "text": "No Boomer today. One spark should do it."
+  },
+  {
+   "t": "demo",
+   "target": "fortress",
+   "hero": "fire"
+  }
+ ],
+ "callouts": [],
+ "boss": false,
+ "star_scores": [
+  35000,
+  40000,
+  58000
+ ],
+ "camera_right": 2130,
+ "camera_top": -440,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 757,
+    "x1": 2000,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 820,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 980,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 900,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 820,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 980,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 900,
+   "y": -279.0
+  },
+  {
+   "type": "barrel",
+   "x": 943.0,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 900,
+   "y": -342.0,
+   "flag": true
+  },
+  {
+   "type": "barrel",
+   "x": 1080,
+   "y": -29
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1190,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1330,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1260,
+   "y": -160.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1190,
+   "y": -250.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1330,
+   "y": -250.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1260,
+   "y": -340.0
+  },
+  {
+   "type": "barrel",
+   "x": 1400,
+   "y": -29
+  },
+  {
+   "type": "barrel",
+   "x": 1480,
+   "y": -29
+  },
+  {
+   "type": "stone_block",
+   "x": 1576.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 1640.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 1704.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 1608.0,
+   "y": -96
+  },
+  {
+   "type": "stone_block",
+   "x": 1672.0,
+   "y": -96
+  },
+  {
+   "type": "stone_block",
+   "x": 1640.0,
+   "y": -160
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1790,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1930,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1860,
+   "y": -160.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 900,
+   "y": -175.5
+  },
+  {
+   "x": 856.0,
+   "y": -29.5
+  },
+  {
+   "x": 1260,
+   "y": -209.5
+  },
+  {
+   "x": 1260,
+   "y": -389.5
+  },
+  {
+   "x": 1640,
+   "y": -221.5
+  },
+  {
+   "x": 1860,
+   "y": -29.5
+  },
+  {
+   "x": 1860,
+   "y": -209.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": []
+}

@@ -1,0 +1,252 @@
+{
+ "id": 74,
+ "name": "Forge Trap",
+ "realm": 8,
+ "heroes": [
+  "quake",
+  "cyclone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Push the cart off the rail hill onto the plate: the crusher drops through the iron keep.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "gadget:0",
+   "label": "PRESSURE PLATE!"
+  },
+  {
+   "target": "mech:0",
+   "label": "DROP THE CRUSHER!"
+  },
+  {
+   "target": "mech:1",
+   "label": "SPIKES"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  30000,
+  36000,
+  56000
+ ],
+ "camera_right": 2350,
+ "camera_top": -850,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 2220,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "cart",
+   "x": 915.0,
+   "y": -195
+  },
+  {
+   "type": "iron_block",
+   "x": 1572.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1572.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1728.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1728.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1650.0,
+   "y": -141.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1572.0,
+   "y": -186.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1572.0,
+   "y": -250.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1728.0,
+   "y": -186.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1728.0,
+   "y": -250.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1650.0,
+   "y": -295.0
+  },
+  {
+   "type": "post",
+   "x": 1570.0,
+   "y": -368.0
+  },
+  {
+   "type": "post",
+   "x": 1730.0,
+   "y": -368.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1650.0,
+   "y": -441.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1650.0,
+   "y": -504.0,
+   "flag": true
+  },
+  {
+   "type": "iron_block",
+   "x": 1982.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1982.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 2138.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 2138.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 2060.0,
+   "y": -141.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 810.0,
+   "y": -189.5
+  },
+  {
+   "x": 1650.0,
+   "y": -183.5
+  },
+  {
+   "x": 1650.0,
+   "y": -337.5
+  },
+  {
+   "x": 1650.0,
+   "y": -29.5
+  },
+  {
+   "x": 2060.0,
+   "y": -29.5
+  },
+  {
+   "x": 2060.0,
+   "y": -183.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "crusher",
+   "x": 1650.0,
+   "y": -704.0,
+   "size": [
+    240,
+    100
+   ],
+   "trigger": "forge_drop",
+   "travel_y": 644.0,
+   "mode": "trigger",
+   "phase": 0.0,
+   "hold_k": 1.0,
+   "chain_px": 60,
+   "frame": {
+    "posts": [
+     1512.0,
+     1788.0
+    ],
+    "top": -824.0,
+    "bottom": 0.0,
+    "beam": [
+     1496.0,
+     1804.0
+    ]
+   }
+  },
+  {
+   "type": "spikes",
+   "x": 1870.0,
+   "y": -22,
+   "size": [
+    160,
+    44
+   ]
+  }
+ ],
+ "captives": [],
+ "ramps": [
+  {
+   "points": [
+    [
+     780.0,
+     0
+    ],
+    [
+     780.0,
+     -160
+    ],
+    [
+     1000.0,
+     -160
+    ],
+    [
+     1300.0,
+     0
+    ]
+   ],
+   "kind": "rail"
+  }
+ ],
+ "gadgets": [
+  {
+   "type": "plate",
+   "x": 1420.0,
+   "y": 0,
+   "triggers": [
+    "forge_drop"
+   ],
+   "mass": 8.0,
+   "width": 170
+  }
+ ]
+}

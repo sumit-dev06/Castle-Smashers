@@ -42,7 +42,60 @@ class Fort:
         self.ramps = []
         self.tethers = []
         self.notes = []
+        self.gadgets = []
         self._shift = 0.0
+
+    # ---- round 4 gadgets (src/game/gadget.gd)
+    def gadget(self, kind, x, y, **settings):
+        d = {"type": kind, "x": round(x, 1), "y": round(y, 1)}
+        d.update(settings)
+        self.gadgets.append(d)
+        return len(self.gadgets) - 1
+
+    def portals(self, a, b, dir_a=180, dir_b=0, radius=62):
+        """Two linked portals at points a and b. Things that enter one leave the other along its dir."""
+        ia = self.gadget("portal", a[0], a[1], dir=dir_a, radius=radius, color="#ff9a2a")
+        ib = self.gadget("portal", b[0], b[1], dir=dir_b, radius=radius, color="#4ab8ff")
+        self.gadgets[ia]["pair"] = ib
+        self.gadgets[ib]["pair"] = ia
+        return ia, ib
+
+    def gravity(self, x, y, w, h, g=(0, -900), start_on=True, trigger="", duration=0.0):
+        kw = {"size": [w, h], "g": list(g), "start_on": start_on}
+        if duration:
+            kw["duration_s"] = duration
+        if trigger:
+            kw["trigger"] = trigger
+        return self.gadget("gravity", x, y, **kw)
+
+    def magnet(self, x, y, radius=340, accel=2600, push=False, start_on=True, trigger="", post_ground=None):
+        kw = {"radius": radius, "accel": accel, "start_on": start_on}
+        if push:
+            kw["push"] = True
+        if trigger:
+            kw["trigger"] = trigger
+        if post_ground is not None:
+            self.extra_spans.append((x - 24, x + 24))
+            kw["post"] = post_ground
+        return self.gadget("magnet", x, y, **kw)
+
+    def bumper(self, x, y, radius=56, kick=650, stem=0):
+        if stem:
+            self.extra_spans.append((x - radius * 0.4, x + radius * 0.4))
+        return self.gadget("bumper", x, y, radius=radius, kick=kick, stem=stem)
+
+    def plate(self, x, surface, triggers, mass=6.0, width=140):
+        """Pressure plate whose top is about 16 px above `surface`."""
+        if surface == 0:
+            self.extra_spans.append((x - width / 2, x + width / 2))
+        return self.gadget("plate", x, surface, triggers=list(triggers), mass=mass, width=width)
+
+    def relay(self, x, y, inputs, triggers, window=4.0):
+        return self.gadget("relay", x, y, inputs=list(inputs), triggers=list(triggers), window_s=window)
+
+    def repair(self, source_index, radius=300, delay=2.5):
+        b = self.blocks[source_index]
+        return self.gadget("repair", b["x"], b["y"], source=source_index, radius=radius, delay_s=delay)
 
     def mechanism(self, kind, x, y, size=None, trigger="", **settings):
         d = {"type": kind, "x": round(x, 1), "y": round(y, 1)}
@@ -556,6 +609,7 @@ class Fort:
         xs += [m["x"] + m.get("arm_len", m.get("radius", 0)) for m in self.mechanisms if m["type"] in ("windmill", "shield_ring")]
         xs += [m["x"] + m["size"][0] / 2 + abs(m.get("travel_x", 0)) for m in self.mechanisms if "size" in m]
         xs += [p[0] for r in self.ramps for p in r["points"]]
+        xs += [g["x"] + g.get("radius", g.get("size", [0])[0] / 2) for g in self.gadgets]
         return max(xs)
 
     def top_edge(self):
@@ -575,13 +629,14 @@ class Fort:
                 ys.append(m["y"] - m["size"][1] / 2 - 80)
         ys += [p[1] for r in self.ramps for p in r["points"]]
         ys += [t["frame"]["top"] - 30 for t in self.tethers if "frame" in t]
+        ys += [g["y"] - g.get("radius", g.get("size", [0, 0])[1] / 2) - 20 for g in self.gadgets]
         return min(ys)
 
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from campaign import LEVELS, T, H, B  # noqa: E402
 
-BOSS_LEVELS = {10, 20, 30, 40, 50}
+BOSS_LEVELS = {10, 20, 30, 40, 50, 60, 70, 75}
 BOSS_POWER_BUDGET = 9
 POWER_BUDGET = 8
 CALLOUT_LABELS = {"rope_load": "CUT THE ROPE!", "hanging_platform": "CUT A ROPE!", "crusher": "CRUSHER!",
@@ -589,7 +644,10 @@ CALLOUT_LABELS = {"rope_load": "CUT THE ROPE!", "hanging_platform": "CUT A ROPE!
                   "swing": "WRECKING BALL", "spikes": "SPIKES", "lever": "HIT THE LEVER!",
                   "windmill": "JAM THE HUB!", "shield_ring": "TIME THE GAP!", "rune_switch": "?",
                   "trapdoor": "TRAP DOOR", "flood": "OPEN THE SLUICE!"}
-GEYSER_LABELS = {1: "GEYSER!", 2: "GEYSER!", 3: "WATER SPOUT!", 4: "LAVA PLUME!", 5: "UPDRAFT!"}
+GEYSER_LABELS = {1: "GEYSER!", 2: "GEYSER!", 3: "WATER SPOUT!", 4: "LAVA PLUME!", 5: "UPDRAFT!", 6: "GEYSER!", 7: "WATER SPOUT!",
+                 8: "LAVA PLUME!"}
+GADGET_LABELS = {"portal": "PORTALS!", "gravity": "GRAVITY FIELD!", "magnet": "MAGNET!", "bumper": "BOUNCE PAD!",
+                 "plate": "PRESSURE PLATE!", "relay": "HIT BOTH IN TIME!", "repair": "BREAK THE CRYSTAL!"}
 
 
 PROJ = json.load(open(os.path.join(ROOT, "data", "projectiles.json")))
@@ -644,7 +702,7 @@ def apply_terraces(f):
     """Lift everything inside a terrace and remember its ground top."""
     f.extra_spans = [(a, b, 0.0) for a, b in f.extra_spans]
     for x0, x1, dy in f.raises:
-        for collection in (f.blocks, f.archers, f.mechanisms, f.captives, f.markers):
+        for collection in (f.blocks, f.archers, f.mechanisms, f.captives, f.markers, f.gadgets):
             for item in collection:
                 if x0 <= item["x"] <= x1 and not item.get("floating"):
                     item["y"] = round(item["y"] - dy, 1)
@@ -668,7 +726,7 @@ def make_stage(f, lid):
             m["approach"]["dock_x"] = LEDGE_RIGHT + 30
     if shift:
         shift_extras(f, shift)
-        for collection in (f.blocks, f.archers, f.mechanisms, f.captives, f.markers):
+        for collection in (f.blocks, f.archers, f.mechanisms, f.captives, f.markers, f.gadgets):
             for item in collection:
                 item["x"] = round(item["x"] + shift, 1)
                 _shift_frame(item, shift)
@@ -712,7 +770,7 @@ def _shift_frame(item, dx):
 
 
 def strip_private(f):
-    for collection in (f.blocks, f.archers, f.mechanisms, f.captives):
+    for collection in (f.blocks, f.archers, f.mechanisms, f.captives, f.gadgets):
         for item in collection:
             item.pop("_top", None)
             item.pop("_deck", None)
@@ -720,6 +778,11 @@ def strip_private(f):
 
 def resolve_target(t, f):
     """Scene targets like "@crusher" become "mech:<index>" (index in the level's mechanism list)."""
+    if t.startswith("@@"):
+        for i, g in enumerate(f.gadgets):
+            if g["type"] == t[2:]:
+                return "gadget:%d" % i
+        raise ValueError("scene target %s: no such gadget" % t)
     if t.startswith("@"):
         for i, m in enumerate(f.mechanisms):
             if m["type"] == t[1:]:
@@ -768,6 +831,12 @@ def make_callouts(f, realm, cinematic):
         if t == "crusher" and m.get("mode") == "trigger":
             label = "DROP THE CRUSHER!"
         out.append({"target": "mech:%d" % i, "label": label})
+    gseen = set()
+    for i, g in enumerate(f.gadgets):
+        if g["type"] in gseen:
+            continue
+        gseen.add(g["type"])
+        out.insert(0, {"target": "gadget:%d" % i, "label": GADGET_LABELS[g["type"]]})
     if any(b.get("weak_point") for b in f.blocks) and not any(c["label"] == "DRAWBRIDGE" for c in out):
         out.append({"target": "weak", "label": "WEAK POINT"})
     if f.captives:
@@ -805,7 +874,7 @@ def build(lid, entry=None):
     fn(f)
     apply_terraces(f)
     # Bring the fortress closer and denser in frame, matching the Twin Towers target composition.
-    for collection in (f.blocks, f.archers, f.mechanisms, f.captives, f.markers):
+    for collection in (f.blocks, f.archers, f.mechanisms, f.captives, f.markers, f.gadgets):
         for item in collection:
             item["x"] = round(item["x"] - 400, 1)
             _shift_frame(item, -400)
@@ -852,6 +921,8 @@ def build(lid, entry=None):
         d["ramps"] = f.ramps
     if f.tethers:
         d["tethers"] = f.tethers
+    if f.gadgets:
+        d["gadgets"] = f.gadgets
     if f.notes and not beats:
         d["callouts"] = ([{"target": "%d,%d" % (n["x"], n["y"]), "label": n["label"]} for n in f.notes] + d["callouts"])[:3]
     if boss_unit:

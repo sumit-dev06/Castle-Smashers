@@ -102,6 +102,8 @@ func _show() -> void:
 	if _pane == null:
 		return
 	for c: Node in _pane.get_children():
+		if c is DragScroll:
+			continue  # the drag-scroll helper lives on the pane; rebuilding a tab must keep it
 		c.queue_free()
 	_cards.clear()
 	var v: VBoxContainer = VBoxContainer.new()

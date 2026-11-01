@@ -1844,7 +1844,7 @@ func _audio_tests() -> void:
 	_check(int(Data.balance["audio"]["max_voices"]["wood_break"]) > 0, "per-material break voices are capped")
 	var songs: Array = ["menu", "boss"]
 	for r: Dictionary in Data.balance["realms"]:
-		songs.append(String(r["key"]))
+		songs.append(Background.look(r))
 	var bad: Array = []
 	for sg: String in songs:
 		var sync: AudioStreamSynchronized = Sound._song_stream(sg)
@@ -1864,7 +1864,7 @@ func _audio_tests() -> void:
 	_check(stings.is_empty(), "all stingers exist %s" % [stings])
 	var amb_bad: Array = []
 	for r: Dictionary in Data.balance["realms"]:
-		var cfg: Dictionary = Data.balance["audio"]["ambience"].get(String(r["key"]), {})
+		var cfg: Dictionary = Data.balance["audio"]["ambience"].get(Background.look(r), {})
 		if cfg.is_empty() or Sound._looped(Sound.AMB_DIR % String(cfg["bed"])) == null:
 			amb_bad.append(String(r["key"]))
 			continue

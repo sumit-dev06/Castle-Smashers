@@ -353,3 +353,89 @@ Siege engines (same rules, files `weapon_<id>_base.png` / `weapon_<id>_arm.png` 
   caps, taut rope bowstring, crank winch at the back, bolt groove on top"
 - **Trebuchet**: "tall counterweight trebuchet on a wide wheeled frame, iron-banded stone
   counterweight box, long throwing arm with a rope sling and leather pouch"
+
+# Levels 51–75: three new realms, bosses and gadgets (added 2026-11-01)
+These are for the expansion (git branch `expansion-75`, not the 1.0.0 release). Until a file
+exists the game uses a stand-in, so you can deliver them in any order. **Same hard rules, style
+block and negative prompt as "Stage art for the 50-level campaign" above** (pieces on plain white,
+flat tops, pure side view, light from the upper left; backgrounds 2.4:1 to 2.7:1, at least 2048 px
+wide, horizon at 45–55%, open lower third).
+
+Target quality: **as good as `bg_desert_day` and the Sky Islands set (levels 40–50) or better**:
+one big clear landmark in the upper half, two or three depth layers (near cliffs, middle
+landmark, far mountains), waterfalls or light shafts for movement, rich saturated colour, large
+readable shapes that still look good when the game blurs them. Make 3–4 variants of each and keep
+the best. Drop files in `assets/art/ai/` and run `python3 tools/cutout.py --preview`.
+
+Priority order: realm 6 backgrounds → realm 6 pieces → realm 7 → realm 8 → bosses → gadgets.
+
+## Realm 6: Scarlet Highlands (levels 51–60)
+Autumn mountain kingdom. Red and gold forests, stone viaducts, a great castle on a crag, rivers.
+Stand-in today: `bg_scarlet_highlands` with the desert pieces.
+
+| File | Prompt (after the environment style block) |
+|---|---|
+| `bg_highlands_day.png` | Ultra-wide side-view panoramic background, an autumn highland kingdom on a crisp sunny day, a huge grey stone castle with tall round towers and red banners on a high crag in the upper right, a long multi-arched stone viaduct crossing a valley in the middle distance, forests of red, orange and gold maple trees on rolling cliffs, two tall waterfalls falling from the left cliffs, snowy mountain peaks far away, clear blue sky with large soft clouds, a wide calm blue river across the lower third with falling red leaves on the water, lower third open water with no cliffs or buildings in the lower left and lower right, horizon at mid height, no characters, no text |
+| `bg_highlands_dusk.png` | Same composition: ultra-wide side-view panoramic background, the same autumn highland kingdom at dusk, warm pink and violet sky with the setting sun behind the castle crag in the upper right, warm lit windows in the castle and along the viaduct, glowing mist in the valley, red and gold forests darkening to purple, waterfalls catching the last light, a calm river across the lower third reflecting the sunset, lower third open water with nothing in the lower left and lower right, horizon at mid height, no characters, no text |
+| `stage_ledge_highlands.png` | Isolated game asset, pure side view, a wide raised ground platform of fitted grey castle stone blocks with moss in the joints, a thick strip of green grass on top with fallen red and orange maple leaves, perfectly flat horizontal top edge, stone continues down to a rough broken rocky bottom, about 2.5 times wider than tall, single object centred with white margin, plain flat pure white background, no shadow |
+| `stage_base_highlands_wide.png` | Isolated game asset, pure side view, a wide grey granite cliff block for a fortress to stand on, layered rock with moss and a few small red maple bushes hanging over the edge, thick green grass on top with red leaves, perfectly flat horizontal top edge across the whole width, rugged sides narrowing to a rough bottom, about 2.5 times wider than tall, single object centred with white margin, plain flat pure white background, no shadow |
+| `stage_base_highlands_small.png` | Isolated game asset, pure side view, a narrow granite rock pillar with grass and red leaves on top and a small old stone arch built into its side, perfectly flat horizontal top edge, about as wide as tall, single object centred with white margin, plain flat pure white background, no shadow |
+| `fg_highlands_left.png` | Isolated game asset, close-up foreground framing element for the bottom-left corner, a dark old stone wall corner with a red maple branch full of orange and red leaves and tall dry golden grass, shapes fill the lower-left and leave the upper-right empty, plain flat pure white background |
+| `fg_highlands_right.png` | Isolated game asset, close-up foreground framing element for the bottom-right corner, a dense cluster of red and gold maple leaves on dark branches with a mossy boulder, shapes fill the lower-right and leave the upper-left empty, plain flat pure white background |
+
+## Realm 7: Storm Crags (levels 61–70)
+Wild sea cliffs under a magic storm: waterfalls off black cliffs, a wizard's spire, floating rune
+stones, lightning, glowing portals far away. Stand-in today: `bg_stormy_crags` with the harbor pieces.
+
+| File | Prompt (after the environment style block) |
+|---|---|
+| `bg_storm_night.png` | Ultra-wide side-view panoramic background, dramatic magical sea cliffs at night under a storm, a tall dark wizard's spire with glowing teal windows on a black cliff in the upper right, branching purple lightning in heavy blue-violet clouds, giant floating rune stones with glowing cyan symbols hovering above the cliffs in the middle distance, many waterfalls pouring off the dark cliffs, a ring-shaped glowing portal arch far away on a sea stack, moonlight breaking through the clouds, a rolling dark-teal sea with white foam across the lower third, lower third open sea with no rocks or buildings in the lower left and lower right, horizon at mid height, no characters, no text |
+| `bg_storm_dawn.png` | Same composition: ultra-wide side-view panoramic background, the same magical sea cliffs at stormy dawn, the storm breaking with golden light shafts through grey-blue clouds, the wizard's spire on the upper right cliff, floating rune stones glowing softly, rainbow over the waterfalls, the far portal arch shimmering, a choppy turquoise sea with foam across the lower third, lower third open sea with nothing in the lower left and lower right, horizon at mid height, no characters, no text |
+| `stage_ledge_storm.png` | Isolated game asset, pure side view, a wide dark slate cliff top with wet grass and small blue-white flowers on top, a few glowing cyan rune marks carved into the rock face, perfectly flat horizontal top edge, dark rock continuing down to a rough bottom, about 2.5 times wider than tall, single object centred with white margin, plain flat pure white background, no shadow, no water |
+| `stage_base_storm_wide.png` | Isolated game asset, pure side view, a wide dark basalt sea stack made of tall hexagonal rock columns with green moss, flat cut column tops forming one perfectly flat horizontal top edge across the whole width, barnacles and seaweed on the lower part, about 2.5 times wider than tall, single object centred with white margin, plain flat pure white background, no shadow, no water |
+| `stage_base_storm_small.png` | Isolated game asset, pure side view, a narrow basalt column pillar with moss and a small glowing cyan crystal growing from its side, flat horizontal top edge, about as wide as tall, single object centred with white margin, plain flat pure white background, no shadow, no water |
+| `fg_storm_left.png` | Isolated game asset, close-up foreground framing element for the bottom-left corner, dark wet rocks with tall sea grass bent by wind and a glowing cyan crystal, shapes fill the lower-left and leave the upper-right empty, plain flat pure white background |
+| `fg_storm_right.png` | Isolated game asset, close-up foreground framing element for the bottom-right corner, a twisted dark windswept tree branch with a few leaves and a mossy rock, shapes fill the lower-right and leave the upper-left empty, plain flat pure white background |
+
+## Realm 8: Iron Citadel (levels 71–75)
+The Iron Baron's home fortress: black iron walls, furnaces, chains, lava moat, giant cogs, red
+banners. Stand-in today: `bg_iron_citadel` with the mines pieces.
+
+| File | Prompt (after the environment style block) |
+|---|---|
+| `bg_citadel_fire.png` | Ultra-wide side-view panoramic background, a colossal dark iron fortress city on volcanic cliffs, huge black iron walls with riveted plates and red banners in the upper half, giant bronze cogs turning in the walls, tall chimneys with orange glowing tops and smoke, chains hanging between towers, a glowing volcano far behind, falling embers, orange and crimson sky, a wide glowing lava river across the lower third, lower third open lava with no cliffs or buildings in the lower left and lower right, horizon at mid height, no characters, no text |
+| `bg_citadel_eclipse.png` | Same composition: ultra-wide side-view panoramic background, the same iron fortress city under a solar eclipse, a dark sun with a bright gold ring in the upper middle, deep purple and red sky, the fortress lit by glowing furnaces and red lanterns, giant cogs and chains, lava glow from below, a lava river across the lower third, lower third open lava with nothing in the lower left and lower right, horizon at mid height, no characters, no text |
+| `stage_ledge_citadel.png` | Isolated game asset, pure side view, a wide platform of dark riveted iron plates over black volcanic rock, a row of iron rivets along the top, a few glowing orange cracks in the rock below, perfectly flat horizontal top edge, rough rocky bottom, about 2.5 times wider than tall, single object centred with white margin, plain flat pure white background, no shadow |
+| `stage_base_citadel_wide.png` | Isolated game asset, pure side view, a wide black basalt plateau capped with a band of riveted iron plates, thin glowing orange lava veins in the rock sides, a hanging chain, perfectly flat horizontal top edge across the whole width, rough bottom, about 2.5 times wider than tall, single object centred with white margin, plain flat pure white background, no shadow |
+| `stage_base_citadel_small.png` | Isolated game asset, pure side view, a narrow black rock pillar wrapped in iron bands with a small glowing grate, flat horizontal top edge, about as wide as tall, single object centred with white margin, plain flat pure white background, no shadow |
+| `fg_citadel_left.png` | Isolated game asset, close-up foreground framing element for the bottom-left corner, a heavy dark iron chain over black jagged rocks with a glowing ember crack, shapes fill the lower-left and leave the upper-right empty, plain flat pure white background |
+| `fg_citadel_right.png` | Isolated game asset, close-up foreground framing element for the bottom-right corner, a broken half-buried bronze cog wheel and dark rocks with a red tattered banner, shapes fill the lower-right and leave the upper-left empty, plain flat pure white background |
+
+## New boss pieces (levels 60, 70, 75)
+Same rules as "Boss pieces" above. Until they exist the bosses use the older chassis art.
+
+| File | Prompt (after the style block) |
+|---|---|
+| `boss_highland_wagon.png` | Isolated game asset, pure side view, a long armoured war wagon chassis for a rolling fortress, dark oak beams with red-painted iron plates, six big spiked wooden wheels, a battering-ram head shaped like a ram's skull at the front on the left, no tower on top, perfectly flat horizontal top deck, about 3 times wider than tall, plain flat pure white background, no shadow |
+| `boss_storm_barge.png` | Isolated game asset, pure side view, a long magical stone barge hull floating with glowing cyan rune lines along its side and a carved serpent head at the bow on the left, no masts or cabins, perfectly flat horizontal top deck, about 3 times wider than tall, plain flat pure white background, no shadow, no water |
+| `boss_citadel_engine.png` | Isolated game asset, pure side view, a massive black iron siege engine base on two huge tank-like tracks with bronze cogs, glowing furnace grates and riveted armour, no tower on top, perfectly flat horizontal top deck, about 3 times wider than tall, plain flat pure white background, no shadow |
+
+## Gadget art (optional, the game has vector versions)
+Same rules as "Phase D mechanisms": isolated, pure side view or front view as stated, thin
+dark-brown outline `#3a2212`, glossy cartoon, on white, filling the image.
+
+| File | Prompt |
+|---|---|
+| `gadget_portal_ring.png` | Isolated game asset, front view, a round carved stone ring with glowing cyan rune marks and small gold rivets, empty transparent-looking centre painted plain white, square image |
+| `gadget_portal_swirl.png` | Isolated game asset, front view, a bright magical swirl vortex, spiral of orange light fading to the edge, square image |
+| `gadget_magnet.png` | Isolated game asset, side view, a giant red horseshoe magnet with silver tips pointing down, riveted iron bracket on top, square image |
+| `gadget_bumper.png` | Isolated game asset, side view, a big bouncy mushroom cap, glossy red with white spots, slightly squashed dome, wider than tall |
+| `gadget_bumper_stem.png` | Isolated game asset, side view, a thick cream mushroom stem, taller than wide |
+| `gadget_plate_base.png` | Isolated game asset, side view, a low carved stone slab with a rune groove, very wide and thin |
+| `gadget_plate_top.png` | Isolated game asset, side view, a thin polished bronze pressure plate with a glowing gold rune line, very wide and thin |
+| `gadget_relay_board.png` | Isolated game asset, front view, a dark wooden sign board with iron corners and empty round lamp sockets in a row, wider than tall |
+| `gadget_lamp.png` | Isolated game asset, front view, a round glass lamp bulb with a brass rim, glowing warm yellow, square image |
+| `gadget_gravity_field.png` | Isolated game asset, a soft rectangular column of pale violet magical light with sparkles, fading at the edges, taller than wide |
+
+When these arrive I switch each realm to its own art (no code change needed for stage, foreground
+and background files: the game picks them up when they exist).

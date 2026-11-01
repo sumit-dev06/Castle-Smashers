@@ -1,0 +1,386 @@
+{
+ "id": 60,
+ "name": "Thane Brakk's Wagon",
+ "realm": 6,
+ "heroes": [
+  "quake",
+  "bomb",
+  "fire",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 9,
+ "strategy": "Boss: break the gate stone first, then both cores (one behind the ring) and knock out the engineers.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "baron",
+   "at": "boss",
+   "style": "smoke"
+  },
+  {
+   "t": "say",
+   "who": "baron",
+   "text": "Meet my champion. His wagon crushes castles!"
+  },
+  {
+   "t": "boss"
+  },
+  {
+   "t": "emote",
+   "who": "baron",
+   "e": "laugh"
+  },
+  {
+   "t": "focus",
+   "target": "weak",
+   "label": "OPEN THE GATE"
+  },
+  {
+   "t": "focus",
+   "target": "core",
+   "label": "BREAK THE CORES!"
+  },
+  {
+   "t": "enter",
+   "who": "wizard",
+   "at": "catapult",
+   "style": "smoke"
+  },
+  {
+   "t": "say",
+   "who": "wizard",
+   "text": "Open the gate, break both cores, stop the engineers!"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "GATE"
+  }
+ ],
+ "boss": true,
+ "star_scores": [
+  44000,
+  55000,
+  81000
+ ],
+ "camera_right": 2060,
+ "camera_top": -710,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 1927,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_block",
+   "x": 812.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 876.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 812.0,
+   "y": -96
+  },
+  {
+   "type": "stone_block",
+   "x": 876.0,
+   "y": -96,
+   "weak_point": true,
+   "trigger": "wagon_gate"
+  },
+  {
+   "type": "stone_block",
+   "x": 1014.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1014.0,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1170.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1170.0,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1092.0,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1022.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1162.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1092.0,
+   "y": -314.0
+  },
+  {
+   "type": "post",
+   "x": 1012.0,
+   "y": -394.0
+  },
+  {
+   "type": "post",
+   "x": 1172.0,
+   "y": -394.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1092.0,
+   "y": -467.0
+  },
+  {
+   "type": "barrel",
+   "x": 1092.0,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1092.0,
+   "y": -530.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1374.0,
+   "y": -186.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1374.0,
+   "y": -250.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1530.0,
+   "y": -186.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1530.0,
+   "y": -250.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1452.0,
+   "y": -295.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1382.0,
+   "y": -378.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1522.0,
+   "y": -378.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1452.0,
+   "y": -468.0
+  },
+  {
+   "type": "post",
+   "x": 1372.0,
+   "y": -548.0
+  },
+  {
+   "type": "post",
+   "x": 1532.0,
+   "y": -548.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1452.0,
+   "y": -621.0
+  },
+  {
+   "type": "power_core",
+   "x": 1452.0,
+   "y": -190.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1642.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1782.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1712.0,
+   "y": -314.0
+  },
+  {
+   "type": "post",
+   "x": 1632.0,
+   "y": -394.0
+  },
+  {
+   "type": "post",
+   "x": 1792.0,
+   "y": -394.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1712.0,
+   "y": -467.0
+  },
+  {
+   "type": "cannon_turret",
+   "x": 1402.0,
+   "y": -664.0
+  },
+  {
+   "type": "power_core",
+   "x": 1662.0,
+   "y": -516.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 1092.0,
+   "y": -183.5
+  },
+  {
+   "x": 1092.0,
+   "y": -363.5
+  },
+  {
+   "x": 1452.0,
+   "y": -337.5
+  },
+  {
+   "x": 1452.0,
+   "y": -517.5
+  },
+  {
+   "x": 1712.0,
+   "y": -363.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "gate",
+   "x": 972.0,
+   "y": -60,
+   "size": [
+    70,
+    118
+   ],
+   "trigger": "wagon_gate",
+   "travel_y": 122,
+   "duration_s": 0.46
+  },
+  {
+   "type": "shield_ring",
+   "x": 1662.0,
+   "y": -516.0,
+   "radius": 100,
+   "plates": 3,
+   "dps": 60,
+   "plate_len": 105,
+   "follow": 2
+  },
+  {
+   "type": "moving_platform",
+   "x": 1582.0,
+   "y": -129.0,
+   "size": [
+    500,
+    50
+   ],
+   "travel_x": 45,
+   "period_s": 8.0,
+   "chassis_fallback": "boss_siege_wheels",
+   "travel_y": 0,
+   "phase": 0.0,
+   "chassis": "boss_highland_wagon",
+   "chassis_h": 110
+  }
+ ],
+ "captives": [],
+ "boss_unit": {
+  "name": "Thane Brakk",
+  "hp": 190,
+  "phases": [
+   {
+    "at": 0.75,
+    "do": [
+     "reinforce"
+    ]
+   },
+   {
+    "at": 0.5,
+    "do": [
+     "shield",
+     "charge"
+    ]
+   },
+   {
+    "at": 0.25,
+    "do": [
+     "enrage",
+     "reinforce"
+    ]
+   }
+  ],
+  "x": 1762.0,
+  "y": -509.5,
+  "reinforce": [
+   [
+    1412.0,
+    -634.0
+   ],
+   [
+    1492.0,
+    -634.0
+   ]
+  ]
+ },
+ "engineers": [
+  {
+   "x": 1582.0,
+   "y": -183.5
+  },
+  {
+   "x": 1512.0,
+   "y": -663.5
+  }
+ ]
+}

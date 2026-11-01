@@ -37,8 +37,8 @@ OUT = os.path.join(ROOT, "assets", "art", "ai", "cut")
 BG_HEIGHT = 900
 # Pieces on white. block_ and mechanism_ images replace the SVG at its world size (Art.is_fit),
 # so trim them tight: their outline must fill the image.
-PIECE_PREFIXES = ("stage_", "fg_", "boss_", "block_", "mechanism_")
-PIECE_MAX = {"stage_": 1400, "fg_": 900, "boss_": 1200, "block_": 512, "mechanism_": 700}
+PIECE_PREFIXES = ("stage_", "fg_", "boss_", "block_", "mechanism_", "gadget_")
+PIECE_MAX = {"stage_": 1400, "fg_": 900, "boss_": 1200, "block_": 512, "mechanism_": 700, "gadget_": 512}
 UI_PREFIXES = ("icon_", "logo_", "gem", "blueprint", "cannonball", "engineer_", "chest_")
 UI_MAX = 512
 TOP_ROW_FILL = 0.6

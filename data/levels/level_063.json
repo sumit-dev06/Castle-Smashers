@@ -1,0 +1,191 @@
+{
+ "id": 63,
+ "name": "Burning Bridge",
+ "realm": 7,
+ "heroes": [
+  "fire",
+  "fire",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Fire runs along the timber bridge. Burn or cut a rope of the far bridge to tip its guards.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "1620,-500",
+   "label": "CUT A ROPE!"
+  },
+  {
+   "target": "mech:0",
+   "label": "CUT A ROPE!"
+  },
+  {
+   "target": "bolt:0",
+   "label": "BOLTED"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  30000,
+  32000,
+  46000
+ ],
+ "camera_right": 2120,
+ "camera_top": -610,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 737,
+    "x1": 1503,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 800,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 960,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 880,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 800,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 960,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 880,
+   "y": -279.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 880,
+   "y": -342.0,
+   "flag": true
+  },
+  {
+   "type": "plank_long",
+   "x": 1130,
+   "y": -159
+  },
+  {
+   "type": "plank_long",
+   "x": 1350,
+   "y": -159
+  },
+  {
+   "type": "post",
+   "x": 1040,
+   "y": -60
+  },
+  {
+   "type": "plank_short",
+   "x": 1040,
+   "y": -133
+  },
+  {
+   "type": "post",
+   "x": 1240,
+   "y": -60
+  },
+  {
+   "type": "plank_short",
+   "x": 1240,
+   "y": -133
+  },
+  {
+   "type": "post",
+   "x": 1440,
+   "y": -60
+  },
+  {
+   "type": "plank_short",
+   "x": 1440,
+   "y": -133
+  }
+ ],
+ "archers": [
+  {
+   "x": 880,
+   "y": -175.5
+  },
+  {
+   "x": 880,
+   "y": -29.5
+  },
+  {
+   "x": 1130,
+   "y": -201.5
+  },
+  {
+   "x": 1350,
+   "y": -201.5
+  },
+  {
+   "x": 1705,
+   "y": -484.5
+  },
+  {
+   "x": 1835,
+   "y": -484.5
+  }
+ ],
+ "bolts": [
+  {
+   "a": 7,
+   "b": 8
+  }
+ ],
+ "mechanisms": [
+  {
+   "type": "hanging_platform",
+   "x": 1770,
+   "y": -560,
+   "size": [
+    340,
+    30
+   ],
+   "span": 300,
+   "drop": 120,
+   "frame": {
+    "posts": [
+     1596.0,
+     1944.0
+    ],
+    "top": -574,
+    "bottom": 260,
+    "beam": [
+     1580.0,
+     1960.0
+    ]
+   }
+  }
+ ],
+ "captives": [],
+ "wind": {
+  "strength": 280,
+  "period_s": 6.0,
+  "gust_s": 3.0,
+  "dir": -1,
+  "alternate": true
+ }
+}

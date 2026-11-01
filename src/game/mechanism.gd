@@ -186,7 +186,10 @@ func _build_platform() -> void:
 	var size: Vector2 = _size()
 	if cfg.has("chassis"):
 		var ch_h: float = float(cfg.get("chassis_h", size.y * 2.0))
-		var ch: Sprite2D = _sized_sprite(String(cfg["chassis"]), Vector2(size.x * 1.04, ch_h))
+		var ch_name: String = String(cfg["chassis"])
+		if not Art.exists(ch_name):
+			ch_name = String(cfg.get("chassis_fallback", ch_name))  # new boss art not delivered yet
+		var ch: Sprite2D = _sized_sprite(ch_name, Vector2(size.x * 1.04, ch_h))
 		ch.position = Vector2(0, size.y * 0.5 + ch_h * 0.5 - 6.0)
 		ch.z_index = -1
 		body.add_child(ch)

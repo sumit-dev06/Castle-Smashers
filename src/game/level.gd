@@ -73,6 +73,7 @@ var _tutorial: Node2D
 var _waiting_shadows: Array[Sprite2D] = []
 var bolts: Array[Bolt] = []
 var tethers: Array[Tether] = []
+var gadgets: Array[Gadget] = []
 var background: Background
 ## Current horizontal wind acceleration on heroes in flight (px/s², + = toward the fortress).
 var wind_now: float = 0.0
@@ -175,6 +176,16 @@ func _ready() -> void:
 				tether.payload = data_blocks[int(td["launch"]["payload"])]
 			world.add_child(tether)
 			tethers.append(tether)
+	var gi: int = 0
+	for gd: Dictionary in data.get("gadgets", []):
+		var gadget: Gadget = Gadget.new()
+		world.add_child(gadget)
+		gadget.setup(self, gd, gi, data_blocks)
+		gadgets.append(gadget)
+		gi += 1
+	for gadget2: Gadget in gadgets:
+		if gadget2.kind == "portal" and gadget2.cfg.has("pair") and int(gadget2.cfg["pair"]) < gadgets.size():
+			gadget2.partner = gadgets[int(gadget2.cfg["pair"])]
 	for ad: Dictionary in data.get("archers", []):
 		spawn_archer(Vector2(float(ad["x"]), float(ad["y"])))
 	var bu: Dictionary = data.get("boss_unit", {})
@@ -237,8 +248,8 @@ func _ready() -> void:
 		_enter(State.PLAY)
 		_load_now()
 		return
-	Sound.set_music("boss" if boss != null else String(realm_info.get("key", "blossom")), "aim")
-	Sound.set_surroundings(String(realm_info.get("key", "")))
+	Sound.set_music("boss" if boss != null else Background.look(realm_info), "aim")
+	Sound.set_surroundings(Background.look(realm_info))
 	var march_s: float = Data.bf("soldiers", "march_s")
 	for i: int in soldiers.size():
 		var s2: Soldier = soldiers[i]
@@ -422,16 +433,22 @@ func _build_foreground() -> void:
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	layer_fg.add_child(root)
-	var key: String = String(realm_info.get("key", ""))
+	var key: String = Background.art_key(realm_info, "fg_%s_right")
 	if Art.has_ai("fg_%s_left" % key) or Art.has_ai("fg_%s_right" % key):
 		for side: int in 2:
 			# The left corner sits over the waiting heroes: keep it low so they stay in view.
 			var h: float = get_viewport_rect().size.y * Data.bf("stage", "fg_ai_left_height_frac" if side == 0 else "fg_ai_height_frac")
 			var art_name: String = "fg_%s_%s" % [key, "left" if side == 0 else "right"]
+			var mirror: bool = false
 			if not Art.has_ai(art_name):
-				continue
+				# A realm with only one corner piece mirrors it into the other corner.
+				art_name = "fg_%s_%s" % [key, "right" if side == 0 else "left"]
+				mirror = true
+				if not Art.has_ai(art_name):
+					continue
 			var tr: TextureRect = TextureRect.new()
 			tr.texture = Art.tex(art_name)
+			tr.flip_h = mirror
 			tr.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 			tr.stretch_mode = TextureRect.STRETCH_SCALE
@@ -1484,6 +1501,24 @@ func activate_trigger(trigger: String) -> void:
 	for captive: Captive in captives:
 		if is_instance_valid(captive) and captive.rescue_id == trigger:
 			captive.rescue()
+	for gadget: Gadget in gadgets:
+		if is_instance_valid(gadget):
+			gadget.on_trigger(trigger)
+
+
+## A gadget did something worth a callout (portal used, plate pressed, crystal broken...).
+func on_gadget(gadget: Gadget, text: String, pts: int = -1) -> void:
+	if is_finished():
+		return
+	if pts < 0:
+		pts = int(Data.b("gadgets", "gadget_score"))
+	score += pts
+	camera.add_shake(Data.bf("mechanics", "activation_shake"))
+	fx.float_text(gadget.hit_point() + Vector2(0, -50), text, Color("#9fe8ff"), 26)
+	Events.mechanism_activated.emit(gadget)
+	_stat("gadgets")
+	_chain_link(gadget.hit_point(), pts, "mechanism")
+	_update_hud()
 
 
 func on_mechanism_activated(mechanism: CastleMechanism, pts: int = -1) -> void:

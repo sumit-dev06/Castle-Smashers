@@ -102,6 +102,42 @@ static func breathe(c: Control) -> void:
 	tw.tween_property(c, "scale", Vector2.ONE, cfg("breathe_s")).set_trans(Tween.TRANS_SINE)
 
 
+## A soft diagonal light sweep across a button every few seconds (the button clips it).
+static func shine(c: Control, delay: float = 0.0) -> void:
+	c.clip_contents = true
+	var g: Gradient = Gradient.new()
+	g.offsets = PackedFloat32Array([0.0, 0.5, 1.0])
+	g.colors = PackedColorArray([Color(1, 1, 1, 0), Color(1, 1, 0.9, cfg("shine_alpha")), Color(1, 1, 1, 0)])
+	var gt: GradientTexture2D = GradientTexture2D.new()
+	gt.gradient = g
+	gt.width = 64
+	gt.height = 4
+	var band: TextureRect = TextureRect.new()
+	band.texture = gt
+	band.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	band.stretch_mode = TextureRect.STRETCH_SCALE
+	band.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	band.rotation_degrees = 18.0
+	c.add_child(band)
+	var tw: Tween = band.create_tween().set_loops()
+	tw.tween_callback(func() -> void:
+		band.size = Vector2(c.size.y * 0.9, c.size.y * 2.2)
+		band.position = Vector2(-band.size.x * 1.6, -c.size.y * 0.5))
+	tw.tween_interval(delay + cfg("shine_gap_s"))
+	tw.tween_method(func(k: float) -> void:
+		band.position.x = lerpf(-band.size.x * 1.6, c.size.x + band.size.x * 0.6, k), 0.0, 1.0, cfg("shine_s")) \
+			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+
+## Attention cue for something ready to use: a quick small wiggle, then a long rest.
+static func nudge(c: Control) -> void:
+	var tw: Tween = c.create_tween().set_loops()
+	tw.tween_callback(func() -> void: c.pivot_offset = c.size / 2.0)
+	tw.tween_interval(cfg("nudge_gap_s"))
+	for a: float in [5.0, -4.0, 3.0, -2.0, 0.0]:
+		tw.tween_property(c, "rotation_degrees", a, 0.07).set_trans(Tween.TRANS_SINE)
+
+
 ## Popup entrance: scale from popup_from with a fade.
 static func pop_in(c: Control, delay: float = 0.0) -> void:
 	c.modulate.a = 0.0

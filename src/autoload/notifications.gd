@@ -207,8 +207,8 @@ func _fill(s: String) -> String:
 	var level: int = clampi(int(Save.data["unlocked"]), 1, Data.level_count())
 	var d: Dictionary = Data.level(level)
 	var boss_name: String = "Iron Baron"
-	for b: int in [10, 20, 30, 40, 50]:
-		if b >= level:
+	for b: int in range(level, Data.level_count() + 1):
+		if bool(Data.level(b).get("boss", false)):
 			boss_name = String(Data.level(b).get("boss_unit", {}).get("name", boss_name))
 			break
 	return s.replace("{level}", str(level)).replace("{realm}", String(Background.realm_info(int(d.get("realm", 1))).get("name", ""))) \

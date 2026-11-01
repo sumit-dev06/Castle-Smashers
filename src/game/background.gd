@@ -29,6 +29,19 @@ var wind: float = 0.0
 static var _soft_cache: Dictionary = {}
 
 
+## Key that picks a realm's stage art, foreground, music and ambience. New realms can borrow an
+## older realm's set ("look") until their own art exists.
+static func look(info: Dictionary) -> String:
+	return String(info.get("look", info.get("key", "blossom")))
+
+
+## Art key for one kind of realm art (`probe` like "stage_ledge_%s"): the realm's own art when that
+## file exists, else the borrowed "look".
+static func art_key(info: Dictionary, probe: String) -> String:
+	var own: String = String(info.get("key", "blossom"))
+	return own if Art.exists(probe % own) else look(info)
+
+
 static func realm_info(realm_id: int) -> Dictionary:
 	var list: Array = Data.balance.get("realms", [])
 	for r: Dictionary in list:

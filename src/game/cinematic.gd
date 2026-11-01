@@ -128,6 +128,10 @@ func _target(name: String) -> Vector2:
 			if m.body:
 				return m.body.global_position
 			return m.global_position
+	if name.begins_with("gadget:"):
+		var gi: int = int(name.substr(7))
+		if gi < level.gadgets.size():
+			return level.gadgets[gi].hit_point()
 	if name.begins_with("captive:"):
 		var c: int = int(name.substr(8))
 		if c < level.captives.size():

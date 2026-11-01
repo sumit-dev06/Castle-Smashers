@@ -288,7 +288,12 @@ static func realm_stars(realm: int) -> int:
 static func chest_state(realm: int, tier: int) -> String:
 	if (_dict("realm_chests").get(str(realm), []) as Array).has(tier):
 		return "claimed"
-	return "ready" if realm_stars(realm) >= int(Data.balance["realm_chests"]["stars"][tier]) else "locked"
+	return "ready" if realm_stars(realm) >= int(chest_need(realm)[tier]) else "locked"
+
+
+## Star counts for a realm's three chest tiers (short realms set their own "chest_stars").
+static func chest_need(realm: int) -> Array:
+	return Background.realm_info(realm).get("chest_stars", Data.balance["realm_chests"]["stars"])
 
 
 ## Returns the reward given (currencies, optional "skin"), or {} when not ready.

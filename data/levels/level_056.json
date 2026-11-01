@@ -1,0 +1,224 @@
+{
+ "id": 56,
+ "name": "The Counterweight",
+ "realm": 6,
+ "heroes": [
+  "cyclone",
+  "stone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Cut the rope: the boulder slams the beam and throws the keg onto the iron vaults.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "1324,-192",
+   "label": "SLAM IT!"
+  },
+  {
+   "target": "mech:0",
+   "label": "CUT THE ROPE!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  20000,
+  25000,
+  43000
+ ],
+ "camera_right": 2150,
+ "camera_top": -570,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 740,
+    "x1": 1336,
+    "top": 0.0
+   },
+   {
+    "x0": 1470,
+    "x1": 2020,
+    "top": -120
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 810,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 950,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 880,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 800,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 960,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 880,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 880,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "plank_xl",
+   "x": 1182.9,
+   "y": -63.7,
+   "rot": -17.76
+  },
+  {
+   "type": "barrel",
+   "x": 1054.9,
+   "y": -70.0,
+   "rot": -17.76
+  },
+  {
+   "type": "iron_block",
+   "x": 1552,
+   "y": -152
+  },
+  {
+   "type": "iron_block",
+   "x": 1552,
+   "y": -216
+  },
+  {
+   "type": "iron_block",
+   "x": 1708,
+   "y": -152
+  },
+  {
+   "type": "iron_block",
+   "x": 1708,
+   "y": -216
+  },
+  {
+   "type": "iron_beam",
+   "x": 1630,
+   "y": -261
+  },
+  {
+   "type": "iron_block",
+   "x": 1782,
+   "y": -152
+  },
+  {
+   "type": "iron_block",
+   "x": 1782,
+   "y": -216
+  },
+  {
+   "type": "iron_block",
+   "x": 1938,
+   "y": -152
+  },
+  {
+   "type": "iron_block",
+   "x": 1938,
+   "y": -216
+  },
+  {
+   "type": "iron_beam",
+   "x": 1860,
+   "y": -261
+  }
+ ],
+ "archers": [
+  {
+   "x": 880,
+   "y": -209.5
+  },
+  {
+   "x": 1630,
+   "y": -149.5
+  },
+  {
+   "x": 1600,
+   "y": -303.5
+  },
+  {
+   "x": 1860,
+   "y": -149.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "rope_load",
+   "x": 1160,
+   "y": -520,
+   "length": 260,
+   "load": "boulder",
+   "frame": {
+    "posts": [
+     1060
+    ],
+    "top": -534,
+    "bottom": 0.0,
+    "beam": [
+     1048,
+     1172
+    ]
+   }
+  }
+ ],
+ "captives": [],
+ "ramps": [
+  {
+   "points": [
+    [
+     1194,
+     0
+    ],
+    [
+     1240,
+     -68.0
+    ],
+    [
+     1286,
+     0
+    ]
+   ],
+   "kind": "wood"
+  }
+ ],
+ "tethers": [
+  {
+   "kind": "pin",
+   "a": 7,
+   "x": 1240,
+   "y": -82.0,
+   "launch": {
+    "payload": 8,
+    "kick": [
+     640.0,
+     -1150.0
+    ],
+    "dir": 1.0
+   }
+  }
+ ]
+}

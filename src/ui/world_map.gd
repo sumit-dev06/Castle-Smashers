@@ -92,13 +92,33 @@ func _build_segments() -> void:
 
 
 func _node_pos(id: int) -> Vector2:
-	var per: int = maxi(1, int(ceil(float(Data.level_count()) / maxf(1.0, float(_segments.size())))))
-	var seg: Dictionary = _segments[mini((id - 1) / per, _segments.size() - 1)]
-	var k: int = (id - 1) % per
+	# Each realm spreads its own levels across its painting (the last realm can be shorter).
+	var realm: int = int(Data.level(id).get("realm", 1))
+	var seg_i: int = 0
+	for i: int in _segments.size():
+		if int(_segments[i]["id"]) == realm:
+			seg_i = i
+	var seg: Dictionary = _segments[seg_i]
+	var members: Array = _realm_levels(realm)
+	var k: int = maxi(0, members.find(id))
+	var per: int = maxi(members.size(), 2)
 	var band: float = Data.bf("map", "node_band")
 	var x: float = float(seg["x"]) + float(seg["w"]) * ((1.0 - band) * 0.5 + band * k / maxf(1.0, per - 1.0))
 	var y: float = _view.y * (Data.bf("map", "node_y") + Data.bf("map", "node_wave") * sin(id * 1.9))
 	return Vector2(x, y)
+
+
+var _realm_cache: Dictionary = {}
+
+
+func _realm_levels(realm: int) -> Array:
+	if not _realm_cache.has(realm):
+		var out: Array = []
+		for id: int in range(1, Data.level_count() + 1):
+			if int(Data.level(id).get("realm", 1)) == realm:
+				out.append(id)
+		_realm_cache[realm] = out
+	return _realm_cache[realm]
 
 
 func _build_nodes() -> void:
@@ -239,7 +259,7 @@ func _process(delta: float) -> void:
 			# The map plays the music and surroundings of the realm in view, crossfading as you scroll.
 			if int(s["id"]) != _sound_realm and not _drag:
 				_sound_realm = int(s["id"])
-				var key: String = String(Background.realm_info(_sound_realm).get("key", "blossom"))
+				var key: String = Background.look(Background.realm_info(_sound_realm))
 				Sound.set_music(key, "map")
 				Sound.set_surroundings(key, true)
 	if _marker:
@@ -342,7 +362,7 @@ func _draw_chest(e: Dictionary) -> void:
 		c.queue_free()
 	var realm: int = int(e["realm"])
 	var tier: int = _chest_tier(realm)
-	var need: Array = Data.balance["realm_chests"]["stars"]
+	var need: Array = Progression.chest_need(realm)
 	var ready: bool = tier < 3 and Progression.chest_state(realm, tier) == "ready"
 	if ready:
 		var glow: Sprite2D = Art.sprite("fx_rays", 1.0)

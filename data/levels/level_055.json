@@ -1,0 +1,243 @@
+{
+ "id": 55,
+ "name": "Twin Levers",
+ "realm": 6,
+ "heroes": [
+  "bomb",
+  "stone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Flip the low lever, then the high one within 4 seconds. The iron vault drops into the river.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "focus",
+   "target": "gadget:0",
+   "label": "BOTH IN TIME!"
+  },
+  {
+   "t": "enter",
+   "who": "wizard",
+   "at": "catapult",
+   "style": "smoke"
+  },
+  {
+   "t": "say",
+   "who": "wizard",
+   "text": "Two levers, one lock. Flip both before the lamps go dark!"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "gadget:0",
+   "label": "HIT BOTH IN TIME!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  25000,
+  30000,
+  48000
+ ],
+ "camera_right": 1950,
+ "camera_top": -460,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 746,
+    "x1": 1818,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 950,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1090,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1020,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 940,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 1100,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1020,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1020,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1222,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1222,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1378,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1378,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1300,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1230,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1370,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1300,
+   "y": -314.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1512,
+   "y": -70
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1748,
+   "y": -70
+  },
+  {
+   "type": "iron_block",
+   "x": 1552,
+   "y": -194
+  },
+  {
+   "type": "iron_block",
+   "x": 1552,
+   "y": -258
+  },
+  {
+   "type": "iron_block",
+   "x": 1708,
+   "y": -194
+  },
+  {
+   "type": "iron_block",
+   "x": 1708,
+   "y": -258
+  },
+  {
+   "type": "iron_beam",
+   "x": 1630,
+   "y": -303
+  }
+ ],
+ "archers": [
+  {
+   "x": 1020,
+   "y": -209.5
+  },
+  {
+   "x": 1300,
+   "y": -183.5
+  },
+  {
+   "x": 1607,
+   "y": -191.5
+  },
+  {
+   "x": 1653,
+   "y": -191.5
+  },
+  {
+   "x": 1630,
+   "y": -345.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "lever",
+   "x": 830,
+   "y": 0,
+   "triggers": [
+    "lamp_a"
+   ],
+   "facing": 1
+  },
+  {
+   "type": "lever",
+   "x": 1300,
+   "y": -334.0,
+   "triggers": [
+    "lamp_b"
+   ],
+   "facing": -1
+  },
+  {
+   "type": "trapdoor",
+   "x": 1630,
+   "y": -151,
+   "size": [
+    280,
+    22
+   ],
+   "trigger": "twin_floor",
+   "hinge": 1
+  }
+ ],
+ "captives": [],
+ "gadgets": [
+  {
+   "type": "relay",
+   "x": 1480,
+   "y": -420,
+   "inputs": [
+    "lamp_a",
+    "lamp_b"
+   ],
+   "triggers": [
+    "twin_floor"
+   ],
+   "window_s": 4.0
+  }
+ ]
+}

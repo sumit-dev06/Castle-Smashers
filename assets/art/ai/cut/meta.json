@@ -60,6 +60,16 @@
   "kind": "background",
   "w": 2475
  },
+ "bg_citadel_eclipse": {
+  "h": 900,
+  "kind": "background",
+  "w": 2163
+ },
+ "bg_citadel_fire": {
+  "h": 900,
+  "kind": "background",
+  "w": 2160
+ },
  "bg_desert_day": {
   "h": 900,
   "kind": "background",
@@ -90,6 +100,16 @@
   "kind": "background",
   "w": 2251
  },
+ "bg_highlands_day": {
+  "h": 900,
+  "kind": "background",
+  "w": 2160
+ },
+ "bg_highlands_dusk": {
+  "h": 900,
+  "kind": "background",
+  "w": 2160
+ },
  "bg_iron_citadel": {
   "h": 900,
   "kind": "background",
@@ -119,6 +139,16 @@
   "h": 900,
   "kind": "background",
   "w": 2400
+ },
+ "bg_storm_dawn": {
+  "h": 900,
+  "kind": "background",
+  "w": 2160
+ },
+ "bg_storm_night": {
+  "h": 900,
+  "kind": "background",
+  "w": 2251
  },
  "bg_stormy_crags": {
   "h": 900,
@@ -234,6 +264,11 @@
   "unit_h": 300,
   "w": 467
  },
+ "boss_citadel_engine": {
+  "h": 343,
+  "kind": "boss",
+  "w": 1200
+ },
  "boss_crown": {
   "h": 916,
   "kind": "boss",
@@ -275,6 +310,11 @@
  },
  "boss_galleon_hull": {
   "h": 427,
+  "kind": "boss",
+  "w": 1200
+ },
+ "boss_highland_wagon": {
+  "h": 336,
   "kind": "boss",
   "w": 1200
  },
@@ -336,6 +376,11 @@
  },
  "boss_siege_wheels": {
   "h": 273,
+  "kind": "boss",
+  "w": 1200
+ },
+ "boss_storm_barge": {
+  "h": 367,
   "kind": "boss",
   "w": 1200
  },
@@ -471,6 +516,16 @@
   "kind": "fg",
   "w": 900
  },
+ "fg_citadel_left": {
+  "h": 714,
+  "kind": "fg",
+  "w": 900
+ },
+ "fg_citadel_right": {
+  "h": 708,
+  "kind": "fg",
+  "w": 900
+ },
  "fg_desert_left": {
   "h": 758,
   "kind": "fg",
@@ -491,6 +546,11 @@
   "kind": "fg",
   "w": 759
  },
+ "fg_highlands_right": {
+  "h": 765,
+  "kind": "fg",
+  "w": 900
+ },
  "fg_mines_left": {
   "h": 743,
   "kind": "fg",
@@ -510,6 +570,51 @@
   "h": 732,
   "kind": "fg",
   "w": 900
+ },
+ "fg_storm_left": {
+  "h": 554,
+  "kind": "fg",
+  "w": 900
+ },
+ "fg_storm_right": {
+  "h": 583,
+  "kind": "fg",
+  "w": 900
+ },
+ "gadget_bumper": {
+  "h": 246,
+  "kind": "gadget",
+  "w": 512
+ },
+ "gadget_lamp": {
+  "h": 512,
+  "kind": "gadget",
+  "w": 404
+ },
+ "gadget_magnet": {
+  "h": 512,
+  "kind": "gadget",
+  "w": 485
+ },
+ "gadget_plate_base": {
+  "h": 71,
+  "kind": "gadget",
+  "w": 512
+ },
+ "gadget_plate_top": {
+  "h": 59,
+  "kind": "gadget",
+  "w": 512
+ },
+ "gadget_portal_ring": {
+  "h": 512,
+  "kind": "gadget",
+  "w": 512
+ },
+ "gadget_portal_swirl": {
+  "h": 488,
+  "kind": "gadget",
+  "w": 512
  },
  "gem": {
   "h": 439,
@@ -796,6 +901,20 @@
   "w": 1400,
   "walk_y": 68
  },
+ "stage_base_citadel_small": {
+  "h": 1016,
+  "kind": "stage",
+  "top_y": 25,
+  "w": 1139,
+  "walk_y": 86
+ },
+ "stage_base_citadel_wide": {
+  "h": 319,
+  "kind": "stage",
+  "top_y": 15,
+  "w": 1400,
+  "walk_y": 34
+ },
  "stage_base_desert_small": {
   "h": 1136,
   "kind": "stage",
@@ -823,6 +942,20 @@
   "top_y": 113,
   "w": 1400,
   "walk_y": 135
+ },
+ "stage_base_highlands_small": {
+  "h": 1086,
+  "kind": "stage",
+  "top_y": 102,
+  "w": 1061,
+  "walk_y": 167
+ },
+ "stage_base_highlands_wide": {
+  "h": 413,
+  "kind": "stage",
+  "top_y": 37,
+  "w": 1400,
+  "walk_y": 62
  },
  "stage_base_mines_small": {
   "h": 1020,
@@ -852,12 +985,33 @@
   "w": 1400,
   "walk_y": 135
  },
+ "stage_base_storm_small": {
+  "h": 1049,
+  "kind": "stage",
+  "top_y": 25,
+  "w": 915,
+  "walk_y": 88
+ },
+ "stage_base_storm_wide": {
+  "h": 370,
+  "kind": "stage",
+  "top_y": 13,
+  "w": 1400,
+  "walk_y": 35
+ },
  "stage_ledge_blossom": {
   "h": 395,
   "kind": "stage",
   "top_y": 40,
   "w": 1400,
   "walk_y": 64
+ },
+ "stage_ledge_citadel": {
+  "h": 257,
+  "kind": "stage",
+  "top_y": 14,
+  "w": 1400,
+  "walk_y": 29
  },
  "stage_ledge_desert": {
   "h": 454,
@@ -873,6 +1027,13 @@
   "w": 1400,
   "walk_y": 63
  },
+ "stage_ledge_highlands": {
+  "h": 374,
+  "kind": "stage",
+  "top_y": 49,
+  "w": 1400,
+  "walk_y": 71
+ },
  "stage_ledge_mines": {
   "h": 520,
   "kind": "stage",
@@ -886,5 +1047,12 @@
   "top_y": 53,
   "w": 1400,
   "walk_y": 77
+ },
+ "stage_ledge_storm": {
+  "h": 417,
+  "kind": "stage",
+  "top_y": 72,
+  "w": 1400,
+  "walk_y": 97
  }
 }

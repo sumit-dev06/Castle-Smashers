@@ -58,7 +58,7 @@ func setup(p_level_data: Dictionary, p_realm: Dictionary, p_world_right: float) 
 
 func _ready() -> void:
 	var tint: Color = Color(String(realm.get("stage_tint", "#ffffff")))
-	var key: String = String(realm.get("key", "blossom"))
+	var key: String = Background.art_key(realm, "stage_ledge_%s")
 	var ledge_left: float = Data.bf("stage", "ledge_visual_left")
 	_add_collider(Rect2(-8000.0, 0.0, 8000.0 + ledge_right, kill_y + 400.0))
 	_add_piece("stage_ledge_" + key, ledge_left, ledge_right, 0.0, tint)

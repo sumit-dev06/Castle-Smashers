@@ -1,0 +1,224 @@
+{
+ "id": 54,
+ "name": "Weight of Stone",
+ "realm": 6,
+ "heroes": [
+  "cyclone",
+  "stone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Knock the stone off the tall shelf onto the plate. The gate rises: then hit the guards inside.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "focus",
+   "target": "gadget:0",
+   "label": "PRESSURE PLATE!"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "Drop something heavy on that plate and the gate lifts!"
+  },
+  {
+   "t": "demo",
+   "target": "gadget:0",
+   "hero": "stone"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "gadget:0",
+   "label": "PRESSURE PLATE!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  20000,
+  25000,
+  44000
+ ],
+ "camera_right": 1960,
+ "camera_top": -450,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 760,
+    "x1": 1830,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 830,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 970,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 900,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 820,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 980,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 900,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 900,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1064.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 1128.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 1192.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 1256.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 1096.0,
+   "y": -96
+  },
+  {
+   "type": "stone_block",
+   "x": 1160.0,
+   "y": -96
+  },
+  {
+   "type": "stone_block",
+   "x": 1224.0,
+   "y": -96
+  },
+  {
+   "type": "stone_block",
+   "x": 1128.0,
+   "y": -160
+  },
+  {
+   "type": "stone_block",
+   "x": 1192.0,
+   "y": -160
+  },
+  {
+   "type": "stone_block",
+   "x": 1160.0,
+   "y": -224
+  },
+  {
+   "type": "iron_block",
+   "x": 1592,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1592,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1748,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1748,
+   "y": -96
+  },
+  {
+   "type": "iron_beam",
+   "x": 1670,
+   "y": -141
+  }
+ ],
+ "archers": [
+  {
+   "x": 900,
+   "y": -209.5
+  },
+  {
+   "x": 1647,
+   "y": -29.5
+  },
+  {
+   "x": 1693,
+   "y": -29.5
+  },
+  {
+   "x": 1670,
+   "y": -183.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "gate",
+   "x": 1500,
+   "y": -85,
+   "size": [
+    60,
+    170
+   ],
+   "trigger": "keep_gate",
+   "travel_y": 175,
+   "duration_s": 0.5
+  }
+ ],
+ "captives": [],
+ "gadgets": [
+  {
+   "type": "plate",
+   "x": 1390,
+   "y": 0,
+   "triggers": [
+    "keep_gate"
+   ],
+   "mass": 6.0,
+   "width": 130
+  }
+ ]
+}
