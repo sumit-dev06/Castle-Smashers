@@ -11,6 +11,11 @@ extends Node
 
 var _p: Object = null
 var _checked: bool = false
+## Google Play Games sign-in: done by Play itself at start; Settings has a manual button.
+var games_signed_in: bool = false
+var games_name: String = ""
+var games_error: String = ""
+signal games_changed
 var _downloaded: bool = false
 
 
@@ -27,10 +32,32 @@ func _ready() -> void:
 	_p.connect("update_downloaded", func() -> void: _downloaded = true)
 	_p.connect("update_failed", func(reason: String) -> void: push_warning("PlayServices: update failed: " + reason))
 	Events.level_finished.connect(_on_level_finished)
+	if _p.has_signal("games_signed_in"):
+		_p.connect("games_signed_in", _on_games)
+		_p.call("gamesCheck")
 
 
 func available() -> bool:
 	return _p != null
+
+
+func games_available() -> bool:
+	return _p != null and _p.has_signal("games_signed_in")
+
+
+## Settings button: Google's own sign-in sheet. Answer arrives through games_changed.
+func games_sign_in() -> void:
+	if games_available():
+		_p.call("gamesSignIn")
+
+
+func _on_games(signed_in: bool, display_name: String, error: String) -> void:
+	games_signed_in = signed_in
+	games_name = display_name
+	games_error = error
+	if not signed_in and not error.is_empty():
+		print("PlayServices: Play Games not signed in: ", error)
+	games_changed.emit()
 
 
 func _notification(what: int) -> void:

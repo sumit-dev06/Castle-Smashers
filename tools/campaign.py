@@ -1183,7 +1183,9 @@ def L62(f):  # Two sluices: the low one floods the iron sheds, a lever opens the
     f.lever(1370, 0, ["upper_sluice"])
     f.terrace(1990, 2600, 150)
     f.flood(2170, reach=420, pool=110, pool_h=130, trigger="upper_sluice")
-    f.floor("iron", 2360, 0)
+    # Terrace shed: the lower guard needs the upper sluice (the lever); the roof guard stands on
+    # stone, so it takes a hard, well-aimed shot (iron could not be broken at all).
+    f.floor("stone", 2360, 0)
     f.archer(2360, 0)
     f.archer(2360, -154)
 
@@ -1330,9 +1332,9 @@ def L73(f):  # Prison tower: two captives. One cage opens on the plate, the othe
     f.b("stone_block", 1540, top - 32)
     f.plate(1650, 0, ["cell_a"], mass=6.0)
     f.captive(1800, 0, "cell_a")
-    top2 = f.tower(2020, ["iron", "stone", "wood"], archers=[1, 2])
+    top2 = f.tower(2020, ["stone", "stone", "wood"], archers=[1, 2])
     f.captive(2240, 0, "cell_b")
-    f.rope_load(2240, -520, 160, load="crate", releases="cell_b", crane_x=2360)
+    f.rope_load(2240, -440, 230, load="crate", releases="cell_b", crane_x=2360)
     f.archer(2020, 0)
 
 
@@ -1365,9 +1367,9 @@ def L75(f):  # FINAL BOSS: the Iron Baron's citadel engine. Gate, repair crystal
         f.shield_ring(2110, top2 - 36, radius=100, plates=3, dps=75, plate_len=105)
         f.engineer(2030, 0)
         f.engineer(1960, top1)
-        f.boss_unit(2210, top2, "The Iron Baron", 240,
+        f.boss_unit(2210, top2, "The Iron Baron", 215,
                     [{"at": 0.8, "do": ["reinforce"]}, {"at": 0.6, "do": ["shield"]},
-                     {"at": 0.4, "do": ["charge", "reinforce"]}, {"at": 0.2, "do": ["enrage", "shield"]}],
+                     {"at": 0.4, "do": ["charge"]}, {"at": 0.2, "do": ["enrage", "shield"]}],
                     reinforce=[(1860, top1), (1940, top1)])
     f.deck(2030, 540, engine, travel_x=60, period_s=9.0, **ENGINE)
 

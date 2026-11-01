@@ -8,6 +8,9 @@
         <meta-data
             android:name="org.godotengine.plugin.v2.CastlePlay"
             android:value="com.castlesmashers.notify.CastlePlay" />
+        <meta-data
+            android:name="com.google.android.gms.games.APP_ID"
+            android:value="@string/game_services_project_id" />
         <receiver android:name="com.castlesmashers.notify.NotifyReceiver" android:exported="false" />
     </application>
 </manifest>

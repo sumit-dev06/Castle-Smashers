@@ -51,11 +51,36 @@ Army opened the old loadout; bottom Upgrades repeated the hero card; Trails is a
   Mail (one-time welcome gift, `home.welcome_mail`) and settings.
 - Left: Campaign (gold, opens the map), Special Missions (locked until L10 with a toast), Shop.
 - Right: Daily Rewards, Spin Wheel, Achievements.
-- Gold PLAY plank "Level N · Realm" (opens the next level).
+- Gold PLAY plank "Level N · Realm" (opens the next level). It pops in once and then stays still
+  (no looping light sweep). After the last level it reads "All 75 cleared · What's next?" and opens
+  the campaign end screen.
 - Hero card: the hero cheapest to upgrade, its level bar and an UPGRADE button that opens Upgrades
   with that hero focused (red dot when affordable). Skins tile bottom right. Red dots come from
 `MetaFrame.has_news`. The first visit each day with an unclaimed daily reward opens Daily Rewards
 (skip with `--no-popups`). The firing / crumbling castle motion is not built yet.
+- Master Orin (hero card) gives one greeting nod when the card slides in, then stands still. The
+  WORKSHOP button no longer wiggles; its red dot is the only cue (balance `ui_fx.orin_nod_*`).
+
+### Feature showcase (`src/ui/promo_popup.gd`)
+A large card (78% × 82% of the screen, about 64% of its area) that tells players what else the game
+has: Remove Ads, Hero Addons, Catapult Skins, Hellfire Crates, Master Orin's Workshop, Siege
+Engines and Special Missions. Each card has big art on a coloured glow, a badge, a title, three
+plain selling points, a green button that opens that screen, and Later. Cards slide every 5 s,
+swipe or arrows change them, dots show the position, X or Later closes.
+- When: the first home visit of each app session (unless the daily reward popup or the one-time
+  notification ask takes that visit), then every 3rd home visit, at least 3 min apart and at most 4
+  times a day, from level 3. Each showing starts on the next card, so a new feature leads each time.
+- Owned or locked things are skipped (no Remove Ads card after buying it, Workshop from L4, engines
+  from L6, Special Missions from L8). No timers, no "only today", prices only inside the Shop.
+- Tunables: balance `promo`. Debug: `--promo`. Analytics: `promo_shown`, `promo_tap` (card id only).
+
+## Campaign end (`src/ui/campaign_end.gd`)
+After the last campaign level the results show WHAT'S NEXT? instead of NEXT. The screen: the
+Iron Citadel backdrop, "ALL REALMS CONQUERED!", the player's star total, a road of the 8 conquered
+realm medallions landing one by one, and a ninth misty "?" realm with Master Orin's hammer still
+tapping ("Being forged"). Orin says new fortresses are coming soon. Buttons: Collect every ★ (map),
+Special Missions, Home. Home's PLAY opens it too once all levels are won. Texts: balance
+`campaign_end`. Debug: `--campaign-end`.
 
 ## Reference screens (not our art)
 Screens from other games, kept in `art_source/reference_screens/` (not shipped) only for layout and
@@ -122,7 +147,7 @@ The world stays visible behind a dim (`loadout.dim_alpha`).
 ## Results
 - Win: "VICTORY!" banner, 3 stars pop in one by one, score count-up, then a breakdown: blocks,
   archers, unused heroes, **chain bonus**, **best chain**, mode bonus. Coins earned with a coin
-  burst. Buttons: Map, Replay (the best chain), Retry, Next.
+  burst. Buttons: Map, Replay (the best chain), Retry, Next (WHAT'S NEXT? after the last level).
 - Lose: "DEFEAT" sign, the reason (soldiers down / out of heroes / time up / chest lost /
   a ship docked), Retry, Map, and a tip.
 - **As built (`Hud.show_result` + `_celebrate_result`):** stars slam in from 2.4x with a twist,

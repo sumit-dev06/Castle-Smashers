@@ -15,6 +15,8 @@ import numpy as np
 TARGET_DB = -27.0      # level above 300 Hz; the home screen music measures about -25 dB
 HARMONIC_MIX = 0.9     # how much of the saturated low band is added back
 PEAK = 10 ** (-1.0 / 20)
+RMS_CEIL = 0.30        # loudest a 250 ms stretch may get. The STUDIOS part (clean on phones) sits
+                       # near 0.27; the INTERCORE hit was 0.63 and rattled small speakers.
 
 
 def read(path):
@@ -52,6 +54,33 @@ def level_above(x, sr, hz=300):
     return 10 * np.log10(F[f >= hz].sum() / x.shape[0] ** 2 * 2 + 1e-12)
 
 
+def ride(y, sr, win_s=0.25, smooth_s=0.15):
+    """Slow level riding: turns down any stretch louder than RMS_CEIL, with no waveshaping."""
+    win = int(win_s * sr)
+    p = np.convolve((y ** 2).mean(axis=1), np.ones(win) / win, mode="same")
+    g = np.minimum(1.0, RMS_CEIL / (np.sqrt(p) + 1e-9))
+    k = int(smooth_s * sr)
+    g = np.convolve(np.pad(g, (k, k), mode="edge"), np.ones(2 * k + 1) / (2 * k + 1), mode="valid")
+    return y * g[:, None]
+
+
+def limit(y, sr, attack_s=0.005, release_s=0.12):
+    need = np.minimum(1.0, PEAK / (np.abs(y).max(axis=1) + 1e-9))   # gain each sample needs
+    la = max(1, int(attack_s * sr))
+    # Look ahead: each sample takes the lowest gain needed in the next `la` samples.
+    pad = np.concatenate([need, np.ones(la)])
+    from numpy.lib.stride_tricks import sliding_window_view
+    need = sliding_window_view(pad, la + 1).min(axis=1)[: len(need)]
+    g = np.empty_like(need)
+    cur = 1.0
+    a = np.exp(-1.0 / la)
+    r = np.exp(-1.0 / (release_s * sr))
+    for i, n in enumerate(need):
+        cur = a * cur + (1 - a) * n if n < cur else r * cur + (1 - r) * n
+        g[i] = min(cur, n) if n < cur * 0.98 else cur
+    return y * g[:, None]
+
+
 def master(x, sr):
     low = band(x, sr, 0, 180)
     drive = 1.0 / (np.abs(low).max() + 1e-9) * 3.0
@@ -60,11 +89,11 @@ def master(x, sr):
     y = y - 0.5 * band(y, sr, 0, 45)                            # trim rumble the speaker only distorts on
     gain = 10 ** ((TARGET_DB - level_above(y, sr)) / 20)
     y = y * gain
-    # Soft limiter: transparent below 0.7, rounds off peaks to PEAK.
-    a = np.abs(y)
-    knee = 0.7 * PEAK
-    over = a > knee
-    y[over] = np.sign(y[over]) * (knee + (PEAK - knee) * np.tanh((a[over] - knee) / (PEAK - knee)))
+    # Look-ahead gain limiter: the gain moves smoothly (5 ms attack, 120 ms release), so loud parts
+    # get quieter without the waveform itself being bent. The old per-sample tanh limiter sat on the
+    # loud INTERCORE hit for 4 s and its waveshaping crackled on phone speakers.
+    y = ride(y, sr)
+    y = limit(y, sr)
     return y, gain
 
 

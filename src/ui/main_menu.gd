@@ -455,16 +455,22 @@ func _play_plank() -> void:
 	sub.add_theme_stylebox_override("panel", sb)
 	sub.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	sub.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	sub.add_child(UIKit.label("Level %d · %s" % [lv, String(Background.realm_info(_realm()).get("name", ""))], 22, Color.WHITE, 4))
+	var done: bool = Game.campaign_done()
+	var sub_text: String = "All %d cleared · What's next?" % Data.level_count() if done \
+		else "Level %d · %s" % [lv, String(Background.realm_info(_realm()).get("name", ""))]
+	sub.add_child(UIKit.label(sub_text, 22, Color.WHITE, 4))
 	v.add_child(sub)
 	b.pivot_offset = Vector2(215, 62)
 	b.pressed.connect(func() -> void:
 		Sound.play("play_press")
-		Game.goto_level_entry(lv))
+		if done:
+			Game.goto_campaign_end()
+		else:
+			Game.goto_level_entry(lv))
 	UIFx.press_juice(b)
 	root.add_child(b)
+	# Entrance pop and press feedback only: no idle loop, so the button reads as solid, not busy.
 	UIFx.pop_in(b, 0.15)
-	UIFx.shine(b, 0.8)
 
 
 ## True when Master Orin can forge or improve something with the current coin balance.
@@ -494,11 +500,12 @@ func _hero_card() -> void:
 	p.add_child(h)
 	var orin: TextureRect = UIKit.tex_rect("wizard_idle", 82)
 	h.add_child(orin)
-	# Idle: Orin sways slowly from his feet, like he is breathing, never bouncing.
-	var sway: Tween = orin.create_tween().set_loops()
-	sway.tween_callback(func() -> void: orin.pivot_offset = Vector2(orin.size.x * 0.5, orin.size.y))
-	sway.tween_property(orin, "rotation_degrees", 2.0, 1.6).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	sway.tween_property(orin, "rotation_degrees", -1.5, 1.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	# One greeting nod from his feet once the card has slid in, then he stands still.
+	var nod: Tween = orin.create_tween()
+	nod.tween_interval(UIFx.cfg("orin_nod_delay_s"))
+	nod.tween_callback(func() -> void: orin.pivot_offset = Vector2(orin.size.x * 0.5, orin.size.y))
+	nod.tween_property(orin, "rotation_degrees", UIFx.cfg("orin_nod_deg"), 0.22).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	nod.tween_property(orin, "rotation_degrees", 0.0, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	var v: VBoxContainer = VBoxContainer.new()
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	v.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -514,8 +521,8 @@ func _hero_card() -> void:
 		Sound.play("ui_tap")
 		Game.goto_meta("upgrades"))
 	if _workshop_ready():
+		# The red dot is the only cue; the button no longer wiggles.
 		open.add_child(MetaFrame._red_dot(Vector2(102, -4)))
-		UIFx.nudge(open)
 	UIFx.press_juice(open)
 	h.add_child(open)
 	root.add_child(p)
@@ -598,9 +605,12 @@ func _open_mail() -> void:
 
 ## First visit of the day with an unclaimed daily reward: open Daily Rewards.
 func _daily_popup() -> void:
-	if "--no-popups" in OS.get_cmdline_user_args() or not DailyRewards.can_claim():
+	var first: bool = not Game.promo_seen
+	if "--no-popups" in OS.get_cmdline_user_args():
 		return
-	if String(Save.data.get("daily_popup", "")) == Save.today():
+	if not DailyRewards.can_claim() or String(Save.data.get("daily_popup", "")) == Save.today():
+		# No daily reward waiting: the feature showcase gets this visit (never both at once).
+		PromoPopup.maybe_show(self, first)
 		return
 	Save.data["daily_popup"] = Save.today()
 	Save.write()

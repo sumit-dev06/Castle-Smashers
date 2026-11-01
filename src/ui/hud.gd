@@ -672,6 +672,13 @@ func show_result(won: bool, stars: int, score: int, earned: Dictionary, has_next
 			var next_id: int = level.level_id + 1
 			Ads.match_break(level.level_id, func() -> void: Game.goto_level_entry(next_id)))
 		btns.add_child(nx)
+	elif won and level.level_id == Data.level_count() and not level.mode:
+		# Last campaign level: the next step is the "new realms coming soon" screen.
+		var wn: Button = UIKit.button("WHAT'S NEXT?", "green", 32, Vector2(250, 84))
+		wn.pressed.connect(func() -> void:
+			wn.disabled = true
+			Ads.match_break(level.level_id, Game.goto_campaign_end))
+		btns.add_child(wn)
 	v.add_child(btns)
 	_celebrate_result(won, stars, score, earned, info, star_nodes, score_l, cr, wallet)
 

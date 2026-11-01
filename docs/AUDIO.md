@@ -235,7 +235,10 @@ peaks, stereo width and spectrum can be measured, for example with `pyloudnorm`.
 `tools/capture_intro.py` records the intro and then runs `tools/master_intro_audio.py`. Most of the
 score's energy sits below 150 Hz, which phone speakers can't play, so it sounded far quieter than the
 menu music. The master step adds harmonics above the bass, trims sub rumble, sets the level above
-300 Hz to −27 dB (`TARGET_DB`, about the menu music) and soft-limits at −1 dBFS.
+300 Hz to −27 dB (`TARGET_DB`, about the menu music), then rides the level so no 250 ms stretch
+goes above RMS 0.30 (`RMS_CEIL`) and peak-limits at −1 dBFS with a smooth 5 ms / 120 ms gain
+limiter. The older per-sample tanh limiter sat on the loud INTERCORE hit for 4 s (RMS 0.63–0.74)
+and its waveshaping crackled on phone speakers; the STUDIOS part was already below the ceiling.
 
 ## Possible later work
 - Recorded or licensed instruments for a final soundtrack (list them in `docs/CREDITS.md`). They

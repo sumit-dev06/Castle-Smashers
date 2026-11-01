@@ -29,10 +29,10 @@
  "boss": false,
  "star_scores": [
   20000,
-  25000,
-  44000
+  24000,
+  41000
  ],
- "camera_right": 2440,
+ "camera_right": 2420,
  "camera_top": -380,
  "bg_variant": 1,
  "stage": {
@@ -45,7 +45,7 @@
    },
    {
     "x0": 1760,
-    "x1": 2310,
+    "x1": 2290,
     "top": -150
    }
   ]
@@ -102,29 +102,19 @@
    "y": -141
   },
   {
-   "type": "iron_block",
-   "x": 2072.0,
-   "y": -182
+   "type": "stone_pillar",
+   "x": 2080.0,
+   "y": -220
   },
   {
-   "type": "iron_block",
-   "x": 2072.0,
-   "y": -246
+   "type": "stone_pillar",
+   "x": 2220.0,
+   "y": -220
   },
   {
-   "type": "iron_block",
-   "x": 2228.0,
-   "y": -182
-  },
-  {
-   "type": "iron_block",
-   "x": 2228.0,
-   "y": -246
-  },
-  {
-   "type": "iron_beam",
+   "type": "stone_slab",
    "x": 2150.0,
-   "y": -291
+   "y": -310
   }
  ],
  "archers": [

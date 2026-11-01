@@ -82,3 +82,5 @@ audience. It is built in and switches on with `google-services.json` (see `FIREB
 spin is used, never during quiet hours, at most one per day, placeholders filled, idle reminders
 present, no spin/daily reminder while today's is still unclaimed, no repeated line, opt-out works.
 On a phone: open the game, use the free spin, press Home; check `adb shell dumpsys alarm | grep castlesmashers`.
+Debug APKs only: Settings → **Test reminders** sends every reminder kind once, 10 s from now and
+8 s apart (`Notifications.send_test`, ids 900+), so their look and wording can be checked; press Home.

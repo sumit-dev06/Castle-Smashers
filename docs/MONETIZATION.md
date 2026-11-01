@@ -85,6 +85,14 @@ the next launch. An optional server verification hook is in `purchase_verifier.g
 Save version 4 removed blueprints (the parchment "map" icon). Old saves convert them to coins and
 refund old hero-upgrade spending.
 
+## Feature showcase
+Players only buy what they know exists, so home shows a large "DISCOVER MORE" card now and then
+(`src/ui/promo_popup.gd`, rules in `UI_DESIGN.md` → Feature showcase, tunables in balance `promo`).
+It points to Remove Ads, Hero Addons, skins, crates, Workshop upgrades, siege engines and Special
+Missions. It never shows prices, timers or fake discounts, never opens during a level, skips
+anything already owned, and is capped at 4 a day. Measure it with `promo_shown` → `promo_tap` →
+`purchase_start`.
+
 ## Policy rules we follow
 - Ad buttons always say "WATCH AD" with a video icon and the exact reward; nothing looks like a
   game button that secretly opens an ad.

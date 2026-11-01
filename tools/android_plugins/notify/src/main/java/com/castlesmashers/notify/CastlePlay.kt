@@ -1,5 +1,7 @@
 package com.castlesmashers.notify
 
+import com.google.android.gms.games.PlayGames
+import com.google.android.gms.games.PlayGamesSdk
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -23,6 +25,12 @@ import org.godotengine.godot.plugin.UsedByGodot
  *  update_checked(available: bool, version_code: int, priority: int, staleness_days: int)
  *  update_downloaded()                      - a flexible update is ready; call completeUpdate()
  *  update_failed(reason: String)
+ *  games_signed_in(signed_in: bool, display_name: String, error: String)
+ *                                           - Google Play Games: answer to gamesCheck()/gamesSignIn()
+ *
+ * Play Games Services v2 signs the player in by itself when the game starts (if they once chose
+ * to). gamesCheck() reads that result; gamesSignIn() is the manual button. The project id is in
+ * res/values/games_ids.xml. No player id leaves this file; only the display name is passed up.
  */
 class CastlePlay(godot: Godot) : GodotPlugin(godot) {
     override fun getPluginName() = "CastlePlay"
@@ -32,7 +40,46 @@ class CastlePlay(godot: Godot) : GodotPlugin(godot) {
         SignalInfo("update_checked", java.lang.Boolean::class.java, Integer::class.java, Integer::class.java, Integer::class.java),
         SignalInfo("update_downloaded"),
         SignalInfo("update_failed", String::class.java),
+        SignalInfo("games_signed_in", java.lang.Boolean::class.java, String::class.java, String::class.java),
     )
+
+    private var gamesReady = false
+
+    private fun gamesInit(): android.app.Activity? {
+        val a = godot.getActivity() ?: return null
+        if (!gamesReady) {
+            PlayGamesSdk.initialize(a.applicationContext)
+            gamesReady = true
+        }
+        return a
+    }
+
+    private fun reportPlayer(a: android.app.Activity) {
+        PlayGames.getPlayersClient(a).currentPlayer.addOnCompleteListener { p ->
+            val name = if (p.isSuccessful) p.result?.displayName ?: "" else ""
+            emitSignal("games_signed_in", true, name, "")
+        }
+    }
+
+    /** Was the player signed in automatically at start? Answers with games_signed_in. */
+    @UsedByGodot
+    fun gamesCheck() {
+        val a = gamesInit() ?: return emitSignal("games_signed_in", false, "", "no_activity")
+        PlayGames.getGamesSignInClient(a).isAuthenticated.addOnCompleteListener { t ->
+            if (t.isSuccessful && t.result?.isAuthenticated == true) reportPlayer(a)
+            else emitSignal("games_signed_in", false, "", t.exception?.message ?: "")
+        }
+    }
+
+    /** Manual sign-in (Settings button). Shows Google's own sign-in sheet. */
+    @UsedByGodot
+    fun gamesSignIn() {
+        val a = gamesInit() ?: return emitSignal("games_signed_in", false, "", "no_activity")
+        PlayGames.getGamesSignInClient(a).signIn().addOnCompleteListener { t ->
+            if (t.isSuccessful && t.result?.isAuthenticated == true) reportPlayer(a)
+            else emitSignal("games_signed_in", false, "", t.exception?.message ?: "cancelled")
+        }
+    }
 
     private var updates: AppUpdateManager? = null
     private var lastInfo: AppUpdateInfo? = null
@@ -114,6 +161,15 @@ class CastlePlay(godot: Godot) : GodotPlugin(godot) {
     @UsedByGodot
     fun completeUpdate() {
         manager()?.completeUpdate()
+    }
+
+    override fun onMainCreate(activity: android.app.Activity?): android.view.View? {
+        // Must run before the first Play Games call; the SDK then signs in by itself.
+        if (activity != null) {
+            PlayGamesSdk.initialize(activity.applicationContext)
+            gamesReady = true
+        }
+        return super.onMainCreate(activity)
     }
 
     override fun onMainResume() {

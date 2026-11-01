@@ -78,6 +78,31 @@ func _main() -> void:
 	_toggle_row(v, "Haptics", "haptics", "icon_check")
 	_flag_row(v, "Reminders", Notifications.enabled(), func(on: bool) -> void: Notifications.set_enabled(on), "icon_mail")
 	_flag_row(v, "Analytics", bool(Save.data.get("analytics_on", true)), func(on: bool) -> void: Analytics.set_enabled(on), "icon_info")
+	if PlayServices.games_available():
+		var gh: HBoxContainer = _row(v, "Play Games", "icon_crown")
+		var gsp: Control = Control.new()
+		gsp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		gh.add_child(gsp)
+		if PlayServices.games_signed_in:
+			gh.add_child(UIKit.body(PlayServices.games_name if not PlayServices.games_name.is_empty() else "Signed in", 20, Color("#2f7a1c")))
+		else:
+			var gb: Button = UIKit.button("Sign in", "green", 20, Vector2(140, 50))
+			gb.pressed.connect(func() -> void:
+				Sound.play("ui_tap")
+				gb.disabled = true
+				PlayServices.games_changed.connect(func() -> void:
+					if is_inside_tree():
+						_main(), CONNECT_ONE_SHOT)
+				PlayServices.games_sign_in())
+			gh.add_child(gb)
+	if OS.is_debug_build() and OS.get_name() == "Android":
+		# Test APKs only: every reminder kind arrives 10 s apart from now (press Home to see them).
+		var nt: Button = UIKit.button("Test reminders", "blue", 20, Vector2(220, 50))
+		nt.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		nt.pressed.connect(func() -> void:
+			Sound.play("ui_tap")
+			nt.text = "Sent %d, press Home" % Notifications.send_test())
+		v.add_child(nt)
 	var h: HBoxContainer = HBoxContainer.new()
 	h.alignment = BoxContainer.ALIGNMENT_CENTER
 	h.add_theme_constant_override("separation", 12)

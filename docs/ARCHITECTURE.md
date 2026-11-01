@@ -24,6 +24,10 @@ with `Hud` (src/ui/hud.gd). `UpgradesScreen` (src/ui/upgrades_screen.gd) opens f
 the loadout screen (`Game.goto_workshop(back_to_level)` / `Game.goto_meta("upgrades")`). The other
 meta screens (spin, daily, shop, skins, achievements) open with `Game.goto_meta(key, props)`.
 `SettingsPopup` (src/ui/settings_popup.gd) opens over home and the pause menu.
+`PromoPopup` (src/ui/promo_popup.gd) is the home feature showcase (an overlay on `UIFxLayer`).
+`CampaignEnd` (src/ui/campaign_end.gd, `Game.goto_campaign_end()`) follows the last campaign level;
+`Game.campaign_done()` is true once it is won. `Feats` (src/game/feats.gd) runs the rotating level
+challenges shown on the Achievements screen.
 
 ```
 Level

@@ -16,7 +16,7 @@ automated tests. **Pass** = verified; **Owner** = a Play Console / AdMob action 
 | Non-consumables restorable, refunds revoked | Pass | `query_purchases` at start and on resume, Restore button; refunded addons / Remove Ads are removed |
 | Prices are Play's localized prices | Pass | `Store.price_text` from Play; products created after install are re-queried when the shop opens |
 | Loot boxes | Pass (n/a) | Crates have fixed, displayed contents |
-| Payment sheet doesn't rotate the game | Pass | `ProxyBillingActivity` / `V2` locked to `sensorLandscape` (checked in the bundle by `release.py verify`) |
+| Payment sheet doesn't rotate the game | Pass | `ProxyBillingActivity` / `V2` set to `behind` (they follow the game's `sensorLandscape`; a fixed value crashes Android 8.0) (checked in the bundle by `release.py verify`) |
 | No secrets in the client | Pass | No service-account keys in the repo or bundle |
 
 ## AdMob / Ads policy

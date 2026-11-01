@@ -8,7 +8,7 @@ Owner manual: docs/RELEASE_GUIDE.md. Every command prints what it did and ends w
     python3 tools/release.py test                      # import + all automated tests
     python3 tools/release.py aab                       # signed release bundle for Google Play (+ verify)
     python3 tools/release.py apk                       # debug APK with test ads (friends, not Play)
-    python3 tools/release.py verify                    # re-check build/castle_smashers.aab
+    python3 tools/release.py verify                    # re-check build/stone_storm.aab
     python3 tools/release.py upload --track internal --notes "Bug fixes"   # send the AAB to Play
     python3 tools/release.py status                    # what is on each Play track
     python3 tools/release.py promote --from internal --to production --rollout 0.2 --confirm
@@ -47,8 +47,9 @@ CREDS = os.path.join(ROOT, ".godot", "export_credentials.cfg")
 AD_IDS = os.path.join(ROOT, "ad_ids.cfg")
 GS_ROOT = os.path.join(ROOT, "google-services.json")
 GS_BUILD = os.path.join(ROOT, "android", "build", "google-services.json")
-AAB = os.path.join(ROOT, "build", "castle_smashers.aab")
-APK = os.path.join(ROOT, "build", "castle_smashers_debug.apk")
+# Stone Storm builds use their own names: build/stone_storm.aab (1.0.0) is never overwritten.
+AAB = os.path.join(ROOT, "build", "stone_storm.aab")
+APK = os.path.join(ROOT, "build", "stone_storm_debug.apk")
 LOGS = os.path.join(ROOT, "build", "tmp")
 HISTORY = os.path.join(ROOT, "docs", "RELEASE_HISTORY.md")
 ARCHIVE = os.path.expanduser(os.environ.get("CASTLE_RELEASES", "~/Documents/Castle Smashers Releases"))
@@ -410,12 +411,13 @@ def cmd_verify(_a=None, path=AAB):
     app_id = admob_app_id()
     r.check(app_id and app_id in text and TEST_PUBLISHER not in app_id, "real AdMob App ID", "AdMob App ID missing or test")
     if man:
-        # aapt2 prints each element as "E: activity" followed by its "A:" attributes; sensorLandscape = 6.
+        # aapt2 prints each element as "E: activity" followed by its "A:" attributes; behind = 3
+        # (follows the game's sensorLandscape; a fixed value would crash Android 8.0).
         blocks = [b for b in re.split(r"\n\s*E: ", man) if b.startswith("activity") and "ProxyBillingActivity" in b]
-        locked = blocks and all(re.search(r"screenOrientation\([^)]*\)=6\b", b) for b in blocks)
+        locked = blocks and all(re.search(r"screenOrientation\([^)]*\)=3\b", b) for b in blocks)
     else:
-        locked = text.count("ProxyBillingActivity") >= 2 and "sensorLandscape" in text
-    r.check(bool(locked), "payment screen locked to landscape", "billing landscape lock missing (addons/castle_notify)")
+        locked = text.count("ProxyBillingActivity") >= 2 and "behind" in text
+    r.check(bool(locked), "payment screen follows the game (landscape)", "billing landscape lock missing (addons/castle_notify)")
     ids = ad_ids(ids_txt)
     r.check(len(ids) == 2 and all(TEST_PUBLISHER not in v and v.startswith("ca-app-pub-") for v in ids.values()),
             "real ad units inside the bundle", "real ad unit IDs missing from the bundle (ad_ids.cfg) - players would see test ads")
@@ -435,7 +437,7 @@ def cmd_aab(a=None):
     # Keep every verified bundle: build/ is overwritten by the next build.
     code, name = version()
     os.makedirs(ARCHIVE, exist_ok=True)
-    keep = os.path.join(ARCHIVE, f"castle_smashers_{name}_code{code}.aab")
+    keep = os.path.join(ARCHIVE, f"stone_storm_{name}_code{code}.aab")
     shutil.copy(AAB, keep)
     print(f"  [ OK ] copy kept: {keep}")
     return True
@@ -458,7 +460,7 @@ def cmd_apk(a=None):
 # ------------------------------------------------------------------------------------ Play API
 def play():
     if not os.path.exists(SERVICE_ACCOUNT):
-        die(f"Play upload key not found: {SERVICE_ACCOUNT}\n      Do part 3 of docs/RELEASE_GUIDE.md, or upload build/castle_smashers.aab by hand in Play Console.")
+        die(f"Play upload key not found: {SERVICE_ACCOUNT}\n      Do part 3 of docs/RELEASE_GUIDE.md, or upload build/stone_storm.aab by hand in Play Console.")
     try:
         from google.oauth2 import service_account
         from googleapiclient.discovery import build
@@ -782,7 +784,7 @@ def main():
     sub.add_parser("test", help="import + all tests")
     sub.add_parser("aab", help="signed release bundle for Play, then verify")
     sub.add_parser("apk", help="debug APK with test ads, for friends")
-    sub.add_parser("verify", help="check build/castle_smashers.aab")
+    sub.add_parser("verify", help="check build/stone_storm.aab")
 
     def track_opts(sp, notes=True):
         sp.add_argument("--rollout", type=float, help="share of players, 0.01-1.0 (production only; default 1.0)")

@@ -84,6 +84,11 @@ func ask_on_home(host: Node) -> void:
 			maybe_ask_permission())
 
 
+## True while the one-time notification permission ask is still waiting to show on home.
+func will_ask() -> bool:
+	return _p != null and not bool(Save.data.get("notify_asked", false))
+
+
 func reschedule() -> void:
 	_cancel_all()
 	if _p == null or not enabled():
@@ -91,6 +96,21 @@ func reschedule() -> void:
 	for n: Dictionary in plan(int(Time.get_unix_time_from_system())):
 		_p.call("schedule", int(n["id"]), String(n["title"]), String(n["body"]), int(n["delay"]), String(n["kind"]))
 	Save.write()
+
+
+## Debug builds only: send every reminder kind once, `first_s` seconds from now and then
+## `gap_s` apart, so their look and wording can be checked on a phone. Uses ids 900+ so the
+## normal reschedule on leaving the app does not cancel them. Returns how many were sent.
+func send_test(first_s: int = 10, gap_s: int = 8) -> int:
+	if _p == null or not OS.is_debug_build():
+		return 0
+	var kinds: Dictionary = cfg.get("kinds", {})
+	var i: int = 0
+	for kind: String in kinds:
+		var line: Array = _pick(kind, kinds[kind]["lines"])
+		_p.call("schedule", 900 + i, _fill(String(line[0])), _fill(String(line[1])), first_s + i * gap_s, kind)
+		i += 1
+	return i
 
 
 ## Pure plan for `now` (unix seconds): [{id, kind, title, body, delay}] after caps and quiet hours.

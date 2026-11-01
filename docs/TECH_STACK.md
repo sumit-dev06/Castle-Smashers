@@ -14,6 +14,7 @@
 | Analytics / crashes | Firebase Analytics + Crashlytics (+NDK) via our plugin CastleFirebase (`addons/castle_firebase`, source `tools/android_plugins/firebase`) | Off until `google-services.json` is in the project root |
 | Push notifications | Firebase Cloud Messaging via **GodotX Firebase 3.1.0** (Core + Messaging, MIT, `addons/godotx_firebase`, AARs in `android/firebase_core`, `android/firebase_messaging`) | Same switch as above; topics in `data/notifications.json` |
 | Play review + updates | CastlePlay class in the same plugin (`com.google.android.play:review:2.0.2`, `app-update:2.1.0`) | Code only, no console setup |
+| Play Games sign-in | CastlePlay, `com.google.android.gms:play-services-games-v2:21.0.0`; project id 300021741882 in `notify/src/main/res/values/games_ids.xml` | Automatic sign-in at start, Settings → Play Games → Sign in. No cloud save yet |
 | Notifications | Local notifications via our plugin CastleNotify (`addons/castle_notify`, source `tools/android_plugins/notify`) | AlarmManager, no server |
 | Intro video | Ogg Theora + WAV in `assets/intro`, captured from the studio HTML by `tools/capture_intro.py` (Playwright + Chrome + imageio-ffmpeg) | |
 | Build | Gradle build, Android App Bundle (`.aab`) for Play, APK for local testing | Gradle build is required for plugins |

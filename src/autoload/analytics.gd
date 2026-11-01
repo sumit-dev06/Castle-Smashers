@@ -33,6 +33,8 @@ const EVENTS: Dictionary = {
 	"review_requested": ["level_id"],
 	"update_prompted": ["mode", "version_code", "staleness_days"],
 	"session_end": ["duration_s", "levels_played"],
+	"promo_shown": ["card"],
+	"promo_tap": ["card"],
 }
 const MAX_LOG: int = 200
 

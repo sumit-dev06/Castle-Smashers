@@ -36,6 +36,7 @@ $GODOT --path . -- --level=N --force-win=1 --screenshot=build/shots/r.png --shot
 $GODOT --headless --path . --editor --quit          # refresh the class cache after adding a class_name file
 $GODOT --headless --path . -- --run-tests=billing   # billing, ads, Hellfire, analytics, notifications only
 $GODOT --path . -- --intro | --no-intro | --meta=settings   # studio intro + title card / skip it / settings popup
+$GODOT --path . -- --promo --no-popups | --campaign-end    # debug: feature showcase over home / campaign end screen
 python3 tools/patch_android_template.py             # after (re)installing the Android build template: Firebase Gradle, black splash, backup rules
 python3 tools/release.py check|version|test|aab|apk|verify|upload|status|promote|rollout|halt|release   # releases: see docs/RELEASE_GUIDE.md
 python3 tools/record_trailer.py [clip ...] | --search LEVEL   # Play video clips with sound -> store_listing/video (not in git)

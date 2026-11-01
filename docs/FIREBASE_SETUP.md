@@ -90,6 +90,7 @@ emails, device IDs, purchase tokens or free text are ever logged.
 | `spin_used` | `paid_with_ad`, `reward_type`, `reward_amount` |
 | `notification_opened` | `kind` |
 | `session_end` | `duration_s`, `levels_played` |
+| `promo_shown` / `promo_tap` | `card` (noads / addons / skins / crates / upgrades / engines / missions) |
 
 Useful reports to build in Analytics → Explore: a funnel `level_start → level_complete` per
 `level_id` (finds hard levels), `attempt` at completion, and `rewarded_ad_watched` by placement.

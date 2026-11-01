@@ -11,12 +11,16 @@ const MapScript: GDScript = preload("res://src/ui/world_map.gd")
 const WorkshopScript: GDScript = preload("res://src/ui/upgrades_screen.gd")
 const ChallengesScript: GDScript = preload("res://src/ui/challenges_screen.gd")
 const IntroScript: GDScript = preload("res://src/ui/intro_screen.gd")
+const CampaignEndScript: GDScript = preload("res://src/ui/campaign_end.gd")
 
 var args: Dictionary = {}
 ## Boss rush run: {levels, index, pool, soldier_hp, time}. Empty = no rush.
 var rush: Dictionary = {}
 ## Next goto_level() skips the fortress flyover (restart, or right after the story scene).
 var skip_flyover: bool = false
+## The feature showcase has opened in this app session (the first home visit without another
+## popup gets it; later visits only now and then).
+var promo_seen: bool = false
 var current: Node
 var _root: Node
 
@@ -61,6 +65,11 @@ func boot(root: Node) -> void:
 		goto_workshop()
 	elif args.has("map"):
 		goto_map()
+	elif args.has("promo") and OS.is_debug_build():
+		goto_menu()
+		PromoPopup.open.call_deferred()
+	elif args.has("campaign-end"):
+		goto_campaign_end()
 	elif args.has("challenges"):
 		goto_challenges()
 	elif args.has("meta"):
@@ -98,6 +107,16 @@ func goto_menu() -> void:
 
 func goto_map() -> void:
 	_switch(MapScript.new())
+
+
+## After the last campaign level: the "new realms coming soon" screen.
+func goto_campaign_end() -> void:
+	_switch(CampaignEndScript.new())
+
+
+## True once the last campaign level has been won.
+func campaign_done() -> bool:
+	return Save.stars(Data.level_count()) > 0
 
 
 ## Routes through a cinematic only for authored campaign moments. The level itself opens the

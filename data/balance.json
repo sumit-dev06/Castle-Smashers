@@ -624,6 +624,48 @@
     "_novel_doc": "A level's story scene plays only if the level brings something the campaign has not shown before: a hero, a mechanism kind, a material, one of these gadget shapes, a captive, bolts, an engineer or a boss (Data.novelty).",
     "novel_shapes": ["domino", "bell", "wheel", "cage", "boulder"]
   },
+  "promo": {
+    "_doc": "Home-screen feature showcase (src/ui/promo_popup.gd): first home visit of each session, then every N visits, never sooner than min_gap_s after the last one and at most max_per_day times. Cards for owned or still-locked things are skipped.",
+    "min_level": 3,
+    "delay_s": 1.2,
+    "every_n_home_visits": 3,
+    "min_gap_s": 180,
+    "max_per_day": 4,
+    "auto_next_s": 5.0,
+    "width_frac": 0.78,
+    "height_frac": 0.82,
+    "header": "DISCOVER MORE",
+    "cards": [
+      {"id": "noads", "title": "Play Without Ads", "badge": "ONE-TIME BUY", "art": ["icon_noads"], "color": "#2f9a3a", "glow_alpha": 0.9,
+       "points": ["No more ads between levels, ever", "Bonus video rewards still there when you want them", "Pay once, keep it on this Google account"],
+       "cta": "REMOVE ADS", "target": "shop", "tab": "noads"},
+      {"id": "addons", "title": "Dress Up Rocky", "badge": "NEW", "art": ["hero_stone", "addon_crown", "addon_shades"], "color": "#ffcf3a",
+       "points": ["Crowns, pirate hats, caps and cool shades", "Rocky wears them in every level", "Looks only: fair for everyone"],
+       "cta": "SEE ADDONS", "target": "shop", "tab": "addons"},
+      {"id": "skins", "title": "Catapult Skins", "art": ["icon_skins"], "color": "#ff9a4a",
+       "points": ["Royal, pirate, desert gold and forge looks", "Flight trails that follow every shot", "Earn them with coins or get them now"],
+       "cta": "SEE SKINS", "target": "skins"},
+      {"id": "crates", "title": "Hellfire Crates", "badge": "POWER", "art": ["chest_open", "icon_hellfire"], "color": "#ff6a3a",
+       "points": ["Hellfire Strikes rain meteors on a fortress", "Bags of coins and gems inside", "Great for the hardest bosses"],
+       "cta": "OPEN SHOP", "target": "shop", "tab": "crates"},
+      {"id": "upgrades", "title": "Master Orin's Workshop", "art": ["icon_workshop"], "color": "#9a7aff", "min_level": 4,
+       "points": ["Forge stronger arms, heavier stones and more power", "Upgrade your soldiers' shields", "Spend the coins you win in levels"],
+       "cta": "UPGRADE", "target": "upgrades"},
+      {"id": "engines", "title": "New Siege Engines", "art": ["icon_weapon_trebuchet", "icon_weapon_ballista"], "color": "#5ab4ff", "min_level": 6,
+       "points": ["Trebuchet: huge arcs over high walls", "Ballista: flat, fast and piercing", "Each engine has its own upgrades"],
+       "cta": "SEE ENGINES", "target": "shop", "tab": "weapons"},
+      {"id": "missions", "title": "Special Missions", "badge": "75 LEVELS + MORE", "art": ["icon_challenges"], "color": "#4ad0c0", "min_level": 8,
+       "points": ["Boss rush, survival, one-shot and heist modes", "Rotating level challenges with gem rewards", "New realms are on the way"],
+       "cta": "PLAY NOW", "target": "challenges"}
+    ]
+  },
+  "campaign_end": {
+    "_doc": "Screen after the last campaign level (src/ui/campaign_end.gd). Opens from WHAT'S NEXT? on the results and from Play on home once every level is won.",
+    "title": "ALL REALMS CONQUERED!",
+    "subtitle": "You smashed all {levels} fortresses and earned {stars} / {max} stars.",
+    "orin_says": "Well done, Commander! My scouts have spotted new fortresses beyond the mist. I am forging the road there right now: new levels are coming soon. Until then, chase every star and try the Special Missions!",
+    "next_label": "Being forged"
+  },
   "realms": [
     {
       "id": 1,
@@ -1164,6 +1206,8 @@
     "shine_s": 0.7,
     "shine_gap_s": 3.2,
     "nudge_gap_s": 4.5,
+    "orin_nod_delay_s": 0.75,
+    "orin_nod_deg": -6.0,
     "sweep_every_s": 3.2,
     "rays_spin_dps": 40,
     "stamp_s": 0.3,

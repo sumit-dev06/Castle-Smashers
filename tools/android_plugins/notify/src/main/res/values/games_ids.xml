@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Google Play Games Services project for Stone Storm (Play Console > Play Games Services). -->
+<resources>
+    <string name="game_services_project_id" translatable="false">300021741882</string>
+</resources>

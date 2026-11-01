@@ -372,7 +372,7 @@
  ],
  "boss_unit": {
   "name": "The Iron Baron",
-  "hp": 240,
+  "hp": 215,
   "phases": [
    {
     "at": 0.8,
@@ -389,8 +389,7 @@
    {
     "at": 0.4,
     "do": [
-     "charge",
-     "reinforce"
+     "charge"
     ]
    },
    {
