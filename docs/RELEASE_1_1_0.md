@@ -1,9 +1,13 @@
 # Stone Storm 1.1.0: release the 75-level update
 
-1.1.0 is the update after 1.0.0. It has the same package (`com.castlesmashers.game`), so it
-installs over 1.0.0 and players keep their progress, coins and purchases. If 1.0.0 is still in
-closed testing, do the 1.0.0 steps (`FINAL_RELEASE_STEPS.md`) with **this** file instead: Play
-only needs the newest bundle.
+**Where we are:** 1.0.0 (code 9, still named Castle Smashers) is uploaded to Play **closed testing**
+and the testers are already added. 1.1.0 (code 10) is the rebuilt Stone Storm version. It goes to
+the **same closed testing track** as an update: testers get it automatically over 1.0.0 and keep
+their progress, coins and purchases (same package `com.castlesmashers.game`). 1.1.0 is then the
+build you send to production. 1.0.0 never goes to production.
+
+Uploading a new release to the same track does **not** restart the 14-day closed-test clock; it
+counts the days your 12+ testers stayed opted in.
 
 ## The files (never mix them up)
 | File | What it is |
@@ -43,30 +47,34 @@ only needs the newest bundle.
    game keeps only the display name in memory and sends nothing anywhere. Answers stay as in
    `FIREBASE_SETUP.md`.
 
-## Step 2. Upload 1.1.0 to Internal testing
-1. Play Console → **Test and release → Testing → Internal testing → Create new release**.
-2. **Upload** → `build/stone_storm.aab`. Wait for the row **10 (1.1.0)**.
+## Step 2. Upload 1.1.0 to the closed testing track (where 1.0.0 is)
+1. Play Console → **Test and release → Testing → Closed testing** → open the track 1.0.0 is on →
+   **Create new release**.
+2. **Upload** → `build/stone_storm.aab`. Wait for the row **10 (1.1.0)**. 1.0.0 (code 9) moves to
+   "not included" by itself; that's correct.
 3. Release notes:
    ```
-   75 levels! Three new realms, new contraptions, level challenges, Play Games sign-in, more army energy and lots of fixes. Castle Smashers is now Stone Storm.
+   Castle Smashers is now Stone Storm! 75 levels, three new realms, new contraptions, level challenges, Play Games sign-in, more army energy and lots of fixes.
    ```
-4. **Next → Save and publish**.
+4. **Next → Save and publish** (Google reviews it, usually a few hours to 2 days).
+5. Testers don't need to do anything: Play updates them. Tell them in your tester group that the
+   name changed to Stone Storm.
 
 ## Step 3. Test on your phone (20 minutes)
-Uninstall any test APK first, then open the internal testing link and install from Play.
+Uninstall any test APK first, then install from the closed testing link (Play Store page).
 - The launcher name reads **Stone Storm**; the title card shows the new logo.
-- A Google Play Games "Welcome back / Signed in" banner appears on first start (or Settings →
-  Play Games → Sign in works).
-- Buy something cheap with a test account: the payment sheet appears **in landscape**.
+- Google's "Signed in" banner appears (after `PLAY_GAMES_SETUP.md` is done).
+- Buy something cheap with your licence-tester account: the payment sheet stays **in landscape**.
 - Shop → Hero Addons scrolls. Home shows the DISCOVER MORE card once.
-- Settings → reminders on; put the game in the background; the energy reminder arrives later.
+- Energy shows **x/10**. Settings → reminders on; leave the game; the "energy full" reminder comes.
 
 ## Step 4. Production
-If 1.0.0 is already live: **Production → Create new release → Add from library → 10 (1.1.0)**,
-roll out to 20%, then 100% after 2 days with no new crashes in Crashlytics
-(`python3 tools/release.py rollout 1.0` works once the service account from `RELEASE_GUIDE.md`
-part 3 exists). If 1.0.0 is still in closed testing, promote 1.1.0 there instead and continue
-`FINAL_RELEASE_STEPS.md` from Step 4.
+1. When the closed test has run 14 days with 12+ testers: **Dashboard → Apply for production**,
+   answer the questions (what testers did, what you changed: "renamed to Stone Storm, 75 levels,
+   fixes from tester feedback").
+2. After Google approves: **Production → Create new release → Add from library → 10 (1.1.0)** →
+   rollout **20%** → after 2 days with no new crashes in Crashlytics, **100%**.
+   Details for the launch week: `FINAL_RELEASE_STEPS.md` Steps 8 and 9 (same clicks, use code 10).
 
 ## Step 5. After it is live
 - AdMob and Firebase: rename the app to Stone Storm (cosmetic, nothing breaks if you don't).

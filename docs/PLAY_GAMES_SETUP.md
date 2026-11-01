@@ -43,7 +43,7 @@ SHA-1, then come back and pick it. Use the same Google account as Play Console.
 2. Add your own Gmail and anyone testing. Unpublished projects only let testers sign in.
 
 ## Step 4. Test on your phone
-1. Install 1.1.0 **from the Play internal testing link** (not the APK).
+1. Install 1.1.0 **from the Play closed testing link** (not the APK).
 2. Open the game. Within a few seconds Google shows "Signed in as ..." at the top, or
    Settings → Play Games shows your name instead of the Sign in button.
 3. If it shows **Sign in** and tapping it does nothing or flashes: the SHA-1 is wrong or the
@@ -58,5 +58,4 @@ SHA-1, then come back and pick it. Use the same Google account as Play Console.
 ## What sign-in does today
 Players get the Play Games welcome banner and their Play Games profile. **Progress is not stored
 in the cloud yet** (Saved Games is enabled in the console but not used by the game). Saves stay on
-the phone and in Android backup as before. Cloud save is the next step if you want progress to
-follow a player to a new phone even without Android backup.
+the phone and in Android backup as before. Cloud save is not planned for now (owner's decision).

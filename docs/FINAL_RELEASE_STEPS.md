@@ -1,5 +1,10 @@
 # Stone Storm 1.0.0: release it to everyone, step by step
 
+> **Update 2026-11-02:** Steps 1 to 4 are done with 1.0.0 (code 9, closed testing, testers added).
+> From here use **1.1.0 (code 10, `build/stone_storm.aab`)**: `docs/RELEASE_1_1_0.md` Step 2 puts it
+> on the same closed track. Steps 5 to 9 below still apply; wherever they say 1.0.0 / code 9 /
+> `castle_smashers_1.0.0_code9.aab`, use 1.1.0 / code 10 / `stone_storm_1.1.0_code10.aab`.
+
 Read every step. Do them in order. Don't skip one because it looks small.
 Each step says **where to click**, **what to type** and **what you should see**.
 If what you see is different, stop and read "If something goes wrong" at the end.
