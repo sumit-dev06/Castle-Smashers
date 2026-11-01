@@ -45,12 +45,18 @@
 - [x] Campaign set-piece pass: flood gate, water wheel/gears, collapsing bridge, breakable cliff,
       pulley/counterweight, heavy launch beam and explosive powder cart
 - [x] Master Sieges: 10 hard fixed-loadout special levels, gated at 25 campaign stars
+- [x] Expansion 1.1.0 "Stone Storm": levels 51–75 in three new realms (Scarlet Highlands, Storm
+      Crags, Iron Citadel), every mechanic from the owner's expansion doc (chains, ropes, weak
+      points, trapdoors, material puzzles, moving/rotating shields, bumpers, crushers, plates,
+      floods, fire, magnets, gravity, cliff shelves, ice, wind, portals, twin targets, hidden
+      switches, repair crystals, cannons), all hard or very hard and checked winnable; rotating
+      level challenges; campaign end screen; home feature showcase; Play Games sign-in; rename
 
 ## Phase 3: Monetisation and services
 - AdMob plugin + UMP consent, rewarded + interstitial
 - Play Billing plugin, shop screen, restore purchases
 - Coins economy, daily reward, upgrades, skins
-- Optional: Play Games Services achievements and cloud save
+- Optional: Play Games Services achievements and cloud save (sign-in done in 1.1.0)
 
 ### Done in the monetisation pass (2026-10-31)
 - Play Billing 3.3 with purchase ledger, crash recovery and restore; four products

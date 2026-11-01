@@ -5,7 +5,7 @@ cyclones, bring down enemy fortresses, and defeat the archers before their arrow
 soldiers.
 
 - Engine: Godot 4.7 (GDScript), Android only, Google Play.
-- Status: 1.0.0 release candidate. Release steps: `docs/FINAL_RELEASE_STEPS.md`; management: `docs/RELEASE_GUIDE.md`.
+- Status: 1.0.0 live; 1.1.0 (75 levels, rename to Stone Storm) is the next release. Release steps: `docs/RELEASE_1_1_0.md` (1.1.0), `docs/FINAL_RELEASE_STEPS.md` (first launch); management: `docs/RELEASE_GUIDE.md`.
 
 ## Quick start
 1. Open Godot 4.7 → Import → select `project.godot`.

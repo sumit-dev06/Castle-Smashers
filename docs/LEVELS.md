@@ -2,8 +2,7 @@
 
 ## Campaign
 75 levels in 8 realms (10 per realm, the last realm has 5). Levels 51–75 are the expansion (git
-branch `expansion-75`); see "Expansion" below. Levels 1–50:
-50 levels in 5 realms, 10 per realm. Designed in `tools/campaign.py` and built by `tools/gen_levels.py`
+branch `expansion-75`); see "Expansion" below. Levels 1–50: 10 per realm. Designed in `tools/campaign.py` and built by `tools/gen_levels.py`
 (pieces: floors in wood/stone/crystal/iron, towers with tiled roofs + flags, stacks, walls,
 terraces, balconies, bridges, pyramids, moving decks, rope loads, hanging platforms, crushers,
 geysers, bolts, boss units). Animated story scenes play on realm openers, new mechanics, hero

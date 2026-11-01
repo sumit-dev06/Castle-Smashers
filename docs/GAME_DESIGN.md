@@ -1,7 +1,7 @@
 # Game Design
 
 ## Flow
-Main menu → **world map** (scroll the 5 realms, tap an unlocked level) → **story briefing**
+Main menu → **world map** (scroll the 8 realms, tap an unlocked level) → **story briefing**
 (characters talk, tap to advance, Skip) → level → result → Next goes to the next story.
 
 ## Core loop (one level, 30–90 s, real time)

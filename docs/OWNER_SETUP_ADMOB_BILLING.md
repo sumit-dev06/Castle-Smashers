@@ -159,7 +159,7 @@ What I will do with them:
 - Put the App ID in Project Settings → `admob/general/android/app_id`.
 - Write `ad_ids.cfg` (git-ignored) with the two unit IDs. Debug builds keep using Google's test
   ads; only release builds use your real units.
-- Raise the version code, then build `build/castle_smashers.aab`.
+- Raise the version code, then build `build/stone_storm.aab`.
 
 ### 4.3 The one step you type yourself (keystore password)
 1. Open Godot → open the Stone Storm project.
@@ -173,7 +173,7 @@ What I will do with them:
    committed.
 6. Tell me "keystore set". I then export the AAB.
 
-Done when: `build/castle_smashers.aab` exists (I will confirm).
+Done when: `build/stone_storm.aab` exists (I will confirm).
 
 ---
 
@@ -193,7 +193,7 @@ There are three kinds of "test users". You need all three.
 3. Click **Create new release**.
 4. If asked about **Play App Signing**, click **Continue** / **Use Google-generated key**. Google
    keeps the final signing key; you keep the upload key from Part 1.
-5. Under **App bundles**, click **Upload** and choose `build/castle_smashers.aab` from the project folder.
+5. Under **App bundles**, click **Upload** and choose `build/stone_storm.aab` from the project folder.
 6. Release name: leave the default.
 7. Release notes: `Internal test: ads and purchases.`
 8. Click **Next**. Fix any red errors it shows (yellow warnings are fine), then click **Save and publish**

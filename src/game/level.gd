@@ -2177,5 +2177,8 @@ func _exit_tree() -> void:
 		print("AUTOSHOT_RESULT score=%d blocks=%d/%d guards=%d won=%s shots=%d powers=%d lost=%d chain=%d time=%.1f" % [score,
 			blocks_total - blocks.size(), blocks_total, archers.size(), str(is_finished() and archers.is_empty()),
 			hero_index, abilities_used, soldiers_lost, chain.best, _play_t])
+		for a: Node in archers:
+			if is_instance_valid(a):
+				print("AUTOSHOT_LEFT %s at %s" % [a.get_class() if a.get_script() == null else a.get_script().resource_path.get_file(), str((a as Node2D).global_position.round())])
 	Engine.time_scale = 1.0
 	Sound.stretch_stop()

@@ -60,12 +60,15 @@ Current SVG placeholders exist for every character (`tools/gen_art.py`). Each ch
 (squashed with motion). Soldiers: idle, cheer, duck, knocked out. Archers: idle, draw bow, hit,
 defeated.
 
-## Biomes (5 realms)
+## Biomes (8 realms)
 1. **Blossom Valley** (gap: water): moonlit or dawn valley, cherry blossom, stone masonry ledges.
 2. **Desert Ruins** (water): sandstone mesas, palms, ruined arches, layered red rock.
 3. **Pirate Harbor** (sea): sunset or storm harbour, wooden piers on posts.
 4. **Crystal Mines** (lava): dark rock with glowing cracks and crystals, mine-cart rails.
 5. **Sky Islands** (clouds): floating grassy rocks over a sea of clouds.
+6. **Scarlet Highlands** (water): red-orange autumn hills, stone keeps; leaves tinted by `weather_hue`.
+7. **Storm Crags** (sea): wet cliffs under storm skies, rain weather, shorter corner trees (`fg_height_frac`).
+8. **Iron Citadel** (lava): the Baron's iron fortress city over lava, gears and chains.
 
 Until the owner's AI art for a realm exists, its painting falls back to an older one (`fallback_bg`
 in `balance.json`) and the stage pieces are SVG placeholders from `gen_art.py` (`stage_assets`).

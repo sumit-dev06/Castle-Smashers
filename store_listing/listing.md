@@ -26,11 +26,11 @@ FIVE HEROES, FIVE WAYS TO BREAK A WALL
 • Quaky dives and shakes the ground.
 Tap during the flight to use each hero's trick, and pick the right one for every fortress.
 
-50 LEVELS IN FIVE REALMS
-Cherry blossom valleys, desert canyons, pirate harbours, crystal mines and floating sky islands. Every realm ends with a boss fortress.
+75 LEVELS IN EIGHT REALMS
+Cherry blossom valleys, desert canyons, pirate harbours, crystal mines, floating sky islands, the Scarlet Highlands, the Storm Crags and the Iron Citadel. Every realm ends with a boss fortress, and new realms are on the way.
 
 REAL PHYSICS, REAL CHAIN REACTIONS
-Seesaws, rolling logs, runaway wheels, wrecking balls, rope bridges, flood gates and swinging weights. Hit the right spot and watch one shot bring down everything.
+Seesaws, rolling logs, runaway wheels, wrecking balls, rope bridges, flood gates, magnets, portals, gravity fields, bumpers and repair crystals. Hit the right spot and watch one shot bring down everything.
 
 MORE TO DO
 • Master Sieges: special castles that only fall to clever traps

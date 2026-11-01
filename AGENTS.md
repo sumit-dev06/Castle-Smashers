@@ -19,7 +19,7 @@ $GODOT --headless --path . -- --run-tests          # data, physics stability, sh
 $GODOT --path . -- --level=1 --screenshot=build/shots/a.png --shot-delay=4 [--autoshot=38,0.8,0.9]
                                                     # render a frame (autoshot = angle,power,ability_delay)
 python3 tools/gen_art.py                            # regenerate all SVG art into assets/art/svg
-$GODOT --headless --path . --export-debug "Android" build/castle_smashers_debug.apk
+$GODOT --headless --path . --export-debug "Android" build/stone_storm_debug.apk
 python3 tools/gen_sfx.py                            # regenerate sound effects into assets/audio/sfx
 python3 tools/gen_music.py; python3 tools/gen_ambience.py   # adaptive music stems + stingers, realm ambience
 $GODOT --path . -- --level=N --autoshot=38,0.85,0.9 --record-audio=14   # record the Master mix to build/shots/audio.wav
@@ -44,7 +44,7 @@ python3 tools/capture_intro.py                      # re-capture the studio intr
 npx wrangler pages deploy web --project-name castle-smashers --branch main   # website + privacy policy (castle-smashers.pages.dev)
 
 ADB=~/Library/Android/sdk/platform-tools/adb
-$ADB install -r build/castle_smashers_debug.apk     # install on the USB test phone
+$ADB install -r build/stone_storm_debug.apk     # install on the USB test phone
 $ADB shell am start -n com.castlesmashers.game/com.godot.game.GodotAppLauncher
 $ADB logcat -s godot:V                              # game logs from the phone
 ```

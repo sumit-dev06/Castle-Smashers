@@ -141,7 +141,7 @@ trails; tints and trail colour only), `realm_chests` (10/20/30 stars), `rank`, `
 (scrolls in levels 7, 15, 27, 36, 46 unlock secret levels 111–115), `achievements` (20).
 The loadout screen has a siege-weapon chip (tap to cycle unlocked weapons).
 
-- **Regions:** 5 realms with their own gap, hazards, castle style and boss (done). Clearing a
+- **Regions:** 8 realms with their own gap, hazards, castle style and boss (done). Clearing a
   realm boss flips its map castle to our blue flag.
 - **Siege weapons** (pick on the loadout screen):
   - Catapult: balanced.

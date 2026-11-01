@@ -41,8 +41,8 @@ AdMob test device, website + privacy policy + app-ads.txt.
 
 | Word | Meaning |
 |---|---|
-| **AAB** (`build/castle_smashers.aab`) | The file you give to Google Play. Players never see it; Play turns it into the right install for each phone. |
-| **APK** (`build/castle_smashers_debug.apk`) | An install file you can send to a friend directly. Ours is a *debug* APK: test ads, no purchases. |
+| **AAB** (`build/stone_storm.aab`) | The file you give to Google Play. Players never see it; Play turns it into the right install for each phone. |
+| **APK** (`build/stone_storm_debug.apk`) | An install file you can send to a friend directly. Ours is a *debug* APK: test ads, no purchases. |
 | **Release build** | Real ads, real purchases. Only goes to Google Play. |
 | **Debug build** | Google's test ads, no purchases, made for testing. Never goes to Play. |
 | **Version code** | A whole number (7, 8, 9...). Must go up by at least 1 for every upload. Players never see it. |
@@ -222,7 +222,7 @@ python3 tools/release.py upload --track internal --notes "New levels and bug fix
 **Step 6B. Or upload by hand**
 1. Play Console → Stone Storm → **Test and release** → **Testing** → **Internal testing** →
    **Create new release**.
-2. **Upload** → pick `build/castle_smashers.aab` (in Finder: the project folder → `build`).
+2. **Upload** → pick `build/stone_storm.aab` (in Finder: the project folder → `build`).
 3. Release name: leave as is. **Release notes**: write the "What's new" text between the
    `<en-US>` lines.
 4. **Next** → read any warnings (part 15) → **Save and publish**.
@@ -519,7 +519,7 @@ tax, and keep the monthly reports from Play and AdMob.
   Don't uninstall it to try the debug APK.
 - **Debug APK and Play version can't be installed together**: they have different signatures,
   so Android refuses to install one over the other. Switching means uninstalling.
-- **Friends who aren't testers**: send them `build/castle_smashers_debug.apk` (WhatsApp, Drive).
+- **Friends who aren't testers**: send them `build/stone_storm_debug.apk` (WhatsApp, Drive).
   They allow "Install unknown apps" for the app they open it with. Test ads only, no purchases.
 - **Friends who should test properly**: add them as closed testers (part 4.4) instead.
 

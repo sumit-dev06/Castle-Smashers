@@ -96,7 +96,7 @@ pacing ideas. Never copy their characters, card backs or logos.
 The owner's own targets for the meta screens are in `docs/reference/` (see "Meta screens" below).
 
 ## Kingdom map
-- One long painted scroll through the 5 realms (done), with a winding dotted road linking the nodes.
+- One long painted scroll through the 8 realms (done), with a winding dotted road linking the nodes.
 - **Nodes:** number medallion, 3 stars under it, the lock for future levels, a pulsing ring and our
   soldier standing on the next level. Boss nodes are castle icons with a red banner, which turns to
   our blue flag when beaten. Mode levels carry a small mode badge (chest, hourglass, "1", shield).

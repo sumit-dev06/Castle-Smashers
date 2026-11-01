@@ -5,7 +5,7 @@ Fling characterful projectiles from a catapult to topple cartoon fortresses and 
 archers before they shoot down your soldiers.
 
 ## Story
-The **Iron Baron** has seized the five realms and filled them with fortresses manned by his
+The **Iron Baron** has seized the eight realms and filled them with fortresses manned by his
 **Redcap Archers**. The **Vanguard**, a small band of brave, round-bellied soldiers, marches to
 take the land back. They have one catapult and four unlikely heroes to load into it:
 

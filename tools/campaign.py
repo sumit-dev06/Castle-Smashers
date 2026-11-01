@@ -1359,18 +1359,17 @@ def L75(f):  # FINAL BOSS: the Iron Baron's citadel engine. Gate, repair crystal
     f.repair(f._bi(), radius=260, delay=2.5)
 
     def engine():
-        top1 = f.tower(1900, ["iron", "stone", "wood"], archers=[1, 2], inside=["power_core"], roof=False)
+        # Stone base (was iron): the guard inside could not be reached at all.
+        # The guard that sat beside the core was unreachable behind it; the core floor is now empty.
+        top1 = f.tower(1900, ["stone", "stone", "wood"], archers=[2], inside=["power_core"], roof=False)
         top2 = f.tower(2160, ["iron", "wood"], archers=[1], roof=False)
         f.cannon(1850, top1)
         f.cannon(1950, top1)
         f.core(2110, top2)
-        f.shield_ring(2110, top2 - 36, radius=100, plates=3, dps=75, plate_len=105)
-        f.engineer(2030, 0)
-        f.engineer(1960, top1)
-        f.boss_unit(2210, top2, "The Iron Baron", 215,
-                    [{"at": 0.8, "do": ["reinforce"]}, {"at": 0.6, "do": ["shield"]},
-                     {"at": 0.4, "do": ["charge"]}, {"at": 0.2, "do": ["enrage", "shield"]}],
-                    reinforce=[(1860, top1), (1940, top1)])
+        f.shield_ring(2110, top2 - 36, radius=100, plates=2, dps=60, plate_len=105)
+        # Very hard but fair with 4 heroes: shield, charge and enrage phases, no extra guards.
+        f.boss_unit(2210, top2, "The Iron Baron", 190,
+                    [{"at": 0.7, "do": ["shield"]}, {"at": 0.4, "do": ["charge"]}, {"at": 0.2, "do": ["enrage", "shield"]}])
     f.deck(2030, 540, engine, travel_x=60, period_s=9.0, **ENGINE)
 
 

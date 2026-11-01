@@ -1,9 +1,21 @@
-# Policy compliance audit (final, 2026-11-01, version 1.0.0)
+# Policy compliance audit (2026-11-01, version 1.1.0; 1.0.0 audit below still holds)
 
 Engineering checklist against Google Play Developer Policy, Play Billing policy, AdMob program
 policies and Android platform rules, checked on the release bundle, the live website and the
 automated tests. **Pass** = verified; **Owner** = a Play Console / AdMob action (steps in
 `docs/FINAL_RELEASE_STEPS.md`). This is an engineering review, not legal advice.
+
+## What 1.1.0 changes (re-checked)
+| Area | Change | Status |
+|---|---|---|
+| Store listing / name | App renamed "Stone Storm" (launcher label, title card, store graphics, website). Package id unchanged, so it is an update, saves and purchases stay | Pass; owner renames the listing (`RELEASE_1_1_0.md` Step 1) |
+| Feature showcase | Home card about features (Remove Ads, addons, skins, crates, upgrades, engines, missions). No prices, timers or "only today"; never mid-level; skips owned items; max 4 a day; X and Later close it | Pass (Play: no deceptive or misleading monetisation; AdMob: it is not an ad) |
+| Analytics | New events `promo_shown`, `promo_tap` (card id only). Whitelisted; privacy policy section 4 updated and deployed | Pass |
+| Play Games Services v2 | Automatic sign-in, Settings button. Only the display name is kept, in memory. No new permission | Pass; owner adds the app signing SHA-1 and publishes PGS (`RELEASE_1_1_0.md` Step 1) |
+| Billing sheet orientation | Proxy activities now `behind` (follow the game), so both landscape directions work and Android 8.0 doesn't crash | Pass |
+| Notifications | Same rules. Debug-only "Test reminders" button is compiled out of release builds (`OS.is_debug_build()`) | Pass |
+| Energy | 8 bars, empty to full about 68 min, refills from the wall clock while closed. Free, no paid-only refill | Pass |
+| Campaign end | Says new levels are coming; no date promised, nothing sold | Pass |
 
 ## Google Play Billing / Payments
 | Rule | Status | Evidence |
@@ -77,10 +89,15 @@ so no foreground-service declaration applies). No location, camera, contacts, st
 | 16 KB page size | Pass | Every 64-bit native library in the bundle has 16 KB (0x4000) LOAD alignment (checked 2026-11-01). The 32-bit libraries are 4 KB, which is allowed (the rule is for 64-bit) |
 | App Bundle, signed with the upload key | Pass | `release.py verify`: signer CN=Intercore matches `~/castle_upload.keystore`; Play App Signing re-signs |
 | Size | Pass | About 133 MB, under the 200 MB limit |
-| Automated tests | Pass | Full suite, `contraptions` (31) and `specials` (44) |
+| Automated tests | Pass | Full suite 0 failures (1.1.0: 1 704 lines of PASS output), `contraptions` (31) and `specials` (44) |
 | Closed test, 12 testers for 14 days | Owner | `FINAL_RELEASE_STEPS.md` step 4 |
 
 ## Known risk
+Levels 51–75 (1.1.0) were each won by the headless search bot (`record_trailer.py --search` and a
+wider beam search), most needing 3 or all 4 heroes; 62, 73 and 75 were re-tuned until they could
+be won. Human players will find other lines. Watch `level_failed` per `level_id` in Analytics
+after release.
+
 Levels 6, 32–36 and 42–48 were made harder on 2026-10-31. The automated tests check that they load,
 stay stable and that their set-pieces work, but nobody has beaten every one of them yet. Ask closed
 testers to report any level they can't beat.
