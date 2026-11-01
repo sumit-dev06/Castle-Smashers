@@ -442,10 +442,14 @@ func _play_plank() -> void:
 	h.alignment = BoxContainer.ALIGNMENT_CENTER
 	h.add_theme_constant_override("separation", 18)
 	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	h.add_child(UIKit.tex_rect("icon_challenges", 52))
-	h.add_child(UIKit.label("PLAY", 68, Color("#4a2408"), 0))
-	h.add_child(UIKit.tex_rect("icon_challenges", 52))
+	var sword_l: TextureRect = UIKit.tex_rect("icon_challenges", 52)
+	var play_l: Label = UIKit.label("PLAY", 68, Color("#4a2408"), 0)
+	var sword_r: TextureRect = UIKit.tex_rect("icon_challenges", 52)
+	h.add_child(sword_l)
+	h.add_child(play_l)
+	h.add_child(sword_r)
 	v.add_child(h)
+	_clash(sword_l, play_l, sword_r)
 	var sub: PanelContainer = PanelContainer.new()
 	var sb: StyleBoxFlat = StyleBoxFlat.new()
 	sb.bg_color = Color("#5a3010")
@@ -471,6 +475,26 @@ func _play_plank() -> void:
 	root.add_child(b)
 	# Entrance pop and press feedback only: no idle loop, so the button reads as solid, not busy.
 	UIFx.pop_in(b, 0.15)
+
+
+## PLAY idle cue: every few seconds both crossed swords swing toward the word and strike
+## (a fast swing, a tiny punch on PLAY at the hit, a springy return), then rest. Timing: balance home.
+func _clash(left: Control, word: Control, right: Control) -> void:
+	var gap: float = Data.bf("home", "play_clash_gap_s")
+	var tw: Tween = create_tween().set_loops()
+	tw.tween_callback(func() -> void:
+		left.pivot_offset = left.size * Vector2(0.5, 0.85)
+		right.pivot_offset = right.size * Vector2(0.5, 0.85)
+		word.pivot_offset = word.size * 0.5)
+	tw.tween_interval(gap)
+	tw.tween_property(left, "rotation_degrees", -16.0, 0.16).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tw.parallel().tween_property(right, "rotation_degrees", 16.0, 0.16).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tw.tween_property(left, "rotation_degrees", 14.0, 0.09).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tw.parallel().tween_property(right, "rotation_degrees", -14.0, 0.09).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tw.tween_property(word, "scale", Vector2.ONE * 1.07, 0.06).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tw.tween_property(left, "rotation_degrees", 0.0, 0.45).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+	tw.parallel().tween_property(right, "rotation_degrees", 0.0, 0.45).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+	tw.parallel().tween_property(word, "scale", Vector2.ONE, 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
 ## True when Master Orin can forge or improve something with the current coin balance.

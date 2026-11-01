@@ -97,12 +97,22 @@ def master(x, sr):
     return y, gain
 
 
+PLAIN_GAIN_DB = 3.0    # owner's choice: the page's own music, only a little louder
+
+
+def plain(x, sr):
+    """The original score untouched, +PLAIN_GAIN_DB, peaks held at -1 dBFS by the smooth gain limiter."""
+    return limit(x * 10 ** (PLAIN_GAIN_DB / 20), sr), 10 ** (PLAIN_GAIN_DB / 20)
+
+
 if __name__ == "__main__":
+    full = "--full" in sys.argv          # old phone-speaker master (harmonics + level riding)
+    sys.argv = [a for a in sys.argv if a != "--full"]
     src = sys.argv[1] if len(sys.argv) > 1 else "assets/intro/intro.wav"
     dst = sys.argv[2] if len(sys.argv) > 2 else src
     x, sr = read(src)
     before = level_above(x, sr)
-    y, gain = master(x, sr)
+    y, gain = master(x, sr) if full else plain(x, sr)
     write(dst, y, sr)
     print("intro audio: >300 Hz %.1f dB -> %.1f dB (gain %.1f dB), peak %.1f dBFS"
           % (before, level_above(y, sr), 20 * np.log10(gain), 20 * np.log10(np.abs(y).max())))

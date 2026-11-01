@@ -163,7 +163,7 @@ Each item below must end with a green tick. Click the item → **Start** (or **M
 
 | Item | What to choose |
 |---|---|
-| **Privacy policy** | Paste `https://castle-smashers.pages.dev/privacy/` → Save |
+| **Privacy policy** | Paste `https://stonestorm.pages.dev/privacy/` → Save |
 | **App access** | **All functionality in my app is available without any access restrictions** |
 | **Ads** | **Yes, my app contains ads** |
 | **Content rating** | Email: intercoreapp@gmail.com. Category: **Game**. Violence: **Yes**, cartoon/fantasy only, no blood, no realistic violence, no harm to realistic humans. Sexual content, language, drugs, gambling (real money): **No**. Users can interact/chat: **No**. Shares location: **No**. Digital purchases: **Yes**. Save → Next → **Submit**. |
@@ -198,7 +198,7 @@ Everything is ready on the Mac in `Castle Smashers 2` → `store_listing`.
 11. Left menu **Store presence** → **Store settings**:
     - App category: **Game** → **Casual**
     - Email: `intercoreapp@gmail.com`
-    - Website: `https://castle-smashers.pages.dev` (exactly this, it's needed for ads)
+    - Website: `https://stonestorm.pages.dev` (exactly this, it's needed for ads)
     - Click **Save**.
 12. Left menu **Monetize with Play** → **Products** → **In-app products**: check all 11 say **Active**.
 

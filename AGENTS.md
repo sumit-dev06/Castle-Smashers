@@ -41,7 +41,7 @@ python3 tools/patch_android_template.py             # after (re)installing the A
 python3 tools/release.py check|version|test|aab|apk|verify|upload|status|promote|rollout|halt|release   # releases: see docs/RELEASE_GUIDE.md
 python3 tools/record_trailer.py [clip ...] | --search LEVEL   # Play video clips with sound -> store_listing/video (not in git)
 python3 tools/capture_intro.py                      # re-capture the studio intro from art_source/intro/*.html
-npx wrangler pages deploy web --project-name castle-smashers --branch main   # website + privacy policy (castle-smashers.pages.dev)
+npx wrangler pages deploy web --project-name stonestorm --branch main   # website + privacy policy (stonestorm.pages.dev)
 
 ADB=~/Library/Android/sdk/platform-tools/adb
 $ADB install -r build/stone_storm_debug.apk     # install on the USB test phone

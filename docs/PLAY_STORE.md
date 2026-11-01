@@ -5,10 +5,10 @@
 - [ ] Upload keystore: create once, back it up in two places, never commit.
       `keytool -genkeypair -v -keystore castle_upload.keystore -alias upload -keyalg RSA -keysize 2048 -validity 10000`
 - [ ] Enrol in Play App Signing (Google holds the app signing key, we sign with the upload key)
-- [x] Privacy policy page: `https://castle-smashers.pages.dev/privacy/` (Cloudflare Pages, source in
-      `web/`, deploy with `npx wrangler pages deploy web --project-name castle-smashers --branch main`).
+- [x] Privacy policy page: `https://stonestorm.pages.dev/privacy/` (Cloudflare Pages, source in
+      `web/`, deploy with `npx wrangler pages deploy web --project-name stonestorm --branch main`).
       Already used by Settings → Privacy. Paste it in App content → Privacy policy.
-- [ ] Store listing contact details: website `https://castle-smashers.pages.dev`, email
+- [ ] Store listing contact details: website `https://stonestorm.pages.dev`, email
       intercoreapp@gmail.com. Keep the policy's developer name (Intercore, India) the same as the
       Play developer account.
 - [ ] `app-ads.txt`: add `web/app-ads.txt` with

@@ -1635,7 +1635,7 @@ func _ad_flow_tests() -> void:
 	for i: int in every - 1:
 		Ads.match_played()
 	_check(not Ads.interstitial_due(10), "no interstitial before %d matches" % every)
-	_check(String(Data.b("settings", "privacy_url")) == "https://castle-smashers.pages.dev/privacy/", "privacy link points at the Pages site")
+	_check(String(Data.b("settings", "privacy_url")) == "https://stonestorm.pages.dev/privacy/", "privacy link points at the Pages site")
 	_check(not Ads.privacy_options_required() and Ads.has_method("show_privacy_options"), "Ad Privacy entry hidden on desktop, API present")
 	var admob_src: String = FileAccess.get_file_as_string("res://src/autoload/ads_admob.gd")
 	_check(admob_src.contains("MAX_AD_CONTENT_RATING_T") and admob_src.contains("show_privacy_options_form"), "ads capped at T (no MA), privacy options form wired")
@@ -1792,7 +1792,11 @@ func _notification_tests() -> void:
 	var b: Array = Notifications._pick("idle_2d", cfg["kinds"]["idle_2d"]["lines"])
 	# Energy refills from the saved wall-clock time, so bars come back while the app is closed.
 	var steps: Array = Energy.cfg()["refill_s"]
-	_check(Energy.max_bars() == 8 and steps.size() == Energy.max_bars(), "8 energy bars, one refill step per bar")
+	_check(Energy.max_bars() == 10 and steps.size() == Energy.max_bars(), "10 energy bars, one refill step per bar")
+	var total_s: float = 0.0
+	for v: Variant in steps:
+		total_s += float(v)
+	_check(total_s <= 1800.0, "empty to full takes 30 min or less (%d s)" % int(total_s))
 	var away: float = float(steps[1]) + float(steps[2]) + 5.0
 	Save.data["energy"] = {"bars": 1, "t": Time.get_unix_time_from_system() - away, "ad_lock": false}
 	_check(Energy.bars() == 3, "bars rested while the app was closed are there on the next start")

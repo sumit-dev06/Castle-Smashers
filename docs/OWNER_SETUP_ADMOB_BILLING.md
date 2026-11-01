@@ -116,7 +116,7 @@ game handles that and retries every 30 seconds.
 ### 3.4 Privacy and consent messages (required)
 1. Left menu → **Privacy & messaging**.
 2. **European regulations (GDPR)** → **Create message**. Select the Stone Storm app. Add the privacy
-   policy URL `https://castle-smashers.pages.dev/privacy/`. Keep the default choices
+   policy URL `https://stonestorm.pages.dev/privacy/`. Keep the default choices
    ("Consent" and "Manage options"). Click **Publish**.
 3. **US state regulations** → **Create message** → select the app → **Publish**.
 4. The game already shows this form on first start in those regions, and adds an **Ad Privacy** button
@@ -126,7 +126,7 @@ game handles that and retries every 30 seconds.
 1. Left menu → **Blocking controls** → **Content rating** (or app settings → **Max ad content rating**):
    choose **T** (Teens). The game also requests T from code. MA stays blocked.
 2. Left menu → **Apps** → **View all apps** → the **app-ads.txt** tab. When Stone Storm is
-   public on Play with the website `https://castle-smashers.pages.dev` in its store listing,
+   public on Play with the website `https://stonestorm.pages.dev` in its store listing,
    AdMob shows the app as **Verified** within about a day. Nothing to do on the website; the file
    is already live.
 3. Once the game is public on Play, go to **Apps** → Stone Storm → **App settings** → **Link to app store**,
@@ -363,7 +363,7 @@ Play Console shows this on the **Dashboard** if it applies.
 
 Before production you also need (from earlier work): Store listing, Content rating questionnaire,
 Target audience (13+), Data safety form (answers in `FIREBASE_SETUP.md`), Ads declaration = **Yes, contains ads**,
-and the privacy policy URL `https://castle-smashers.pages.dev/privacy/`.
+and the privacy policy URL `https://stonestorm.pages.dev/privacy/`.
 
 ---
 

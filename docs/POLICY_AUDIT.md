@@ -14,8 +14,19 @@ automated tests. **Pass** = verified; **Owner** = a Play Console / AdMob action 
 | Play Games Services v2 | Automatic sign-in, Settings button. Only the display name is kept, in memory. No new permission | Pass; owner adds the app signing SHA-1 and publishes PGS (`RELEASE_1_1_0.md` Step 1) |
 | Billing sheet orientation | Proxy activities now `behind` (follow the game), so both landscape directions work and Android 8.0 doesn't crash | Pass |
 | Notifications | Same rules. Debug-only "Test reminders" button is compiled out of release builds (`OS.is_debug_build()`) | Pass |
-| Energy | 8 bars, empty to full about 68 min, refills from the wall clock while closed. Free, no paid-only refill | Pass |
+| Energy | 10 bars, empty to full 30 min, refills from the wall clock while closed. Free, no paid-only refill | Pass |
 | Campaign end | Says new levels are coming; no date promised, nothing sold | Pass |
+
+| Website | Moved to `stonestorm.pages.dev` (site, privacy, app-ads.txt live). Old `castle-smashers.pages.dev` kept online for 1.0.0 | Pass; owner updates the Website and Privacy policy fields |
+| Energy reminder | "Energy full" notification checked on the test phone (2026-11-02), plus the other reminder kinds | Pass |
+
+### Play Console messages seen on 1.0.0 (no action needed)
+- "No deobfuscation file": the game doesn't use R8/ProGuard, so there is nothing to upload.
+- "Native code without debug symbols": optional; Crashlytics NDK already symbolises our crashes
+  well enough, and Godot's engine symbols would add about 400 MB per upload.
+- 11 unsupported devices (6 car head units, 3 kiosk/payment terminals, 2 rugged handhelds): they
+  lack a required feature (touchscreen/OpenGL ES 3 or are cars, which need Android Auto approval).
+  Not phones players use; no change.
 
 ## Google Play Billing / Payments
 | Rule | Status | Evidence |
@@ -36,7 +47,7 @@ automated tests. **Pass** = verified; **Owner** = a Play Console / AdMob action 
 |---|---|---|
 | Real App ID and ad units in the release build | Pass | `ca-app-pub-1292430265619610~9195063737`, units `/6882407348` (interstitial) and `/1846749261` (rewarded), checked inside the bundle; debug builds use Google test units |
 | Consent (UMP 4.0.0) before ads; can be changed | Pass | Requested before the first load; Settings → Ad Privacy where required. GDPR + US messages published in AdMob |
-| app-ads.txt | Pass | `https://castle-smashers.pages.dev/app-ads.txt` = `google.com, pub-1292430265619610, DIRECT, f08c47fec0942fa0`. Owner: website field in the store listing must be `https://castle-smashers.pages.dev` |
+| app-ads.txt | Pass | `https://stonestorm.pages.dev/app-ads.txt` = `google.com, pub-1292430265619610, DIRECT, f08c47fec0942fa0`. Owner: website field in the store listing must be `https://stonestorm.pages.dev` |
 | Ad content rating | Pass | Max rating T in code and AdMob; audience 13+ |
 | Rewarded ads opt-in, reward named | Pass | "WATCH AD: …" buttons only |
 | Interstitials only at natural breaks | Pass | Only after the player taps Next/Retry/Map/Restart; 1 per 4 matches, ≥ 60 s apart, none before level 3, never during play or on app open |
@@ -47,7 +58,7 @@ automated tests. **Pass** = verified; **Owner** = a Play Console / AdMob action 
 ## Privacy and data
 | Rule | Status | Evidence |
 |---|---|---|
-| Privacy policy in app and listing | Pass | `https://castle-smashers.pages.dev/privacy/` (live, updated 2026-11-01: new events, rating/update prompts, backup). Settings → Privacy opens it |
+| Privacy policy in app and listing | Pass | `https://stonestorm.pages.dev/privacy/` (live, updated 2026-11-01: new events, rating/update prompts, backup). Settings → Privacy opens it |
 | Analytics without personal data, user can turn off | Pass | Whitelist `Analytics.EVENTS` (unknown events dropped, tested); Settings → Analytics switch |
 | Support contact | Pass | Settings → Contact Support (email); same email in the listing and policy |
 | Backup | Pass | Only `save.json` + `save.json.bak` (`cs_data_rules.xml`); ad/Firebase IDs never restored |

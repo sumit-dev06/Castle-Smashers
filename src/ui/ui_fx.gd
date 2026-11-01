@@ -62,7 +62,9 @@ static func fly_reward(from: Vector2, kind: String, amount: int, bar: CurrencyBa
 		tw.tween_callback(func() -> void:
 			icon.queue_free()
 			_flying[kind] = maxi(0, flying(kind) - 1)
-			Sound.play(sound, 0.7, 1.0 + cfg("tink_pitch_step") * float(k))
+			# Every other coin tinks (a full burst stacked into one loud rattle).
+			if k % 2 == 0 or k == n - 1:
+				Sound.play(sound, 0.7, 1.0 + cfg("tink_pitch_step") * float(k))
 			if k == n - 1:
 				Sound.play("wallet_land", 0.7)
 			if is_instance_valid(bar):

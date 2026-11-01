@@ -288,24 +288,60 @@ def hero_cyclone(d, kind="open"):
 
 # --------------------------------------------------------------------------- story + rescue characters
 def wizard(d):
-    W, H = 110, 140
-    robe = d.lin([(0, "#9b7cff"), (0.5, "#5d45b8"), (1, "#33256f")], 0, 0, 0, 1)
-    skin = d.rad([(0, "#fff0df"), (0.7, "#e7b98f"), (1, "#bd815e")], 0.4, 0.3, 0.75)
-    b = ellipse(55, 132, 37, 7, "#1b1530", 0.3)
-    b += path("M30 68 Q18 102 12 132 L98 132 Q88 96 78 68 Z", robe, extra='stroke="#3a2212" stroke-width="2.4" stroke-linejoin="round"')
-    b += path("M45 76 L55 89 L65 76 L61 132 L49 132 Z", "#ffc93a", 0.9)
-    for x, y in [(29, 103), (76, 111), (52, 121)]:
-        b += poly(star_points(x, y, 5, 2.2), "#ffe681", 0.85)
-    b += ellipse(55, 61, 24, 22, skin, extra='stroke="#3a2212" stroke-width="2"')
-    b += path("M34 66 Q40 108 55 118 Q70 108 77 66 Q68 78 55 77 Q42 78 34 66 Z", "#f4f1e8", extra='stroke="#706b72" stroke-width="1.6"')
-    b += path("M26 50 Q30 17 56 13 Q80 17 86 50 Z", robe, extra='stroke="#3a2212" stroke-width="2.4"')
-    b += path("M43 20 Q52 2 77 1 Q66 17 58 28 Z", robe, extra='stroke="#3a2212" stroke-width="2.4"')
-    b += rect(23, 47, 66, 10, 5, "#ffc93a", extra='stroke="#3a2212" stroke-width="2"')
-    b += poly(star_points(57, 16, 7, 3), "#fff3a0")
-    b += eye(d, 47, 59, 5.5, 6.5, (0.2, 0.05)) + eye(d, 64, 59, 5.5, 6.5, (0.2, 0.05))
-    b += ellipse(55, 67, 4, 3, "#c98664")
-    b += path("M47 73 Q55 79 64 72", stroke="#7a3a32", sw=2.3)
-    b += ellipse(41, 48, 9, 4, "#ffffff", 0.35, -25)
+    """Master Orin: crooked patched hat, bushy brows, long curled beard, staff with a glowing crystal."""
+    W, H = 132, 150
+    ol = 'stroke="#3a2212" stroke-width="2.4" stroke-linejoin="round"'
+    robe = d.lin([(0, "#8f6cff"), (0.55, "#5a3fb4"), (1, "#2e2066")], 0, 0, 0, 1)
+    robe_dark = d.lin([(0, "#5a3fb4"), (1, "#24184f")], 0, 0, 0, 1)
+    hat = d.lin([(0, "#a786ff"), (0.6, "#6247c4"), (1, "#3a2a82")], 0, 0, 1, 1)
+    skin = d.rad([(0, "#fff0df"), (0.7, "#efc09a"), (1, "#c58a64")], 0.4, 0.3, 0.75)
+    beard = d.lin([(0, "#ffffff"), (0.7, "#e9e6df"), (1, "#c9c3b8")], 0, 0, 0, 1)
+    gold = d.lin([(0, "#fff0a0"), (0.5, "#ffc93a"), (1, "#c48a14")], 0, 0, 0, 1)
+    wood = d.lin([(0, "#b07a44"), (1, "#6a4020")], 0, 0, 1, 0)
+    glow = d.rad([(0, "#ffffff"), (0.35, "#9ff3ff"), (1, "#2fb6e8")], 0.4, 0.35, 0.7)
+    b = ellipse(62, 145, 46, 6, "#1b1530", 0.3)
+    # Staff behind the right hand, crystal on top with a soft halo.
+    b += path("M104 40 Q101 92 99 142", stroke="#3a2212", sw=9)
+    b += path("M104 40 Q101 92 99 142", stroke=wood, sw=5.5)
+    b += circle(105, 30, 17, "#9ff3ff", 0.22)
+    b += path("M105 14 L114 29 L105 44 L96 29 Z", glow, extra=ol)
+    b += path("M105 18 L109 29 L105 26 Z", "#ffffff", 0.75)
+    b += path("M96 40 Q105 47 113 40", stroke="#3a2212", sw=5) + path("M96 40 Q105 47 113 40", stroke=gold, sw=2.5)
+    # Robe with cloak edges and a gold hem.
+    b += path("M36 74 Q20 108 14 142 L110 142 Q102 106 86 74 Z", robe, extra=ol)
+    b += path("M36 74 Q26 106 22 142 L36 142 Q36 108 46 80 Z", robe_dark, 0.85)
+    b += path("M86 74 Q98 106 102 142 L90 142 Q88 108 78 80 Z", robe_dark, 0.85)
+    b += path("M16 136 Q62 146 108 136 L110 142 L14 142 Z", gold, extra='stroke="#3a2212" stroke-width="1.8"')
+    for x, y, r in [(30, 118, 2.6), (90, 112, 2.2), (62, 132, 2.0)]:
+        b += poly(star_points(x, y, 5, r), "#ffe681", 0.9)
+    # Sleeves and hands (left hand on the beard, right hand on the staff).
+    b += path("M38 80 Q22 96 30 110 Q40 112 46 100 Z", robe, extra=ol)
+    b += path("M84 80 Q100 70 104 84 Q100 96 88 98 Z", robe, extra=ol)
+    b += circle(36, 106, 7, skin, extra='stroke="#3a2212" stroke-width="2"')
+    b += circle(101, 86, 7, skin, extra='stroke="#3a2212" stroke-width="2"')
+    # Face.
+    b += ellipse(61, 63, 23, 21, skin, extra='stroke="#3a2212" stroke-width="2"')
+    b += ellipse(46, 70, 5, 3.5, "#ff9a8a", 0.45) + ellipse(76, 70, 5, 3.5, "#ff9a8a", 0.45)
+    # Beard: long, layered, curling to one side at the tip.
+    b += path("M39 66 Q36 96 48 116 Q56 128 66 124 Q60 132 70 136 Q80 128 76 112 Q86 94 83 66 "
+              "Q74 80 61 80 Q48 80 39 66 Z", beard, extra='stroke="#706b72" stroke-width="1.8" stroke-linejoin="round"')
+    b += path("M52 86 Q55 100 52 112", stroke="#c9c3b8", sw=1.6) + path("M70 86 Q68 100 72 110", stroke="#c9c3b8", sw=1.6)
+    # Moustache over the beard.
+    b += path("M61 72 Q50 70 42 78 Q50 82 61 76 Q72 82 80 78 Q72 70 61 72 Z", beard, extra='stroke="#706b72" stroke-width="1.6"')
+    b += ellipse(61, 69, 4.5, 3.6, "#d48e6a", extra='stroke="#3a2212" stroke-width="1.2"')
+    b += eye(d, 52, 59, 5, 6, (0.2, 0.05)) + eye(d, 70, 59, 5, 6, (0.2, 0.05))
+    # Bushy brows, one raised (knowing look).
+    b += path("M43 51 Q50 44 58 50 Q51 49 45 54 Z", "#f4f1e8", extra='stroke="#706b72" stroke-width="1.4"')
+    b += path("M64 48 Q73 41 81 49 Q73 46 66 52 Z", "#f4f1e8", extra='stroke="#706b72" stroke-width="1.4"')
+    # Hat: wide brim, crooked tip with a patch, gold band with a buckle and a star.
+    b += path("M24 48 Q61 36 98 48 Q98 56 61 54 Q24 56 24 48 Z", hat, extra=ol)
+    b += path("M36 46 Q38 22 56 12 Q72 6 86 3 Q80 12 82 19 Q90 30 86 46 Z", hat, extra=ol)
+    b += path("M60 22 L72 18 L74 28 L62 31 Z", "#4a3496", extra='stroke="#3a2212" stroke-width="1.6"')
+    b += path("M63 23 L71 21 M64 27 L72 25", stroke="#c8b8ff", sw=1.2)
+    b += path("M35 40 Q61 34 87 40 L87 47 Q61 41 35 47 Z", gold, extra='stroke="#3a2212" stroke-width="1.8"')
+    b += rect(55, 37, 12, 10, 2, "#3a2212") + rect(57.5, 39.5, 7, 5, 1, "#ffe48a")
+    b += poly(star_points(85, 6, 6, 2.6), "#fff3a0")
+    b += ellipse(48, 26, 7, 3, "#ffffff", 0.3, -40)
     return W, H, b
 
 

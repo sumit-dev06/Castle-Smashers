@@ -59,5 +59,5 @@ New screenshots: see `docs/RELEASE_GUIDE.md` part 9 ("Store listing pictures").
 | App category | Games → **Casual** (Action also fits) |
 | Tags | Casual, Physics, Puzzle, Action (pick the ones Play offers) |
 | Email | intercoreapp@gmail.com |
-| Website | https://castle-smashers.pages.dev (needed for app-ads.txt) |
-| Privacy policy | https://castle-smashers.pages.dev/privacy/ |
+| Website | https://stonestorm.pages.dev (needed for app-ads.txt) |
+| Privacy policy | https://stonestorm.pages.dev/privacy/ |

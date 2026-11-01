@@ -80,16 +80,6 @@
   "kind": "background",
   "w": 2251
  },
- "bg_emerald_valley": {
-  "h": 900,
-  "kind": "background",
-  "w": 1599
- },
- "bg_golden_riverlands": {
-  "h": 900,
-  "kind": "background",
-  "w": 2419
- },
  "bg_harbor_storm": {
   "h": 900,
   "kind": "background",
@@ -110,11 +100,6 @@
   "kind": "background",
   "w": 2160
  },
- "bg_iron_citadel": {
-  "h": 900,
-  "kind": "background",
-  "w": 2418
- },
  "bg_mines_crystal": {
   "h": 900,
   "kind": "background",
@@ -124,11 +109,6 @@
   "h": 900,
   "kind": "background",
   "w": 2400
- },
- "bg_scarlet_highlands": {
-  "h": 900,
-  "kind": "background",
-  "w": 2419
  },
  "bg_sky_day": {
   "h": 900,
@@ -149,11 +129,6 @@
   "h": 900,
   "kind": "background",
   "w": 2251
- },
- "bg_stormy_crags": {
-  "h": 900,
-  "kind": "background",
-  "w": 2419
  },
  "block_boulder": {
   "h": 512,

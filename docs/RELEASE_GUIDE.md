@@ -287,7 +287,7 @@ Every item must show a green tick.
 
 | Form | Answer |
 |---|---|
-| Privacy policy | `https://castle-smashers.pages.dev/privacy/` |
+| Privacy policy | `https://stonestorm.pages.dev/privacy/` |
 | App access | All functionality is available without special access |
 | Ads | **Yes, my app contains ads** |
 | Content rating | Fill the questionnaire: category **Game**; cartoon/fantasy violence **yes** (smashing castles, cartoon archers knocked out); no blood, no real violence; **in-app purchases yes**; users can't talk to each other; no sharing of location. Submit and apply the rating. |
@@ -316,8 +316,8 @@ Then **Store settings**: category **Games → Casual**, email and website as in 
    Until you do this, AdMob serves few or no real ads.
 2. AdMob checks the app ("app review"). Wait until the app shows **Ready**.
 3. **app-ads.txt**: AdMob → Apps → **app-ads.txt** tab should show "Found" within a few days. It
-   reads `https://castle-smashers.pages.dev/app-ads.txt`, so the **website field in the store
-   listing must be exactly** `https://castle-smashers.pages.dev`.
+   reads `https://stonestorm.pages.dev/app-ads.txt`, so the **website field in the store
+   listing must be exactly** `https://stonestorm.pages.dev`.
 4. Check **Privacy & messaging**: GDPR and US state messages say **Published**.
 
 ### 7.6 Last checks

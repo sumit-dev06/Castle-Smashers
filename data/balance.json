@@ -165,7 +165,10 @@
     "level_sfx_db": -4.0,
     "sound_gain_db": {
       "screen_whoosh": -6.0,
-      "ui_tap": 0.0,
+      "ui_tap": -8.0,
+      "coin_tink": -10.0,
+      "gem_tink": -9.0,
+      "wallet_land": -6.0,
       "pop": -2.0,
       "arrow_shoot": -5.0,
       "fire": 1.0,
@@ -881,8 +884,8 @@
   "energy": {
     "_doc": "Army energy (src/game/energy.gd, src/ui/energy_ui.gd). Each campaign attempt costs bars; refill_s[i] is the time for the next bar when i bars are full (fast first, slower after). One rewarded ad can top up a level, then the next level must be paid with rested bars.",
     "enabled": true,
-    "max": 8,
-    "refill_s": [100, 200, 330, 480, 660, 720, 780, 840],
+    "max": 10,
+    "refill_s": [60, 90, 120, 150, 180, 200, 220, 240, 260, 280],
     "free_until_level": 5,
     "cost": 1,
     "cost_hard": 2,
@@ -2550,7 +2553,7 @@
     "pending_note": "Payment pending. Your reward arrives as soon as Google Play confirms it."
   },
   "settings": {
-    "privacy_url": "https://castle-smashers.pages.dev/privacy/",
+    "privacy_url": "https://stonestorm.pages.dev/privacy/",
     "support_email": "intercoreapp@gmail.com",
     "support_subject": "Stone Storm help (version %s)",
     "support_body": "Hi Intercore,\n\nWhat happened:\n\n\nWhat I expected:\n\n\n---\nGame version: %s\nPhone: %s\nAndroid: %s\nLevel reached: %d\n(Purchase problem? Add the order number from your Google Play receipt, it starts with GPA.)",
@@ -2571,6 +2574,7 @@
     },
     "hero_card_kind": "stone",
     "popup_delay_s": 3.5,
+    "play_clash_gap_s": 6.5,
     "hero_bob_px": 26.0
   },
   "ramps": {

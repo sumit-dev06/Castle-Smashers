@@ -765,9 +765,9 @@ def cmd_web(_a=None):
     r = Report("Website deploy")
     for f in glob.glob(os.path.join(ROOT, "web", "**", "*.import"), recursive=True):
         os.remove(f)
-    code, out = run(["npx", "-y", "wrangler@latest", "pages", "deploy", "web", "--project-name", "castle-smashers",
+    code, out = run(["npx", "-y", "wrangler@latest", "pages", "deploy", "web", "--project-name", "stonestorm",
                      "--branch", "main", "--commit-dirty=true"], timeout=600)
-    r.check(code == 0 and "Deployment complete" in out, "deployed to https://castle-smashers.pages.dev",
+    r.check(code == 0 and "Deployment complete" in out, "deployed to https://stonestorm.pages.dev",
             "deploy failed (first time on this Mac: npx wrangler login):\n" + out[-400:])
     return r.end()
 

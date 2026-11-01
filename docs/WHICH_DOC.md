@@ -8,6 +8,7 @@ Docs marked **owner** are written for you (no coding). The rest are for whoever 
 | I want to... | Open |
 |---|---|
 | Release the 75-level update (1.1.0, Stone Storm) | **`docs/RELEASE_1_1_0.md`** (owner) |
+| Finish Google Play Games sign-in (SHA-1, testers, publish) | **`docs/PLAY_GAMES_SETUP.md`** (owner) |
 | Release the game to everyone, step by step | **`docs/FINAL_RELEASE_STEPS.md`** (owner). Follow Steps 1 to 9 in order. This is the only doc you need until launch. |
 | Know what to paste into the Play store page | `store_listing/listing.md` (owner) |
 | Know which image, icon or video goes where in Play Console | `store_listing/README.md` (owner) |

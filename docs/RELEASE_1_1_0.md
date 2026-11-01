@@ -19,7 +19,7 @@ only needs the newest bundle.
 - Rotating level challenges on the Achievements screen.
 - "All realms conquered" screen after level 75: new levels are coming.
 - Feature showcase on the home screen (Remove Ads, Addons, Skins, Crates, Workshop...).
-- Army energy: 8 bars instead of 5, refills a bit faster (empty to full about 68 min).
+- Army energy: 10 bars instead of 5, empty to full in 30 minutes, with a reminder when it is full.
 - Google Play Games sign-in (automatic).
 - New name and title screen: **Stone Storm**.
 - Fixes: shop scrolling, payment screen no longer turns the game to portrait, calmer home screen,
@@ -32,7 +32,7 @@ only needs the newest bundle.
 2. Same page: **Short** and **Full description**: copy from `store_listing/listing.md`
    (now says 75 levels in eight realms). **Feature graphic**: `store_listing/feature_graphic_1024x500.png`.
    **Phone screenshots**: the files in `store_listing/screenshots_designed/` (they show the new name). Save.
-3. **Play Games Services**: Play Console → **Grow users → Play Games Services → Setup and management
+3. **Play Games Services**: follow `docs/PLAY_GAMES_SETUP.md` (every click, with the SHA-1 values). Short version: Play Console → **Grow users → Play Games Services → Setup and management
    → Configuration**. Check the credential for `com.castlesmashers.game` lists **both** SHA-1
    fingerprints: the **upload key** and the **app signing key** (Play Console → Test and release →
    App integrity → App signing shows both). If only one is there, add an Android credential for the
@@ -70,9 +70,11 @@ part 3 exists). If 1.0.0 is still in closed testing, promote 1.1.0 there instead
 
 ## Step 5. After it is live
 - AdMob and Firebase: rename the app to Stone Storm (cosmetic, nothing breaks if you don't).
-- Website `https://castle-smashers.pages.dev` is already updated. The address keeps the old name
-  on purpose: the privacy policy URL and `app-ads.txt` are registered with Play and AdMob.
-  Moving to a new domain later means updating both.
+- Website moved to `https://stonestorm.pages.dev` (live, with the privacy policy and `app-ads.txt`).
+  The old `https://castle-smashers.pages.dev` stays online unchanged so 1.0.0 (which links to it)
+  keeps working. In Play Console → Store settings → **Website**: `https://stonestorm.pages.dev`;
+  App content → **Privacy policy**: `https://stonestorm.pages.dev/privacy/`. AdMob re-reads
+  `app-ads.txt` from the new website within about a day (AdMob → Apps → app-ads.txt shows the status).
 - Add a row to `docs/RELEASE_HISTORY.md` if you uploaded by hand.
 
 ## If you need to go back
