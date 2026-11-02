@@ -952,6 +952,8 @@ func _notification(what: int) -> void:
 		return  # video recordings and automatic debug shots run in an unfocused window
 	if Ads.showing():
 		return  # a full-screen ad also takes focus; the ad flow handles that
+	if second_chance_open or not Store.busy_product.is_empty():
+		return  # out of boulders (nothing moves) or Google Play's purchase sheet: keep that popup
 	hud.show_pause()
 
 
@@ -1070,6 +1072,7 @@ func use_hellfire() -> bool:
 	if hellfire_running or is_finished() or Save.amount("hellfire") <= 0:
 		return false
 	Save.add("hellfire", -1)
+	get_tree().paused = false  # never run the strike under a pause left over from leaving the app
 	Analytics.event("hellfire_used", {"level_id": level_id, "left": Save.amount("hellfire")})
 	second_chance_open = false
 	_hellfire_strike()

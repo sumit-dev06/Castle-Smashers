@@ -2,6 +2,8 @@ package com.castlesmashers.notify
 
 import com.google.android.gms.games.PlayGames
 import com.google.android.gms.games.PlayGamesSdk
+import com.google.android.gms.games.SnapshotsClient
+import com.google.android.gms.games.snapshot.SnapshotMetadataChange
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -27,6 +29,8 @@ import org.godotengine.godot.plugin.UsedByGodot
  *  update_failed(reason: String)
  *  games_signed_in(signed_in: bool, display_name: String, error: String)
  *                                           - Google Play Games: answer to gamesCheck()/gamesSignIn()
+ *  cloud_loaded(ok: bool, data: String, error: String)  - answer to cloudLoad() ("" = no cloud save yet)
+ *  cloud_saved(ok: bool, error: String)                 - answer to cloudSave()
  *
  * Play Games Services v2 signs the player in by itself when the game starts (if they once chose
  * to). gamesCheck() reads that result; gamesSignIn() is the manual button. The project id is in
@@ -41,6 +45,8 @@ class CastlePlay(godot: Godot) : GodotPlugin(godot) {
         SignalInfo("update_downloaded"),
         SignalInfo("update_failed", String::class.java),
         SignalInfo("games_signed_in", java.lang.Boolean::class.java, String::class.java, String::class.java),
+        SignalInfo("cloud_loaded", java.lang.Boolean::class.java, String::class.java, String::class.java),
+        SignalInfo("cloud_saved", java.lang.Boolean::class.java, String::class.java),
     )
 
     private var gamesReady = false
@@ -78,6 +84,45 @@ class CastlePlay(godot: Godot) : GodotPlugin(godot) {
         PlayGames.getGamesSignInClient(a).signIn().addOnCompleteListener { t ->
             if (t.isSuccessful && t.result?.isAuthenticated == true) reportPlayer(a)
             else emitSignal("games_signed_in", false, "", t.exception?.message ?: "cancelled")
+        }
+    }
+
+    /**
+     * Cloud save (Play Games Saved Games, one snapshot). Only after sign-in; the game decides what
+     * to keep. Conflicts between two phones resolve to the most recently changed copy here, and
+     * the game itself compares progress before it overwrites anything.
+     */
+    private val snapName = "stone_storm_save"
+
+    @UsedByGodot
+    fun cloudLoad() {
+        val a = gamesInit() ?: return emitSignal("cloud_loaded", false, "", "no_activity")
+        val sc = PlayGames.getSnapshotsClient(a)
+        sc.open(snapName, true, SnapshotsClient.RESOLUTION_POLICY_MOST_RECENTLY_MODIFIED).addOnCompleteListener { t ->
+            if (!t.isSuccessful) return@addOnCompleteListener emitSignal("cloud_loaded", false, "", t.exception?.message ?: "open_failed")
+            val doc = t.result
+            val snap = (if (doc.isConflict) doc.conflict?.snapshot else doc.data)
+                ?: return@addOnCompleteListener emitSignal("cloud_loaded", false, "", "no_snapshot")
+            val text = try { String(snap.snapshotContents.readFully() ?: ByteArray(0), Charsets.UTF_8) } catch (e: Exception) { "" }
+            sc.discardAndClose(snap)
+            emitSignal("cloud_loaded", true, text, "")
+        }
+    }
+
+    @UsedByGodot
+    fun cloudSave(data: String, description: String) {
+        val a = gamesInit() ?: return emitSignal("cloud_saved", false, "no_activity")
+        val sc = PlayGames.getSnapshotsClient(a)
+        sc.open(snapName, true, SnapshotsClient.RESOLUTION_POLICY_MOST_RECENTLY_MODIFIED).addOnCompleteListener { t ->
+            if (!t.isSuccessful) return@addOnCompleteListener emitSignal("cloud_saved", false, t.exception?.message ?: "open_failed")
+            val doc = t.result
+            val snap = (if (doc.isConflict) doc.conflict?.snapshot else doc.data)
+                ?: return@addOnCompleteListener emitSignal("cloud_saved", false, "no_snapshot")
+            snap.snapshotContents.writeBytes(data.toByteArray(Charsets.UTF_8))
+            val change = SnapshotMetadataChange.Builder().setDescription(description).build()
+            sc.commitAndClose(snap, change).addOnCompleteListener { c ->
+                emitSignal("cloud_saved", c.isSuccessful, c.exception?.message ?: "")
+            }
         }
     }
 

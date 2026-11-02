@@ -1725,6 +1725,14 @@ func _play_services_tests() -> void:
 	_check(PlayServices.update_mode({}, uc, 9, 0, now) == "flexible", "a normal update is offered as a background download")
 	_check(PlayServices.update_mode({}, uc, 9, int(uc["immediate_priority"]), now) == "immediate", "a high-priority update opens the blocking update screen")
 	_check(PlayServices.update_mode({"update_asked": {"9": now - 600}}, uc, 9, 0, now) == "", "a declined update isn't offered again within ask_gap_hours")
+	# Cloud save: same save -> newer rev wins; a fresh phone takes the cloud; two real saves -> ask.
+	var mine: Dictionary = {"save_id": "a", "rev": 10, "unlocked": 30, "stars": {"1": 3}}
+	_check(PlayServices.cloud_choice(mine, {}) == "upload", "cloud: no cloud save yet -> this phone uploads")
+	_check(PlayServices.cloud_choice(mine, {"save_id": "a", "rev": 4, "unlocked": 20, "stars": {"1": 3}}) == "upload", "cloud: older copy of the same save is overwritten")
+	_check(PlayServices.cloud_choice(mine, {"save_id": "a", "rev": 12, "unlocked": 31, "stars": {"1": 3}}) == "load", "cloud: newer copy of the same save is loaded")
+	_check(PlayServices.cloud_choice({"save_id": "b", "rev": 2, "unlocked": 1, "stars": {}}, mine) == "load", "cloud: a new install loads the cloud progress without asking")
+	_check(PlayServices.cloud_choice({"save_id": "b", "rev": 50, "unlocked": 5, "stars": {"1": 1}}, mine) == "ask", "cloud: two different saves with progress -> the player chooses")
+	_check(PlayServices.cloud_choice(mine, {"save_id": "b", "rev": 1, "unlocked": 1, "stars": {}}) == "upload", "cloud: an empty cloud save never replaces progress")
 	_check(PlayServices.update_mode({"update_asked": {"9": now - 600}}, uc, 10, 0, now) == "flexible", "a newer version is offered again")
 	# Save backup: a damaged save.json loads the last good copy.
 	Save.write()

@@ -1,7 +1,7 @@
 # Google Play Games sign-in: what's left for you (owner)
 
 The code side is finished: Play Games Services v2 SDK (`play-services-games-v2:21.0.0`) inside our
-CastlePlay plugin, project id `300021741882` in the manifest, automatic sign-in at start, and a
+CastlePlay plugin, project id `300021741882` in the manifest, sign-in after the first home screen, cloud save (1.1.1) and a
 Settings → Play Games → **Sign in** button. Nothing more is needed in code.
 
 Sign-in only works when the **SHA-1 fingerprint of the key that signed the installed app** is
@@ -43,7 +43,7 @@ SHA-1, then come back and pick it. Use the same Google account as Play Console.
 2. Add your own Gmail and anyone testing. Unpublished projects only let testers sign in.
 
 ## Step 4. Test on your phone
-1. Install 1.1.0 **from the Play closed testing link** (not the APK).
+1. Install 1.1.1 **from the Play testing link** (not the APK).
 2. Open the game. Within a few seconds Google shows "Signed in as ..." at the top, or
    Settings → Play Games shows your name instead of the Sign in button.
 3. If it shows **Sign in** and tapping it does nothing or flashes: the SHA-1 is wrong or the
@@ -55,7 +55,24 @@ SHA-1, then come back and pick it. Use the same Google account as Play Console.
    those in: icon `assets/art/brand/play_store_icon_512.png`, description from `store_listing/listing.md`.
 3. Click **Publish**. After publishing every player can sign in, not just testers.
 
-## What sign-in does today
-Players get the Play Games welcome banner and their Play Games profile. **Progress is not stored
-in the cloud yet** (Saved Games is enabled in the console but not used by the game). Saves stay on
-the phone and in Android backup as before. Cloud save is not planned for now (owner's decision).
+## Step 6. OAuth consent screen (fixes "Access blocked" / Error 403 access_denied)
+Sign-in asks for two scopes: `games_lite` (Play Games profile) and `drive.appdata` (cloud save).
+While the Google Cloud **OAuth consent screen** is in **Testing**, only its test users can sign in;
+everyone else gets "Access blocked: Stone Storm has not completed the Google verification process".
+1. https://console.cloud.google.com → pick project **300021741882** (top bar).
+2. **Google Auth Platform → Branding**: app name `Stone Storm`, support email, logo
+   `assets/art/brand/play_store_icon_512.png`, home page `https://stonestorm.pages.dev`, privacy
+   `https://stonestorm.pages.dev/privacy/`,
+   authorized domain `pages.dev`. Save.
+3. **Audience → Publish app → Confirm** (status becomes "In production"). Both scopes are
+   non-sensitive, so Google normally does not ask for verification. If it does, follow its list.
+4. Until then: **Audience → Test users → Add users** for every Gmail that tests.
+
+## What sign-in does (1.1.1)
+- Sign-in starts about 1 s after the first home screen (never over the intro). Never required: a
+  player who cancels plays normally and can sign in later in Settings → Play Games.
+- **Cloud save**: while signed in, the save goes to one Saved Games snapshot (`stone_storm_save`)
+  after levels (at most once a minute) and when the game goes to the background. On a new phone or
+  reinstall the cloud progress loads by itself. If this phone and the cloud both have different
+  progress, a popup asks which one to keep ("Decide later" changes nothing). Sound, reminder and
+  analytics settings stay per phone. Code: `PlayServices` (cloud_*), `CloudPopup`, `CastlePlay.kt`.

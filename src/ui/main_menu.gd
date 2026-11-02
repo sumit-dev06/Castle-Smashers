@@ -34,6 +34,8 @@ func _ready() -> void:
 	if not "--no-popups" in OS.get_cmdline_user_args():
 		Notifications.ask_on_home(self)
 		PlayServices.on_home(self)
+		CloudPopup.open_if_pending(self)
+		PlayServices.cloud_conflict.connect(func() -> void: CloudPopup.open_if_pending(self))
 	_daily_popup()
 
 

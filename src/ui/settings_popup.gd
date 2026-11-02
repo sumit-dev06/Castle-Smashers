@@ -8,6 +8,7 @@ signal closed
 
 var _root: Control
 var _panel: PanelContainer
+var _center: CenterContainer
 
 
 ## mailto: link with the game version, build, phone model and Android version filled in, so a
@@ -37,6 +38,7 @@ func _ready() -> void:
 			close())
 	_root.add_child(dim)
 	var center: CenterContainer = CenterContainer.new()
+	_center = center
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
 	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_root.add_child(center)
@@ -44,9 +46,18 @@ func _ready() -> void:
 	_panel.custom_minimum_size = Vector2(620, 0)
 	center.add_child(_panel)
 	_main()
+	_panel.resized.connect(_fit)
 	_panel.pivot_offset = Vector2(310, 260)
 	UIFx.pop_in(_panel)
 	Sound.play("popup_open")
+
+
+## Never taller than the screen: shrink the panel around its centre if the rows do not fit.
+func _fit() -> void:
+	var vp: Vector2 = get_viewport().get_visible_rect().size
+	var k: float = minf(1.0, (vp.y - 24.0) / maxf(_panel.size.y, 1.0))
+	_center.pivot_offset = vp * 0.5
+	_center.scale = Vector2.ONE * k
 
 
 func _clear() -> VBoxContainer:
@@ -75,18 +86,38 @@ func _main() -> void:
 	_header(v, "Settings")
 	_audio_row(v, "Music", "music", "music_volume", "icon_music")
 	_audio_row(v, "Sound FX", "sfx", "sfx_volume", "icon_sound")
-	_toggle_row(v, "Haptics", "haptics", "icon_check")
-	_flag_row(v, "Reminders", Notifications.enabled(), func(on: bool) -> void: Notifications.set_enabled(on), "icon_mail")
-	_flag_row(v, "Analytics", bool(Save.data.get("analytics_on", true)), func(on: bool) -> void: Analytics.set_enabled(on), "icon_info")
+	# Two columns for the on/off rows so the whole popup fits a 720 px tall screen.
+	var grid: GridContainer = GridContainer.new()
+	grid.columns = 2
+	grid.add_theme_constant_override("h_separation", 28)
+	grid.add_theme_constant_override("v_separation", 12)
+	v.add_child(grid)
+	_toggle_row(grid, "Haptics", "haptics", "icon_check")
+	_flag_row(grid, "Reminders", Notifications.enabled(), func(on: bool) -> void: Notifications.set_enabled(on), "icon_mail")
+	_flag_row(grid, "Analytics", bool(Save.data.get("analytics_on", true)), func(on: bool) -> void: Analytics.set_enabled(on), "icon_info")
 	if PlayServices.games_available():
-		var gh: HBoxContainer = _row(v, "Play Games", "icon_crown")
+		var gh: HBoxContainer = _row(grid, "Play Games", "icon_crown")
 		var gsp: Control = Control.new()
 		gsp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		gh.add_child(gsp)
 		if PlayServices.games_signed_in:
-			gh.add_child(UIKit.body(PlayServices.games_name if not PlayServices.games_name.is_empty() else "Signed in", 20, Color("#2f7a1c")))
+			# The player's Play Games name can be long: one line, cut with "…", never wrapped.
+			var nm: String = PlayServices.games_name if not PlayServices.games_name.is_empty() else "Signed in"
+			var col: VBoxContainer = VBoxContainer.new()
+			col.add_theme_constant_override("separation", 0)
+			var nl: Label = UIKit.label(nm, 18, Color("#2f7a1c"), 0, false)
+			nl.custom_minimum_size.x = 110
+			nl.clip_text = true
+			nl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+			nl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+			col.add_child(nl)
+			var cl: Label = UIKit.label("Cloud save on" if PlayServices.cloud_ok else "Signed in", 15, Color("#8a5a2a"), 0, false)
+			cl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+			col.add_child(cl)
+			col.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			gh.add_child(col)
 		else:
-			var gb: Button = UIKit.button("Sign in", "green", 20, Vector2(140, 50))
+			var gb: Button = UIKit.button("Sign in", "green", 20, Vector2(110, 50))
 			gb.pressed.connect(func() -> void:
 				Sound.play("ui_tap")
 				gb.disabled = true
@@ -146,7 +177,7 @@ func _main() -> void:
 
 
 ## On/off row for a setting stored elsewhere (notifications, analytics).
-func _flag_row(v: VBoxContainer, text: String, on: bool, apply: Callable, icon: String) -> void:
+func _flag_row(v: Container, text: String, on: bool, apply: Callable, icon: String) -> void:
 	var h: HBoxContainer = _row(v, text, icon)
 	var sp: Control = Control.new()
 	sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -159,7 +190,7 @@ func _flag_row(v: VBoxContainer, text: String, on: bool, apply: Callable, icon: 
 	h.add_child(b)
 
 
-func _row(v: VBoxContainer, text: String, icon: String) -> HBoxContainer:
+func _row(v: Container, text: String, icon: String) -> HBoxContainer:
 	var h: HBoxContainer = HBoxContainer.new()
 	h.add_theme_constant_override("separation", 12)
 	var ic: TextureRect = UIKit.tex_rect(icon, 40)
@@ -180,7 +211,7 @@ func _switch(on: bool) -> Button:
 	return b
 
 
-func _toggle_row(v: VBoxContainer, text: String, key: String, icon: String) -> void:
+func _toggle_row(v: Container, text: String, key: String, icon: String) -> void:
 	var h: HBoxContainer = _row(v, text, icon)
 	var sp: Control = Control.new()
 	sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL

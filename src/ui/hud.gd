@@ -988,6 +988,7 @@ func _double_coins_button(coins: int, wallet: CurrencyBar) -> Button:
 ## Out of boulders, fortress still standing: one free extra Rocky per attempt (rewarded ad),
 ## a paid Hellfire strike, or give up (normal fail screen).
 func show_second_chance(rocky_available: bool) -> void:
+	get_tree().paused = false  # may replace a pause menu opened while Google Play's sheet was up
 	var v: VBoxContainer = _open_popup()
 	v.add_child(UIKit.label("OUT OF BOULDERS!", 50, Color("#ff8a7a"), 12))
 	v.add_child(UIKit.label("The fortress is still standing.", 26, UIKit.TEXT_DARK, 0, false))

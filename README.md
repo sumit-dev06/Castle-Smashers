@@ -27,10 +27,12 @@ soldiers.
 | [docs/AI_ART_PROMPTS.md](docs/AI_ART_PROMPTS.md) | Prompts for AI-generated art and where files go |
 | [docs/AUDIO.md](docs/AUDIO.md) | Sound design plan and sources |
 | [docs/MONETIZATION.md](docs/MONETIZATION.md) | Ads, IAP, economy, pricing rationale |
+| [docs/RELEASE_1_1_1.md](docs/RELEASE_1_1_1.md) | **1.1.1: every step left (Google Cloud 403 fix, Play Games, upload, phone test)** |
 | [docs/RELEASE_GUIDE.md](docs/RELEASE_GUIDE.md) | **Owner manual**: build, test safely, upload, go public, updates, money, management (`tools/release.py`) |
 | [docs/OWNER_SETUP_ADMOB_BILLING.md](docs/OWNER_SETUP_ADMOB_BILLING.md) | Step-by-step owner guide: keystore, AdMob, Play products, test users, how to test |
 | [docs/BILLING_SETUP.md](docs/BILLING_SETUP.md) | Play Console products, testing, regional prices, verification server |
 | [docs/FIREBASE_SETUP.md](docs/FIREBASE_SETUP.md) | Firebase Analytics + Crashlytics setup, events, Data safety answers |
+| [docs/PLAYABLE_ADS.md](docs/PLAYABLE_ADS.md) | HTML5 playable ad (levels 6 + 39): build, test, run on Google / Unity / AppLovin / Meta |
 | [docs/NOTIFICATIONS.md](docs/NOTIFICATIONS.md) | Local reminders: rules, triggers, copy, push decision |
 | [docs/POLICY_AUDIT.md](docs/POLICY_AUDIT.md) | Play / AdMob / Billing compliance checklist |
 | [docs/TECH_STACK.md](docs/TECH_STACK.md) | Engine, plugins, tooling, versions |

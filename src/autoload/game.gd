@@ -85,8 +85,8 @@ func boot(root: Node) -> void:
 ## Studio intro: on first launch after install and after each update, then the home screen.
 func goto_intro() -> void:
 	var intro: Node = IntroScript.new()
-	# A fresh install must watch it once; after an update a tap skips it.
-	intro.set("skippable", Save.data.has("intro_version") or args.has("intro"))
+	# A fresh install watches it once; debug replays (--intro) may skip it with a tap.
+	intro.set("skippable", args.has("intro"))
 	intro.connect("finished", goto_menu, CONNECT_ONE_SHOT)
 	_switch(intro)
 
@@ -97,6 +97,11 @@ func _switch(node: Node) -> void:
 	if current != null and is_instance_valid(current):
 		current.queue_free()
 		Sound.play("screen_whoosh", 0.6)
+	# Coins and confetti still flying from the last screen (results) must not land on the next one.
+	var fx: Node = get_tree().root.get_node_or_null("UIFxLayer")
+	if fx:
+		for c: Node in fx.get_children():
+			c.queue_free()
 	current = node
 	_root.add_child(node)
 

@@ -1,8 +1,9 @@
 extends Control
 ## Studio intro (INTERCORE STUDIO / PRESENTS). The video and sound are captured unchanged from
 ## art_source/intro/intercore_studio_cinematic_intro.html by tools/capture_intro.py.
-## Played by Game.boot on the first launch after install and after each update (new version),
-## never on ordinary launches. Tap to skip is only offered on replays after an update.
+## Played by Game.boot on the first launch after an install only (not after updates, not on
+## ordinary launches). The marker is its own file, outside Android's backup rules, so a reinstall
+## that restores the save still plays it. Tap to skip only on debug replays (--intro).
 
 const VIDEO: String = "res://assets/intro/intro.ogv"
 const AUDIO: String = "res://assets/intro/intro.wav"
@@ -18,12 +19,18 @@ static func available() -> bool:
 	return ResourceLoader.exists(VIDEO) and ResourceLoader.exists(AUDIO)
 
 
-## True on a fresh install or when the app version changed since the intro last played.
+const SEEN: String = "user://intro_seen"
+
+
+## True on the first launch after this install.
 static func due() -> bool:
-	return available() and String(Save.data.get("intro_version", "")) != _version()
+	return available() and not FileAccess.file_exists(SEEN)
 
 
 static func mark_seen() -> void:
+	var f: FileAccess = FileAccess.open(SEEN, FileAccess.WRITE)
+	if f:
+		f.store_string(_version())
 	Save.data["intro_version"] = _version()
 	Save.write()
 
@@ -33,7 +40,6 @@ static func _version() -> String:
 
 
 func _ready() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var bg: ColorRect = ColorRect.new()
 	bg.color = Color.BLACK  # html, body { background-color: #000000 }

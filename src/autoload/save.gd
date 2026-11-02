@@ -32,6 +32,8 @@ func _ready() -> void:
 		migrate_v4(data)
 	data["version"] = VERSION
 	data["sessions"] = int(data["sessions"]) + 1
+	if String(data.get("save_id", "")).is_empty():
+		data["save_id"] = "%08x%08x" % [randi(), randi()]  # tells cloud saves from two phones apart
 	write()
 
 
@@ -91,6 +93,7 @@ func write() -> void:
 	if f == null:
 		push_error("Save: cannot write")
 		return
+	data["rev"] = int(data.get("rev", 0)) + 1  # cloud save: which copy of the same save is newer
 	f.store_string(JSON.stringify(data, "\t"))
 	f.close()
 	if _read(tmp) == null:
@@ -100,6 +103,22 @@ func write() -> void:
 	if _read(PATH) != null:
 		DirAccess.copy_absolute(PATH, BACKUP)
 	DirAccess.rename_absolute(tmp, PATH)
+
+
+## Cloud save chosen by the player: take `d` as the new save, keeping this phone's own settings
+## (`keep` keys: sound, reminders, analytics choice). Runs the same migrations as a load.
+func replace_with(d: Dictionary, keep: Array) -> void:
+	var fresh: Dictionary = _defaults()
+	fresh.merge(d, true)
+	for k: Variant in keep:
+		if data.has(k):
+			fresh[k] = data[k]
+	if int(fresh.get("version", 1)) < 4:
+		migrate_v4(fresh)
+	fresh["version"] = VERSION
+	fresh["rev"] = maxi(int(fresh.get("rev", 0)), int(data.get("rev", 0)))
+	data = fresh
+	write()
 
 
 ## One-time introductions: story scenes ("story:7"), flyover callouts ("callout:SEESAW!"), boss

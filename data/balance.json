@@ -2441,7 +2441,8 @@
   "play": {
     "_doc": "Google Play In-App Review and In-App Updates (src/autoload/play_services.gd). Review: asked after a win with min_stars from min_level, after min_sessions sessions, at most max_asks times, gap_days apart, delay_s after the results panel (Play may still decide not to show it). Updates: one check per session on the home screen (delay_s after it appears, never before the notification question). Release priority (tools/release.py upload --priority 0-5) >= immediate_priority opens Play's blocking update screen; lower offers the background download at most every ask_gap_hours per version.",
     "review": {"min_level": 8, "min_stars": 3, "min_sessions": 2, "max_asks": 3, "gap_days": 30, "delay_s": 2.5},
-    "updates": {"delay_s": 2.0, "immediate_priority": 4, "ask_gap_hours": 24}
+    "updates": {"delay_s": 2.0, "immediate_priority": 4, "ask_gap_hours": 24},
+    "cloud": {"_doc": "Play Games sign-in starts signin_delay_s after the first home screen. Cloud save (one Saved Games snapshot) only while signed in: uploaded after a level at most every min_interval_s and whenever the game goes to the background. device_keys stay as they are on this phone when a cloud save is loaded.", "signin_delay_s": 1.0, "min_interval_s": 60, "device_keys": ["music", "sfx", "music_volume", "sfx_volume", "haptics", "notify_on", "notify_asked", "analytics_on", "update_asked", "sessions", "save_recovered", "energy"]}
   },
   "shop": {
     "_doc": "Play Billing catalogue. Product ids must match Play Console exactly. Contents are fixed (no random rewards). price_hint_usd is only for docs and debug builds: the real localized price always comes from Google Play.",
