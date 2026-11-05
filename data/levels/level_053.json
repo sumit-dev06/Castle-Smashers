@@ -1,74 +1,33 @@
 {
  "id": 53,
- "name": "Hidden Switch",
- "realm": 6,
+ "name": "Powder Magazine",
+ "realm": 4,
  "heroes": [
-  "quake",
-  "stone",
+  "fire",
+  "bomb",
   "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Knock the front stone off the rune, hit the rune: the vault floor opens.",
- "cinematic": [
-  {
-   "t": "title"
-  },
-  {
-   "t": "enter",
-   "who": "enemy",
-   "at": "fortress",
-   "style": "drop"
-  },
-  {
-   "t": "say",
-   "who": "enemy",
-   "text": "Our vault is iron. Iron!"
-  },
-  {
-   "t": "emote",
-   "who": "enemy",
-   "e": "laugh"
-  },
-  {
-   "t": "enter",
-   "who": "captain",
-   "at": "catapult",
-   "style": "walk"
-  },
-  {
-   "t": "say",
-   "who": "captain",
-   "text": "Then we drop the floor under it. Look under that front stone..."
-  }
- ],
- "callouts": [
-  {
-   "target": "mech:0",
-   "label": "?"
-  }
- ],
+ "strategy": "Barrels and crystals together. One spark, chain reaction.",
+ "cinematic": [],
+ "callouts": [],
  "boss": false,
  "star_scores": [
-  30000,
-  37000,
-  56000
+  25000,
+  31000,
+  50000
  ],
- "camera_right": 1930,
- "camera_top": -600,
+ "camera_right": 1840,
+ "camera_top": -570,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 748,
-    "x1": 1542,
-    "top": 0.0
-   },
-   {
-    "x0": 1658,
-    "x1": 1798,
+    "x0": 768,
+    "x1": 1703,
     "top": 0.0
    }
   ]
@@ -76,188 +35,181 @@
  "blocks": [
   {
    "type": "stone_block",
-   "x": 830,
-   "y": -32
-  },
-  {
-   "type": "stone_block",
-   "x": 960,
-   "y": -32
-  },
-  {
-   "type": "stone_block",
-   "x": 1024,
-   "y": -32
-  },
-  {
-   "type": "stone_block",
-   "x": 960,
-   "y": -96
-  },
-  {
-   "type": "stone_block",
-   "x": 1024,
-   "y": -96
-  },
-  {
-   "type": "stone_block",
-   "x": 960,
-   "y": -160
-  },
-  {
-   "type": "stone_block",
-   "x": 1024,
-   "y": -160
-  },
-  {
-   "type": "stone_block",
-   "x": 1122,
-   "y": -32.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1122,
-   "y": -96.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1278,
-   "y": -32.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1278,
-   "y": -96.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1200,
-   "y": -141.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1130,
-   "y": -224.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1270,
-   "y": -224.0
-  },
-  {
-   "type": "stone_slab",
-   "x": 1200,
-   "y": -314.0
-  },
-  {
-   "type": "post",
-   "x": 1120,
-   "y": -394.0
-  },
-  {
-   "type": "post",
-   "x": 1280,
-   "y": -394.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1200,
-   "y": -467.0
+   "x": 850,
+   "y": -32.0,
+   "scroll": true
   },
   {
    "type": "barrel",
-   "x": 1200,
+   "x": 850,
+   "y": -93.0
+  },
+  {
+   "type": "stone_block",
+   "x": 972,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 972,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1128,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1128,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -141.0
+  },
+  {
+   "type": "stone_block",
+   "x": 972,
+   "y": -186.0
+  },
+  {
+   "type": "stone_block",
+   "x": 972,
+   "y": -250.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1128,
+   "y": -186.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1128,
+   "y": -250.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -295.0
+  },
+  {
+   "type": "post",
+   "x": 970,
+   "y": -368.0
+  },
+  {
+   "type": "post",
+   "x": 1130,
+   "y": -368.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1050,
+   "y": -441.0
+  },
+  {
+   "type": "barrel",
+   "x": 1050,
    "y": -29.0
   },
   {
    "type": "roof_tile",
-   "x": 1200,
-   "y": -530.0,
+   "x": 1050,
+   "y": -504.0,
    "flag": true
   },
   {
-   "type": "stone_pillar",
-   "x": 1472,
-   "y": -70
+   "type": "crystal_block",
+   "x": 1250,
+   "y": -32.0
   },
   {
-   "type": "stone_pillar",
-   "x": 1728,
-   "y": -70
+   "type": "barrel",
+   "x": 1250,
+   "y": -93.0
   },
   {
-   "type": "iron_block",
-   "x": 1522,
-   "y": -194
+   "type": "crystal_block",
+   "x": 1250,
+   "y": -154.0
   },
   {
-   "type": "iron_block",
-   "x": 1522,
-   "y": -258
+   "type": "crystal_pillar",
+   "x": 1380,
+   "y": -70.0
   },
   {
-   "type": "iron_block",
-   "x": 1678,
-   "y": -194
+   "type": "crystal_pillar",
+   "x": 1520,
+   "y": -70.0
   },
   {
-   "type": "iron_block",
-   "x": 1678,
-   "y": -258
+   "type": "stone_slab",
+   "x": 1450,
+   "y": -160.0
   },
   {
-   "type": "iron_beam",
-   "x": 1600,
-   "y": -303
+   "type": "post",
+   "x": 1370,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 1530,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1450,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1450,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "barrel",
+   "x": 1630,
+   "y": -29.0
+  },
+  {
+   "type": "rune_crystal",
+   "x": 1630,
+   "y": -90.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1630,
+   "y": -154.0
   }
  ],
  "archers": [
   {
-   "x": 992,
-   "y": -221.5
-  },
-  {
-   "x": 1200,
+   "x": 1050,
    "y": -183.5
   },
   {
-   "x": 1200,
-   "y": -363.5
+   "x": 1050,
+   "y": -337.5
   },
   {
-   "x": 1577,
-   "y": -191.5
+   "x": 1450,
+   "y": -29.5
   },
   {
-   "x": 1623,
-   "y": -191.5
+   "x": 1450,
+   "y": -209.5
   },
   {
-   "x": 1600,
-   "y": -345.5
+   "x": 1630,
+   "y": -215.5
   }
  ],
  "bolts": [],
- "mechanisms": [
-  {
-   "type": "rune_switch",
-   "x": 830,
-   "y": -32,
-   "triggers": [
-    "vault_floor"
-   ]
-  },
-  {
-   "type": "trapdoor",
-   "x": 1600,
-   "y": -151,
-   "size": [
-    300,
-    22
-   ],
-   "trigger": "vault_floor",
-   "hinge": 1
-  }
- ],
+ "mechanisms": [],
  "captives": []
 }

@@ -142,6 +142,11 @@ func _physics_process(delta: float) -> void:
 func _on_body_entered(body: Node) -> void:
 	if done:
 		return
+	# A hard hit sets off a powder keg even when it is pinned on the ground (block damage comes from
+	# the keg's own velocity change, which is ~0 when it is squashed into the floor): walled pits.
+	if body is Block and bool((body as Block).mat.get("explodes", false)) \
+			and _speed > float(Data.projectiles["common"]["keg_detonate_speed"]):
+		(body as Block).take_damage((body as Block).hp + 1.0)
 	var first: bool = not impacted
 	impacted = true
 	if first:

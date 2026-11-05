@@ -1,0 +1,205 @@
+{
+ "id": 103,
+ "name": "Storm Vault",
+ "realm": 7,
+ "heroes": [
+  "bomb",
+  "cyclone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Light all three lamps within 6 seconds: lever, plate (knock the stone down) and the rune.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "gadget:1",
+   "label": "HIT BOTH IN TIME!"
+  },
+  {
+   "target": "gadget:0",
+   "label": "PRESSURE PLATE!"
+  },
+  {
+   "target": "mech:0",
+   "label": "HIT THE LEVER!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  20000,
+  24000,
+  39000
+ ],
+ "camera_right": 1950,
+ "camera_top": -560,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 746,
+    "x1": 1818,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post_tall",
+   "x": 940,
+   "y": -100.0
+  },
+  {
+   "type": "post_tall",
+   "x": 1100,
+   "y": -100.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1020,
+   "y": -213.0
+  },
+  {
+   "type": "post_tall",
+   "x": 940,
+   "y": -326.0
+  },
+  {
+   "type": "post_tall",
+   "x": 1100,
+   "y": -326.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1020,
+   "y": -439.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1070,
+   "y": -484.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1360,
+   "y": -32
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1512,
+   "y": -70
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1748,
+   "y": -70
+  },
+  {
+   "type": "iron_block",
+   "x": 1552,
+   "y": -194
+  },
+  {
+   "type": "iron_block",
+   "x": 1552,
+   "y": -258
+  },
+  {
+   "type": "iron_block",
+   "x": 1708,
+   "y": -194
+  },
+  {
+   "type": "iron_block",
+   "x": 1708,
+   "y": -258
+  },
+  {
+   "type": "iron_beam",
+   "x": 1630,
+   "y": -303
+  }
+ ],
+ "archers": [
+  {
+   "x": 1020,
+   "y": -255.5
+  },
+  {
+   "x": 1607,
+   "y": -191.5
+  },
+  {
+   "x": 1653,
+   "y": -191.5
+  },
+  {
+   "x": 1630,
+   "y": -345.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "lever",
+   "x": 830,
+   "y": 0,
+   "triggers": [
+    "lamp_1"
+   ],
+   "facing": 1
+  },
+  {
+   "type": "rune_switch",
+   "x": 1360,
+   "y": -32,
+   "triggers": [
+    "lamp_3"
+   ]
+  },
+  {
+   "type": "trapdoor",
+   "x": 1630,
+   "y": -151,
+   "size": [
+    280,
+    22
+   ],
+   "trigger": "storm_vault",
+   "hinge": 1
+  }
+ ],
+ "captives": [],
+ "gadgets": [
+  {
+   "type": "plate",
+   "x": 1190,
+   "y": 0,
+   "triggers": [
+    "lamp_2"
+   ],
+   "mass": 6.0,
+   "width": 140
+  },
+  {
+   "type": "relay",
+   "x": 1590,
+   "y": -520,
+   "inputs": [
+    "lamp_1",
+    "lamp_2",
+    "lamp_3"
+   ],
+   "triggers": [
+    "storm_vault"
+   ],
+   "window_s": 6.0
+  }
+ ],
+ "tide": {
+  "amp_px": 45,
+  "period_s": 8.0
+ }
+}

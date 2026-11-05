@@ -1,0 +1,319 @@
+{
+ "id": 118,
+ "name": "Shielded Belt",
+ "realm": 8,
+ "heroes": [
+  "bomb",
+  "quake",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Time a shot through the shield onto the lever: the belt carries the iron sheds into the lava.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "gadget:0",
+   "label": "CONVEYOR!"
+  },
+  {
+   "target": "mech:0",
+   "label": "HIT THE LEVER!"
+  },
+  {
+   "target": "mech:1",
+   "label": "TIME THE GAP!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  40000,
+  51000,
+  77000
+ ],
+ "camera_right": 2380,
+ "camera_top": -600,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 1766,
+    "top": 0.0
+   },
+   {
+    "x0": 1920,
+    "x1": 2240,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "iron_block",
+   "x": 812.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 812.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 968.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 968.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 890.0,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 810.0,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 970.0,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 890.0,
+   "y": -287.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 890.0,
+   "y": -350.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1042.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1042.0,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1198.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1198.0,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1120.0,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1050.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1190.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1120.0,
+   "y": -314.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1332.0,
+   "y": -40.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1332.0,
+   "y": -104.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1488.0,
+   "y": -40.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1488.0,
+   "y": -104.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1410.0,
+   "y": -149.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1552.0,
+   "y": -40.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1552.0,
+   "y": -104.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1708.0,
+   "y": -40.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1708.0,
+   "y": -104.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1630.0,
+   "y": -149.0
+  },
+  {
+   "type": "iron_block",
+   "x": 2002.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 2002.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 2158.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 2158.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 2080.0,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 2010.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 2150.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 2080.0,
+   "y": -314.0
+  },
+  {
+   "type": "post",
+   "x": 2000.0,
+   "y": -394.0
+  },
+  {
+   "type": "post",
+   "x": 2160.0,
+   "y": -394.0
+  },
+  {
+   "type": "plank_long",
+   "x": 2080.0,
+   "y": -467.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 2080.0,
+   "y": -530.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 890.0,
+   "y": -183.5
+  },
+  {
+   "x": 890.0,
+   "y": -29.5
+  },
+  {
+   "x": 1120.0,
+   "y": -183.5
+  },
+  {
+   "x": 1410.0,
+   "y": -37.5
+  },
+  {
+   "x": 1410.0,
+   "y": -191.5
+  },
+  {
+   "x": 1630.0,
+   "y": -37.5
+  },
+  {
+   "x": 2080.0,
+   "y": -183.5
+  },
+  {
+   "x": 2080.0,
+   "y": -363.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "lever",
+   "x": 1120.0,
+   "y": -334.0,
+   "triggers": [
+    "vault_belt"
+   ],
+   "facing": -1
+  },
+  {
+   "type": "shield_ring",
+   "x": 1120.0,
+   "y": -374.0,
+   "radius": 85,
+   "plates": 3,
+   "dps": 70,
+   "plate_len": 95
+  }
+ ],
+ "captives": [],
+ "gadgets": [
+  {
+   "type": "conveyor",
+   "x": 1530.0,
+   "y": -8.0,
+   "width": 520,
+   "speed": 150,
+   "start_on": false,
+   "trigger": "vault_belt"
+  }
+ ]
+}

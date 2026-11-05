@@ -10,7 +10,7 @@ Setup steps for the consoles: `BILLING_SETUP.md` (Play), `FIREBASE_SETUP.md`, an
 | Rewarded | Spin wheel: every spin after the daily free one ("WATCH AD: SPIN", up to `spin.ads_per_day` = 5) | Opt-in, button names the reward |
 | Rewarded | Out of boulders: "WATCH AD: +1 Rocky" | Once per attempt. After that: Hellfire or Give up/replay |
 | Rewarded | Win screen: "WATCH AD: +N coins" (doubles the level's coins) | Once per result screen |
-| Rewarded | Out of energy: "WATCH AD" in the exhausted popup (placement `energy_refill`) | Pays for that one level; the next level needs rested bars |
+| Rewarded | Out of energy: "WATCH AD" in the exhausted popup (placement `energy_refill`) | Pays for that one level; offered every time the bars run short (no limit) |
 | Interstitial | At the break after a match: the player taps **NEXT**, **RETRY** or **MAP** on the result screen, or **MAP** / **RESTART** in the pause menu | One per 4 matches (`ads.interstitial_every_matches`). A match is any attempt that ended, or was left or restarted after the first shot; wins and losses both count, training never. Count is saved across app restarts. Never during play, never before level 3, at least 60 s apart. If no ad is loaded the count is kept and it shows at the next break |
 | Banner / app-open | Not used | They clash with the art and annoy players |
 
@@ -100,3 +100,28 @@ anything already owned, and is capped at 4 a day. Measure it with `promo_shown` 
 - Prices are never hard-coded in the UI; they come from Play.
 - No random paid rewards, no fake timers, no "only today" pressure.
 - Full audit: `POLICY_AUDIT.md`.
+
+## AdMob mediation (switched on Nov 5, 2026)
+`web/app-ads.txt` (live at https://stonestorm.pages.dev/app-ads.txt) now lists AdMob plus three
+mediation networks. Done: settings added to `project.godot`, privacy policy lists the three partners, debug APK verified on the
+phone (log lines `Ads: adapter ... state=2` for Vungle, Unity, InMobi and AdMob). Debug builds use Google test
+units, so only real (release) ad units fill from the partners. Original steps, for reference:
+
+| Network | app-ads.txt DIRECT line | Adapter in `addons/admob/android/bin/` | Project setting to add |
+|---|---|---|---|
+| Liftoff Monetize (Vungle) | `vungle.com, 6aec5c95a315ae46c89a4c96` | `vungle/` | `admob/mediation/vungle=true` |
+| InMobi | `inmobi.com, 4749f4ac7b4a42d48ed41b485bf5ca77` | `inmobi/` | `admob/mediation/inmobi=true` |
+| Unity Ads | `unity.com, 161509243` | `unity_ads/` (adapter 4.20.0.2, SDK 4.20.0) | `admob/mediation/unity_ads=true` |
+
+Steps:
+1. Add the three settings under `[admob]` in `project.godot`. The Poing AdMob exporter
+   (`addons/admob/internal/exporters/base_export_plugin.gd`) then packs each adapter and its Gradle
+   dependency into the APK/AAB. No GDScript change is needed for basic serving.
+2. AdMob console → Mediation: create a mediation group per format (interstitial, rewarded) and add
+   the three networks with their placement/app IDs from each network's dashboard.
+3. Consent: the UMP form we already show covers these three (they are on Google's ad-partner list).
+   If a network needs it explicitly, call `Vungle.update_consent_status`, `UnityAds.set_consent` or
+   the InMobi extras from `ads_admob.gd` only (rule 5: ad code stays in the Ads backend).
+4. Update the Play Data safety form and `web/privacy` (new SDKs collect device IDs), and list the
+   SDKs in `docs/CREDITS.md` / `docs/TECH_STACK.md`.
+5. Test with each network's test mode / AdMob ad inspector on the phone before release.

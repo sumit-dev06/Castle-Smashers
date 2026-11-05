@@ -1,191 +1,227 @@
 {
  "id": 63,
- "name": "Burning Bridge",
- "realm": 7,
+ "name": "Wind Tunnel",
+ "realm": 5,
  "heroes": [
-  "fire",
-  "fire",
+  "cyclone",
+  "bomb",
   "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Fire runs along the timber bridge. Burn or cut a rope of the far bridge to tip its guards.",
- "cinematic": [],
+ "strategy": "Hit the fan housing to start it. The gale pushes the iron shed and the crates off the edge.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "focus",
+   "target": "gadget:0",
+   "label": "FAN!"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "A giant fan! Hit it to start it and their shed blows right off the island."
+  },
+  {
+   "t": "demo",
+   "target": "gadget:0",
+   "hero": "stone"
+  }
+ ],
  "callouts": [
   {
-   "target": "1620,-500",
-   "label": "CUT A ROPE!"
-  },
-  {
-   "target": "mech:0",
-   "label": "CUT A ROPE!"
-  },
-  {
-   "target": "bolt:0",
-   "label": "BOLTED"
+   "target": "gadget:0",
+   "label": "FAN!"
   }
  ],
  "boss": false,
  "star_scores": [
   30000,
-  32000,
-  46000
+  34000,
+  51000
  ],
- "camera_right": 2120,
- "camera_top": -610,
+ "camera_right": 2320,
+ "camera_top": -450,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 737,
-    "x1": 1503,
+    "x0": 730,
+    "x1": 1010,
+    "top": 0.0
+   },
+   {
+    "x0": 1136,
+    "x1": 1722,
+    "top": -100
+   },
+   {
+    "x0": 1965,
+    "x1": 2175,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "post",
-   "x": 800,
-   "y": -60.0
+   "type": "stone_pillar",
+   "x": 800.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 940.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 870.0,
+   "y": -160.0
   },
   {
    "type": "post",
-   "x": 960,
-   "y": -60.0
+   "x": 790.0,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 950.0,
+   "y": -240.0
   },
   {
    "type": "plank_long",
-   "x": 880,
+   "x": 870.0,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 870.0,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "iron_block",
+   "x": 1412.0,
+   "y": -132
+  },
+  {
+   "type": "iron_block",
+   "x": 1412.0,
+   "y": -196
+  },
+  {
+   "type": "iron_block",
+   "x": 1568.0,
+   "y": -132
+  },
+  {
+   "type": "iron_block",
+   "x": 1568.0,
+   "y": -196
+  },
+  {
+   "type": "iron_beam",
+   "x": 1490.0,
+   "y": -241
+  },
+  {
+   "type": "crate",
+   "x": 1640.0,
+   "y": -132.0
+  },
+  {
+   "type": "crate",
+   "x": 1640.0,
+   "y": -196.0
+  },
+  {
+   "type": "post",
+   "x": 2028.0,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 2112.0,
+   "y": -60.0
+  },
+  {
+   "type": "plank_short",
+   "x": 2070.0,
    "y": -133.0
   },
   {
    "type": "post",
-   "x": 800,
+   "x": 2028.0,
    "y": -206.0
   },
   {
    "type": "post",
-   "x": 960,
+   "x": 2112.0,
    "y": -206.0
   },
   {
-   "type": "plank_long",
-   "x": 880,
+   "type": "plank_short",
+   "x": 2070.0,
    "y": -279.0
   },
   {
-   "type": "roof_tile",
-   "x": 880,
-   "y": -342.0,
+   "type": "roof",
+   "x": 2070.0,
+   "y": -327.0,
    "flag": true
-  },
-  {
-   "type": "plank_long",
-   "x": 1130,
-   "y": -159
-  },
-  {
-   "type": "plank_long",
-   "x": 1350,
-   "y": -159
-  },
-  {
-   "type": "post",
-   "x": 1040,
-   "y": -60
-  },
-  {
-   "type": "plank_short",
-   "x": 1040,
-   "y": -133
-  },
-  {
-   "type": "post",
-   "x": 1240,
-   "y": -60
-  },
-  {
-   "type": "plank_short",
-   "x": 1240,
-   "y": -133
-  },
-  {
-   "type": "post",
-   "x": 1440,
-   "y": -60
-  },
-  {
-   "type": "plank_short",
-   "x": 1440,
-   "y": -133
   }
  ],
  "archers": [
   {
-   "x": 880,
+   "x": 870.0,
+   "y": -209.5
+  },
+  {
+   "x": 1490.0,
+   "y": -129.5
+  },
+  {
+   "x": 1490.0,
+   "y": -283.5
+  },
+  {
+   "x": 1640.0,
+   "y": -257.5
+  },
+  {
+   "x": 2070.0,
    "y": -175.5
   },
   {
-   "x": 880,
+   "x": 2070.0,
    "y": -29.5
-  },
-  {
-   "x": 1130,
-   "y": -201.5
-  },
-  {
-   "x": 1350,
-   "y": -201.5
-  },
-  {
-   "x": 1705,
-   "y": -484.5
-  },
-  {
-   "x": 1835,
-   "y": -484.5
   }
  ],
- "bolts": [
-  {
-   "a": 7,
-   "b": 8
-  }
- ],
- "mechanisms": [
-  {
-   "type": "hanging_platform",
-   "x": 1770,
-   "y": -560,
-   "size": [
-    340,
-    30
-   ],
-   "span": 300,
-   "drop": 120,
-   "frame": {
-    "posts": [
-     1596.0,
-     1944.0
-    ],
-    "top": -574,
-    "bottom": 260,
-    "beam": [
-     1580.0,
-     1960.0
-    ]
-   }
-  }
- ],
+ "bolts": [],
+ "mechanisms": [],
  "captives": [],
- "wind": {
-  "strength": 280,
-  "period_s": 6.0,
-  "gust_s": 3.0,
-  "dir": -1,
-  "alternate": true
- }
+ "gadgets": [
+  {
+   "type": "fan",
+   "x": 1210.0,
+   "y": -160,
+   "dir": 0,
+   "reach": 520,
+   "width": 150,
+   "accel": 1600,
+   "start_on": false,
+   "hit_toggles": true,
+   "post": -100
+  }
+ ]
 }

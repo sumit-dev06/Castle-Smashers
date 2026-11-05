@@ -1,249 +1,227 @@
 {
  "id": 65,
- "name": "Lodestone",
- "realm": 7,
+ "name": "Ice Slide",
+ "realm": 5,
  "heroes": [
-  "cyclone",
-  "stone",
+  "quake",
+  "bomb",
   "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Hit the lever: the magnet tears the iron vault apart. Stones bounce off iron.",
- "cinematic": [
-  {
-   "t": "title"
-  },
-  {
-   "t": "focus",
-   "target": "gadget:0",
-   "label": "MAGNET!"
-  },
-  {
-   "t": "enter",
-   "who": "wizard",
-   "at": "catapult",
-   "style": "smoke"
-  },
-  {
-   "t": "say",
-   "who": "wizard",
-   "text": "A lodestone! Flip that lever and it will rip their iron apart."
-  }
- ],
+ "strategy": "Hit the back of the ice train. It slides down the frozen slope into the towers.",
+ "cinematic": [],
  "callouts": [
   {
-   "target": "gadget:0",
-   "label": "MAGNET!"
+   "target": "944,-280",
+   "label": "ICE SLIDE!"
   }
  ],
  "boss": false,
  "star_scores": [
-  30000,
-  37000,
-  56000
+  25000,
+  31000,
+  49000
  ],
- "camera_right": 2180,
- "camera_top": -980,
+ "camera_right": 2080,
+ "camera_top": -600,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 740,
-    "x1": 1920,
+    "x0": 730,
+    "x1": 1940,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "stone_pillar",
-   "x": 810,
-   "y": -70.0
+   "type": "ice_block",
+   "x": 880.0,
+   "y": -212
   },
   {
-   "type": "stone_pillar",
-   "x": 950,
-   "y": -70.0
+   "type": "ice_block",
+   "x": 944.0,
+   "y": -212
   },
   {
-   "type": "stone_slab",
-   "x": 880,
-   "y": -160.0
-  },
-  {
-   "type": "post",
-   "x": 800,
-   "y": -240.0
-  },
-  {
-   "type": "post",
-   "x": 960,
-   "y": -240.0
-  },
-  {
-   "type": "plank_long",
-   "x": 880,
-   "y": -313.0
-  },
-  {
-   "type": "roof_tile",
-   "x": 880,
-   "y": -376.0,
-   "flag": true
-  },
-  {
-   "type": "iron_block",
-   "x": 1222,
-   "y": -32
-  },
-  {
-   "type": "iron_block",
-   "x": 1222,
-   "y": -96
-  },
-  {
-   "type": "iron_block",
-   "x": 1378,
-   "y": -32
-  },
-  {
-   "type": "iron_block",
-   "x": 1378,
-   "y": -96
-  },
-  {
-   "type": "iron_beam",
-   "x": 1300,
-   "y": -141
-  },
-  {
-   "type": "iron_block",
-   "x": 1222,
-   "y": -186
-  },
-  {
-   "type": "iron_block",
-   "x": 1222,
-   "y": -250
-  },
-  {
-   "type": "iron_block",
-   "x": 1378,
-   "y": -186
-  },
-  {
-   "type": "iron_block",
-   "x": 1378,
-   "y": -250
-  },
-  {
-   "type": "iron_beam",
-   "x": 1300,
-   "y": -295
+   "type": "ice_block",
+   "x": 1008.0,
+   "y": -212
   },
   {
    "type": "stone_block",
-   "x": 1682,
+   "x": 1452.0,
    "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 1682,
+   "x": 1452.0,
    "y": -96.0
   },
   {
    "type": "stone_block",
-   "x": 1838,
+   "x": 1608.0,
    "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 1838,
+   "x": 1608.0,
    "y": -96.0
   },
   {
    "type": "plank_long",
-   "x": 1760,
+   "x": 1530.0,
    "y": -141.0
   },
   {
    "type": "post",
-   "x": 1680,
+   "x": 1488.0,
    "y": -214.0
   },
   {
    "type": "post",
-   "x": 1840,
+   "x": 1572.0,
    "y": -214.0
   },
   {
-   "type": "plank_long",
-   "x": 1760,
+   "type": "plank_short",
+   "x": 1530.0,
    "y": -287.0
   },
   {
+   "type": "post",
+   "x": 1488.0,
+   "y": -360.0
+  },
+  {
+   "type": "post",
+   "x": 1572.0,
+   "y": -360.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1530.0,
+   "y": -433.0
+  },
+  {
+   "type": "roof",
+   "x": 1530.0,
+   "y": -481.0,
+   "flag": true
+  },
+  {
+   "type": "iron_block",
+   "x": 1702.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1702.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1858.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1858.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1780.0,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1710.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1850.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1780.0,
+   "y": -314.0
+  },
+  {
+   "type": "post",
+   "x": 1700.0,
+   "y": -394.0
+  },
+  {
+   "type": "post",
+   "x": 1860.0,
+   "y": -394.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1780.0,
+   "y": -467.0
+  },
+  {
    "type": "roof_tile",
-   "x": 1760,
-   "y": -350.0,
+   "x": 1780.0,
+   "y": -530.0,
    "flag": true
   }
  ],
  "archers": [
   {
-   "x": 880,
-   "y": -209.5
+   "x": 944.0,
+   "y": -273.5
   },
   {
-   "x": 1300,
-   "y": -29.5
+   "x": 1530.0,
+   "y": -329.5
   },
   {
-   "x": 1300,
+   "x": 1530.0,
    "y": -183.5
   },
   {
-   "x": 1300,
-   "y": -337.5
-  },
-  {
-   "x": 1760,
+   "x": 1780.0,
    "y": -183.5
   },
   {
-   "x": 1760,
-   "y": -29.5
+   "x": 1780.0,
+   "y": -363.5
   }
  ],
  "bolts": [],
- "mechanisms": [
-  {
-   "type": "lever",
-   "x": 1060,
-   "y": 0,
-   "triggers": [
-    "lodestone"
-   ],
-   "facing": 1
-  }
- ],
+ "mechanisms": [],
  "captives": [],
- "gadgets": [
+ "ramps": [
   {
-   "type": "magnet",
-   "x": 1580,
-   "y": -520,
-   "radius": 420,
-   "accel": 3200,
-   "start_on": false,
-   "trigger": "lodestone",
-   "post": 0.0
+   "points": [
+    [
+     780.0,
+     0
+    ],
+    [
+     780.0,
+     -180
+    ],
+    [
+     1080.0,
+     -180
+    ],
+    [
+     1380.0,
+     0
+    ]
+   ],
+   "kind": "ice"
   }
- ],
- "tide": {
-  "amp_px": 45,
-  "period_s": 8.0
- }
+ ]
 }

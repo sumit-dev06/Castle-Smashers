@@ -1,53 +1,42 @@
 {
  "id": 64,
- "name": "Frozen Stilts",
- "realm": 7,
+ "name": "Spring Trap",
+ "realm": 5,
  "heroes": [
-  "fire",
   "quake",
+  "cyclone",
   "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Melt or shatter the ice pillars and the iron vault drops. Crystal shatters into its neighbours.",
- "cinematic": [
+ "strategy": "Cut the latch rope under the spring, then cut the rope holding the rock over the keep.",
+ "cinematic": [],
+ "callouts": [
   {
-   "t": "title"
+   "target": "1250,-90",
+   "label": "CUT THE LATCH!"
   },
   {
-   "t": "focus",
-   "target": "fortress",
-   "label": "ICE STILTS!"
-  },
-  {
-   "t": "enter",
-   "who": "captain",
-   "at": "catapult",
-   "style": "walk"
-  },
-  {
-   "t": "say",
-   "who": "captain",
-   "text": "That vault stands on ice. Warm it up!"
+   "target": "mech:0",
+   "label": "CUT THE ROPE!"
   }
  ],
- "callouts": [],
  "boss": false,
  "star_scores": [
   30000,
-  36000,
-  54000
+  34000,
+  50000
  ],
- "camera_right": 1950,
- "camera_top": -450,
+ "camera_right": 1930,
+ "camera_top": -800,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
     "x0": 760,
-    "x1": 1822,
+    "x1": 1870,
     "top": 0.0
    }
   ]
@@ -90,89 +79,55 @@
    "flag": true
   },
   {
-   "type": "ice_pillar",
-   "x": 1170,
-   "y": -70
-  },
-  {
-   "type": "ice_pillar",
-   "x": 1330,
-   "y": -70
-  },
-  {
-   "type": "ice_slab",
+   "type": "plank_long",
    "x": 1250,
-   "y": -160
+   "y": -150
   },
   {
    "type": "iron_block",
-   "x": 1172,
-   "y": -212
-  },
-  {
-   "type": "iron_block",
-   "x": 1172,
-   "y": -276
-  },
-  {
-   "type": "iron_block",
-   "x": 1328,
-   "y": -212
-  },
-  {
-   "type": "iron_block",
-   "x": 1328,
-   "y": -276
-  },
-  {
-   "type": "iron_beam",
-   "x": 1250,
-   "y": -321
-  },
-  {
-   "type": "crystal_pillar",
-   "x": 1480,
-   "y": -70.0
-  },
-  {
-   "type": "crystal_pillar",
-   "x": 1620,
-   "y": -70.0
-  },
-  {
-   "type": "stone_slab",
-   "x": 1550,
-   "y": -160.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1480,
-   "y": -250.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1620,
-   "y": -250.0
-  },
-  {
-   "type": "stone_slab",
-   "x": 1550,
-   "y": -340.0
-  },
-  {
-   "type": "ice_block",
-   "x": 1740,
+   "x": 1522,
    "y": -32.0
   },
   {
-   "type": "ice_block",
-   "x": 1740,
+   "type": "iron_block",
+   "x": 1522,
    "y": -96.0
   },
   {
-   "type": "ice_block",
-   "x": 1740,
-   "y": -160.0
+   "type": "iron_block",
+   "x": 1678,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1678,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1600,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 1520,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1680,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1600,
+   "y": -287.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1600,
+   "y": -350.0,
+   "flag": true
   }
  ],
  "archers": [
@@ -181,27 +136,82 @@
    "y": -209.5
   },
   {
-   "x": 1250,
-   "y": -209.5
+   "x": 900,
+   "y": -29.5
   },
   {
-   "x": 1250,
-   "y": -363.5
+   "x": 1190,
+   "y": -192.5
   },
   {
-   "x": 1550,
-   "y": -209.5
+   "x": 1310,
+   "y": -192.5
   },
   {
-   "x": 1550,
-   "y": -389.5
+   "x": 1600,
+   "y": -183.5
   },
   {
-   "x": 1740,
-   "y": -221.5
+   "x": 1600,
+   "y": -29.5
   }
  ],
  "bolts": [],
- "mechanisms": [],
- "captives": []
+ "mechanisms": [
+  {
+   "type": "rope_load",
+   "x": 1600,
+   "y": -750.0,
+   "length": 220,
+   "load": "boulder",
+   "frame": {
+    "posts": [
+     1800
+    ],
+    "top": -764.0,
+    "bottom": 0.0,
+    "beam": [
+     1588,
+     1812
+    ]
+   }
+  }
+ ],
+ "captives": [],
+ "tethers": [
+  {
+   "kind": "spring",
+   "a": 7,
+   "x": 1180.0,
+   "y": 0.0,
+   "attach": [
+    1250,
+    -137
+   ],
+   "rest": 410,
+   "stiffness": 60.0,
+   "damping": 0.4
+  },
+  {
+   "kind": "rope",
+   "a": 7,
+   "x": 1250,
+   "y": -77,
+   "attach": [
+    1250,
+    -137
+   ],
+   "lock": true,
+   "kick": [
+    570.9,
+    -1223.3
+   ]
+  }
+ ],
+ "wind": {
+  "strength": 200,
+  "period_s": 6.0,
+  "gust_s": 3.0,
+  "dir": 1
+ }
 }

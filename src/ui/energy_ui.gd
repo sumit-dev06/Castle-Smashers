@@ -5,7 +5,7 @@ extends RefCounted
 
 
 ## Spends the bars for campaign level `id` and calls `go`, or opens the exhausted popup (which can
-## top up the bars once with a rewarded ad and then calls `go`).
+## top up the bars with a rewarded ad, any number of times and then calls `go`).
 static func enter(id: int, go: Callable) -> void:
 	if Energy.spend(id):
 		go.call()
@@ -54,7 +54,7 @@ static func exhausted(id: int, go: Callable) -> void:
 	var cfg: Dictionary = Energy.cfg()
 	var need: int = Energy.cost(id) if id > 0 else 0
 	var short: bool = id > 0 and Energy.bars() < need
-	var layer: CanvasLayer = UIFx.overlay()
+	var layer: CanvasLayer = UIFx.popup_layer()
 	layer.add_child(UIKit.dim())
 	var center: CenterContainer = CenterContainer.new()
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -119,13 +119,6 @@ static func exhausted(id: int, go: Callable) -> void:
 			Ads.show_rewarded("energy_refill"))
 		UIFx.press_juice(ad)
 		row.add_child(ad)
-	elif short:
-		var wait: Label = UIKit.body(String(cfg["ad_locked_text"]), 20, Color("#8a5a2a"))
-		wait.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		wait.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		wait.custom_minimum_size.x = 560
-		v.add_child(wait)
-		v.move_child(wait, row.get_index())
 	var ok: Button = UIKit.button("OK", "orange", 28, Vector2(160, 72))
 	ok.pressed.connect(func() -> void:
 		Sound.play("ui_tap")

@@ -1,0 +1,252 @@
+{
+ "id": 116,
+ "name": "Fan Brake",
+ "realm": 8,
+ "heroes": [
+  "bomb",
+  "cyclone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Break the brake: the forge fan blows the walkway sheds into the lava.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "1060,-250",
+   "label": "BREAK THE BRAKE!"
+  },
+  {
+   "target": "gadget:0",
+   "label": "FAN!"
+  },
+  {
+   "target": "weak",
+   "label": "WEAK POINT"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  35000,
+  43000,
+  65000
+ ],
+ "camera_right": 2360,
+ "camera_top": -450,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 1780,
+    "top": 0.0
+   },
+   {
+    "x0": 1890,
+    "x1": 2210,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "iron_block",
+   "x": 812.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 812.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 968.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 968.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 890.0,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 810.0,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 970.0,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 890.0,
+   "y": -287.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 890.0,
+   "y": -350.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1060.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1060.0,
+   "y": -96.0
+  },
+  {
+   "type": "crate",
+   "x": 1060.0,
+   "y": -160.0,
+   "weak_point": true,
+   "trigger": "fan_brake"
+  },
+  {
+   "type": "iron_block",
+   "x": 1352.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1352.0,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1508.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1508.0,
+   "y": -96
+  },
+  {
+   "type": "iron_beam",
+   "x": 1430.0,
+   "y": -141
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1570.0,
+   "y": -70
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1710.0,
+   "y": -70
+  },
+  {
+   "type": "stone_slab",
+   "x": 1640.0,
+   "y": -160
+  },
+  {
+   "type": "iron_block",
+   "x": 1972.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1972.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 2128.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 2128.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 2050.0,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1980.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 2120.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 2050.0,
+   "y": -314.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 2050.0,
+   "y": -384.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 890.0,
+   "y": -183.5
+  },
+  {
+   "x": 890.0,
+   "y": -29.5
+  },
+  {
+   "x": 1430.0,
+   "y": -29.5
+  },
+  {
+   "x": 1430.0,
+   "y": -183.5
+  },
+  {
+   "x": 1640.0,
+   "y": -29.5
+  },
+  {
+   "x": 2050.0,
+   "y": -183.5
+  },
+  {
+   "x": 2050.0,
+   "y": -29.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": [],
+ "gadgets": [
+  {
+   "type": "fan",
+   "x": 1190.0,
+   "y": -60,
+   "dir": 0,
+   "reach": 520,
+   "width": 150,
+   "accel": 1700,
+   "start_on": false,
+   "hit_toggles": false,
+   "trigger": "fan_brake",
+   "post": 0
+  }
+ ]
+}

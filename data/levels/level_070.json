@@ -1,340 +1,255 @@
 {
  "id": 70,
- "name": "Morwen's Barge",
- "realm": 7,
+ "name": "Sky Captive",
+ "realm": 5,
  "heroes": [
-  "quake",
-  "bomb",
   "fire",
+  "bomb",
+  "cyclone",
   "stone"
  ],
  "soldiers": 4,
- "power_budget": 9,
- "strategy": "Boss: the ward above the barge throws shots upward. Break the shore rune first, then the cores.",
+ "power_budget": 8,
+ "strategy": "The rope holds the cage lock. Cut it.",
  "cinematic": [
   {
    "t": "title"
   },
   {
    "t": "enter",
-   "who": "baron",
-   "at": "boss",
+   "who": "captive",
+   "at": "fortress",
    "style": "smoke"
   },
   {
    "t": "say",
-   "who": "baron",
-   "text": "My storm witch will hurl your shots back to the sky!"
-  },
-  {
-   "t": "boss"
+   "who": "captive",
+   "text": "Cut the rope and my cage opens!"
   },
   {
    "t": "focus",
-   "target": "gadget:2",
-   "label": "STORM WARD!"
-  },
-  {
-   "t": "enter",
-   "who": "wizard",
-   "at": "catapult",
-   "style": "smoke"
-  },
-  {
-   "t": "say",
-   "who": "wizard",
-   "text": "Break the rune stone on the shore and her ward falls. The portal reaches her too!"
+   "target": "mech:1",
+   "label": "CUT THE ROPE!"
   }
  ],
  "callouts": [
   {
-   "target": "gadget:2",
-   "label": "GRAVITY FIELD!"
+   "target": "mech:0",
+   "label": "MOVING!"
   }
  ],
- "boss": true,
+ "boss": false,
  "star_scores": [
-  37000,
-  46000,
-  69000
+  20000,
+  25000,
+  43000
  ],
- "camera_right": 2130,
- "camera_top": -880,
+ "camera_right": 1950,
+ "camera_top": -1030,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 730,
-    "x1": 1162,
-    "top": 0.0
+    "x0": 768,
+    "x1": 1890,
+    "top": -70
    }
   ]
  },
  "blocks": [
   {
-   "type": "stone_pillar",
-   "x": 800.0,
-   "y": -70.0
+   "type": "stone_block",
+   "x": 850,
+   "y": -102.0
+  },
+  {
+   "type": "barrel",
+   "x": 850,
+   "y": -163.0
   },
   {
    "type": "stone_pillar",
-   "x": 940.0,
-   "y": -70.0
+   "x": 980,
+   "y": -140.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1120,
+   "y": -140.0
   },
   {
    "type": "stone_slab",
-   "x": 870.0,
-   "y": -160.0
+   "x": 1050,
+   "y": -230.0
   },
   {
    "type": "post",
-   "x": 790.0,
-   "y": -240.0
+   "x": 970,
+   "y": -310.0
   },
   {
    "type": "post",
-   "x": 950.0,
-   "y": -240.0
+   "x": 1130,
+   "y": -310.0
   },
   {
    "type": "plank_long",
-   "x": 870.0,
-   "y": -313.0
+   "x": 1050,
+   "y": -383.0
+  },
+  {
+   "type": "barrel",
+   "x": 1050,
+   "y": -99.0
   },
   {
    "type": "roof_tile",
-   "x": 870.0,
-   "y": -376.0,
+   "x": 1050,
+   "y": -446.0,
    "flag": true
   },
   {
-   "type": "stone_block",
-   "x": 1332.0,
-   "y": -82.0
+   "type": "ice_block",
+   "x": 1240,
+   "y": -102.0
   },
   {
    "type": "stone_block",
-   "x": 1332.0,
-   "y": -146.0
+   "x": 1240,
+   "y": -166.0
   },
   {
-   "type": "stone_block",
-   "x": 1488.0,
-   "y": -82.0
+   "type": "iron_block",
+   "x": 1352,
+   "y": -102.0
   },
   {
-   "type": "stone_block",
-   "x": 1488.0,
-   "y": -146.0
+   "type": "iron_block",
+   "x": 1352,
+   "y": -166.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1508,
+   "y": -102.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1508,
+   "y": -166.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1430,
+   "y": -211.0
+  },
+  {
+   "type": "post",
+   "x": 1350,
+   "y": -284.0
+  },
+  {
+   "type": "post",
+   "x": 1510,
+   "y": -284.0
   },
   {
    "type": "plank_long",
-   "x": 1410.0,
-   "y": -191.0
+   "x": 1430,
+   "y": -357.0
   },
   {
-   "type": "stone_pillar",
-   "x": 1340.0,
-   "y": -274.0
+   "type": "barrel",
+   "x": 1456.0,
+   "y": -99.0
   },
   {
-   "type": "stone_pillar",
-   "x": 1480.0,
-   "y": -274.0
+   "type": "roof_tile",
+   "x": 1430,
+   "y": -420.0,
+   "flag": true
   },
   {
-   "type": "stone_slab",
-   "x": 1410.0,
-   "y": -364.0
-  },
-  {
-   "type": "post",
-   "x": 1330.0,
-   "y": -444.0
-  },
-  {
-   "type": "post",
-   "x": 1490.0,
-   "y": -444.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1410.0,
-   "y": -517.0
-  },
-  {
-   "type": "power_core",
-   "x": 1410.0,
-   "y": -86.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1600.0,
-   "y": -120.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1740.0,
-   "y": -120.0
-  },
-  {
-   "type": "stone_slab",
-   "x": 1670.0,
-   "y": -210.0
-  },
-  {
-   "type": "post",
-   "x": 1590.0,
-   "y": -290.0
-  },
-  {
-   "type": "post",
-   "x": 1750.0,
-   "y": -290.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1670.0,
-   "y": -363.0
-  },
-  {
-   "type": "cannon_turret",
-   "x": 1360.0,
-   "y": -560.0
-  },
-  {
-   "type": "power_core",
-   "x": 1620.0,
-   "y": -412.0
-  },
-  {
-   "type": "rune_crystal",
-   "x": 1080.0,
-   "y": -32,
-   "weak_point": true,
-   "trigger": "ward"
+   "type": "crate",
+   "x": 1302,
+   "y": -702
   }
  ],
  "archers": [
   {
-   "x": 870.0,
-   "y": -209.5
+   "x": 1050,
+   "y": -279.5
   },
   {
-   "x": 1410.0,
-   "y": -233.5
+   "x": 1430,
+   "y": -253.5
   },
   {
-   "x": 1410.0,
-   "y": -413.5
+   "x": 1403.0,
+   "y": -99.5
   },
   {
-   "x": 1670.0,
-   "y": -259.5
+   "x": 1240.0,
+   "y": -699.5
   }
  ],
  "bolts": [],
  "mechanisms": [
   {
    "type": "moving_platform",
-   "x": 1540.0,
-   "y": -25.0,
+   "x": 1240,
+   "y": -645.0,
    "size": [
-    520,
+    194,
     50
    ],
-   "travel_x": 20,
-   "travel_y": 14,
-   "period_s": 7.0,
-   "chassis_fallback": "boss_galleon_hull",
+   "travel_x": 0,
+   "travel_y": 110,
+   "period_s": 2.6,
    "phase": 0.0,
-   "chassis": "boss_storm_barge",
-   "chassis_h": 170,
+   "chassis": "boss_airship_deck",
+   "chassis_h": 100,
+   "balloon": "boss_airship_balloon",
+   "balloon_size": [
+    271,
+    145
+   ],
+   "balloon_y": -182,
    "floating": true
-  }
- ],
- "captives": [],
- "gadgets": [
-  {
-   "type": "portal",
-   "x": 1040.0,
-   "y": -460,
-   "dir": 180,
-   "radius": 58,
-   "color": "#ff9a2a",
-   "pair": 1
   },
   {
-   "type": "portal",
-   "x": 1890.0,
-   "y": -700,
-   "dir": 135,
-   "radius": 58,
-   "color": "#4ab8ff",
-   "pair": 0
-  },
-  {
-   "type": "gravity",
-   "x": 1540.0,
-   "y": -780,
-   "size": [
-    560,
-    120
-   ],
-   "g": [
-    0,
-    -2600
-   ],
-   "start_on": true,
-   "trigger": "ward"
-  }
- ],
- "boss_unit": {
-  "name": "Morwen the Storm Witch",
-  "hp": 200,
-  "phases": [
-   {
-    "at": 0.7,
-    "do": [
-     "shield"
-    ]
-   },
-   {
-    "at": 0.45,
-    "do": [
-     "reinforce",
-     "charge"
-    ]
-   },
-   {
-    "at": 0.2,
-    "do": [
-     "enrage"
+   "type": "rope_load",
+   "x": 1640,
+   "y": -550,
+   "length": 120,
+   "load": "crate",
+   "releases": "free_pilot",
+   "frame": {
+    "posts": [
+     1640.0
+    ],
+    "top": -494,
+    "bottom": -70,
+    "beam": [
+     1628,
+     1652.0
     ]
    }
-  ],
-  "x": 1720.0,
-  "y": -405.5,
-  "reinforce": [
-   [
-    1370.0,
-    -530.0
-   ],
-   [
-    1450.0,
-    -530.0
-   ]
-  ]
- },
- "engineers": [
-  {
-   "x": 1540.0,
-   "y": -79.5
   }
  ],
- "tide": {
-  "amp_px": 55,
-  "period_s": 7.0
+ "captives": [
+  {
+   "x": 1780,
+   "y": -70,
+   "trigger": "free_pilot",
+   "height": 92
+  }
+ ],
+ "wind": {
+  "strength": 200,
+  "period_s": 6.0,
+  "gust_s": 3.0,
+  "dir": 1
  }
 }

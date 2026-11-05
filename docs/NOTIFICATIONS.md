@@ -66,9 +66,17 @@ audience. It is built in and switches on with `google-services.json` (see `FIREB
   No token is stored or sent anywhere; campaigns target topics from the Firebase console.
 - Permission: still asked once by CastleNotify after level 3, never at startup. The GodotX
   `request_permission()` is not called.
-- Look: the manifest points FCM at the white castle icon (`@mipmap/icon_monochrome`, from
-  `assets/art/brand/app_icon_mono.png`) and the same "Siege reminders" channel, so one system
-  switch covers both kinds.
+- Look: the manifest points FCM at the white castle status-bar icon (`@drawable/ic_stat_castle`,
+  24 dp white + alpha, cut from `assets/art/brand/app_icon_mono.png`), the orange accent
+  `@color/castle_notify_accent` and the same "Siege reminders" channel (`castle_reminders_v2`), so
+  one system switch covers both kinds. Local reminders also show the full-colour app icon as the
+  large icon.
+- Sound: a soft two-note chime (`res/raw/castle_chime.ogg` in castle_notify.aar, made by
+  `tools/gen_notify_sound.py`). Android fixes a channel's sound at creation, so the channel id moved
+  from `castle_reminders` to `castle_reminders_v2`; the old channel is deleted on first use. To change
+  the sound again, bump the channel id the same way (Kotlin `CHANNEL` + `export_plugin.gd`).
+- After editing the plugin: `cd tools/android_plugins && ./gradlew :notify:assembleRelease`, then copy
+  `notify/build/outputs/aar/notify-release.aar` to `addons/castle_notify/bin/castle_notify.aar`.
 - Tapping a push opens the game and logs `notification_opened` with `kind = push`.
 - While the game is open, Android doesn't show the push and the game shows nothing either
   (no interruptions mid-level).

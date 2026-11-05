@@ -1,191 +1,202 @@
 {
  "id": 27,
- "name": "Dockside Crane",
- "realm": 3,
+ "name": "The Obelisk",
+ "realm": 2,
  "heroes": [
-  "quake",
   "fire",
+  "cyclone",
   "stone",
-  "fire"
+  "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Knock the counterweight stones off the crane arm, or cut its rope, to drop the boulder.",
+ "strategy": "The needle is bolted into one piece. Burn or smash its timber legs and it falls across the hall.",
  "cinematic": [],
  "callouts": [
   {
-   "target": "1140,-595",
-   "label": "COUNTERWEIGHT"
+   "target": "1182,-200",
+   "label": "TOPPLE IT!"
+  },
+  {
+   "target": "bolt:0",
+   "label": "BOLTED"
   }
  ],
  "boss": false,
  "star_scores": [
-  20000,
-  24000,
-  39000
+  35000,
+  39000,
+  55000
  ],
- "camera_right": 1730,
- "camera_top": -630,
+ "camera_right": 2050,
+ "camera_top": -540,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
     "x0": 730,
-    "x1": 1583,
+    "x1": 958,
+    "top": 0.0
+   },
+   {
+    "x0": 1077,
+    "x1": 1922,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "stone_pillar",
-   "x": 800.0,
-   "y": -70.0
+   "type": "stone_block",
+   "x": 812.0,
+   "y": -32.0
   },
   {
-   "type": "stone_pillar",
-   "x": 940.0,
-   "y": -70.0
+   "type": "stone_block",
+   "x": 876.0,
+   "y": -32.0
   },
   {
-   "type": "stone_slab",
-   "x": 870.0,
+   "type": "stone_block",
+   "x": 812.0,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 876.0,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 812.0,
    "y": -160.0
   },
   {
    "type": "post",
-   "x": 790.0,
-   "y": -240.0
+   "x": 1140.0,
+   "y": -60
   },
   {
    "type": "post",
-   "x": 950.0,
-   "y": -240.0
+   "x": 1224.0,
+   "y": -60
   },
   {
-   "type": "plank_long",
-   "x": 870.0,
-   "y": -313.0,
-   "scroll": true
+   "type": "plank_short",
+   "x": 1182.0,
+   "y": -133
   },
   {
-   "type": "roof_tile",
-   "x": 870.0,
-   "y": -376.0,
-   "flag": true
+   "type": "stone_block",
+   "x": 1182.0,
+   "y": -178
   },
   {
-   "type": "post_tall",
-   "x": 1060.0,
-   "y": -100.0
+   "type": "stone_block",
+   "x": 1182.0,
+   "y": -242
   },
   {
-   "type": "post_tall",
-   "x": 1220.0,
-   "y": -100.0
+   "type": "stone_block",
+   "x": 1182.0,
+   "y": -306
   },
   {
-   "type": "plank_long",
-   "x": 1140.0,
-   "y": -213.0
+   "type": "stone_block",
+   "x": 1182.0,
+   "y": -370
   },
   {
-   "type": "post_tall",
-   "x": 1060.0,
-   "y": -326.0
+   "type": "stone_block",
+   "x": 1182.0,
+   "y": -434
   },
   {
-   "type": "post_tall",
-   "x": 1220.0,
-   "y": -326.0
+   "type": "post",
+   "x": 1320.0,
+   "y": -60
   },
   {
-   "type": "plank_long",
-   "x": 1140.0,
-   "y": -439.0
+   "type": "post",
+   "x": 1472.0,
+   "y": -60
+  },
+  {
+   "type": "post",
+   "x": 1624.0,
+   "y": -60
   },
   {
    "type": "plank_xl",
-   "x": 1285.0,
-   "y": -465.0
+   "x": 1472.0,
+   "y": -133,
+   "banner": true
   },
   {
-   "type": "stone_block",
-   "x": 1140.0,
-   "y": -510.0
+   "type": "stone_pillar",
+   "x": 1712.0,
+   "y": -70.0
   },
   {
-   "type": "stone_block",
-   "x": 1140.0,
-   "y": -574.0
+   "type": "stone_pillar",
+   "x": 1852.0,
+   "y": -70.0
   },
   {
-   "type": "boulder",
-   "x": 1425.0,
-   "y": -315.0
-  },
-  {
-   "type": "post",
-   "x": 1360.0,
-   "y": -60.0
-  },
-  {
-   "type": "post",
-   "x": 1520.0,
-   "y": -60.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1440.0,
-   "y": -133.0
+   "type": "stone_slab",
+   "x": 1782.0,
+   "y": -160.0
   }
  ],
  "archers": [
   {
-   "x": 870.0,
-   "y": -209.5
+   "x": 876.0,
+   "y": -157.5
   },
   {
-   "x": 1140.0,
-   "y": -255.5
+   "x": 1182.0,
+   "y": -495.5
   },
   {
-   "x": 1440.0,
+   "x": 1396.0,
    "y": -29.5
   },
   {
-   "x": 1440.0,
-   "y": -175.5
-  }
- ],
- "bolts": [],
- "mechanisms": [],
- "captives": [],
- "tethers": [
-  {
-   "kind": "pin",
-   "a": 13,
-   "x": 1320.0,
-   "y": -465.0,
-   "frame": {
-    "posts": [
-     1320.0
-    ],
-    "top": -451.0,
-    "bottom": 0.0
-   }
+   "x": 1548.0,
+   "y": -29.5
   },
   {
-   "kind": "rope",
-   "a": 16,
-   "x": 1425.0,
-   "y": -465.0,
-   "b": 13,
-   "attach": [
-    1425.0,
-    -355.0
-   ]
+   "x": 1472.0,
+   "y": -175.5
+  },
+  {
+   "x": 1782.0,
+   "y": -29.5
+  },
+  {
+   "x": 1782.0,
+   "y": -209.5
   }
- ]
+ ],
+ "bolts": [
+  {
+   "a": 8,
+   "b": 9
+  },
+  {
+   "a": 9,
+   "b": 10
+  },
+  {
+   "a": 10,
+   "b": 11
+  },
+  {
+   "a": 11,
+   "b": 12
+  }
+ ],
+ "mechanisms": [],
+ "captives": []
 }

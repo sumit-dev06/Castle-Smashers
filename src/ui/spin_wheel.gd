@@ -246,7 +246,7 @@ func _refresh() -> void:
 	_spin_btn.icon = null if free or Ads.ads_removed() else Art.tex("icon_video")
 	_spin_btn.expand_icon = true
 	_spin_btn.add_theme_constant_override("icon_max_width", 48)
-	_spin_btn.disabled = left <= 0 or _spinning
+	UIKit.locked(_spin_btn, "The wheel is spinning..." if _spinning else ("All spins used today. A new free spin comes tomorrow!" if left <= 0 else ""))
 	var ad_left: int = left - (1 if free else 0)
 	if free:
 		_left.text = "1 free spin today, then %d more with a video" % ad_left

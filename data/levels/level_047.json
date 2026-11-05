@@ -1,224 +1,256 @@
 {
  "id": 47,
- "name": "Sky Captive",
- "realm": 5,
+ "name": "Powder Express",
+ "realm": 4,
  "heroes": [
   "fire",
-  "bomb",
   "cyclone",
+  "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "The rope holds the cage lock. Cut it.",
+ "strategy": "Cut the brake rope. The cart hits the keg in the crystal tower. The far keep hides behind stone.",
  "cinematic": [
   {
    "t": "title"
   },
   {
+   "t": "focus",
+   "target": "1136,-314",
+   "label": "POWDER CART!"
+  },
+  {
    "t": "enter",
-   "who": "captive",
-   "at": "fortress",
-   "style": "smoke"
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
   },
   {
    "t": "say",
-   "who": "captive",
-   "text": "Cut the rope and my cage opens!"
-  },
-  {
-   "t": "focus",
-   "target": "mech:0",
-   "label": "CUT THE ROPE!"
+   "who": "captain",
+   "text": "Cut the brake rope. Those kegs will do the smashing for us."
   }
  ],
  "callouts": [
   {
-   "target": "mech:0",
-   "label": "CUT THE ROPE!"
+   "target": "bolt:0",
+   "label": "BOLTED"
   }
  ],
  "boss": false,
  "star_scores": [
-  15000,
-  19000,
-  35000
+  30000,
+  35000,
+  52000
  ],
- "camera_right": 1950,
- "camera_top": -600,
+ "camera_right": 2120,
+ "camera_top": -450,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 768,
-    "x1": 1890,
-    "top": -70
+    "x0": 730,
+    "x1": 1980,
+    "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "stone_block",
-   "x": 850,
-   "y": -102.0
+   "type": "cart",
+   "x": 1136.1,
+   "y": -193.7,
+   "rot": 32.01
   },
   {
    "type": "barrel",
-   "x": 850,
-   "y": -163.0
-  },
-  {
-   "type": "post",
-   "x": 970,
-   "y": -130.0
-  },
-  {
-   "type": "post",
-   "x": 1130,
-   "y": -130.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1050,
-   "y": -203.0
-  },
-  {
-   "type": "post",
-   "x": 970,
-   "y": -276.0
-  },
-  {
-   "type": "post",
-   "x": 1130,
-   "y": -276.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1050,
-   "y": -349.0
+   "x": 1148.9,
+   "y": -261.2,
+   "rot": 32.01
   },
   {
    "type": "barrel",
-   "x": 1050,
-   "y": -99.0
+   "x": 1191.3,
+   "y": -234.7,
+   "rot": 32.01
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1460.0,
+   "y": -70.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1600.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1530.0,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 1450.0,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 1610.0,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1530.0,
+   "y": -313.0
+  },
+  {
+   "type": "barrel",
+   "x": 1556.0,
+   "y": -29.0
   },
   {
    "type": "roof_tile",
-   "x": 1050,
-   "y": -412.0,
+   "x": 1530.0,
+   "y": -376.0,
    "flag": true
   },
   {
-   "type": "ice_block",
-   "x": 1240,
-   "y": -102.0
+   "type": "stone_block",
+   "x": 1670.0,
+   "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 1240,
-   "y": -166.0
+   "x": 1670.0,
+   "y": -96.0
   },
   {
    "type": "stone_block",
-   "x": 1352,
-   "y": -102.0
+   "x": 1670.0,
+   "y": -160.0
   },
   {
    "type": "stone_block",
-   "x": 1352,
-   "y": -166.0
+   "x": 1742.0,
+   "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 1508,
-   "y": -102.0
+   "x": 1742.0,
+   "y": -96.0
   },
   {
    "type": "stone_block",
-   "x": 1508,
-   "y": -166.0
+   "x": 1898.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1898.0,
+   "y": -96.0
   },
   {
    "type": "plank_long",
-   "x": 1430,
-   "y": -211.0
+   "x": 1820.0,
+   "y": -141.0
   },
   {
-   "type": "post",
-   "x": 1350,
-   "y": -284.0
+   "type": "stone_pillar",
+   "x": 1750.0,
+   "y": -224.0
   },
   {
-   "type": "post",
-   "x": 1510,
-   "y": -284.0
+   "type": "stone_pillar",
+   "x": 1890.0,
+   "y": -224.0
   },
   {
-   "type": "plank_long",
-   "x": 1430,
-   "y": -357.0
-  },
-  {
-   "type": "barrel",
-   "x": 1452.0,
-   "y": -99.0
+   "type": "stone_slab",
+   "x": 1820.0,
+   "y": -314.0
   },
   {
    "type": "roof_tile",
-   "x": 1430,
-   "y": -420.0,
+   "x": 1820.0,
+   "y": -384.0,
    "flag": true
   }
  ],
  "archers": [
   {
-   "x": 1050,
-   "y": -245.5
+   "x": 820.0,
+   "y": -229.5
   },
   {
-   "x": 1430,
-   "y": -253.5
+   "x": 1530.0,
+   "y": -209.5
   },
   {
-   "x": 1407.0,
-   "y": -99.5
+   "x": 1503.0,
+   "y": -29.5
+  },
+  {
+   "x": 1670.0,
+   "y": -221.5
+  },
+  {
+   "x": 1820.0,
+   "y": -29.5
+  },
+  {
+   "x": 1820.0,
+   "y": -183.5
   }
  ],
- "bolts": [],
- "mechanisms": [
+ "bolts": [
   {
-   "type": "rope_load",
-   "x": 1640,
-   "y": -550,
-   "length": 120,
-   "load": "crate",
-   "releases": "free_pilot",
-   "frame": {
-    "posts": [
-     1640.0
+   "a": 0,
+   "b": 1
+  },
+  {
+   "a": 0,
+   "b": 2
+  }
+ ],
+ "mechanisms": [],
+ "captives": [],
+ "ramps": [
+  {
+   "points": [
+    [
+     780.0,
+     0
     ],
-    "top": -494,
-    "bottom": -70,
-    "beam": [
-     1628,
-     1652.0
+    [
+     780.0,
+     -200
+    ],
+    [
+     1060.0,
+     -200
+    ],
+    [
+     1380.0,
+     0
     ]
-   }
+   ],
+   "kind": "rail"
   }
  ],
- "captives": [
+ "tethers": [
   {
-   "x": 1780,
-   "y": -70,
-   "trigger": "free_pilot",
-   "height": 92
+   "kind": "rope",
+   "a": 0,
+   "x": 1040.0,
+   "y": -206,
+   "attach": [
+    1136.1,
+    -193.7
+   ],
+   "lock": true
   }
- ],
- "wind": {
-  "strength": 200,
-  "period_s": 6.0,
-  "gust_s": 3.0,
-  "dir": 1
- }
+ ]
 }

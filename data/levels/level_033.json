@@ -1,38 +1,47 @@
 {
  "id": 33,
- "name": "Rail Cart",
- "realm": 4,
+ "name": "Twin Shelves",
+ "realm": 3,
  "heroes": [
+  "quake",
+  "stone",
   "bomb",
-  "cyclone",
-  "fire",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Lead the cart: aim where it is going.",
+ "strategy": "Each iron shed stands on a cracked shelf. Break both keystones.",
  "cinematic": [],
  "callouts": [
   {
    "target": "mech:0",
-   "label": "MOVING!"
+   "label": "TRAP DOOR"
+  },
+  {
+   "target": "weak",
+   "label": "WEAK POINT"
   }
  ],
  "boss": false,
  "star_scores": [
-  20000,
-  23000,
-  38000
+  35000,
+  42000,
+  62000
  ],
- "camera_right": 1860,
- "camera_top": -570,
+ "camera_right": 2540,
+ "camera_top": -450,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 730,
-    "x1": 1725,
+    "x0": 760,
+    "x1": 1302,
+    "top": 0.0
+   },
+   {
+    "x0": 1620,
+    "x1": 2082,
     "top": 0.0
    }
   ]
@@ -40,127 +49,201 @@
  "blocks": [
   {
    "type": "stone_pillar",
-   "x": 800.0,
+   "x": 830,
    "y": -70.0
   },
   {
    "type": "stone_pillar",
-   "x": 940.0,
+   "x": 970,
    "y": -70.0
   },
   {
    "type": "stone_slab",
-   "x": 870.0,
+   "x": 900,
    "y": -160.0
   },
   {
    "type": "post",
-   "x": 790.0,
+   "x": 820,
    "y": -240.0
   },
   {
    "type": "post",
-   "x": 950.0,
+   "x": 980,
    "y": -240.0
   },
   {
    "type": "plank_long",
-   "x": 870.0,
+   "x": 900,
    "y": -313.0
   },
   {
    "type": "roof_tile",
-   "x": 870.0,
+   "x": 900,
    "y": -376.0,
    "flag": true
   },
   {
    "type": "stone_block",
-   "x": 1040.0,
-   "y": -32.0
+   "x": 1220,
+   "y": -32,
+   "weak_point": true,
+   "trigger": "shelf_a"
   },
   {
-   "type": "stone_block",
-   "x": 1040.0,
-   "y": -96.0
+   "type": "iron_block",
+   "x": 1362,
+   "y": -32
   },
   {
-   "type": "crystal_pillar",
-   "x": 1300.0,
-   "y": -194.0
+   "type": "iron_block",
+   "x": 1362,
+   "y": -96
   },
   {
-   "type": "crystal_pillar",
-   "x": 1440.0,
-   "y": -194.0
+   "type": "iron_block",
+   "x": 1518,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1518,
+   "y": -96
+  },
+  {
+   "type": "iron_beam",
+   "x": 1440,
+   "y": -141
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1690,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1830,
+   "y": -70.0
   },
   {
    "type": "stone_slab",
-   "x": 1370.0,
-   "y": -284.0
+   "x": 1760,
+   "y": -160.0
   },
   {
    "type": "post",
-   "x": 1290.0,
-   "y": -364.0
+   "x": 1680,
+   "y": -240.0
   },
   {
    "type": "post",
-   "x": 1450.0,
-   "y": -364.0
+   "x": 1840,
+   "y": -240.0
   },
   {
    "type": "plank_long",
-   "x": 1370.0,
-   "y": -437.0
-  },
-  {
-   "type": "barrel",
-   "x": 1396.0,
-   "y": -153.0
+   "x": 1760,
+   "y": -313.0
   },
   {
    "type": "roof_tile",
-   "x": 1370.0,
-   "y": -500.0,
+   "x": 1760,
+   "y": -376.0,
    "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 2000,
+   "y": -32,
+   "weak_point": true,
+   "trigger": "shelf_b"
+  },
+  {
+   "type": "iron_block",
+   "x": 2142,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 2142,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 2298,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 2298,
+   "y": -96
+  },
+  {
+   "type": "iron_beam",
+   "x": 2220,
+   "y": -141
   }
  ],
  "archers": [
   {
-   "x": 870.0,
+   "x": 900,
    "y": -209.5
   },
   {
-   "x": 1040.0,
-   "y": -157.5
+   "x": 1440,
+   "y": -29.5
   },
   {
-   "x": 1370.0,
-   "y": -333.5
+   "x": 1440,
+   "y": -183.5
   },
   {
-   "x": 1343.0,
-   "y": -153.5
+   "x": 1760,
+   "y": -29.5
+  },
+  {
+   "x": 1760,
+   "y": -209.5
+  },
+  {
+   "x": 2220,
+   "y": -29.5
+  },
+  {
+   "x": 2220,
+   "y": -183.5
   }
  ],
  "bolts": [],
  "mechanisms": [
   {
-   "type": "moving_platform",
-   "x": 1370.0,
-   "y": -99.0,
+   "type": "trapdoor",
+   "x": 1440.0,
+   "y": 25.0,
    "size": [
-    430,
+    280,
     50
    ],
-   "travel_x": 90,
-   "period_s": 8.0,
-   "travel_y": 0,
-   "phase": 0.0,
-   "chassis": "boss_mine_cart",
-   "chassis_h": 80
+   "trigger": "shelf_a",
+   "hinge": -1,
+   "style": "timber"
+  },
+  {
+   "type": "trapdoor",
+   "x": 2220.0,
+   "y": 25.0,
+   "size": [
+    280,
+    50
+   ],
+   "trigger": "shelf_b",
+   "hinge": -1,
+   "style": "rock"
   }
  ],
- "captives": []
+ "captives": [],
+ "tide": {
+  "amp_px": 45,
+  "period_s": 8.0
+ }
 }

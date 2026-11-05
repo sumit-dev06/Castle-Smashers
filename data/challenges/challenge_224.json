@@ -1,0 +1,172 @@
+{
+ "id": 224,
+ "name": "Faultline Vault",
+ "realm": 3,
+ "heroes": [
+  "quake",
+  "stone",
+  "fire",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Break the keystone. The iron vault and everyone in it must fall.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "TRAP DOOR"
+  },
+  {
+   "target": "weak",
+   "label": "WEAK POINT"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  25000,
+  29000,
+  45000
+ ],
+ "camera_right": 1920,
+ "camera_top": -630,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 740,
+    "x1": 1262,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 810,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 950,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 880,
+   "y": -160.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 810,
+   "y": -250.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 950,
+   "y": -250.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 880,
+   "y": -340.0
+  },
+  {
+   "type": "post",
+   "x": 800,
+   "y": -420.0
+  },
+  {
+   "type": "post",
+   "x": 960,
+   "y": -420.0
+  },
+  {
+   "type": "plank_long",
+   "x": 880,
+   "y": -493.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 880,
+   "y": -556.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1180,
+   "y": -32,
+   "weak_point": true,
+   "trigger": "faultline"
+  },
+  {
+   "type": "iron_block",
+   "x": 1422,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1422,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1578,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1578,
+   "y": -96
+  },
+  {
+   "type": "iron_beam",
+   "x": 1500,
+   "y": -141
+  }
+ ],
+ "archers": [
+  {
+   "x": 880,
+   "y": -209.5
+  },
+  {
+   "x": 880,
+   "y": -389.5
+  },
+  {
+   "x": 1445,
+   "y": -29.5
+  },
+  {
+   "x": 1555,
+   "y": -29.5
+  },
+  {
+   "x": 1500,
+   "y": -183.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "trapdoor",
+   "x": 1500.0,
+   "y": 25.0,
+   "size": [
+    480,
+    50
+   ],
+   "trigger": "faultline",
+   "hinge": -1,
+   "style": "rock"
+  }
+ ],
+ "captives": [],
+ "challenge": true,
+ "special": true,
+ "required_mechanics": [
+  "breakable_ledge"
+ ]
+}

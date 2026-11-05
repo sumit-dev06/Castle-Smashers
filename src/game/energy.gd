@@ -2,8 +2,8 @@ class_name Energy
 extends RefCounted
 ## Army energy: each campaign attempt costs bars; bars come back over time, fast at first and
 ## slower for each further bar (balance.json energy.refill_s, one entry per bar counted up from
-## empty). A rewarded ad can top up enough bars for one level, but not twice in a row: the next
-## level must be paid with rested bars. Save.data["energy"] = {bars, t, ad_lock}.
+## empty). A rewarded ad can always top up enough bars for one level (no limit).
+## Save.data["energy"] = {bars, t}.
 
 
 static func cfg() -> Dictionary:
@@ -30,7 +30,7 @@ static func cost(id: int) -> int:
 
 static func _state() -> Dictionary:
 	if not Save.data.has("energy") or not (Save.data["energy"] is Dictionary):
-		Save.data["energy"] = {"bars": max_bars(), "t": _now(), "ad_lock": false}
+		Save.data["energy"] = {"bars": max_bars(), "t": _now()}
 	return Save.data["energy"]
 
 
@@ -92,9 +92,9 @@ static func can_play(id: int) -> bool:
 	return bars() >= cost(id)
 
 
-## True when a rewarded ad may top up the bars for this level.
+## True when a rewarded ad may top up the bars for this level (always, while energy is on).
 static func ad_allowed() -> bool:
-	return enabled() and not bool(_state().get("ad_lock", false))
+	return enabled()
 
 
 ## Takes the level's bars. False (nothing taken) when there are not enough.
@@ -109,18 +109,17 @@ static func spend(id: int) -> bool:
 	s["bars"] = int(s["bars"]) - c
 	if was_full:
 		s["t"] = _now()
-	s["ad_lock"] = false
 	Save.write()
 	Events.currency_changed.emit("energy", int(s["bars"]))
 	return true
 
 
-## Rewarded ad: tops up exactly what level `id` needs and starts it; the next level must wait.
+## Rewarded ad: tops up exactly what level `id` needs and starts it. Can be used every time.
 static func ad_refill_and_spend(id: int) -> void:
 	var s: Dictionary = _tick()
 	var need: int = cost(id)
 	s["bars"] = maxi(int(s["bars"]), need) - need
-	s["ad_lock"] = true
+	s.erase("ad_lock")
 	Save.write()
 	Events.currency_changed.emit("energy", int(s["bars"]))
 

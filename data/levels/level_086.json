@@ -1,0 +1,212 @@
+{
+ "id": 86,
+ "name": "Hanging Fortress",
+ "realm": 6,
+ "heroes": [
+  "fire",
+  "cyclone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Cut the gondola ropes to dump its guards, then drop the iron ball on the keep.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "CUT A ROPE!"
+  },
+  {
+   "target": "mech:1",
+   "label": "CUT THE ROPE!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  35000,
+  38000,
+  54000
+ ],
+ "camera_right": 2030,
+ "camera_top": -720,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 740,
+    "x1": 1020,
+    "top": 0.0
+   },
+   {
+    "x0": 1540,
+    "x1": 1970,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 810,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 950,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 880,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 800,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 960,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 880,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 880,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "crate",
+   "x": 1250,
+   "y": -547.0
+  },
+  {
+   "type": "barrel",
+   "x": 1250,
+   "y": -608.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1622,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1622,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1778,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1778,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1700,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1630,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1770,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1700,
+   "y": -314.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 880,
+   "y": -209.5
+  },
+  {
+   "x": 880,
+   "y": -29.5
+  },
+  {
+   "x": 1160,
+   "y": -544.5
+  },
+  {
+   "x": 1340,
+   "y": -544.5
+  },
+  {
+   "x": 1250,
+   "y": -666.5
+  },
+  {
+   "x": 1700,
+   "y": -183.5
+  },
+  {
+   "x": 1700,
+   "y": -363.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "hanging_platform",
+   "x": 1250,
+   "y": -640,
+   "size": [
+    340,
+    30
+   ],
+   "span": 300,
+   "drop": 140,
+   "frame": {
+    "posts": [
+     1076.0,
+     1424.0
+    ],
+    "top": -654,
+    "bottom": 260,
+    "beam": [
+     1060.0,
+     1440.0
+    ]
+   }
+  },
+  {
+   "type": "rope_load",
+   "x": 1700,
+   "y": -674.0,
+   "length": 170,
+   "load": "iron_ball",
+   "frame": {
+    "posts": [
+     1900
+    ],
+    "top": -688.0,
+    "bottom": 0.0,
+    "beam": [
+     1688,
+     1912
+    ]
+   }
+  }
+ ],
+ "captives": []
+}

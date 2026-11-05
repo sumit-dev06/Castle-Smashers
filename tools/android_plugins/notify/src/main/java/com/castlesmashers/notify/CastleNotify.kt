@@ -9,6 +9,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.media.AudioAttributes
+import android.net.Uri
 import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
@@ -85,21 +90,47 @@ class CastleNotify(godot: Godot) : GodotPlugin(godot) {
 
 class NotifyReceiver : BroadcastReceiver() {
     companion object {
-        const val CHANNEL = "castle_reminders"
+        /** v2 adds the chime. Android fixes a channel's sound when it is created, so the id changed. */
+        const val CHANNEL = "castle_reminders_v2"
+        private const val OLD_CHANNEL = "castle_reminders"
+        private const val ACCENT = 0xFFE07A1F.toInt()
         const val EXTRA_ID = "cs_id"
         const val EXTRA_TITLE = "cs_title"
         const val EXTRA_BODY = "cs_body"
         const val EXTRA_KIND = "cs_kind"
 
+        fun soundUri(c: Context): Uri = Uri.parse("android.resource://${c.packageName}/${R.raw.castle_chime}")
+
         fun ensureChannel(c: Context) {
             if (Build.VERSION.SDK_INT >= 26) {
                 val nm = c.getSystemService(NotificationManager::class.java)
+                if (nm.getNotificationChannel(OLD_CHANNEL) != null) nm.deleteNotificationChannel(OLD_CHANNEL)
                 if (nm.getNotificationChannel(CHANNEL) == null) {
+                    val attrs = AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build()
                     nm.createNotificationChannel(NotificationChannel(CHANNEL, "Siege reminders", NotificationManager.IMPORTANCE_DEFAULT)
-                        .apply { description = "Daily spin, rewards and new levels" })
+                        .apply {
+                            description = "Daily spin, rewards and new levels"
+                            setSound(soundUri(c), attrs)
+                            enableLights(true)
+                            lightColor = ACCENT
+                        })
                 }
             }
         }
+
+        /** Full-colour app icon for the large icon slot (adaptive icons are drawn into a bitmap). */
+        fun appIconBitmap(c: Context): Bitmap? = try {
+            val d = c.packageManager.getApplicationIcon(c.packageName)
+            val px = (64 * c.resources.displayMetrics.density).toInt()
+            val b = Bitmap.createBitmap(px, px, Bitmap.Config.ARGB_8888)
+            val cv = Canvas(b)
+            d.setBounds(0, 0, px, px)
+            d.draw(cv)
+            b
+        } catch (e: Exception) { null }
     }
 
     override fun onReceive(c: Context, intent: Intent) {
@@ -111,16 +142,18 @@ class NotifyReceiver : BroadcastReceiver() {
         launch.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         val id = intent.getIntExtra(EXTRA_ID, 1)
         val open = PendingIntent.getActivity(c, id, launch, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-        val icon = c.resources.getIdentifier("icon_monochrome", "mipmap", c.packageName).takeIf { it != 0 }
-            ?: c.applicationInfo.icon
-        val n = NotificationCompat.Builder(c, CHANNEL)
-            .setSmallIcon(icon)
+        // White castle silhouette made for the status bar (24 dp, alpha only). The old
+        // mipmap/icon_monochrome is a 108 dp adaptive layer: tiny or a white square on some phones.
+        val b = NotificationCompat.Builder(c, CHANNEL)
+            .setSmallIcon(R.drawable.ic_stat_castle)
+            .setColor(ACCENT)
+            .setSound(soundUri(c))  // Android 7 and older (8+ uses the channel sound)
             .setContentTitle(intent.getStringExtra(EXTRA_TITLE))
             .setContentText(intent.getStringExtra(EXTRA_BODY))
             .setStyle(NotificationCompat.BigTextStyle().bigText(intent.getStringExtra(EXTRA_BODY)))
             .setAutoCancel(true)
             .setContentIntent(open)
-            .build()
-        NotificationManagerCompat.from(c).notify(id, n)
+        appIconBitmap(c)?.let { b.setLargeIcon(it) }
+        NotificationManagerCompat.from(c).notify(id, b.build())
     }
 }

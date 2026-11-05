@@ -4,7 +4,8 @@ extends Node
 const PATH: String = "user://save.json"
 const BACKUP: String = "user://save.json.bak"
 ## v4: blueprints retired (converted to coins), hero upgrades refunded, per-engine upgrades.
-const VERSION: int = 4
+## v5: 120-level campaign; old level ids and challenge ids move to their new numbers.
+const VERSION: int = 5
 ## The two wallet currencies, in display order.
 const WALLET: Array[String] = ["coins", "gems"]
 
@@ -30,6 +31,8 @@ func _ready() -> void:
 		data["save_recovered"] = int(data.get("save_recovered", 0)) + 1
 	if old_version < 4:
 		migrate_v4(data)
+	if old_version < 5:
+		migrate_v5(data)
 	data["version"] = VERSION
 	data["sessions"] = int(data["sessions"]) + 1
 	if String(data.get("save_id", "")).is_empty():
@@ -61,10 +64,53 @@ static func migrate_v4(d: Dictionary) -> void:
 				(old_w as Dictionary).erase(track)
 	d["coins"] = coins
 	var owned: Dictionary = d.get("owned_weapons", {}) if d.get("owned_weapons", {}) is Dictionary else {}
+	# v4 saves still count levels the old (75-level) way; compare in today's numbering.
+	var v5: Dictionary = Data.balance["save_migration"]["v5_levels"]
+	var reached: int = int(v5.get(str(int(d.get("unlocked", 1))), int(d.get("unlocked", 1))))
 	for id: String in ["ballista", "trebuchet"]:
-		if int(d.get("unlocked", 1)) >= int(Data.balance["siege_weapons"][id]["unlock_level"]):
+		if reached >= int(Data.balance["siege_weapons"][id]["unlock_level"]):
 			owned[id] = true
 	d["owned_weapons"] = owned
+
+
+## v4 -> v5. The campaign grew from 75 to 120 levels (five new ones in every realm), so old level ids
+## move to their new numbers (balance.save_migration.v5_levels) and challenge ids move up by
+## challenge_shift. Pure on `d`. Levels the player had already passed stay open: the new levels slotted
+## in before the old frontier are open too (unlocked is a high-water mark).
+static func migrate_v5(d: Dictionary) -> void:
+	var cfg: Dictionary = Data.balance["save_migration"]
+	var map: Dictionary = cfg["v5_levels"]
+	var shift: int = int(cfg["challenge_shift"])
+	for key: String in ["stars", "best", "attempts", "loadouts"]:
+		var old: Variant = d.get(key, {})
+		if not (old is Dictionary):
+			continue
+		var moved: Dictionary = {}
+		for k: Variant in old:
+			var nk: String = str(int(map[String(k)])) if map.has(String(k)) else String(k)
+			moved[nk] = old[k]
+		d[key] = moved
+	var unlocked: int = int(d.get("unlocked", 1))
+	if map.has(str(unlocked)):
+		d["unlocked"] = int(map[str(unlocked)])
+	var ch: Variant = d.get("challenges", {})
+	if ch is Dictionary:
+		var moved_ch: Dictionary = {}
+		for k: Variant in ch:
+			moved_ch[str(int(String(k)) + shift)] = ch[k]
+		d["challenges"] = moved_ch
+	var seen: Variant = d.get("seen", {})
+	if seen is Dictionary:
+		var moved_seen: Dictionary = {}
+		for k: Variant in seen:
+			var parts: PackedStringArray = String(k).split(":")
+			if parts.size() == 2 and parts[1].is_valid_int() and parts[0] in ["story", "boss", "level"] and map.has(parts[1]):
+				moved_seen["%s:%d" % [parts[0], int(map[parts[1]])]] = seen[k]
+			elif parts.size() == 2 and parts[1].is_valid_int() and parts[0] == "mission":
+				moved_seen["mission:%d" % (int(parts[1]) + shift)] = seen[k]
+			else:
+				moved_seen[k] = seen[k]
+		d["seen"] = moved_seen
 
 
 func _defaults() -> Dictionary:
@@ -115,6 +161,8 @@ func replace_with(d: Dictionary, keep: Array) -> void:
 			fresh[k] = data[k]
 	if int(fresh.get("version", 1)) < 4:
 		migrate_v4(fresh)
+	if int(fresh.get("version", 1)) < 5:
+		migrate_v5(fresh)
 	fresh["version"] = VERSION
 	fresh["rev"] = maxi(int(fresh.get("rev", 0)), int(data.get("rev", 0)))
 	data = fresh

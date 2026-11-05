@@ -40,6 +40,7 @@ $GODOT --path . -- --promo --no-popups | --campaign-end    # debug: feature show
 python3 tools/patch_android_template.py             # after (re)installing the Android build template: Firebase Gradle, black splash, backup rules
 python3 tools/release.py check|version|test|aab|apk|verify|upload|status|promote|rollout|halt|release   # releases: see docs/RELEASE_GUIDE.md
 python3 tools/record_trailer.py [clip ...] | --search LEVEL   # Play video clips with sound -> store_listing/video (not in git)
+python3 tools/build_playable.py                     # HTML5 playable ad (levels 6 + 39) -> build/playable, see docs/PLAYABLE_ADS.md
 python3 tools/capture_intro.py                      # re-capture the studio intro from art_source/intro/*.html
 npx wrangler pages deploy web --project-name stonestorm --branch main   # website + privacy policy (stonestorm.pages.dev)
 

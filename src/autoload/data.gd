@@ -7,8 +7,8 @@ var shapes: Dictionary = {}
 var projectiles: Dictionary = {}
 var _levels: Dictionary = {}
 var _novelty: Dictionary = {}
-## Challenge ids start above this (data/challenges/challenge_NNN.json).
-const CHALLENGE_BASE: int = 100
+## Challenge ids start above this (data/challenges/challenge_NNN.json). Campaign ids stay below it.
+const CHALLENGE_BASE: int = 200
 var challenges: Dictionary = {}
 
 

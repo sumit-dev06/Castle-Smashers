@@ -1,0 +1,236 @@
+{
+ "id": 96,
+ "name": "Headwind",
+ "realm": 7,
+ "heroes": [
+  "cyclone",
+  "bomb",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "The fan on the keep blows lobs back. Hit the lever under it (or the fan) to stop it.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "gadget:0",
+   "label": "FAN!"
+  },
+  {
+   "target": "mech:0",
+   "label": "HIT THE LEVER!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  30000,
+  36000,
+  55000
+ ],
+ "camera_right": 2010,
+ "camera_top": -670,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 760,
+    "x1": 1882,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 830,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 970,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 900,
+   "y": -160.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 900,
+   "y": -230.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1172,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1172,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1328,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1328,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1250,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1180,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1320,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1250,
+   "y": -314.0
+  },
+  {
+   "type": "post",
+   "x": 1170,
+   "y": -394.0
+  },
+  {
+   "type": "post",
+   "x": 1330,
+   "y": -394.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1250,
+   "y": -467.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1522,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1522,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1678,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1678,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1600,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 1520,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1680,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1600,
+   "y": -287.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1600,
+   "y": -350.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1800,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1800,
+   "y": -96.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 900,
+   "y": -29.5
+  },
+  {
+   "x": 1250,
+   "y": -183.5
+  },
+  {
+   "x": 1250,
+   "y": -363.5
+  },
+  {
+   "x": 1600,
+   "y": -183.5
+  },
+  {
+   "x": 1600,
+   "y": -29.5
+  },
+  {
+   "x": 1800,
+   "y": -157.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "lever",
+   "x": 1080,
+   "y": 0,
+   "triggers": [
+    "head_fan"
+   ],
+   "facing": 1
+  }
+ ],
+ "captives": [],
+ "gadgets": [
+  {
+   "type": "fan",
+   "x": 1250,
+   "y": -630.0,
+   "dir": 180,
+   "reach": 600,
+   "width": 260,
+   "accel": 1500,
+   "start_on": true,
+   "hit_toggles": true,
+   "trigger": "head_fan",
+   "post": -480.0
+  }
+ ],
+ "tide": {
+  "amp_px": 45,
+  "period_s": 8.0
+ }
+}

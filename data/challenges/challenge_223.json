@@ -1,0 +1,209 @@
+{
+ "id": 223,
+ "name": "The Last Rope",
+ "realm": 2,
+ "heroes": [
+  "fire",
+  "cyclone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Cut one suspension rope to tip three guards into the canyon.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "1100,-525",
+   "label": "CUT A ROPE!"
+  },
+  {
+   "target": "mech:0",
+   "label": "CUT A ROPE!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  35000,
+  38000,
+  53000
+ ],
+ "camera_right": 2060,
+ "camera_top": -640,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 735,
+    "x1": 945,
+    "top": 0.0
+   },
+   {
+    "x0": 1620,
+    "x1": 1900,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 798,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 882,
+   "y": -60.0
+  },
+  {
+   "type": "plank_short",
+   "x": 840,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 798,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 882,
+   "y": -206.0
+  },
+  {
+   "type": "plank_short",
+   "x": 840,
+   "y": -279.0
+  },
+  {
+   "type": "post",
+   "x": 798,
+   "y": -352.0
+  },
+  {
+   "type": "post",
+   "x": 882,
+   "y": -352.0
+  },
+  {
+   "type": "plank_short",
+   "x": 840,
+   "y": -425.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1690,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1830,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1760,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 1680,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 1840,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1760,
+   "y": -313.0
+  },
+  {
+   "type": "post",
+   "x": 1680,
+   "y": -386.0
+  },
+  {
+   "type": "post",
+   "x": 1840,
+   "y": -386.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1760,
+   "y": -459.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1760,
+   "y": -522.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 840,
+   "y": -175.5
+  },
+  {
+   "x": 840,
+   "y": -321.5
+  },
+  {
+   "x": 1180,
+   "y": -504.5
+  },
+  {
+   "x": 1300,
+   "y": -504.5
+  },
+  {
+   "x": 1420,
+   "y": -504.5
+  },
+  {
+   "x": 1760,
+   "y": -209.5
+  },
+  {
+   "x": 1760,
+   "y": -355.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "hanging_platform",
+   "x": 1300,
+   "y": -590,
+   "size": [
+    440,
+    30
+   ],
+   "span": 400,
+   "drop": 130,
+   "frame": {
+    "posts": [
+     1076.0,
+     1524.0
+    ],
+    "top": -604,
+    "bottom": 260,
+    "beam": [
+     1060.0,
+     1540.0
+    ]
+   }
+  }
+ ],
+ "captives": [],
+ "challenge": true,
+ "special": true,
+ "required_mechanics": [
+  "rope_bridge"
+ ]
+}

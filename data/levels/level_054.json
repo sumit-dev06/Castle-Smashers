@@ -1,62 +1,67 @@
 {
  "id": 54,
- "name": "Weight of Stone",
- "realm": 6,
+ "name": "Long Fuse",
+ "realm": 4,
  "heroes": [
-  "cyclone",
-  "stone",
+  "fire",
+  "fire",
   "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Knock the stone off the tall shelf onto the plate. The gate rises: then hit the guards inside.",
+ "strategy": "No Boomer. Light the powder trail with Blaze: it burns into the vault, and that blast lights the next.",
  "cinematic": [
   {
    "t": "title"
   },
   {
-   "t": "focus",
-   "target": "gadget:0",
-   "label": "PRESSURE PLATE!"
+   "t": "enter",
+   "who": "wizard",
+   "at": "catapult",
+   "style": "smoke"
   },
   {
-   "t": "enter",
-   "who": "captain",
-   "at": "catapult",
-   "style": "walk"
+   "t": "focus",
+   "target": "gadget:0",
+   "label": "LIGHT THE FUSE!"
   },
   {
    "t": "say",
-   "who": "captain",
-   "text": "Drop something heavy on that plate and the gate lifts!"
+   "who": "wizard",
+   "text": "A powder trail into their iron vault! Blaze will light it."
   },
   {
    "t": "demo",
    "target": "gadget:0",
-   "hero": "stone"
+   "hero": "fire"
   }
  ],
  "callouts": [
   {
    "target": "gadget:0",
-   "label": "PRESSURE PLATE!"
+   "label": "LIGHT THE FUSE!"
   }
  ],
  "boss": false,
  "star_scores": [
-  20000,
   25000,
-  44000
+  31000,
+  51000
  ],
- "camera_right": 1960,
+ "camera_right": 1980,
  "camera_top": -450,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 760,
+    "x0": 730,
+    "x1": 1010,
+    "top": 0.0
+   },
+   {
+    "x0": 1160,
     "x1": 1830,
     "top": 0.0
    }
@@ -65,160 +70,202 @@
  "blocks": [
   {
    "type": "stone_pillar",
-   "x": 830,
+   "x": 800.0,
    "y": -70.0
   },
   {
    "type": "stone_pillar",
-   "x": 970,
+   "x": 940.0,
    "y": -70.0
   },
   {
    "type": "stone_slab",
-   "x": 900,
+   "x": 870.0,
    "y": -160.0
   },
   {
    "type": "post",
-   "x": 820,
+   "x": 790.0,
    "y": -240.0
   },
   {
    "type": "post",
-   "x": 980,
+   "x": 950.0,
    "y": -240.0
   },
   {
    "type": "plank_long",
-   "x": 900,
+   "x": 870.0,
    "y": -313.0
   },
   {
    "type": "roof_tile",
-   "x": 900,
+   "x": 870.0,
    "y": -376.0,
    "flag": true
   },
   {
-   "type": "stone_block",
-   "x": 1064.0,
-   "y": -32
-  },
-  {
-   "type": "stone_block",
-   "x": 1128.0,
-   "y": -32
-  },
-  {
-   "type": "stone_block",
-   "x": 1192.0,
-   "y": -32
-  },
-  {
-   "type": "stone_block",
-   "x": 1256.0,
-   "y": -32
-  },
-  {
-   "type": "stone_block",
-   "x": 1096.0,
-   "y": -96
-  },
-  {
-   "type": "stone_block",
-   "x": 1160.0,
-   "y": -96
-  },
-  {
-   "type": "stone_block",
-   "x": 1224.0,
-   "y": -96
-  },
-  {
-   "type": "stone_block",
-   "x": 1128.0,
-   "y": -160
-  },
-  {
-   "type": "stone_block",
-   "x": 1192.0,
-   "y": -160
-  },
-  {
-   "type": "stone_block",
-   "x": 1160.0,
-   "y": -224
+   "type": "iron_block",
+   "x": 1242.0,
+   "y": -32.0
   },
   {
    "type": "iron_block",
-   "x": 1592,
-   "y": -32
+   "x": 1242.0,
+   "y": -96.0
   },
   {
    "type": "iron_block",
-   "x": 1592,
-   "y": -96
+   "x": 1398.0,
+   "y": -32.0
   },
   {
    "type": "iron_block",
-   "x": 1748,
-   "y": -32
-  },
-  {
-   "type": "iron_block",
-   "x": 1748,
-   "y": -96
+   "x": 1398.0,
+   "y": -96.0
   },
   {
    "type": "iron_beam",
-   "x": 1670,
-   "y": -141
+   "x": 1320.0,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 1240.0,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1400.0,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1320.0,
+   "y": -287.0
+  },
+  {
+   "type": "barrel",
+   "x": 1346.0,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1320.0,
+   "y": -350.0,
+   "flag": true
+  },
+  {
+   "type": "iron_block",
+   "x": 1592.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1592.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1748.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1748.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1670.0,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 1590.0,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1750.0,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1670.0,
+   "y": -287.0
+  },
+  {
+   "type": "barrel",
+   "x": 1696.0,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1670.0,
+   "y": -350.0,
+   "flag": true
   }
  ],
  "archers": [
   {
-   "x": 900,
+   "x": 870.0,
    "y": -209.5
   },
   {
-   "x": 1647,
+   "x": 1293.0,
    "y": -29.5
   },
   {
-   "x": 1693,
+   "x": 1320.0,
+   "y": -183.5
+  },
+  {
+   "x": 1643.0,
    "y": -29.5
   },
   {
-   "x": 1670,
+   "x": 1670.0,
    "y": -183.5
   }
  ],
  "bolts": [],
- "mechanisms": [
-  {
-   "type": "gate",
-   "x": 1500,
-   "y": -85,
-   "size": [
-    60,
-    170
-   ],
-   "trigger": "keep_gate",
-   "travel_y": 175,
-   "duration_s": 0.5
-  }
- ],
+ "mechanisms": [],
  "captives": [],
  "gadgets": [
   {
-   "type": "plate",
-   "x": 1390,
-   "y": 0,
-   "triggers": [
-    "keep_gate"
+   "type": "fuse",
+   "x": 1090.0,
+   "y": -6,
+   "points": [
+    [
+     130,
+     0
+    ],
+    [
+     256,
+     -14
+    ]
    ],
-   "mass": 6.0,
-   "width": 130
+   "burn_s": 2.5,
+   "blast": true
+  },
+  {
+   "type": "fuse",
+   "x": 1450.0,
+   "y": -6,
+   "points": [
+    [
+     130,
+     0
+    ],
+    [
+     246,
+     -14
+    ]
+   ],
+   "burn_s": 2.0,
+   "blast": true
   }
  ]
 }

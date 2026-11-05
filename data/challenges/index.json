@@ -1,7 +1,7 @@
 {
  "challenges": [
   {
-   "id": 101,
+   "id": 201,
    "name": "Gold Rush",
    "realm": 2,
    "mode": "heist",
@@ -12,11 +12,11 @@
     "stone",
     "stone"
    ],
-   "unlock_level": 17,
+   "unlock_level": 25,
    "icon": "icon_mission_101"
   },
   {
-   "id": 102,
+   "id": 202,
    "name": "Pirate Hoard",
    "realm": 3,
    "mode": "heist",
@@ -27,11 +27,11 @@
     "stone",
     "stone"
    ],
-   "unlock_level": 27,
+   "unlock_level": 40,
    "icon": "icon_mission_102"
   },
   {
-   "id": 103,
+   "id": 203,
    "name": "Beat the Clock",
    "realm": 1,
    "mode": "time_attack",
@@ -42,11 +42,11 @@
     "fire",
     "stone"
    ],
-   "unlock_level": 10,
+   "unlock_level": 15,
    "icon": "icon_mission_103"
   },
   {
-   "id": 104,
+   "id": 204,
    "name": "Forge Sprint",
    "realm": 4,
    "mode": "time_attack",
@@ -57,11 +57,11 @@
     "stone",
     "stone"
    ],
-   "unlock_level": 33,
+   "unlock_level": 49,
    "icon": "icon_mission_104"
   },
   {
-   "id": 105,
+   "id": 205,
    "name": "One Perfect Shot",
    "realm": 4,
    "mode": "one_shot",
@@ -69,11 +69,11 @@
    "heroes": [
     "bomb"
    ],
-   "unlock_level": 37,
+   "unlock_level": 55,
    "icon": "icon_mission_105"
   },
   {
-   "id": 106,
+   "id": 206,
    "name": "Hold the Line",
    "realm": 1,
    "mode": "survival",
@@ -84,11 +84,11 @@
     "fire",
     "stone"
    ],
-   "unlock_level": 14,
+   "unlock_level": 20,
    "icon": "icon_mission_106"
   },
   {
-   "id": 107,
+   "id": 207,
    "name": "Sky Raiders",
    "realm": 5,
    "mode": "reverse_siege",
@@ -99,11 +99,11 @@
     "cyclone",
     "stone"
    ],
-   "unlock_level": 44,
+   "unlock_level": 65,
    "icon": "icon_mission_107"
   },
   {
-   "id": 108,
+   "id": 208,
    "name": "Harbor Assault",
    "realm": 3,
    "mode": "reverse_siege",
@@ -114,13 +114,13 @@
     "quake",
     "stone"
    ],
-   "unlock_level": 24,
+   "unlock_level": 35,
    "icon": "icon_mission_108"
   }
  ],
  "specials": [
   {
-   "id": 121,
+   "id": 221,
    "order": 1,
    "name": "Flooded Foundry",
    "realm": 3,
@@ -137,7 +137,7 @@
    ]
   },
   {
-   "id": 122,
+   "id": 222,
    "order": 2,
    "name": "Mill of Teeth",
    "realm": 4,
@@ -154,7 +154,7 @@
    ]
   },
   {
-   "id": 123,
+   "id": 223,
    "order": 3,
    "name": "The Last Rope",
    "realm": 2,
@@ -171,7 +171,7 @@
    ]
   },
   {
-   "id": 124,
+   "id": 224,
    "order": 4,
    "name": "Faultline Vault",
    "realm": 3,
@@ -188,7 +188,7 @@
    ]
   },
   {
-   "id": 125,
+   "id": 225,
    "order": 5,
    "name": "Counterweight Hall",
    "realm": 2,
@@ -205,7 +205,7 @@
    ]
   },
   {
-   "id": 126,
+   "id": 226,
    "order": 6,
    "name": "Powder Express II",
    "realm": 4,
@@ -222,7 +222,7 @@
    ]
   },
   {
-   "id": 127,
+   "id": 227,
    "order": 7,
    "name": "The Siege Pitcher",
    "realm": 5,
@@ -239,7 +239,7 @@
    ]
   },
   {
-   "id": 128,
+   "id": 228,
    "order": 8,
    "name": "Clockwork Deluge",
    "realm": 3,
@@ -257,7 +257,7 @@
    ]
   },
   {
-   "id": 129,
+   "id": 229,
    "order": 9,
    "name": "Bridge at World's End",
    "realm": 5,
@@ -275,7 +275,7 @@
    ]
   },
   {
-   "id": 130,
+   "id": 230,
    "order": 10,
    "name": "Master's Chain",
    "realm": 4,

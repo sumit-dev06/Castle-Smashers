@@ -1,238 +1,214 @@
 {
  "id": 67,
- "name": "Portal Keep",
- "realm": 7,
+ "name": "Windmill Isle",
+ "realm": 5,
  "heroes": [
   "bomb",
   "cyclone",
-  "stone",
+  "fire",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "The keep has an iron roof. Shoot into the orange ring: you come out of the blue one above the keep.",
- "cinematic": [
-  {
-   "t": "title"
-  },
-  {
-   "t": "focus",
-   "target": "gadget:0",
-   "label": "PORTALS!"
-  },
-  {
-   "t": "enter",
-   "who": "wizard",
-   "at": "catapult",
-   "style": "smoke"
-  },
-  {
-   "t": "say",
-   "who": "wizard",
-   "text": "Orange in, blue out. Through the ring and down into their keep!"
-  }
- ],
+ "strategy": "Gusts change direction. Wait for calm or use them.",
+ "cinematic": [],
  "callouts": [
   {
-   "target": "gadget:0",
-   "label": "PORTALS!"
+   "target": "mech:0",
+   "label": "MOVING!"
+  },
+  {
+   "target": "mech:1",
+   "label": "WRECKING BALL"
   }
  ],
  "boss": false,
  "star_scores": [
   25000,
-  31000,
-  50000
+  28000,
+  43000
  ],
- "camera_right": 2160,
- "camera_top": -500,
+ "camera_right": 1840,
+ "camera_top": -1180,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 740,
-    "x1": 1020,
-    "top": 0.0
-   },
-   {
-    "x0": 1378,
-    "x1": 2010,
-    "top": 0.0
+    "x0": 885,
+    "x1": 1712,
+    "top": -60
    }
   ]
  },
  "blocks": [
   {
-   "type": "stone_pillar",
-   "x": 810,
-   "y": -70.0
+   "type": "post",
+   "x": 948,
+   "y": -120
+  },
+  {
+   "type": "post",
+   "x": 1100,
+   "y": -120
+  },
+  {
+   "type": "post",
+   "x": 1252,
+   "y": -120
+  },
+  {
+   "type": "plank_xl",
+   "x": 1100,
+   "y": -193
+  },
+  {
+   "type": "post",
+   "x": 948,
+   "y": -266
+  },
+  {
+   "type": "post",
+   "x": 1100,
+   "y": -266
+  },
+  {
+   "type": "post",
+   "x": 1252,
+   "y": -266
+  },
+  {
+   "type": "plank_xl",
+   "x": 1100,
+   "y": -339,
+   "banner": true
+  },
+  {
+   "type": "roof_tile",
+   "x": 1100,
+   "y": -402,
+   "flag": true
   },
   {
    "type": "stone_pillar",
-   "x": 950,
-   "y": -70.0
+   "x": 1390,
+   "y": -130.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1530,
+   "y": -130.0
   },
   {
    "type": "stone_slab",
-   "x": 880,
-   "y": -160.0
+   "x": 1460,
+   "y": -220.0
   },
   {
    "type": "post",
-   "x": 800,
-   "y": -240.0
+   "x": 1380,
+   "y": -300.0
   },
   {
    "type": "post",
-   "x": 960,
-   "y": -240.0
+   "x": 1540,
+   "y": -300.0
   },
   {
    "type": "plank_long",
-   "x": 880,
-   "y": -313.0
+   "x": 1460,
+   "y": -373.0
   },
   {
    "type": "roof_tile",
-   "x": 880,
-   "y": -376.0,
+   "x": 1460,
+   "y": -436.0,
    "flag": true
   },
   {
-   "type": "iron_block",
-   "x": 1460,
-   "y": -32
-  },
-  {
-   "type": "iron_block",
-   "x": 1460,
-   "y": -96
-  },
-  {
-   "type": "iron_block",
-   "x": 1460,
-   "y": -160
-  },
-  {
-   "type": "iron_block",
-   "x": 1660,
-   "y": -32
-  },
-  {
-   "type": "iron_block",
-   "x": 1660,
-   "y": -96
-  },
-  {
-   "type": "iron_block",
-   "x": 1660,
-   "y": -160
-  },
-  {
-   "type": "iron_beam",
-   "x": 1560,
-   "y": -205
-  },
-  {
-   "type": "iron_block",
-   "x": 1560,
-   "y": -250
+   "type": "stone_block",
+   "x": 1630,
+   "y": -92.0
   },
   {
    "type": "stone_block",
-   "x": 1772,
-   "y": -32.0
+   "x": 1630,
+   "y": -156.0
   },
   {
-   "type": "stone_block",
-   "x": 1772,
-   "y": -96.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1928,
-   "y": -32.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1928,
-   "y": -96.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1850,
-   "y": -141.0
-  },
-  {
-   "type": "post",
-   "x": 1770,
-   "y": -214.0
-  },
-  {
-   "type": "post",
-   "x": 1930,
-   "y": -214.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1850,
-   "y": -287.0
-  },
-  {
-   "type": "roof_tile",
-   "x": 1850,
-   "y": -350.0,
-   "flag": true
+   "type": "crate",
+   "x": 1362,
+   "y": -602
   }
  ],
  "archers": [
   {
-   "x": 880,
-   "y": -209.5
+   "x": 1050,
+   "y": -89.5
   },
   {
-   "x": 1518,
-   "y": -29.5
+   "x": 1150,
+   "y": -235.5
   },
   {
-   "x": 1602,
-   "y": -29.5
+   "x": 1460,
+   "y": -269.5
   },
   {
-   "x": 1850,
-   "y": -183.5
+   "x": 1630,
+   "y": -217.5
   },
   {
-   "x": 1850,
-   "y": -29.5
+   "x": 1300.0,
+   "y": -599.5
   }
  ],
  "bolts": [],
- "mechanisms": [],
- "captives": [],
- "gadgets": [
+ "mechanisms": [
   {
-   "type": "portal",
-   "x": 1050,
-   "y": -420,
-   "dir": 180,
-   "radius": 40,
-   "color": "#ff9a2a",
-   "pair": 1
+   "type": "moving_platform",
+   "x": 1300,
+   "y": -545.0,
+   "size": [
+    194,
+    50
+   ],
+   "travel_x": 0,
+   "travel_y": 0,
+   "period_s": 4.0,
+   "phase": 0.0,
+   "rise": {
+    "speed": 24,
+    "escape_y": -1080,
+    "warn_px": 260,
+    "lose_text": "The scout escaped to warn the Baron!"
+   },
+   "chassis": "boss_airship_deck",
+   "chassis_h": 100,
+   "balloon": "boss_airship_balloon",
+   "balloon_size": [
+    271,
+    145
+   ],
+   "balloon_y": -182,
+   "floating": true
   },
   {
-   "type": "portal",
-   "x": 1560,
-   "y": -135,
-   "dir": 90,
-   "radius": 40,
-   "color": "#4ab8ff",
-   "pair": 0
+   "type": "swing",
+   "x": 1760,
+   "y": -600,
+   "length": 250,
+   "diameter": 76,
+   "arc_deg": 30,
+   "period_s": 3.4
   }
  ],
- "tide": {
-  "amp_px": 45,
-  "period_s": 8.0
+ "captives": [],
+ "wind": {
+  "strength": 240,
+  "period_s": 6.5,
+  "gust_s": 3.0,
+  "dir": 1,
+  "alternate": true
  }
 }

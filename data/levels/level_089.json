@@ -1,0 +1,245 @@
+{
+ "id": 89,
+ "name": "Rolling Thunder",
+ "realm": 6,
+ "heroes": [
+  "quake",
+  "cyclone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Cut the rope on the hill: the boulder rolls onto the plate and the vault floor drops.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "1018,-278",
+   "label": "CUT THE ROPE!"
+  },
+  {
+   "target": "gadget:0",
+   "label": "PRESSURE PLATE!"
+  },
+  {
+   "target": "mech:0",
+   "label": "TRAP DOOR"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  30000,
+  36000,
+  54000
+ ],
+ "camera_right": 2240,
+ "camera_top": -600,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 1522,
+    "top": 0.0
+   },
+   {
+    "x0": 1638,
+    "x1": 2090,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "boulder",
+   "x": 1018.1,
+   "y": -203.1
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1452.0,
+   "y": -70
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1708.0,
+   "y": -70
+  },
+  {
+   "type": "iron_block",
+   "x": 1502.0,
+   "y": -194
+  },
+  {
+   "type": "iron_block",
+   "x": 1502.0,
+   "y": -258
+  },
+  {
+   "type": "iron_block",
+   "x": 1658.0,
+   "y": -194
+  },
+  {
+   "type": "iron_block",
+   "x": 1658.0,
+   "y": -258
+  },
+  {
+   "type": "iron_beam",
+   "x": 1580.0,
+   "y": -303
+  },
+  {
+   "type": "iron_block",
+   "x": 1852.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1852.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 2008.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 2008.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1930.0,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1860.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 2000.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1930.0,
+   "y": -314.0
+  },
+  {
+   "type": "post",
+   "x": 1850.0,
+   "y": -394.0
+  },
+  {
+   "type": "post",
+   "x": 2010.0,
+   "y": -394.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1930.0,
+   "y": -467.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1930.0,
+   "y": -530.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 830.0,
+   "y": -269.5
+  },
+  {
+   "x": 1557.0,
+   "y": -191.5
+  },
+  {
+   "x": 1603.0,
+   "y": -191.5
+  },
+  {
+   "x": 1580.0,
+   "y": -345.5
+  },
+  {
+   "x": 1930.0,
+   "y": -183.5
+  },
+  {
+   "x": 1930.0,
+   "y": -363.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "trapdoor",
+   "x": 1580.0,
+   "y": -151,
+   "size": [
+    300,
+    22
+   ],
+   "trigger": "thunder_floor",
+   "hinge": 1
+  }
+ ],
+ "captives": [],
+ "ramps": [
+  {
+   "points": [
+    [
+     780.0,
+     0
+    ],
+    [
+     780.0,
+     -240
+    ],
+    [
+     900.0,
+     -240
+    ],
+    [
+     1200.0,
+     0
+    ]
+   ],
+   "kind": "rock"
+  }
+ ],
+ "tethers": [
+  {
+   "kind": "rope",
+   "a": 0,
+   "x": 880.0,
+   "y": -246,
+   "attach": [
+    1018.1,
+    -203.1
+   ],
+   "lock": true
+  }
+ ],
+ "gadgets": [
+  {
+   "type": "plate",
+   "x": 1330.0,
+   "y": 0,
+   "triggers": [
+    "thunder_floor"
+   ],
+   "mass": 6.0,
+   "width": 140
+  }
+ ]
+}

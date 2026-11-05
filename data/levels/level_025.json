@@ -1,157 +1,273 @@
 {
  "id": 25,
- "name": "Water Spout",
- "realm": 3,
+ "name": "Boulder Trap",
+ "realm": 2,
  "heroes": [
-  "quake",
-  "fire",
+  "bomb",
+  "cyclone",
   "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Shots through the erupting spout get thrown upward.",
- "cinematic": [
-  {
-   "t": "title"
-  },
-  {
-   "t": "focus",
-   "target": "mech:0",
-   "label": "GEYSER!"
-  },
-  {
-   "t": "enter",
-   "who": "captain",
-   "at": "catapult",
-   "style": "walk"
-  },
-  {
-   "t": "say",
-   "who": "captain",
-   "text": "Ride the spout up to the high perch!"
-  },
-  {
-   "t": "demo",
-   "target": "mech:0",
-   "hero": "stone"
-  }
- ],
+ "strategy": "Cut the rope on the hill. The boulder rolls through the wall into the obelisk.",
+ "cinematic": [],
  "callouts": [
   {
-   "target": "mech:0",
-   "label": "WATER SPOUT!"
+   "target": "1029,-292",
+   "label": "CUT THE ROPE!"
+  },
+  {
+   "target": "bolt:0",
+   "label": "BOLTED"
   }
  ],
  "boss": false,
  "star_scores": [
-  15000,
-  17000,
-  29000
+  30000,
+  34000,
+  51000
  ],
- "camera_right": 1730,
- "camera_top": -610,
+ "camera_right": 2370,
+ "camera_top": -810,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
     "x0": 730,
-    "x1": 1016,
+    "x1": 1770,
     "top": 0.0
    },
    {
-    "x0": 1280,
-    "x1": 1566,
-    "top": -200
+    "x0": 1880,
+    "x1": 2240,
+    "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "post",
-   "x": 793.0,
-   "y": -60.0
+   "type": "boulder",
+   "x": 1029.3,
+   "y": -217.7
+  },
+  {
+   "type": "stone_block",
+   "x": 1380.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 1444.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 1380.0,
+   "y": -96
+  },
+  {
+   "type": "stone_block",
+   "x": 1444.0,
+   "y": -96
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1560.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1700.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1630.0,
+   "y": -160.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1560.0,
+   "y": -250.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1700.0,
+   "y": -250.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1630.0,
+   "y": -340.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1560.0,
+   "y": -430.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1700.0,
+   "y": -430.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1630.0,
+   "y": -520.0
   },
   {
    "type": "post",
-   "x": 953.0,
-   "y": -60.0
+   "x": 1550.0,
+   "y": -600.0
+  },
+  {
+   "type": "post",
+   "x": 1710.0,
+   "y": -600.0
   },
   {
    "type": "plank_long",
-   "x": 873.0,
-   "y": -133.0
+   "x": 1630.0,
+   "y": -673.0
   },
   {
    "type": "roof_tile",
-   "x": 873.0,
-   "y": -196.0,
+   "x": 1630.0,
+   "y": -736.0,
    "flag": true
   },
   {
-   "type": "post",
-   "x": 1343.0,
-   "y": -260.0
+   "type": "plank_short",
+   "x": 1485.0,
+   "y": -160.0
   },
   {
-   "type": "post",
-   "x": 1503.0,
-   "y": -260.0
+   "type": "plank_short",
+   "x": 1775.0,
+   "y": -160.0
   },
   {
-   "type": "plank_long",
-   "x": 1423.0,
-   "y": -333.0
-  },
-  {
-   "type": "post",
-   "x": 1343.0,
-   "y": -406.0
-  },
-  {
-   "type": "post",
-   "x": 1503.0,
-   "y": -406.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1423.0,
-   "y": -479.0
-  },
-  {
-   "type": "roof_tile",
-   "x": 1423.0,
-   "y": -542.0,
-   "flag": true
+   "type": "barrel",
+   "x": 2060.0,
+   "y": -29.0
   }
  ],
  "archers": [
   {
-   "x": 873.0,
+   "x": 1630.0,
+   "y": -209.5
+  },
+  {
+   "x": 1630.0,
+   "y": -389.5
+  },
+  {
+   "x": 1630.0,
+   "y": -569.5
+  },
+  {
+   "x": 1485.0,
+   "y": -202.5
+  },
+  {
+   "x": 1775.0,
+   "y": -202.5
+  },
+  {
+   "x": 2011.0,
    "y": -29.5
-  },
-  {
-   "x": 1423.0,
-   "y": -375.5
-  },
-  {
-   "x": 1423.0,
-   "y": -229.5
   }
  ],
- "bolts": [],
- "mechanisms": [
+ "bolts": [
   {
-   "type": "geyser",
-   "x": 1148.0,
-   "y": 0,
-   "height": 560,
-   "period_s": 4.0,
-   "burst_s": 1.6,
-   "phase": 0.0,
-   "width": 90
+   "a": 7,
+   "b": 18
+  },
+  {
+   "a": 7,
+   "b": 19
   }
  ],
- "captives": []
+ "mechanisms": [],
+ "captives": [],
+ "ramps": [
+  {
+   "points": [
+    [
+     780.0,
+     0
+    ],
+    [
+     780.0,
+     -260
+    ],
+    [
+     900.0,
+     -260
+    ],
+    [
+     1240.0,
+     0
+    ]
+   ],
+   "kind": "rock"
+  },
+  {
+   "points": [
+    [
+     2000.0,
+     0
+    ],
+    [
+     1930.0,
+     0
+    ],
+    [
+     1930.0,
+     -360
+    ],
+    [
+     2000.0,
+     -360
+    ]
+   ],
+   "kind": "rock"
+  },
+  {
+   "points": [
+    [
+     2120.0,
+     0
+    ],
+    [
+     2190.0,
+     0
+    ],
+    [
+     2190.0,
+     -360
+    ],
+    [
+     2120.0,
+     -360
+    ]
+   ],
+   "kind": "rock"
+  }
+ ],
+ "tethers": [
+  {
+   "kind": "rope",
+   "a": 0,
+   "x": 880.0,
+   "y": -266,
+   "attach": [
+    1029.3,
+    -217.7
+   ],
+   "lock": true
+  }
+ ]
 }

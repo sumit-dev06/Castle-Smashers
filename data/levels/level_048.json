@@ -1,241 +1,252 @@
 {
  "id": 48,
- "name": "Twin Airships",
- "realm": 5,
+ "name": "Ore Conveyor",
+ "realm": 4,
  "heroes": [
-  "quake",
+  "bomb",
   "cyclone",
-  "fire",
+  "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Two airships drift out of step. Wait until they line up.",
- "cinematic": [],
+ "strategy": "Hit the lever: the belt runs and carries the iron shed off the edge into the lava.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "focus",
+   "target": "gadget:0",
+   "label": "CONVEYOR!"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "Their shed is iron, but it sits on an ore belt. Flip that lever!"
+  },
+  {
+   "t": "demo",
+   "target": "mech:0",
+   "hero": "stone"
+  }
+ ],
  "callouts": [
   {
-   "target": "mech:0",
-   "label": "MOVING!"
+   "target": "gadget:0",
+   "label": "CONVEYOR!"
   }
  ],
  "boss": false,
  "star_scores": [
-  30000,
-  34000,
-  50000
+  40000,
+  45000,
+  64000
  ],
- "camera_right": 1990,
- "camera_top": -650,
+ "camera_right": 2420,
+ "camera_top": -450,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 1634,
-    "x1": 1844,
-    "top": -100
+    "x0": 740,
+    "x1": 1696,
+    "top": 0.0
+   },
+   {
+    "x0": 1960,
+    "x1": 2280,
+    "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "stone_pillar",
-   "x": 899.0,
-   "y": -120.0
+   "type": "crystal_pillar",
+   "x": 810,
+   "y": -70.0
   },
   {
-   "type": "stone_pillar",
-   "x": 1039.0,
-   "y": -120.0
+   "type": "crystal_pillar",
+   "x": 950,
+   "y": -70.0
   },
   {
    "type": "stone_slab",
-   "x": 969.0,
-   "y": -210.0
-  },
-  {
-   "type": "post",
-   "x": 889.0,
-   "y": -290.0
-  },
-  {
-   "type": "post",
-   "x": 1049.0,
-   "y": -290.0
-  },
-  {
-   "type": "plank_long",
-   "x": 969.0,
-   "y": -363.0
-  },
-  {
-   "type": "roof_tile",
-   "x": 969.0,
-   "y": -426.0,
-   "flag": true
-  },
-  {
-   "type": "stone_block",
-   "x": 1301.0,
-   "y": -82.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1301.0,
-   "y": -146.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1457.0,
-   "y": -82.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1457.0,
-   "y": -146.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1379.0,
-   "y": -191.0
-  },
-  {
-   "type": "post",
-   "x": 1299.0,
-   "y": -264.0
-  },
-  {
-   "type": "post",
-   "x": 1459.0,
-   "y": -264.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1379.0,
-   "y": -337.0
-  },
-  {
-   "type": "roof_tile",
-   "x": 1379.0,
-   "y": -400.0,
-   "flag": true
-  },
-  {
-   "type": "post",
-   "x": 1697.0,
+   "x": 880,
    "y": -160.0
   },
   {
    "type": "post",
-   "x": 1781.0,
-   "y": -160.0
-  },
-  {
-   "type": "plank_short",
-   "x": 1739.0,
-   "y": -233.0
+   "x": 800,
+   "y": -240.0
   },
   {
    "type": "post",
-   "x": 1697.0,
-   "y": -306.0
+   "x": 960,
+   "y": -240.0
   },
   {
-   "type": "post",
-   "x": 1781.0,
-   "y": -306.0
+   "type": "plank_long",
+   "x": 880,
+   "y": -313.0
   },
   {
-   "type": "plank_short",
-   "x": 1739.0,
-   "y": -379.0
+   "type": "roof_tile",
+   "x": 880,
+   "y": -376.0,
+   "flag": true
   },
   {
-   "type": "roof",
-   "x": 1739.0,
-   "y": -427.0,
+   "type": "crate",
+   "x": 1260,
+   "y": -40.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1352,
+   "y": -40.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1352,
+   "y": -104.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1508,
+   "y": -40.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1508,
+   "y": -104.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1430,
+   "y": -149.0
+  },
+  {
+   "type": "crate",
+   "x": 1640,
+   "y": -40.0
+  },
+  {
+   "type": "stone_block",
+   "x": 2042,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 2042,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 2198,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 2198,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 2120,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 2050,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 2190,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 2120,
+   "y": -314.0
+  },
+  {
+   "type": "barrel",
+   "x": 2142.0,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 2120,
+   "y": -384.0,
    "flag": true
   }
  ],
  "archers": [
   {
-   "x": 969.0,
-   "y": -259.5
+   "x": 880,
+   "y": -209.5
   },
   {
-   "x": 969.0,
-   "y": -79.5
+   "x": 880,
+   "y": -29.5
   },
   {
-   "x": 1379.0,
-   "y": -233.5
+   "x": 1260,
+   "y": -101.5
   },
   {
-   "x": 1379.0,
-   "y": -79.5
+   "x": 1430,
+   "y": -37.5
   },
   {
-   "x": 1739.0,
-   "y": -275.5
+   "x": 1430,
+   "y": -191.5
   },
   {
-   "x": 1739.0,
-   "y": -129.5
+   "x": 1640,
+   "y": -101.5
+  },
+  {
+   "x": 2120,
+   "y": -183.5
+  },
+  {
+   "x": 2097.0,
+   "y": -29.5
   }
  ],
  "bolts": [],
  "mechanisms": [
   {
-   "type": "moving_platform",
-   "x": 969.0,
-   "y": -25.0,
-   "size": [
-    330,
-    50
+   "type": "lever",
+   "x": 1070,
+   "y": 0,
+   "triggers": [
+    "ore_belt"
    ],
-   "travel_x": 24,
-   "travel_y": 14,
-   "period_s": 6.0,
-   "phase": 0.0,
-   "chassis": "boss_airship_deck",
-   "chassis_h": 100,
-   "balloon": "boss_airship_balloon",
-   "balloon_size": [
-    360,
-    150
-   ],
-   "balloon_y": -520,
-   "floating": true
-  },
-  {
-   "type": "moving_platform",
-   "x": 1379.0,
-   "y": -25.0,
-   "size": [
-    330,
-    50
-   ],
-   "travel_x": 24,
-   "travel_y": 14,
-   "period_s": 7.0,
-   "phase": 1.5,
-   "chassis": "boss_airship_deck",
-   "chassis_h": 100,
-   "balloon": "boss_airship_balloon",
-   "balloon_size": [
-    360,
-    150
-   ],
-   "balloon_y": -520,
-   "floating": true
+   "facing": 1
   }
  ],
  "captives": [],
- "wind": {
-  "strength": 240,
-  "period_s": 6.5,
-  "gust_s": 3.0,
-  "dir": 1,
-  "alternate": true
- }
+ "gadgets": [
+  {
+   "type": "conveyor",
+   "x": 1460.0,
+   "y": -8.0,
+   "width": 520,
+   "speed": 220,
+   "start_on": false,
+   "trigger": "ore_belt"
+  }
+ ]
 }

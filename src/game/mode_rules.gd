@@ -183,6 +183,7 @@ func _spawn_wave() -> void:
 	for p: Variant in w.get("archers", []):
 		var a: Archer = level.spawn_archer(Vector2(float(p[0]), float(p[1]) - drop))
 		a.sleeping = false
+		a.land_grace = Data.bf("modes", "wave_land_grace_s")
 		level.fx.puff(a.global_position, 4, Color(1, 1, 1, 0.85), 1.0)
 	if w.has("heroes"):
 		level.add_heroes(w["heroes"])

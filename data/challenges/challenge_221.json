@@ -1,0 +1,180 @@
+{
+ "id": 221,
+ "name": "Flooded Foundry",
+ "realm": 3,
+ "heroes": [
+  "stone",
+  "cyclone",
+  "quake",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Iron protects the low guards. Open the sluice, then clear the high keep.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "945,-190",
+   "label": "OPEN THE SLUICE!"
+  },
+  {
+   "target": "mech:0",
+   "label": "OPEN THE SLUICE!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  30000,
+  35000,
+  52000
+ ],
+ "camera_right": 2160,
+ "camera_top": -450,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 1990,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "iron_block",
+   "x": 1192.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1192.0,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1348.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1348.0,
+   "y": -96
+  },
+  {
+   "type": "iron_beam",
+   "x": 1270.0,
+   "y": -141
+  },
+  {
+   "type": "iron_block",
+   "x": 1442.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1442.0,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1598.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1598.0,
+   "y": -96
+  },
+  {
+   "type": "iron_beam",
+   "x": 1520.0,
+   "y": -141
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1780.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1920.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1850.0,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 1770.0,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 1930.0,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1850.0,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1850.0,
+   "y": -376.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 1270.0,
+   "y": -29.5
+  },
+  {
+   "x": 1270.0,
+   "y": -183.5
+  },
+  {
+   "x": 1520.0,
+   "y": -29.5
+  },
+  {
+   "x": 1520.0,
+   "y": -183.5
+  },
+  {
+   "x": 1850.0,
+   "y": -209.5
+  },
+  {
+   "x": 1850.0,
+   "y": -29.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "flood",
+   "x": 1070.0,
+   "y": 0.0,
+   "size": [
+    40,
+    170
+   ],
+   "pool": 250,
+   "pool_h": 150,
+   "reach": 900,
+   "depth": 85
+  }
+ ],
+ "captives": [],
+ "challenge": true,
+ "special": true,
+ "required_mechanics": [
+  "flood"
+ ]
+}

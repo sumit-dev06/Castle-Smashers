@@ -1,62 +1,33 @@
 {
  "id": 3,
- "name": "Lantern Pagodas",
+ "name": "Bamboo Stilts",
  "realm": 1,
  "heroes": [
-  "fire",
   "stone",
-  "fire",
+  "stone",
+  "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Fire spreads between touching timber. Light the front pagoda.",
- "cinematic": [
-  {
-   "t": "title"
-  },
-  {
-   "t": "enter",
-   "who": "wizard",
-   "at": "catapult",
-   "style": "smoke"
-  },
-  {
-   "t": "hero",
-   "kind": "fire"
-  },
-  {
-   "t": "say",
-   "who": "wizard",
-   "text": "Master Orin, at your service!"
-  },
-  {
-   "t": "focus",
-   "target": "fortress",
-   "label": "TIMBER BURNS!"
-  },
-  {
-   "t": "demo",
-   "target": "fortress",
-   "hero": "fire"
-  }
- ],
+ "strategy": "Hit the first stilt tower high: it falls into the next, and that one into the last.",
+ "cinematic": [],
  "callouts": [],
  "boss": false,
  "star_scores": [
   25000,
-  30000,
-  47000
+  29000,
+  46000
  ],
- "camera_right": 1980,
+ "camera_right": 1580,
  "camera_top": -530,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 857,
-    "x1": 1830,
+    "x0": 795,
+    "x1": 1452,
     "top": 0.0
    }
   ]
@@ -64,179 +35,173 @@
  "blocks": [
   {
    "type": "post",
-   "x": 920,
+   "x": 858,
    "y": -60.0
   },
   {
    "type": "post",
-   "x": 1080,
+   "x": 942,
    "y": -60.0
   },
   {
-   "type": "plank_long",
-   "x": 1000,
+   "type": "plank_short",
+   "x": 900,
    "y": -133.0
   },
   {
    "type": "post",
-   "x": 920,
+   "x": 858,
    "y": -206.0
   },
   {
    "type": "post",
-   "x": 1080,
-   "y": -206.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1000,
-   "y": -279.0
-  },
-  {
-   "type": "roof_tile",
-   "x": 1000,
-   "y": -342.0,
-   "flag": true
-  },
-  {
-   "type": "post",
-   "x": 1178,
-   "y": -60.0
-  },
-  {
-   "type": "post",
-   "x": 1262,
-   "y": -60.0
-  },
-  {
-   "type": "plank_short",
-   "x": 1220,
-   "y": -133.0
-  },
-  {
-   "type": "post",
-   "x": 1178,
-   "y": -206.0
-  },
-  {
-   "type": "post",
-   "x": 1262,
+   "x": 942,
    "y": -206.0
   },
   {
    "type": "plank_short",
-   "x": 1220,
+   "x": 900,
    "y": -279.0
   },
   {
    "type": "post",
-   "x": 1178,
+   "x": 858,
    "y": -352.0
   },
   {
    "type": "post",
-   "x": 1262,
+   "x": 942,
    "y": -352.0
   },
   {
    "type": "plank_short",
-   "x": 1220,
+   "x": 900,
    "y": -425.0
   },
   {
    "type": "roof",
-   "x": 1220,
+   "x": 900,
    "y": -473.0,
    "flag": true
   },
   {
    "type": "post",
-   "x": 1360,
+   "x": 1008,
    "y": -60.0
   },
   {
    "type": "post",
-   "x": 1520,
+   "x": 1092,
    "y": -60.0
   },
   {
-   "type": "plank_long",
-   "x": 1440,
+   "type": "plank_short",
+   "x": 1050,
    "y": -133.0
   },
   {
    "type": "post",
-   "x": 1360,
+   "x": 1008,
    "y": -206.0
   },
   {
    "type": "post",
-   "x": 1520,
+   "x": 1092,
    "y": -206.0
   },
   {
-   "type": "plank_long",
-   "x": 1440,
+   "type": "plank_short",
+   "x": 1050,
    "y": -279.0
   },
   {
-   "type": "roof_tile",
-   "x": 1440,
-   "y": -342.0,
+   "type": "post",
+   "x": 1008,
+   "y": -352.0
+  },
+  {
+   "type": "post",
+   "x": 1092,
+   "y": -352.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1050,
+   "y": -425.0
+  },
+  {
+   "type": "roof",
+   "x": 1050,
+   "y": -473.0,
+   "flag": true
+  },
+  {
+   "type": "post",
+   "x": 1158,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1242,
+   "y": -60.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1200,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 1158,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1242,
+   "y": -206.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1200,
+   "y": -279.0
+  },
+  {
+   "type": "roof",
+   "x": 1200,
+   "y": -327.0,
    "flag": true
   },
   {
    "type": "stone_block",
-   "x": 1592,
+   "x": 1370,
    "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 1592,
+   "x": 1370,
    "y": -96.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1748,
-   "y": -32.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1748,
-   "y": -96.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1670,
-   "y": -141.0
-  },
-  {
-   "type": "roof_tile",
-   "x": 1670,
-   "y": -204.0,
-   "flag": true
   }
  ],
  "archers": [
   {
-   "x": 1000,
+   "x": 900,
    "y": -175.5
   },
   {
-   "x": 1220,
+   "x": 900,
    "y": -321.5
   },
   {
-   "x": 1440,
-   "y": -29.5
+   "x": 1050,
+   "y": -321.5
   },
   {
-   "x": 1440,
+   "x": 1200,
    "y": -175.5
   },
   {
-   "x": 1670,
-   "y": -29.5
+   "x": 1370,
+   "y": -157.5
   }
  ],
  "bolts": [],

@@ -1,0 +1,290 @@
+{
+ "id": 113,
+ "name": "Bank to the Keg",
+ "realm": 8,
+ "heroes": [
+  "fire",
+  "cyclone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Bounce off the mushroom onto the keg behind the iron wall: the crusher drops through the keep.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "gadget:0",
+   "label": "BOUNCE PAD!"
+  },
+  {
+   "target": "mech:0",
+   "label": "DROP THE CRUSHER!"
+  },
+  {
+   "target": "mech:1",
+   "label": "SPIKES"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  30000,
+  39000,
+  63000
+ ],
+ "camera_right": 2220,
+ "camera_top": -850,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 2090,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 800.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 940.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 870.0,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 790.0,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 950.0,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 870.0,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 870.0,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "iron_block",
+   "x": 1090.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1090.0,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1090.0,
+   "y": -160
+  },
+  {
+   "type": "iron_block",
+   "x": 1090.0,
+   "y": -224
+  },
+  {
+   "type": "iron_block",
+   "x": 1090.0,
+   "y": -288
+  },
+  {
+   "type": "barrel",
+   "x": 1210.0,
+   "y": -29,
+   "weak_point": true,
+   "trigger": "bank_drop"
+  },
+  {
+   "type": "iron_block",
+   "x": 1432.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1432.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1588.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1588.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1510.0,
+   "y": -141.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1432.0,
+   "y": -186.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1432.0,
+   "y": -250.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1588.0,
+   "y": -186.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1588.0,
+   "y": -250.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1510.0,
+   "y": -295.0
+  },
+  {
+   "type": "post",
+   "x": 1430.0,
+   "y": -368.0
+  },
+  {
+   "type": "post",
+   "x": 1590.0,
+   "y": -368.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1510.0,
+   "y": -441.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1510.0,
+   "y": -504.0,
+   "flag": true
+  },
+  {
+   "type": "iron_block",
+   "x": 1852.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1852.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 2008.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 2008.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1930.0,
+   "y": -141.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 870.0,
+   "y": -209.5
+  },
+  {
+   "x": 1090.0,
+   "y": -349.5
+  },
+  {
+   "x": 1510.0,
+   "y": -183.5
+  },
+  {
+   "x": 1510.0,
+   "y": -337.5
+  },
+  {
+   "x": 1930.0,
+   "y": -29.5
+  },
+  {
+   "x": 1930.0,
+   "y": -183.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "crusher",
+   "x": 1510.0,
+   "y": -704.0,
+   "size": [
+    230,
+    100
+   ],
+   "trigger": "bank_drop",
+   "travel_y": 644.0,
+   "mode": "trigger",
+   "phase": 0.0,
+   "hold_k": 1.0,
+   "chain_px": 60,
+   "frame": {
+    "posts": [
+     1377.0,
+     1643.0
+    ],
+    "top": -824.0,
+    "bottom": 0.0,
+    "beam": [
+     1361.0,
+     1659.0
+    ]
+   }
+  },
+  {
+   "type": "spikes",
+   "x": 1730.0,
+   "y": -22,
+   "size": [
+    160,
+    44
+   ]
+  }
+ ],
+ "captives": [],
+ "gadgets": [
+  {
+   "type": "bumper",
+   "x": 1310.0,
+   "y": -640,
+   "radius": 60,
+   "kick": 700,
+   "stem": 0
+  }
+ ]
+}

@@ -1,0 +1,251 @@
+{
+ "id": 84,
+ "name": "Fuse and Lever",
+ "realm": 6,
+ "heroes": [
+  "fire",
+  "cyclone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Light the trail, then hit the high lever as the spark nears the lamp. Both within 2.5 s.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "gadget:1",
+   "label": "HIT BOTH IN TIME!"
+  },
+  {
+   "target": "gadget:0",
+   "label": "LIGHT THE FUSE!"
+  },
+  {
+   "target": "mech:0",
+   "label": "HIT THE LEVER!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  25000,
+  31000,
+  49000
+ ],
+ "camera_right": 1970,
+ "camera_top": -460,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 1838,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 800.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 940.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 870.0,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 790.0,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 950.0,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 870.0,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 870.0,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1040.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 1142.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1142.0,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1298.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1298.0,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1220.0,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1150.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1290.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1220.0,
+   "y": -314.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1532.0,
+   "y": -70
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1768.0,
+   "y": -70
+  },
+  {
+   "type": "iron_block",
+   "x": 1572.0,
+   "y": -194
+  },
+  {
+   "type": "iron_block",
+   "x": 1572.0,
+   "y": -258
+  },
+  {
+   "type": "iron_block",
+   "x": 1728.0,
+   "y": -194
+  },
+  {
+   "type": "iron_block",
+   "x": 1728.0,
+   "y": -258
+  },
+  {
+   "type": "iron_beam",
+   "x": 1650.0,
+   "y": -303
+  }
+ ],
+ "archers": [
+  {
+   "x": 870.0,
+   "y": -209.5
+  },
+  {
+   "x": 1220.0,
+   "y": -183.5
+  },
+  {
+   "x": 1627.0,
+   "y": -191.5
+  },
+  {
+   "x": 1673.0,
+   "y": -191.5
+  },
+  {
+   "x": 1650.0,
+   "y": -345.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "lever",
+   "x": 1220.0,
+   "y": -334.0,
+   "triggers": [
+    "lamp_lever"
+   ],
+   "facing": -1
+  },
+  {
+   "type": "trapdoor",
+   "x": 1650.0,
+   "y": -151,
+   "size": [
+    280,
+    22
+   ],
+   "trigger": "fuse_floor",
+   "hinge": 1
+  }
+ ],
+ "captives": [],
+ "gadgets": [
+  {
+   "type": "fuse",
+   "x": 1040.0,
+   "y": -66,
+   "points": [
+    [
+     30,
+     60
+    ],
+    [
+     280,
+     60
+    ],
+    [
+     280,
+     -234
+    ]
+   ],
+   "burn_s": 4.0,
+   "blast": false,
+   "triggers": [
+    "lamp_fuse"
+   ]
+  },
+  {
+   "type": "relay",
+   "x": 1500.0,
+   "y": -420,
+   "inputs": [
+    "lamp_fuse",
+    "lamp_lever"
+   ],
+   "triggers": [
+    "fuse_floor"
+   ],
+   "window_s": 2.5
+  }
+ ]
+}

@@ -1,0 +1,321 @@
+{
+ "id": 117,
+ "name": "Fire Relay",
+ "realm": 8,
+ "heroes": [
+  "fire",
+  "fire",
+  "bomb",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Three trails, three lengths. Light the long one first so all three lamps glow within 2 s.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "gadget:3",
+   "label": "HIT BOTH IN TIME!"
+  },
+  {
+   "target": "gadget:0",
+   "label": "LIGHT THE FUSE!"
+  },
+  {
+   "target": "mech:0",
+   "label": "TRAP DOOR"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  30000,
+  37000,
+  57000
+ ],
+ "camera_right": 2360,
+ "camera_top": -450,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 1412,
+    "top": 0.0
+   },
+   {
+    "x0": 1512,
+    "x1": 1652,
+    "top": 0.0
+   },
+   {
+    "x0": 1768,
+    "x1": 2220,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 800.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 940.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 870.0,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 790.0,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 950.0,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 870.0,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 870.0,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1010.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 1170.0,
+   "y": -32
+  },
+  {
+   "type": "stone_block",
+   "x": 1330.0,
+   "y": -32
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1582.0,
+   "y": -70
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1838.0,
+   "y": -70
+  },
+  {
+   "type": "iron_block",
+   "x": 1632.0,
+   "y": -194
+  },
+  {
+   "type": "iron_block",
+   "x": 1632.0,
+   "y": -258
+  },
+  {
+   "type": "iron_block",
+   "x": 1788.0,
+   "y": -194
+  },
+  {
+   "type": "iron_block",
+   "x": 1788.0,
+   "y": -258
+  },
+  {
+   "type": "iron_beam",
+   "x": 1710.0,
+   "y": -303
+  },
+  {
+   "type": "iron_block",
+   "x": 1982.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1982.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 2138.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 2138.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 2060.0,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 1980.0,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 2140.0,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 2060.0,
+   "y": -287.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 2060.0,
+   "y": -350.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 870.0,
+   "y": -209.5
+  },
+  {
+   "x": 1687.0,
+   "y": -191.5
+  },
+  {
+   "x": 1733.0,
+   "y": -191.5
+  },
+  {
+   "x": 1710.0,
+   "y": -345.5
+  },
+  {
+   "x": 2060.0,
+   "y": -183.5
+  },
+  {
+   "x": 2060.0,
+   "y": -29.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "trapdoor",
+   "x": 1710.0,
+   "y": -151,
+   "size": [
+    300,
+    22
+   ],
+   "trigger": "fire_floor",
+   "hinge": 1
+  }
+ ],
+ "captives": [],
+ "gadgets": [
+  {
+   "type": "fuse",
+   "x": 1010.0,
+   "y": -66,
+   "points": [
+    [
+     30,
+     60
+    ],
+    [
+     470,
+     60
+    ],
+    [
+     470,
+     -234
+    ]
+   ],
+   "burn_s": 5.0,
+   "blast": false,
+   "triggers": [
+    "lamp_a"
+   ]
+  },
+  {
+   "type": "fuse",
+   "x": 1170.0,
+   "y": -66,
+   "points": [
+    [
+     30,
+     60
+    ],
+    [
+     310,
+     60
+    ],
+    [
+     310,
+     -234
+    ]
+   ],
+   "burn_s": 3.0,
+   "blast": false,
+   "triggers": [
+    "lamp_b"
+   ]
+  },
+  {
+   "type": "fuse",
+   "x": 1330.0,
+   "y": -66,
+   "points": [
+    [
+     30,
+     60
+    ],
+    [
+     150,
+     60
+    ],
+    [
+     150,
+     -234
+    ]
+   ],
+   "burn_s": 1.5,
+   "blast": false,
+   "triggers": [
+    "lamp_c"
+   ]
+  },
+  {
+   "type": "relay",
+   "x": 1510.0,
+   "y": -340,
+   "inputs": [
+    "lamp_a",
+    "lamp_b",
+    "lamp_c"
+   ],
+   "triggers": [
+    "fire_floor"
+   ],
+   "window_s": 2.0
+  }
+ ]
+}

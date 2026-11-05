@@ -1,182 +1,233 @@
 {
  "id": 41,
- "name": "First Island",
- "realm": 5,
+ "name": "Captive Brig",
+ "realm": 3,
  "heroes": [
-  "cyclone",
+  "fire",
   "bomb",
-  "stone",
+  "cyclone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Tailwind gusts: aim a little shorter while they blow. Ice is slippery and shatters.",
+ "strategy": "Break the marked stack to open the brig.",
  "cinematic": [
   {
    "t": "title"
   },
   {
    "t": "enter",
-   "who": "captain",
-   "at": "catapult",
-   "style": "walk"
-  },
-  {
-   "t": "say",
-   "who": "captain",
-   "text": "The sky wind carries our shots further."
-  },
-  {
-   "t": "focus",
-   "target": "fortress",
-   "label": "TAILWIND"
-  },
-  {
-   "t": "enter",
-   "who": "baron",
-   "at": "top",
+   "who": "captive",
+   "at": "fortress",
    "style": "smoke"
   },
   {
    "t": "say",
-   "who": "baron",
-   "text": "Climb all you like. You'll only fall further!"
+   "who": "captive",
+   "text": "They threw me in the brig!"
+  },
+  {
+   "t": "focus",
+   "target": "captive:0",
+   "label": "RESCUE!"
   }
  ],
- "callouts": [],
+ "callouts": [
+  {
+   "target": "weak",
+   "label": "WEAK POINT"
+  }
+ ],
  "boss": false,
  "star_scores": [
   20000,
-  22000,
-  36000
+  26000,
+  45000
  ],
- "camera_right": 1770,
- "camera_top": -440,
+ "camera_right": 1950,
+ "camera_top": -450,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 857,
-    "x1": 1143,
+    "x0": 777,
+    "x1": 1890,
     "top": 0.0
-   },
-   {
-    "x0": 1315,
-    "x1": 1642,
-    "top": -60
    }
   ]
  },
  "blocks": [
   {
-   "type": "post",
-   "x": 920,
-   "y": -60.0
+   "type": "barrel",
+   "x": 850,
+   "y": -29.0
+  },
+  {
+   "type": "barrel",
+   "x": 850,
+   "y": -87.0
+  },
+  {
+   "type": "iron_block",
+   "x": 972,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 972,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1128,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1128,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1050,
+   "y": -141.0
   },
   {
    "type": "post",
-   "x": 1080,
-   "y": -60.0
+   "x": 970,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1130,
+   "y": -214.0
   },
   {
    "type": "plank_long",
-   "x": 1000,
-   "y": -133.0
+   "x": 1050,
+   "y": -287.0
   },
   {
-   "type": "post",
-   "x": 920,
-   "y": -206.0
-  },
-  {
-   "type": "post",
-   "x": 1080,
-   "y": -206.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1000,
-   "y": -279.0
+   "type": "barrel",
+   "x": 1076.0,
+   "y": -29.0
   },
   {
    "type": "roof_tile",
-   "x": 1000,
-   "y": -342.0,
+   "x": 1050,
+   "y": -350.0,
    "flag": true
   },
   {
-   "type": "post",
-   "x": 1378,
-   "y": -120.0
+   "type": "stone_block",
+   "x": 1240,
+   "y": -32.0
   },
   {
-   "type": "post",
-   "x": 1462,
-   "y": -120.0
+   "type": "barrel",
+   "x": 1240,
+   "y": -93.0
   },
   {
-   "type": "plank_short",
-   "x": 1420,
-   "y": -193.0
+   "type": "stone_block",
+   "x": 1352,
+   "y": -32.0
   },
   {
-   "type": "post",
-   "x": 1378,
-   "y": -266.0
+   "type": "stone_block",
+   "x": 1352,
+   "y": -96.0
   },
   {
-   "type": "post",
-   "x": 1462,
-   "y": -266.0
+   "type": "stone_block",
+   "x": 1508,
+   "y": -32.0
   },
   {
-   "type": "plank_short",
-   "x": 1420,
-   "y": -339.0
+   "type": "stone_block",
+   "x": 1508,
+   "y": -96.0
   },
   {
-   "type": "roof",
-   "x": 1420,
-   "y": -387.0,
+   "type": "plank_long",
+   "x": 1430,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1360,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1500,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1430,
+   "y": -314.0
+  },
+  {
+   "type": "barrel",
+   "x": 1452.0,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1430,
+   "y": -384.0,
    "flag": true
   },
   {
-   "type": "ice_block",
-   "x": 1560,
-   "y": -92.0
+   "type": "crate",
+   "x": 1620,
+   "y": -32.0
   },
   {
-   "type": "ice_block",
-   "x": 1560,
-   "y": -156.0
+   "type": "crate",
+   "x": 1620,
+   "y": -96.0
+  },
+  {
+   "type": "barrel",
+   "x": 1620,
+   "y": -157.0,
+   "weak_point": true,
+   "trigger": "free_lookout"
   }
  ],
  "archers": [
   {
-   "x": 1000,
-   "y": -175.5
+   "x": 1050,
+   "y": -183.5
   },
   {
-   "x": 1000,
+   "x": 1023.0,
    "y": -29.5
   },
   {
-   "x": 1420,
-   "y": -235.5
+   "x": 1430,
+   "y": -183.5
   },
   {
-   "x": 1560,
-   "y": -217.5
+   "x": 1407.0,
+   "y": -29.5
   }
  ],
  "bolts": [],
  "mechanisms": [],
- "captives": [],
- "wind": {
-  "strength": 200,
-  "period_s": 6.0,
-  "gust_s": 3.0,
-  "dir": 1
+ "captives": [
+  {
+   "x": 1780,
+   "y": 0,
+   "trigger": "free_lookout",
+   "height": 92
+  }
+ ],
+ "tide": {
+  "amp_px": 45,
+  "period_s": 8.0
  }
 }

@@ -17,6 +17,8 @@ const TEST_INTERSTITIAL: String = "ca-app-pub-3940256099942544/1033173712"
 const TEST_REWARDED: String = "ca-app-pub-3940256099942544/5224354917"
 
 var _last_interstitial_ms: int = -1000000000
+## Pending "continue after the ad" of the current match break (see match_break).
+var _break_finish: Callable = Callable()
 var _backend: RefCounted = null
 
 
@@ -43,6 +45,14 @@ func _start_backend() -> void:
 		Analytics.event("rewarded_ad_failed", {"placement": id})
 		rewarded_failed.emit(id))
 	_backend.call("start")
+
+
+## Back in front after a full-screen ad: if the ad never reported closing, continue anyway.
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_FOCUS_IN and _break_finish.is_valid():
+		var f: Callable = _break_finish
+		_break_finish = Callable()
+		get_tree().create_timer(float(Data.b("ads", "break_resume_grace_s")), true, false, true).timeout.connect(f)
 
 
 func available() -> bool:
@@ -127,12 +137,25 @@ func match_break(level_id: int, then: Callable) -> void:
 	_last_interstitial_ms = Time.get_ticks_msec()
 	Analytics.event("interstitial_shown", {"level_id": level_id})
 	Analytics.set_crash_key("phase", "ad_interstitial")
-	_backend.connect("interstitial_closed", then, CONNECT_ONE_SHOT)
+	# `then` runs exactly once: when the ad reports it closed, or (safety net) when the game is back in
+	# front without that report, or after ads.break_timeout_s. A lost callback must never freeze the
+	# results screen.
+	var done: Array[bool] = [false]
+	var finish: Callable = func() -> void:
+		if done[0]:
+			return
+		done[0] = true
+		_break_finish = Callable()
+		_full_screen(false)
+		then.call()
+	_backend.connect("interstitial_closed", finish, CONNECT_ONE_SHOT)
+	_break_finish = finish
 	_full_screen(true)
 	if not bool(_backend.call("show_interstitial")):
-		_full_screen(false)
-		_backend.disconnect("interstitial_closed", then)
-		then.call()
+		_backend.disconnect("interstitial_closed", finish)
+		finish.call()
+		return
+	get_tree().create_timer(float(Data.b("ads", "break_timeout_s")), true, false, true).timeout.connect(finish)
 
 
 ## True where the law needs an "Ad privacy" entry in Settings (EEA, UK, Switzerland).

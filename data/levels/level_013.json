@@ -1,16 +1,16 @@
 {
  "id": 13,
- "name": "Crusher Gate",
- "realm": 2,
+ "name": "River Gondola",
+ "realm": 1,
  "heroes": [
-  "cyclone",
   "bomb",
+  "fire",
   "stone",
   "stone"
  ],
  "soldiers": 4,
- "power_budget": 8,
- "strategy": "The crusher eats shots. Fire as it rises.",
+ "power_budget": 7,
+ "strategy": "Cut one gondola rope to tip the guards into the river. Time your shot at the bobbing balloon.",
  "cinematic": [
   {
    "t": "title"
@@ -18,7 +18,7 @@
   {
    "t": "focus",
    "target": "mech:0",
-   "label": "CRUSHER!"
+   "label": "CUT A ROPE!"
   },
   {
    "t": "enter",
@@ -29,148 +29,190 @@
   {
    "t": "say",
    "who": "captain",
-   "text": "Shoot between the slams!"
+   "text": "One rope and they tip into the river!"
   },
   {
-   "t": "emote",
-   "who": "captain",
-   "e": "point"
+   "t": "demo",
+   "target": "mech:0",
+   "hero": "stone"
   }
  ],
  "callouts": [
   {
    "target": "mech:0",
-   "label": "CRUSHER!"
+   "label": "CUT A ROPE!"
   }
  ],
  "boss": false,
  "star_scores": [
-  20000,
-  22000,
-  36000
+  25000,
+  28000,
+  43000
  ],
- "camera_right": 1600,
- "camera_top": -630,
+ "camera_right": 1920,
+ "camera_top": -790,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 798,
-    "x1": 1440,
+    "x0": 1230,
+    "x1": 1662,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
+   "type": "crate",
+   "x": 920.0,
+   "y": -347
+  },
+  {
    "type": "stone_block",
-   "x": 880,
+   "x": 1312.0,
    "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 880,
+   "x": 1312.0,
    "y": -96.0
   },
   {
-   "type": "stone_pillar",
-   "x": 1230,
-   "y": -70.0
+   "type": "stone_block",
+   "x": 1468.0,
+   "y": -32.0
   },
   {
-   "type": "stone_pillar",
-   "x": 1370,
-   "y": -70.0
-  },
-  {
-   "type": "stone_slab",
-   "x": 1300,
-   "y": -160.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1230,
-   "y": -250.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1370,
-   "y": -250.0
-  },
-  {
-   "type": "stone_slab",
-   "x": 1300,
-   "y": -340.0
-  },
-  {
-   "type": "post",
-   "x": 1220,
-   "y": -420.0
-  },
-  {
-   "type": "post",
-   "x": 1380,
-   "y": -420.0
+   "type": "stone_block",
+   "x": 1468.0,
+   "y": -96.0
   },
   {
    "type": "plank_long",
-   "x": 1300,
-   "y": -493.0,
-   "banner": true
+   "x": 1390.0,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1320.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1460.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1390.0,
+   "y": -314.0
+  },
+  {
+   "type": "post",
+   "x": 1310.0,
+   "y": -394.0
+  },
+  {
+   "type": "post",
+   "x": 1470.0,
+   "y": -394.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1390.0,
+   "y": -467.0
   },
   {
    "type": "roof_tile",
-   "x": 1300,
-   "y": -556.0,
+   "x": 1390.0,
+   "y": -530.0,
    "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1580.0,
+   "y": -32.0
+  },
+  {
+   "type": "barrel",
+   "x": 1580.0,
+   "y": -93.0
+  },
+  {
+   "type": "crate",
+   "x": 1702.0,
+   "y": -442
   }
  ],
  "archers": [
   {
-   "x": 880,
-   "y": -157.5
+   "x": 850.0,
+   "y": -344.5
   },
   {
-   "x": 1300,
-   "y": -29.5
+   "x": 990.0,
+   "y": -344.5
   },
   {
-   "x": 1300,
-   "y": -209.5
+   "x": 1390.0,
+   "y": -183.5
   },
   {
-   "x": 1300,
-   "y": -389.5
+   "x": 1390.0,
+   "y": -363.5
+  },
+  {
+   "x": 1640.0,
+   "y": -439.5
   }
  ],
  "bolts": [],
  "mechanisms": [
   {
-   "type": "crusher",
-   "x": 1050,
+   "type": "hanging_platform",
+   "x": 920.0,
    "y": -420,
    "size": [
-    150,
-    120
+    240,
+    30
    ],
-   "travel_y": 360,
-   "mode": "cycle",
-   "phase": 0.0,
-   "hold_k": 1.0,
-   "chain_px": 60,
+   "span": 200,
+   "drop": 120,
    "frame": {
     "posts": [
-     957.0,
-     1143.0
+     796.0,
+     1044.0
     ],
-    "top": -550.0,
-    "bottom": 0.0,
+    "top": -434,
+    "bottom": 260,
     "beam": [
-     941.0,
-     1159.0
+     780.0,
+     1060.0
     ]
    }
+  },
+  {
+   "type": "moving_platform",
+   "x": 1640.0,
+   "y": -385.0,
+   "size": [
+    194,
+    50
+   ],
+   "travel_x": 0,
+   "travel_y": 130,
+   "period_s": 2.6,
+   "phase": 0.0,
+   "chassis": "boss_airship_deck",
+   "chassis_h": 100,
+   "balloon": "boss_airship_balloon",
+   "balloon_size": [
+    271,
+    145
+   ],
+   "balloon_y": -182,
+   "floating": true
   }
  ],
  "captives": []

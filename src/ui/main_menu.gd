@@ -168,7 +168,7 @@ func _open_rename() -> void:
 	var cfg: Dictionary = Data.balance["profile"]
 	var free: bool = int(Save.data.get("unlocked", 1)) >= int(cfg["free_rename_level"])
 	var cost: Dictionary = {} if free else {"gems": int(cfg["rename_gems"])}
-	var layer: CanvasLayer = UIFx.overlay()
+	var layer: CanvasLayer = UIFx.popup_layer()
 	layer.add_child(UIKit.dim())
 	# Name panel at the top, our own keyboard on the lower screen: the system keyboard floats over
 	# the middle in landscape and hid the field.
@@ -580,7 +580,7 @@ func _toast(text: String) -> void:
 ## Welcome letter with a one-time gift (balance home.welcome_mail).
 func _open_mail() -> void:
 	Sound.play("ui_tap")
-	var layer: CanvasLayer = UIFx.overlay()
+	var layer: CanvasLayer = UIFx.popup_layer()
 	var dim: ColorRect = UIKit.dim()
 	layer.add_child(dim)
 	var center: CenterContainer = CenterContainer.new()

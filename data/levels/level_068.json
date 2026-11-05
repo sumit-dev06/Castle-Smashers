@@ -1,245 +1,202 @@
 {
  "id": 68,
- "name": "Bounce House",
- "realm": 7,
+ "name": "Sky Seesaws",
+ "realm": 5,
  "heroes": [
+  "quake",
   "fire",
-  "cyclone",
-  "stone",
+  "fire",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Iron walls block straight shots. Bounce off the high mushroom into the courtyard.",
- "cinematic": [
-  {
-   "t": "title"
-  },
-  {
-   "t": "focus",
-   "target": "gadget:0",
-   "label": "BOUNCE PAD!"
-  },
-  {
-   "t": "enter",
-   "who": "captain",
-   "at": "catapult",
-   "style": "walk"
-  },
-  {
-   "t": "say",
-   "who": "captain",
-   "text": "Bank a shot off the mushroom, over the iron wall!"
-  }
- ],
+ "strategy": "Melt the ice under the first seesaw with Blaze. Smash the crate under the second.",
+ "cinematic": [],
  "callouts": [
   {
-   "target": "gadget:0",
-   "label": "BOUNCE PAD!"
+   "target": "1100,-110",
+   "label": "SEESAW!"
+  },
+  {
+   "target": "1790,-110",
+   "label": "SEESAW!"
   }
  ],
  "boss": false,
  "star_scores": [
-  35000,
-  41000,
-  60000
+  30000,
+  32000,
+  46000
  ],
- "camera_right": 2150,
- "camera_top": -660,
+ "camera_right": 2180,
+ "camera_top": -450,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 737,
-    "x1": 2003,
+    "x0": 730,
+    "x1": 1010,
+    "top": 0.0
+   },
+   {
+    "x0": 1124,
+    "x1": 1766,
+    "top": 0.0
+   },
+   {
+    "x0": 1888,
+    "x1": 2052,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "post",
-   "x": 800,
-   "y": -60.0
-  },
-  {
-   "type": "post",
-   "x": 960,
-   "y": -60.0
-  },
-  {
-   "type": "plank_long",
-   "x": 880,
-   "y": -133.0
-  },
-  {
-   "type": "post",
-   "x": 800,
-   "y": -206.0
-  },
-  {
-   "type": "post",
-   "x": 960,
-   "y": -206.0
-  },
-  {
-   "type": "plank_long",
-   "x": 880,
-   "y": -279.0
-  },
-  {
-   "type": "roof_tile",
-   "x": 880,
-   "y": -342.0,
-   "flag": true
-  },
-  {
-   "type": "iron_block",
-   "x": 1160,
-   "y": -32
-  },
-  {
-   "type": "iron_block",
-   "x": 1160,
-   "y": -96
-  },
-  {
-   "type": "iron_block",
-   "x": 1160,
-   "y": -160
-  },
-  {
-   "type": "iron_block",
-   "x": 1160,
-   "y": -224
-  },
-  {
-   "type": "iron_block",
-   "x": 1160,
-   "y": -288
-  },
-  {
    "type": "stone_pillar",
-   "x": 1350,
+   "x": 800.0,
    "y": -70.0
   },
   {
    "type": "stone_pillar",
-   "x": 1490,
+   "x": 940.0,
    "y": -70.0
   },
   {
    "type": "stone_slab",
-   "x": 1420,
+   "x": 870.0,
    "y": -160.0
   },
   {
    "type": "post",
-   "x": 1340,
+   "x": 790.0,
    "y": -240.0
   },
   {
    "type": "post",
-   "x": 1500,
+   "x": 950.0,
    "y": -240.0
   },
   {
    "type": "plank_long",
-   "x": 1420,
+   "x": 870.0,
    "y": -313.0
   },
   {
    "type": "roof_tile",
-   "x": 1420,
+   "x": 870.0,
    "y": -376.0,
    "flag": true
   },
   {
-   "type": "iron_block",
-   "x": 1660,
-   "y": -32
+   "type": "ice_block",
+   "x": 1353.0,
+   "y": -32.0
   },
   {
-   "type": "iron_block",
-   "x": 1660,
-   "y": -96
+   "type": "plank_xl",
+   "x": 1220.0,
+   "y": -77
   },
   {
-   "type": "iron_block",
-   "x": 1660,
-   "y": -160
+   "type": "crate",
+   "x": 1537.0,
+   "y": -32.0,
+   "scroll": true
   },
   {
-   "type": "iron_block",
-   "x": 1660,
-   "y": -224
+   "type": "plank_xl",
+   "x": 1670.0,
+   "y": -77
   },
   {
-   "type": "post",
-   "x": 1780,
-   "y": -60.0
+   "type": "ice_block",
+   "x": 1970.0,
+   "y": -32.0
   },
   {
-   "type": "post",
-   "x": 1940,
-   "y": -60.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1860,
-   "y": -133.0
+   "type": "ice_block",
+   "x": 1970.0,
+   "y": -96.0
   }
  ],
  "archers": [
   {
-   "x": 880,
-   "y": -175.5
-  },
-  {
-   "x": 880,
-   "y": -29.5
-  },
-  {
-   "x": 1160,
-   "y": -349.5
-  },
-  {
-   "x": 1420,
+   "x": 870.0,
    "y": -209.5
   },
   {
-   "x": 1420,
-   "y": -29.5
+   "x": 1355.0,
+   "y": -119.5
   },
   {
-   "x": 1860,
-   "y": -29.5
+   "x": 1290.0,
+   "y": -119.5
   },
   {
-   "x": 1860,
-   "y": -175.5
+   "x": 1535.0,
+   "y": -119.5
+  },
+  {
+   "x": 1600.0,
+   "y": -119.5
+  },
+  {
+   "x": 1970.0,
+   "y": -157.5
   }
  ],
  "bolts": [],
  "mechanisms": [],
  "captives": [],
- "gadgets": [
+ "ramps": [
   {
-   "type": "bumper",
-   "x": 1360,
-   "y": -560,
-   "radius": 60,
-   "kick": 700,
-   "stem": 0
+   "points": [
+    [
+     1174.0,
+     0
+    ],
+    [
+     1220.0,
+     -64
+    ],
+    [
+     1266.0,
+     0
+    ]
+   ],
+   "kind": "wood"
   },
   {
-   "type": "bumper",
-   "x": 720,
-   "y": 70,
-   "radius": 70,
-   "kick": 950,
-   "stem": 0
+   "points": [
+    [
+     1624.0,
+     0
+    ],
+    [
+     1670.0,
+     -64
+    ],
+    [
+     1716.0,
+     0
+    ]
+   ],
+   "kind": "wood"
+  }
+ ],
+ "tethers": [
+  {
+   "kind": "pin",
+   "a": 8,
+   "x": 1220.0,
+   "y": -77
+  },
+  {
+   "kind": "pin",
+   "a": 10,
+   "x": 1670.0,
+   "y": -77
   }
  ]
 }

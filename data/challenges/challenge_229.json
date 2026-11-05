@@ -1,0 +1,195 @@
+{
+ "id": 229,
+ "name": "Bridge at World's End",
+ "realm": 5,
+ "heroes": [
+  "fire",
+  "quake",
+  "cyclone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Collapse the rope bridge, then break the cliff beneath the last vault.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "1050,-477",
+   "label": "CUT A ROPE!"
+  },
+  {
+   "target": "mech:0",
+   "label": "CUT A ROPE!"
+  },
+  {
+   "target": "mech:1",
+   "label": "TRAP DOOR"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  30000,
+  33000,
+  47000
+ ],
+ "camera_right": 2280,
+ "camera_top": -580,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 940,
+    "top": 0.0
+   },
+   {
+    "x0": 1593,
+    "x1": 1757,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 793.0,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 877.0,
+   "y": -60.0
+  },
+  {
+   "type": "plank_short",
+   "x": 835.0,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 793.0,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 877.0,
+   "y": -206.0
+  },
+  {
+   "type": "plank_short",
+   "x": 835.0,
+   "y": -279.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1675.0,
+   "y": -32,
+   "weak_point": true,
+   "trigger": "last_cliff"
+  },
+  {
+   "type": "iron_block",
+   "x": 1847.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1847.0,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 2003.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 2003.0,
+   "y": -96
+  },
+  {
+   "type": "iron_beam",
+   "x": 1925.0,
+   "y": -141
+  }
+ ],
+ "archers": [
+  {
+   "x": 835.0,
+   "y": -175.5
+  },
+  {
+   "x": 835.0,
+   "y": -29.5
+  },
+  {
+   "x": 1155.0,
+   "y": -464.5
+  },
+  {
+   "x": 1295.0,
+   "y": -464.5
+  },
+  {
+   "x": 1925.0,
+   "y": -29.5
+  },
+  {
+   "x": 1925.0,
+   "y": -183.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "hanging_platform",
+   "x": 1225.0,
+   "y": -535,
+   "size": [
+    390,
+    30
+   ],
+   "span": 350,
+   "drop": 115,
+   "frame": {
+    "posts": [
+     1026.0,
+     1424.0
+    ],
+    "top": -549,
+    "bottom": 260,
+    "beam": [
+     1010.0,
+     1440.0
+    ]
+   }
+  },
+  {
+   "type": "trapdoor",
+   "x": 1925.0,
+   "y": 25.0,
+   "size": [
+    360,
+    50
+   ],
+   "trigger": "last_cliff",
+   "hinge": -1,
+   "style": "rock"
+  }
+ ],
+ "captives": [],
+ "challenge": true,
+ "wind": {
+  "strength": 240,
+  "period_s": 6.5,
+  "gust_s": 3.0,
+  "dir": 1,
+  "alternate": true
+ },
+ "special": true,
+ "required_mechanics": [
+  "rope_bridge",
+  "breakable_ledge"
+ ]
+}

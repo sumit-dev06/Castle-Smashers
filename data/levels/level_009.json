@@ -1,6 +1,6 @@
 {
  "id": 9,
- "name": "River Gondola",
+ "name": "Keg Cellar",
  "realm": 1,
  "heroes": [
   "bomb",
@@ -9,170 +9,224 @@
   "stone"
  ],
  "soldiers": 4,
- "power_budget": 8,
- "strategy": "Cut one gondola rope to tip the guards into the river.",
- "cinematic": [
-  {
-   "t": "title"
-  },
-  {
-   "t": "focus",
-   "target": "mech:0",
-   "label": "CUT A ROPE!"
-  },
-  {
-   "t": "enter",
-   "who": "captain",
-   "at": "catapult",
-   "style": "walk"
-  },
-  {
-   "t": "say",
-   "who": "captain",
-   "text": "One rope and they tip into the river!"
-  },
-  {
-   "t": "demo",
-   "target": "mech:0",
-   "hero": "stone"
-  }
- ],
+ "power_budget": 7,
+ "strategy": "The pit guards hide between rock walls. Cut the rope: the rock drops down the aisle onto the keg.",
+ "cinematic": [],
  "callouts": [
   {
    "target": "mech:0",
-   "label": "CUT A ROPE!"
+   "label": "CUT THE ROPE!"
   }
  ],
  "boss": false,
  "star_scores": [
-  20000,
-  22000,
-  35000
+  25000,
+  29000,
+  45000
  ],
- "camera_right": 1790,
- "camera_top": -560,
+ "camera_right": 2040,
+ "camera_top": -810,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 1247,
-    "x1": 1662,
+    "x0": 730,
+    "x1": 1890,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "crate",
-   "x": 920.0,
-   "y": -347
-  },
-  {
-   "type": "post",
-   "x": 1310.0,
-   "y": -60.0
-  },
-  {
-   "type": "post",
-   "x": 1470.0,
-   "y": -60.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1390.0,
-   "y": -133.0
-  },
-  {
-   "type": "post",
-   "x": 1310.0,
-   "y": -206.0
-  },
-  {
-   "type": "post",
-   "x": 1470.0,
-   "y": -206.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1390.0,
-   "y": -279.0
-  },
-  {
-   "type": "post",
-   "x": 1310.0,
-   "y": -352.0
-  },
-  {
-   "type": "post",
-   "x": 1470.0,
-   "y": -352.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1390.0,
-   "y": -425.0
-  },
-  {
-   "type": "roof_tile",
-   "x": 1390.0,
-   "y": -488.0,
-   "flag": true
-  },
-  {
-   "type": "crate",
-   "x": 1580.0,
+   "type": "stone_block",
+   "x": 812.0,
    "y": -32.0
   },
   {
+   "type": "stone_block",
+   "x": 812.0,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 968.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 968.0,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 890.0,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 810.0,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 970.0,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 890.0,
+   "y": -287.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 890.0,
+   "y": -350.0,
+   "flag": true
+  },
+  {
    "type": "barrel",
-   "x": 1580.0,
-   "y": -93.0
+   "x": 1290.0,
+   "y": -29.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1652.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1652.0,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1808.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1808.0,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1730.0,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1660.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1800.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1730.0,
+   "y": -314.0
+  },
+  {
+   "type": "barrel",
+   "x": 1752.0,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1730.0,
+   "y": -384.0,
+   "flag": true
   }
  ],
  "archers": [
   {
-   "x": 850.0,
-   "y": -344.5
+   "x": 890.0,
+   "y": -183.5
   },
   {
-   "x": 990.0,
-   "y": -344.5
+   "x": 1241.0,
+   "y": -29.5
   },
   {
-   "x": 1390.0,
-   "y": -175.5
+   "x": 1339.0,
+   "y": -29.5
   },
   {
-   "x": 1390.0,
-   "y": -321.5
+   "x": 1707.0,
+   "y": -29.5
+  },
+  {
+   "x": 1730.0,
+   "y": -183.5
   }
  ],
  "bolts": [],
  "mechanisms": [
   {
-   "type": "hanging_platform",
-   "x": 920.0,
-   "y": -420,
-   "size": [
-    240,
-    30
-   ],
-   "span": 200,
-   "drop": 120,
+   "type": "rope_load",
+   "x": 1290.0,
+   "y": -760,
+   "length": 250,
+   "load": "boulder",
    "frame": {
     "posts": [
-     796.0,
-     1044.0
+     1510.0
     ],
-    "top": -434,
-    "bottom": 260,
+    "top": -774,
+    "bottom": 0.0,
     "beam": [
-     780.0,
-     1060.0
+     1278.0,
+     1522.0
     ]
    }
   }
  ],
- "captives": []
+ "captives": [],
+ "ramps": [
+  {
+   "points": [
+    [
+     1207.0,
+     0
+    ],
+    [
+     1137.0,
+     0
+    ],
+    [
+     1137.0,
+     -340
+    ],
+    [
+     1207.0,
+     -340
+    ]
+   ],
+   "kind": "rock"
+  },
+  {
+   "points": [
+    [
+     1373.0,
+     0
+    ],
+    [
+     1443.0,
+     0
+    ],
+    [
+     1443.0,
+     -340
+    ],
+    [
+     1373.0,
+     -340
+    ]
+   ],
+   "kind": "rock"
+  }
+ ]
 }

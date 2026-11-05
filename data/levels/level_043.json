@@ -1,207 +1,191 @@
 {
  "id": 43,
- "name": "Spring Trap",
- "realm": 5,
+ "name": "Storm Watch",
+ "realm": 3,
  "heroes": [
   "quake",
-  "cyclone",
+  "bomb",
   "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Cut the latch rope under the spring, then cut the rope holding the rock over the keep.",
- "cinematic": [],
- "callouts": [
+ "strategy": "Gusts blow toward you. Aim further while the wind sign shows a gust.",
+ "cinematic": [
   {
-   "target": "1250,-90",
-   "label": "CUT THE LATCH!"
+   "t": "title"
   },
   {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "Storm wind! It pushes our shots back."
+  },
+  {
+   "t": "focus",
    "target": "mech:0",
-   "label": "CUT THE ROPE!"
+   "label": "WRECKING BALL"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "WRECKING BALL"
   }
  ],
  "boss": false,
  "star_scores": [
-  30000,
-  32000,
-  46000
+  15000,
+  18000,
+  33000
  ],
- "camera_right": 1930,
- "camera_top": -830,
+ "camera_right": 1920,
+ "camera_top": -630,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 757,
-    "x1": 1870,
+    "x0": 860,
+    "x1": 1790,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "post",
-   "x": 820,
-   "y": -60.0
-  },
-  {
-   "type": "post",
-   "x": 980,
-   "y": -60.0
-  },
-  {
-   "type": "plank_long",
-   "x": 900,
-   "y": -133.0
-  },
-  {
-   "type": "post",
-   "x": 820,
-   "y": -206.0
-  },
-  {
-   "type": "post",
-   "x": 980,
-   "y": -206.0
-  },
-  {
-   "type": "plank_long",
-   "x": 900,
-   "y": -279.0
-  },
-  {
-   "type": "roof_tile",
-   "x": 900,
-   "y": -342.0,
-   "flag": true
-  },
-  {
-   "type": "plank_long",
-   "x": 1250,
-   "y": -150
-  },
-  {
    "type": "stone_pillar",
-   "x": 1530,
+   "x": 930,
    "y": -70.0
   },
   {
    "type": "stone_pillar",
-   "x": 1670,
+   "x": 1070,
    "y": -70.0
   },
   {
    "type": "stone_slab",
-   "x": 1600,
+   "x": 1000,
    "y": -160.0
   },
   {
    "type": "post",
-   "x": 1520,
+   "x": 920,
    "y": -240.0
   },
   {
    "type": "post",
-   "x": 1680,
+   "x": 1080,
    "y": -240.0
   },
   {
    "type": "plank_long",
-   "x": 1600,
+   "x": 1000,
    "y": -313.0
   },
   {
    "type": "roof_tile",
-   "x": 1600,
+   "x": 1000,
    "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1290,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1430,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1360,
+   "y": -160.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1290,
+   "y": -250.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1430,
+   "y": -250.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1360,
+   "y": -340.0
+  },
+  {
+   "type": "post",
+   "x": 1280,
+   "y": -420.0
+  },
+  {
+   "type": "post",
+   "x": 1440,
+   "y": -420.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1360,
+   "y": -493.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1360,
+   "y": -556.0,
    "flag": true
   }
  ],
  "archers": [
   {
-   "x": 900,
-   "y": -175.5
-  },
-  {
-   "x": 900,
-   "y": -29.5
-  },
-  {
-   "x": 1190,
-   "y": -192.5
-  },
-  {
-   "x": 1310,
-   "y": -192.5
-  },
-  {
-   "x": 1600,
+   "x": 1000,
    "y": -209.5
   },
   {
-   "x": 1600,
-   "y": -29.5
+   "x": 1360,
+   "y": -209.5
+  },
+  {
+   "x": 1360,
+   "y": -389.5
   }
  ],
  "bolts": [],
  "mechanisms": [
   {
-   "type": "rope_load",
-   "x": 1600,
-   "y": -776.0,
-   "length": 220,
-   "load": "boulder",
-   "frame": {
-    "posts": [
-     1800
-    ],
-    "top": -790.0,
-    "bottom": 0.0,
-    "beam": [
-     1588,
-     1812
-    ]
-   }
-  }
- ],
- "captives": [],
- "tethers": [
-  {
-   "kind": "spring",
-   "a": 7,
-   "x": 1180.0,
-   "y": 0.0,
-   "attach": [
-    1250,
-    -137
-   ],
-   "rest": 410,
-   "stiffness": 60.0,
-   "damping": 0.4
+   "type": "swing",
+   "x": 700,
+   "y": -540,
+   "length": 250,
+   "diameter": 80,
+   "arc_deg": 28,
+   "period_s": 3.6
   },
   {
-   "kind": "rope",
-   "a": 7,
-   "x": 1250,
-   "y": -77,
-   "attach": [
-    1250,
-    -137
-   ],
-   "lock": true,
-   "kick": [
-    570.9,
-    -1223.3
+   "type": "spikes",
+   "x": 1650,
+   "y": -22,
+   "size": [
+    180,
+    44
    ]
   }
  ],
+ "captives": [],
  "wind": {
-  "strength": 200,
-  "period_s": 6.0,
+  "strength": 260,
+  "period_s": 7.0,
   "gust_s": 3.0,
-  "dir": 1
+  "dir": -1
  }
 }

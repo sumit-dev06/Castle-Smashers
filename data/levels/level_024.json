@@ -1,46 +1,38 @@
 {
  "id": 24,
- "name": "Harbor Lighthouse",
- "realm": 3,
+ "name": "Twin Crushers",
+ "realm": 2,
  "heroes": [
-  "quake",
   "cyclone",
+  "bomb",
   "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Twister clears the crow's nests. Knock the front stone off the rune switch, then hit it to drop the back guards.",
+ "strategy": "Two crushers slam out of step. Fire through each one as it rises.",
  "cinematic": [],
  "callouts": [
   {
    "target": "mech:0",
-   "label": "TRAP DOOR"
-  },
-  {
-   "target": "mech:1",
-   "label": "?"
-  },
-  {
-   "target": "bolt:0",
-   "label": "BOLTED"
+   "label": "CRUSHER!"
   }
  ],
  "boss": false,
  "star_scores": [
-  40000,
-  44000,
-  61000
+  30000,
+  35000,
+  52000
  ],
- "camera_right": 1880,
- "camera_top": -750,
+ "camera_right": 1960,
+ "camera_top": -600,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
     "x0": 768,
-    "x1": 1753,
+    "x1": 1810,
     "top": 0.0
    }
   ]
@@ -48,190 +40,200 @@
  "blocks": [
   {
    "type": "stone_block",
-   "x": 1222,
+   "x": 850,
    "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 1222,
+   "x": 850,
+   "y": -96.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1160,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1300,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1230,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 1150,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 1310,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1230,
+   "y": -313.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1152.0,
+   "y": -358.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1308.0,
+   "y": -358.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1572,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1572,
    "y": -96.0
   },
   {
    "type": "stone_block",
-   "x": 1378,
+   "x": 1728,
    "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 1378,
+   "x": 1728,
    "y": -96.0
   },
   {
    "type": "plank_long",
-   "x": 1300,
+   "x": 1650,
    "y": -141.0
   },
   {
    "type": "stone_pillar",
-   "x": 1230,
+   "x": 1580,
    "y": -224.0
   },
   {
    "type": "stone_pillar",
-   "x": 1370,
+   "x": 1720,
    "y": -224.0
   },
   {
    "type": "stone_slab",
-   "x": 1300,
+   "x": 1650,
    "y": -314.0
   },
   {
    "type": "post",
-   "x": 1220,
+   "x": 1570,
    "y": -394.0
   },
   {
    "type": "post",
-   "x": 1380,
+   "x": 1730,
    "y": -394.0
   },
   {
    "type": "plank_long",
-   "x": 1300,
+   "x": 1650,
    "y": -467.0
   },
   {
-   "type": "post",
-   "x": 1220,
-   "y": -540.0
-  },
-  {
-   "type": "post",
-   "x": 1380,
-   "y": -540.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1300,
-   "y": -613.0
+   "type": "barrel",
+   "x": 1650,
+   "y": -29.0
   },
   {
    "type": "roof_tile",
-   "x": 1300,
-   "y": -676.0,
+   "x": 1650,
+   "y": -530.0,
    "flag": true
-  },
-  {
-   "type": "plank_short",
-   "x": 1155.0,
-   "y": -314.0
-  },
-  {
-   "type": "plank_short",
-   "x": 1445.0,
-   "y": -314.0
-  },
-  {
-   "type": "post",
-   "x": 920,
-   "y": -60.0
-  },
-  {
-   "type": "post",
-   "x": 1080,
-   "y": -60.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1000,
-   "y": -133.0
-  },
-  {
-   "type": "roof_tile",
-   "x": 1000,
-   "y": -196.0,
-   "flag": true
-  },
-  {
-   "type": "post",
-   "x": 1510,
-   "y": -60
-  },
-  {
-   "type": "post",
-   "x": 1690,
-   "y": -60
-  },
-  {
-   "type": "stone_block",
-   "x": 850,
-   "y": -32
   }
  ],
  "archers": [
   {
-   "x": 1300,
-   "y": -183.5
+   "x": 850,
+   "y": -157.5
   },
   {
-   "x": 1300,
-   "y": -363.5
-  },
-  {
-   "x": 1300,
-   "y": -509.5
-  },
-  {
-   "x": 1155.0,
-   "y": -356.5
-  },
-  {
-   "x": 1445.0,
-   "y": -356.5
-  },
-  {
-   "x": 1000,
+   "x": 1230,
    "y": -29.5
   },
   {
-   "x": 1560,
-   "y": -171.5
+   "x": 1230,
+   "y": -209.5
   },
   {
-   "x": 1640,
-   "y": -171.5
-  }
- ],
- "bolts": [
-  {
-   "a": 7,
-   "b": 15
+   "x": 1230,
+   "y": -355.5
   },
   {
-   "a": 7,
-   "b": 16
+   "x": 1650,
+   "y": -183.5
+  },
+  {
+   "x": 1650,
+   "y": -363.5
   }
  ],
+ "bolts": [],
  "mechanisms": [
   {
-   "type": "trapdoor",
-   "x": 1600,
-   "y": -131,
+   "type": "crusher",
+   "x": 1030,
+   "y": -420,
    "size": [
-    200,
-    22
+    150,
+    120
    ],
-   "trigger": "light_trap",
-   "hinge": -1
+   "travel_y": 360,
+   "mode": "cycle",
+   "phase": 0.0,
+   "hold_k": 1.0,
+   "chain_px": 60,
+   "frame": {
+    "posts": [
+     937.0,
+     1123.0
+    ],
+    "top": -550.0,
+    "bottom": 0.0,
+    "beam": [
+     921.0,
+     1139.0
+    ]
+   }
   },
   {
-   "type": "rune_switch",
-   "x": 850,
-   "y": -32,
-   "triggers": [
-    "light_trap"
-   ]
+   "type": "crusher",
+   "x": 1430,
+   "y": -420,
+   "size": [
+    150,
+    120
+   ],
+   "travel_y": 360,
+   "mode": "cycle",
+   "phase": 2.2,
+   "hold_k": 1.0,
+   "chain_px": 60,
+   "frame": {
+    "posts": [
+     1337.0,
+     1523.0
+    ],
+    "top": -550.0,
+    "bottom": 0.0,
+    "beam": [
+     1321.0,
+     1539.0
+    ]
+   }
   }
  ],
  "captives": []

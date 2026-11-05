@@ -1,199 +1,314 @@
 {
  "id": 23,
- "name": "Harbor Bell",
- "realm": 3,
+ "name": "Powder Caravan",
+ "realm": 2,
  "heroes": [
-  "quake",
+  "fire",
   "bomb",
-  "stone",
+  "cyclone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Hit the bronze bell hard: it swings into the right tower.",
- "cinematic": [],
+ "strategy": "The front barrels hold the crusher. Pop them and it falls through the keep.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "focus",
+   "target": "mech:0",
+   "label": "DROP THE CRUSHER!"
+  },
+  {
+   "t": "focus",
+   "target": "weak",
+   "label": "TRIGGER"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "Blow the barrels, drop the stone!"
+  }
+ ],
  "callouts": [
   {
-   "target": "1265,-300",
-   "label": "RING THE BELL!"
+   "target": "mech:0",
+   "label": "DROP THE CRUSHER!"
   }
  ],
  "boss": false,
  "star_scores": [
-  20000,
-  24000,
-  39000
+  30000,
+  38000,
+  61000
  ],
- "camera_right": 1800,
- "camera_top": -560,
+ "camera_right": 1900,
+ "camera_top": -820,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 897,
-    "x1": 1633,
+    "x0": 787,
+    "x1": 1750,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "post",
-   "x": 960,
-   "y": -60.0
+   "type": "barrel",
+   "x": 860,
+   "y": -29.0
+  },
+  {
+   "type": "barrel",
+   "x": 860,
+   "y": -87.0,
+   "weak_point": true,
+   "trigger": "drop_crusher"
+  },
+  {
+   "type": "iron_block",
+   "x": 972,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 972,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1128,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1128,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1050,
+   "y": -141.0
   },
   {
    "type": "post",
-   "x": 1120,
-   "y": -60.0
+   "x": 970,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1130,
+   "y": -214.0
   },
   {
    "type": "plank_long",
-   "x": 1040,
-   "y": -133.0
+   "x": 1050,
+   "y": -287.0
   },
   {
-   "type": "post",
-   "x": 960,
-   "y": -206.0
-  },
-  {
-   "type": "post",
-   "x": 1120,
-   "y": -206.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1040,
-   "y": -279.0
-  },
-  {
-   "type": "post",
-   "x": 960,
-   "y": -352.0
-  },
-  {
-   "type": "post",
-   "x": 1120,
-   "y": -352.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1040,
-   "y": -425.0
+   "type": "barrel",
+   "x": 1076.0,
+   "y": -29.0
   },
   {
    "type": "roof_tile",
-   "x": 1040,
-   "y": -488.0,
+   "x": 1050,
+   "y": -350.0,
    "flag": true
   },
   {
-   "type": "bell",
-   "x": 1265,
-   "y": -300.0
+   "type": "stone_block",
+   "x": 1242,
+   "y": -32.0
   },
   {
-   "type": "post",
-   "x": 1410,
-   "y": -60.0
+   "type": "stone_block",
+   "x": 1242,
+   "y": -96.0
   },
   {
-   "type": "post",
-   "x": 1570,
-   "y": -60.0
+   "type": "stone_block",
+   "x": 1398,
+   "y": -32.0
   },
   {
-   "type": "plank_long",
-   "x": 1490,
-   "y": -133.0
-  },
-  {
-   "type": "post",
-   "x": 1410,
-   "y": -206.0
-  },
-  {
-   "type": "post",
-   "x": 1570,
-   "y": -206.0
+   "type": "stone_block",
+   "x": 1398,
+   "y": -96.0
   },
   {
    "type": "plank_long",
-   "x": 1490,
-   "y": -279.0
+   "x": 1320,
+   "y": -141.0
   },
   {
-   "type": "post",
-   "x": 1410,
-   "y": -352.0
+   "type": "stone_block",
+   "x": 1242,
+   "y": -186.0
   },
   {
-   "type": "post",
-   "x": 1570,
-   "y": -352.0
+   "type": "stone_block",
+   "x": 1242,
+   "y": -250.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1398,
+   "y": -186.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1398,
+   "y": -250.0
   },
   {
    "type": "plank_long",
-   "x": 1490,
-   "y": -425.0
+   "x": 1320,
+   "y": -295.0
+  },
+  {
+   "type": "post",
+   "x": 1240,
+   "y": -368.0
+  },
+  {
+   "type": "post",
+   "x": 1400,
+   "y": -368.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1320,
+   "y": -441.0
+  },
+  {
+   "type": "barrel",
+   "x": 1320,
+   "y": -29.0
   },
   {
    "type": "roof_tile",
-   "x": 1490,
-   "y": -488.0,
+   "x": 1320,
+   "y": -504.0,
+   "flag": true
+  },
+  {
+   "type": "iron_block",
+   "x": 1512,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1512,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1668,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1668,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1590,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 1510,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1670,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1590,
+   "y": -287.0
+  },
+  {
+   "type": "barrel",
+   "x": 1616.0,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1590,
+   "y": -350.0,
    "flag": true
   }
  ],
  "archers": [
   {
-   "x": 1040,
-   "y": -175.5
+   "x": 1050,
+   "y": -183.5
   },
   {
-   "x": 1040,
-   "y": -321.5
+   "x": 1023.0,
+   "y": -29.5
   },
   {
-   "x": 1490,
-   "y": -175.5
+   "x": 1320,
+   "y": -337.5
   },
   {
-   "x": 1490,
-   "y": -321.5
+   "x": 1320,
+   "y": -183.5
+  },
+  {
+   "x": 1590,
+   "y": -183.5
+  },
+  {
+   "x": 1563.0,
+   "y": -29.5
   }
  ],
  "bolts": [],
- "mechanisms": [],
- "captives": [],
- "tethers": [
+ "mechanisms": [
   {
-   "kind": "rope",
-   "a": 10,
-   "x": 1265,
-   "y": -470,
-   "attach": [
-    1265,
-    -356.0
+   "type": "crusher",
+   "x": 1320,
+   "y": -674.0,
+   "size": [
+    240,
+    100
    ],
-   "cuttable": false,
+   "trigger": "drop_crusher",
+   "travel_y": 624.0,
+   "mode": "trigger",
+   "phase": 0.0,
+   "hold_k": 1.0,
+   "chain_px": 60,
    "frame": {
     "posts": [
-     1175,
-     1355
+     1182.0,
+     1458.0
     ],
-    "top": -484,
+    "top": -794.0,
     "bottom": 0.0,
     "beam": [
-     1155,
-     1375
+     1166.0,
+     1474.0
     ]
    }
   }
  ],
- "tide": {
-  "amp_px": 45,
-  "period_s": 8.0
- }
+ "captives": []
 }

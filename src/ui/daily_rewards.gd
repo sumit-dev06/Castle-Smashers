@@ -146,7 +146,7 @@ func _day_card(i: int, today: bool, claimed: bool) -> PanelContainer:
 
 func _refresh() -> void:
 	var ok: bool = can_claim()
-	_claim.disabled = not ok
+	UIKit.locked(_claim, "" if ok else "Today's reward is claimed. Come back tomorrow for the next one!")
 	_claim.text = "Claim Reward" if ok else "Claimed"
 	if ok:
 		UIFx.breathe(_claim)

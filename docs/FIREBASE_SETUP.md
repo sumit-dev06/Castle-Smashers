@@ -106,6 +106,9 @@ Useful reports to build in Analytics → Explore: a funnel `level_start → leve
 | What happened just before | Breadcrumb log: shots (`shot:<hero>:<weapon>`), rewarded placements |
 
 ## Data safety form (Play Console → App content → Data safety)
+Mediation (Unity Ads, Liftoff/Vungle, InMobi via AdMob) collects the same ad data types as AdMob
+(Device or other IDs, App interactions, Diagnostics, approximate location from IP): no new data types, but
+they are "shared" with third parties for advertising, as AdMob already is.
 Answer **Yes, the app collects data**; it is encrypted in transit; users can't request deletion
 through the app (they can by email; see privacy policy).
 

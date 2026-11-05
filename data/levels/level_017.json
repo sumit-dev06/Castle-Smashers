@@ -1,217 +1,221 @@
 {
  "id": 17,
- "name": "Boulder Trap",
+ "name": "Twin Mesas",
  "realm": 2,
  "heroes": [
-  "bomb",
   "cyclone",
+  "stone",
   "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Cut the rope on the hill. The boulder rolls through the wall into the obelisk.",
- "cinematic": [],
- "callouts": [
+ "strategy": "The iron strongroom only breaks to a blast. Slam the beam to throw the keg onto it.",
+ "cinematic": [
   {
-   "target": "1029,-292",
-   "label": "CUT THE ROPE!"
+   "t": "title"
   },
   {
-   "target": "bolt:0",
-   "label": "BOLTED"
+   "t": "enter",
+   "who": "wizard",
+   "at": "catapult",
+   "style": "smoke"
+  },
+  {
+   "t": "hero",
+   "kind": "cyclone"
+  },
+  {
+   "t": "focus",
+   "target": "1099,-192",
+   "label": "THROWING BEAM!"
+  },
+  {
+   "t": "say",
+   "who": "wizard",
+   "text": "Slam the high end of that beam and it hurls the powder keg!"
+  },
+  {
+   "t": "demo",
+   "target": "1099,-192",
+   "hero": "stone"
   }
  ],
+ "callouts": [],
  "boss": false,
  "star_scores": [
-  25000,
-  29000,
-  46000
+  20000,
+  24000,
+  39000
  ],
- "camera_right": 2010,
- "camera_top": -810,
+ "camera_right": 2220,
+ "camera_top": -410,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
     "x0": 730,
-    "x1": 1770,
+    "x1": 1438,
     "top": 0.0
+   },
+   {
+    "x0": 1552,
+    "x1": 2085,
+    "top": -140
    }
   ]
  },
  "blocks": [
   {
-   "type": "boulder",
-   "x": 1029.3,
-   "y": -217.7
-  },
-  {
-   "type": "stone_block",
-   "x": 1380.0,
-   "y": -32
-  },
-  {
-   "type": "stone_block",
-   "x": 1444.0,
-   "y": -32
-  },
-  {
-   "type": "stone_block",
-   "x": 1380.0,
-   "y": -96
-  },
-  {
-   "type": "stone_block",
-   "x": 1444.0,
-   "y": -96
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1560.0,
-   "y": -70.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1700.0,
-   "y": -70.0
-  },
-  {
-   "type": "stone_slab",
-   "x": 1630.0,
-   "y": -160.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1560.0,
-   "y": -250.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1700.0,
-   "y": -250.0
-  },
-  {
-   "type": "stone_slab",
-   "x": 1630.0,
-   "y": -340.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1560.0,
-   "y": -430.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1700.0,
-   "y": -430.0
-  },
-  {
-   "type": "stone_slab",
-   "x": 1630.0,
-   "y": -520.0
+   "type": "post",
+   "x": 1215.0,
+   "y": -60.0
   },
   {
    "type": "post",
-   "x": 1550.0,
-   "y": -600.0
-  },
-  {
-   "type": "post",
-   "x": 1710.0,
-   "y": -600.0
+   "x": 1375.0,
+   "y": -60.0
   },
   {
    "type": "plank_long",
-   "x": 1630.0,
-   "y": -673.0
+   "x": 1295.0,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 1215.0,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1375.0,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1295.0,
+   "y": -279.0
   },
   {
    "type": "roof_tile",
-   "x": 1630.0,
-   "y": -736.0,
+   "x": 1295.0,
+   "y": -342.0,
    "flag": true
   },
   {
-   "type": "plank_short",
-   "x": 1485.0,
-   "y": -160.0
+   "type": "plank_xl",
+   "x": 957.9,
+   "y": -63.7,
+   "rot": -17.76
   },
   {
-   "type": "plank_short",
+   "type": "barrel",
+   "x": 829.9,
+   "y": -70.0,
+   "rot": -17.76
+  },
+  {
+   "type": "post",
+   "x": 1615.0,
+   "y": -200.0
+  },
+  {
+   "type": "post",
    "x": 1775.0,
-   "y": -160.0
+   "y": -200.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1695.0,
+   "y": -273.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1695.0,
+   "y": -336.0,
+   "flag": true
+  },
+  {
+   "type": "iron_block",
+   "x": 1847.0,
+   "y": -172
+  },
+  {
+   "type": "iron_block",
+   "x": 1847.0,
+   "y": -236
+  },
+  {
+   "type": "iron_block",
+   "x": 2003.0,
+   "y": -172
+  },
+  {
+   "type": "iron_block",
+   "x": 2003.0,
+   "y": -236
+  },
+  {
+   "type": "iron_beam",
+   "x": 1925.0,
+   "y": -281
   }
  ],
  "archers": [
   {
-   "x": 1630.0,
-   "y": -209.5
+   "x": 1295.0,
+   "y": -175.5
   },
   {
-   "x": 1630.0,
-   "y": -389.5
+   "x": 1295.0,
+   "y": -29.5
   },
   {
-   "x": 1630.0,
-   "y": -569.5
+   "x": 1695.0,
+   "y": -169.5
   },
   {
-   "x": 1485.0,
-   "y": -202.5
-  },
-  {
-   "x": 1775.0,
-   "y": -202.5
+   "x": 1925.0,
+   "y": -169.5
   }
  ],
- "bolts": [
-  {
-   "a": 7,
-   "b": 18
-  },
-  {
-   "a": 7,
-   "b": 19
-  }
- ],
+ "bolts": [],
  "mechanisms": [],
  "captives": [],
  "ramps": [
   {
    "points": [
     [
-     780.0,
+     969.0,
      0
     ],
     [
-     780.0,
-     -260
+     1015.0,
+     -68.0
     ],
     [
-     900.0,
-     -260
-    ],
-    [
-     1240.0,
+     1061.0,
      0
     ]
    ],
-   "kind": "rock"
+   "kind": "wood"
   }
  ],
  "tethers": [
   {
-   "kind": "rope",
-   "a": 0,
-   "x": 880.0,
-   "y": -266,
-   "attach": [
-    1029.3,
-    -217.7
-   ],
-   "lock": true
+   "kind": "pin",
+   "a": 7,
+   "x": 1015.0,
+   "y": -82.0,
+   "launch": {
+    "payload": 8,
+    "kick": [
+     630.0,
+     -1150.0
+    ],
+    "dir": 1.0
+   }
   }
  ]
 }

@@ -44,11 +44,20 @@ func _run() -> void:
 	if str(Game.args.get("run-tests", "")) == "contraptions":  # --run-tests=contraptions: quick set-piece check
 		await _contraption_tests()
 		return
+	if str(Game.args.get("run-tests", "")).begins_with("trick:"):  # --run-tests=trick:48,54 : does the set piece work?
+		await _trick_probe(str(Game.args["run-tests"]).trim_prefix("trick:"))
+		return
+	if str(Game.args.get("run-tests", "")) == "gadgets":  # --run-tests=gadgets: conveyor, fuse, fan
+		await _new_gadget_tests()
+		return
 	if str(Game.args.get("run-tests", "")) == "specials":
 		await _special_pack_tests()
 		return
 	if str(Game.args.get("run-tests", "")) == "billing":
 		await _billing_tests()
+		return
+	if str(Game.args.get("run-tests", "")).begins_with("probe:"):  # --run-tests=probe:1-75 : brute-force difficulty
+		await _probe(str(Game.args["run-tests"]).trim_prefix("probe:"))
 		return
 	var only: String = str(Game.args.get("run-tests", ""))
 	var lo: int = 1
@@ -90,6 +99,12 @@ func _run() -> void:
 		_check(bool(d.get("boss", false)) == d.has("boss_unit"), "level %d boss flag matches boss unit" % id)
 
 	print("-- stability (%.0f s, all bodies awake)" % STAND_S)
+	if lo > 1:
+		# The first level loaded in a run settles differently (see _probe): warm up on level 1.
+		var warm: Level = _make(1)
+		await _wait(1.0)
+		warm.queue_free()
+		await _wait(0.2)
 	for id: int in range(lo, hi + 1):
 		var l: Level = _make(id)
 		await _wait(0.05)
@@ -149,7 +164,7 @@ func _run() -> void:
 	print("-- shots")
 	# Each hero is tested on the first level that recommends it, aimed at that level's first base.
 	await _shot_test(1, "stone", -200.0, -1.0, INF, "stone hit on level 1")
-	await _shot_test(11, "stone", -240.0, -1.0, INF, "stone on stone tower, level 11")
+	await _shot_test(16, "stone", -240.0, -1.0, INF, "stone on stone tower, level 16")
 	var lf: int = _first_level_with("fire")
 	await _shot_test(lf, "fire", -150.0, 0.0, INF, "fire burst on level %d" % lf)
 	var lb: int = _first_level_with("bomb")
@@ -270,14 +285,14 @@ func _tether_of(l: Level, pred: Callable) -> Tether:
 func _contraption_tests() -> void:
 	print("-- contraptions")
 	# Seesaw: knock out one support stone and the plank tips.
-	var l: Level = _make(7)
+	var l: Level = _make(10)
 	await _wait(0.1)
 	var plank: Block = _block_of(l, "plank_xl")
 	var support: Block = null
 	for b: Block in l.blocks:
 		if b.shape_id == "stone_block" and b.global_position.x > plank.global_position.x + 60.0 and absf(b.global_position.x - plank.global_position.x) < 200.0:
 			support = b
-	_check(plank != null and support != null, "level 7 has a seesaw plank and support")
+	_check(plank != null and support != null, "level 10 has a seesaw plank and support")
 	if plank and support:
 		support.destroy(false)
 		await _wait(2.0)
@@ -286,14 +301,14 @@ func _contraption_tests() -> void:
 	await _wait(0.1)
 
 	# Dominoes: tip the first slab and the last one falls too.
-	l = _make(14)
+	l = _make(20)
 	await _wait(0.1)
 	var dom: Array[Block] = []
 	for b: Block in l.blocks:
 		if b.shape_id == "domino":
 			dom.append(b)
 	dom.sort_custom(func(p: Block, q: Block) -> bool: return p.global_position.x < q.global_position.x)
-	_check(dom.size() >= 4, "level 14 has a domino row (%d)" % dom.size())
+	_check(dom.size() >= 4, "level 20 has a domino row (%d)" % dom.size())
 	if dom.size() >= 4:
 		dom[0].sleeping = false
 		dom[0].apply_impulse(Vector2(dom[0].mass * 160.0, 0.0), Vector2(0.0, -dom[0].size.y * 0.4))
@@ -306,7 +321,7 @@ func _contraption_tests() -> void:
 	await _wait(0.1)
 
 	# Rollers: a nudge sends the free boulder, wheel and cart down their slopes.
-	for case: Array in [[11, "log"], [15, "boulder"], [35, "wheel"], [49, "cart"]]:
+	for case: Array in [[16, "log"], [22, "boulder"], [52, "wheel"], [73, "cart"]]:
 		l = _make(int(case[0]))
 		await _wait(0.1)
 		var r: Block = null  # the front-most one (nearest the fort)
@@ -324,10 +339,10 @@ func _contraption_tests() -> void:
 		await _wait(0.1)
 
 	# Ropes: cutting a cage rope drops the cage.
-	l = _make(37)
+	l = _make(55)
 	await _wait(0.1)
 	var rope: Tether = _tether_of(l, func(t: Tether) -> bool: return t.kind == "rope")
-	_check(rope != null, "level 37 has a rope tether")
+	_check(rope != null, "level 55 has a rope tether")
 	if rope:
 		var cage: Block = rope.a
 		var y0: float = cage.global_position.y
@@ -340,11 +355,11 @@ func _contraption_tests() -> void:
 	await _wait(0.1)
 
 	# Pendulum: cut the latch and the ball swings into the keep.
-	l = _make(39)
+	l = _make(58)
 	await _wait(0.1)
 	var ball: Block = _block_of(l, "iron_ball")
 	var latch: Tether = _tether_of(l, func(t: Tether) -> bool: return t.kind == "rope" and t.a == ball and not t.rope_segment().is_empty() and t.hook_point().x < ball.global_position.x)
-	_check(ball != null and latch != null, "level 39 has a latched wrecking ball")
+	_check(ball != null and latch != null, "level 58 has a latched wrecking ball")
 	if ball and latch:
 		var bx: float = ball.global_position.x
 		latch.release(true)
@@ -354,10 +369,10 @@ func _contraption_tests() -> void:
 	await _wait(0.1)
 
 	# Spring trap: cut the latch and the platform springs up.
-	l = _make(43)
+	l = _make(64)
 	await _wait(0.1)
 	var lock: Tether = _tether_of(l, func(t: Tether) -> bool: return bool(t.cfg.get("lock", false)))
-	_check(lock != null and lock.a.freeze, "level 43 spring platform is locked by its latch")
+	_check(lock != null and lock.a.freeze, "level 64 spring platform is locked by its latch")
 	if lock:
 		var pl: Block = lock.a
 		var py: float = pl.global_position.y
@@ -374,10 +389,10 @@ func _contraption_tests() -> void:
 	await _wait(0.1)
 
 	# Boulder trap: cut the latch and the boulder rolls off the hill.
-	l = _make(17)
+	l = _make(25)
 	await _wait(0.1)
 	var trap: Tether = _tether_of(l, func(t: Tether) -> bool: return bool(t.cfg.get("lock", false)))
-	_check(trap != null and trap.a.freeze, "level 17 boulder is tied on the slope")
+	_check(trap != null and trap.a.freeze, "level 25 boulder is tied on the slope")
 	if trap:
 		var boulder: Block = trap.a
 		var bx1: float = boulder.global_position.x
@@ -387,32 +402,32 @@ func _contraption_tests() -> void:
 	l.queue_free()
 	await _wait(0.1)
 
-	# Level 19: either suspension rope releases one side of the guarded bridge.
-	l = _make(19)
+	# Level 28: either suspension rope releases one side of the guarded bridge.
+	l = _make(28)
 	await _wait(0.2)
 	var rope_bridge: CastleMechanism = _mech(l, "hanging_platform")
 	var bridge_y: float = rope_bridge.body.global_position.y
 	rope_bridge.cut_rope(0)
 	await _wait(1.2)
 	_check(absf(rad_to_deg(rope_bridge.body.rotation)) > 45.0 and rope_bridge.body.global_position.y > bridge_y,
-			"level 19: one cut collapses the rope bridge (%.0f deg)" % absf(rad_to_deg(rope_bridge.body.rotation)))
+			"level 28: one cut collapses the rope bridge (%.0f deg)" % absf(rad_to_deg(rope_bridge.body.rotation)))
 	l.queue_free()
 	await _wait(0.1)
 
-	# Level 18: the drawbridge has a visible pulley and moving counterweight rig.
-	l = _make(18)
+	# Level 26: the drawbridge has a visible pulley and moving counterweight rig.
+	l = _make(26)
 	await _wait(0.1)
 	var pulley_bridge: CastleMechanism = _mech(l, "drawbridge")
 	var weight_y: float = pulley_bridge._counterweight.position.y
 	pulley_bridge.activate(false)
 	await _wait(1.0)
 	_check(pulley_bridge.get_node_or_null("Pulley") != null and pulley_bridge._counterweight.position.y > weight_y + 50.0,
-			"level 18: pulley raises the bridge counterweight")
+			"level 26: pulley raises the bridge counterweight")
 	l.queue_free()
 	await _wait(0.1)
 
-	# Level 38: the mill wheel waits jammed until its brake trigger breaks, then turns.
-	l = _make(38)
+	# Level 56: the mill wheel waits jammed until its brake trigger breaks, then turns.
+	l = _make(56)
 	await _wait(0.2)
 	var water_wheel: CastleMechanism = _mech(l, "windmill")
 	var wheel_angle: float = water_wheel.body.rotation
@@ -420,12 +435,12 @@ func _contraption_tests() -> void:
 	l.activate_trigger("mill")
 	await _wait(0.5)
 	_check(waits and water_wheel.active and not water_wheel.jammed and absf(angle_difference(wheel_angle, water_wheel.body.rotation)) > 0.05,
-			"level 38: breaking the brake starts the water wheel")
+			"level 56: breaking the brake starts the water wheel")
 	l.queue_free()
 	await _wait(0.1)
 
-	# Level 32: cutting the brake sends its bolted powder barrels into the crystal mine.
-	l = _make(32)
+	# Level 47: cutting the brake sends its bolted powder barrels into the crystal mine.
+	l = _make(47)
 	await _wait(0.2)
 	var cart_rope: Tether = _tether_of(l, func(t: Tether) -> bool: return bool(t.cfg.get("lock", false)) and t.a.shape_id == "cart")
 	var powder_cart: Block = cart_rope.a
@@ -441,12 +456,12 @@ func _contraption_tests() -> void:
 		if b32b.shape_id == "barrel":
 			barrels_after += 1
 	_check(cart_rope.cut and (not is_instance_valid(powder_cart) or powder_cart.global_position.x > cart_x + 250.0) and barrels_after < barrels_before,
-			"level 32: the released powder cart rolls and explodes (%d/%d kegs left)" % [barrels_after, barrels_before])
+			"level 47: the released powder cart rolls and explodes (%d/%d kegs left)" % [barrels_after, barrels_before])
 	l.queue_free()
 	await _wait(0.1)
 
-	# Level 12: slamming the short arm throws the powder keg onto the iron strongroom.
-	l = _make(12)
+	# Level 17: slamming the short arm throws the powder keg onto the iron strongroom.
+	l = _make(17)
 	await _wait(1.3)
 	var beam: Tether = _tether_of(l, func(t: Tether) -> bool: return t.payload != null)
 	var keg: Block = beam.payload
@@ -460,29 +475,68 @@ func _contraption_tests() -> void:
 	if Game.args.has("debug-launch"):
 		print("KEG path ", keg_path)
 	_check(beam.launched and (not is_instance_valid(keg) or keg.dead) and l.archers.size() <= g12 - 1,
-			"level 12: the beam throws the keg and it blows the strongroom (%d guards down)" % (g12 - l.archers.size()))
+			"level 17: the beam throws the keg and it blows the strongroom (%d guards down)" % (g12 - l.archers.size()))
 	l.queue_free()
 	await _wait(0.1)
 
-	# Level 21: hitting the sluice gate floods the dock and drowns the guards in the iron sheds.
-	l = _make(21)
+	# Level 31: hitting the sluice gate floods the dock and drowns the guards in the iron sheds.
+	l = _make(31)
 	await _wait(0.3)
 	var g21: int = l.archers.size()
 	_mech(l, "flood")._hit()
 	await _wait(5.0)
-	_check(l.archers.size() <= g21 - 2, "level 21: the flood washes out the iron sheds (%d guards down)" % (g21 - l.archers.size()))
+	_check(l.archers.size() <= g21 - 2, "level 31: the flood washes out the iron sheds (%d guards down)" % (g21 - l.archers.size()))
 	l.queue_free()
 	await _wait(0.1)
 
-	# Level 22: breaking the keystone drops the shelf and the strongroom into the sea.
-	l = _make(22)
+	# Level 10: the pit guard is walled in by rock; a stone dropped down the aisle smashes the keg.
+	l = _make(10)
+	await _wait(Data.bf("physics", "damage_grace_s") + 0.2)
+	var walls: Array = Data.level(10).get("ramps", [])
+	_check(walls.size() >= 2, "level 10 has the two pit walls")
+	if walls.size() >= 2:
+		var pit_x: float = (float(walls[walls.size() - 2]["points"][0][0]) + float(walls[walls.size() - 1]["points"][0][0])) * 0.5
+		var in_pit: Callable = func() -> int:
+			return l.archers.filter(func(a: Archer) -> bool: return absf(a.global_position.x - pit_x) < 80.0).size()
+		var before: int = in_pit.call()
+		var drop: Projectile = Projectile.new()
+		drop.setup("stone", l)
+		drop.position = Vector2(pit_x, -520.0)
+		l.world.add_child(drop)
+		drop.launch(drop.position, Vector2(0.0, 500.0))
+		await _wait(3.0)
+		_check(before >= 1 and in_pit.call() == 0, "level 10: a stone dropped down the pit aisle smashes the keg and the walled-in guard (%d -> %d)" % [before, in_pit.call()])
+	l.queue_free()
+	await _wait(0.1)
+
+	# Level 50: the messenger balloon waits for the first shot, then climbs; if it escapes the level is lost.
+	l = _make(50)
+	await _wait(0.5)
+	var riser: CastleMechanism = null
+	for m: CastleMechanism in l.mechanisms:
+		if m.cfg.has("rise"):
+			riser = m
+	_check(riser != null, "level 50 has an escaping balloon")
+	if riser:
+		var y0: float = riser.body.global_position.y
+		await _wait(0.5)
+		_check(absf(riser.body.global_position.y - y0) < 30.0, "the balloon stays put until the first shot")
+		l.hero_index = 1
+		riser.speed_mult = 60.0
+		await _wait(1.5)
+		_check(l.state == Level.State.LOST and l.lose_reason.contains("escaped"), "an escaped balloon loses the level (%s)" % l.lose_reason)
+	l.queue_free()
+	await _wait(0.1)
+
+	# Level 32: breaking the keystone drops the shelf and the strongroom into the sea.
+	l = _make(32)
 	await _wait(0.3)
 	var g22: int = l.archers.size()
 	for b22: Block in l.blocks:
 		if b22.is_weak_point():
 			b22.take_damage(99999.0)
 	await _wait(3.5)
-	_check(l.archers.size() <= g22 - 2, "level 22: the cracked shelf drops the strongroom (%d guards down)" % (g22 - l.archers.size()))
+	_check(l.archers.size() <= g22 - 2, "level 32: the cracked shelf drops the strongroom (%d guards down)" % (g22 - l.archers.size()))
 	l.queue_free()
 	await _wait(0.1)
 
@@ -500,15 +554,68 @@ func _contraption_tests() -> void:
 	await _wait(0.1)
 
 	# Bell: a hard push swings it, the rope holds.
-	l = _make(23)
+	l = _make(34)
 	await _wait(0.1)
 	var bell: Block = _block_of(l, "bell")
-	_check(bell != null, "level 23 has a bell")
+	_check(bell != null, "level 34 has a bell")
 	if bell:
 		var bx0: float = bell.global_position.x
 		bell.push(Vector2(bell.mass * 300.0, 0.0))
 		await _wait(0.4)
 		_check(is_instance_valid(bell) and absf(bell.global_position.x - bx0) > 20.0, "the bell swings when hit")
+	l.queue_free()
+	await _wait(0.1)
+
+	await _new_gadget_tests()
+
+
+func _gadget_of(l: Level, kind: String) -> Gadget:
+	for gd: Gadget in l.gadgets:
+		if gd.kind == kind:
+			return gd
+	return null
+
+
+## Conveyor (48), fuse (54) and fan (63): each does its job once switched on.
+func _new_gadget_tests() -> void:
+	print("-- conveyor, fuse, fan")
+	var l: Level = _make(48)
+	await _wait(0.3)
+	var belt: Gadget = _gadget_of(l, "conveyor")
+	var g48: int = l.archers.size()
+	_check(belt != null and not belt.on, "level 48 has a stopped conveyor")
+	if belt:
+		l.activate_trigger("ore_belt")
+		for k: int in 5:
+			await _wait(1.0)
+			if Game.args.has("debug-gadgets"):
+				print("BELT t=%d archers %s blocks %s" % [k, l.archers.map(func(a: Archer) -> String: return "%.0f,%.0f" % [a.global_position.x, a.global_position.y]), l.blocks.filter(func(b: Block) -> bool: return b.shape_id.begins_with("iron")).map(func(b: Block) -> String: return "%.0f,%.0f" % [b.global_position.x, b.global_position.y])])
+		_check(belt.on and l.archers.size() <= g48 - 3, "level 48: the running belt carries the iron shed into the lava (%d guards down)" % (g48 - l.archers.size()))
+	l.queue_free()
+	await _wait(0.1)
+	l = _make(54)
+	await _wait(0.3)
+	var fuse: Gadget = _gadget_of(l, "fuse")
+	var g54: int = l.archers.size()
+	if fuse:
+		l.fire_burst(fuse.global_position, 60.0, 0.0)
+		for k: int in 13:
+			await _wait(0.5)
+			if Game.args.has("debug-gadgets"):
+				print("FUSE t=%.1f lit %s done %s / second %s archers %d" % [k * 0.5, fuse.get("_lit_at"), fuse.done, l.gadgets[1].get("_lit_at"), l.archers.size()])
+	_check(fuse != null and fuse.done and l.gadgets[1].done and l.archers.size() <= g54 - 2,
+			"level 54: a lit fuse blows the first vault and the blast lights the second (%d guards down)" % (g54 - l.archers.size()))
+	l.queue_free()
+	await _wait(0.1)
+	l = _make(63)
+	await _wait(0.3)
+	var fan: Gadget = _gadget_of(l, "fan")
+	var g63: int = l.archers.size()
+	_check(fan != null and not fan.on, "level 63 has a stopped fan")
+	if fan:
+		fan.set_on(true)
+		await _wait(4.0)
+		_check(l.archers.size() <= g63 - 2, "level 63: the fan blows the iron shed off the island (%d guards down)" % (g63 - l.archers.size()))
 	l.queue_free()
 	await _wait(0.1)
 
@@ -523,6 +630,51 @@ func _aim(from: Vector2, to: Vector2, v: float) -> Vector2:
 		return Vector2.ZERO
 	var a: float = atan((v * v - sqrt(disc)) / (g * x))
 	return Vector2(cos(a), -sin(a)) * v
+
+
+## Brute-force probe: fires the recommended 4 heroes, each straight at the nearest living guard (no
+## tricks, no abilities except Boomer's fuse). Prints guards left. A level this wins is too easy.
+func _probe(span_text: String) -> void:
+	var ids: Array[int] = []
+	for part: String in span_text.split(","):
+		var span: PackedStringArray = part.split("-")
+		for n: int in range(int(span[0]), int(span[span.size() - 1]) + 1):
+			ids.append(n)
+	# Warm-up: the first level loaded in a run settles differently; load and discard one.
+	var warm: Level = _make(1)
+	await _wait(1.0)
+	warm.queue_free()
+	await _wait(0.2)
+	for id: int in ids:
+		var d: Dictionary = Data.level(id)
+		var l: Level = _make(id)
+		await _wait(Data.bf("physics", "damage_grace_s") + 0.3)
+		l.heroes = LoadoutRules.recommended(d, id)
+		l.hero_index = 0
+		var start: int = l.archers.size() + (1 if d.has("boss_unit") else 0)
+		for shot: int in l.heroes.size():
+			if l.is_finished() or l.archers.is_empty():
+				break
+			l._load_now()
+			var from: Vector2 = l.catapult.launch_point(String(l.heroes[l.hero_index]))
+			var best: Archer = null
+			for a: Archer in l.archers:
+				if not a.dead and (best == null or a.global_position.x < best.global_position.x):
+					best = a
+			if best == null:
+				break
+			var v: Vector2 = _aim(from, best.global_position, Data.bf("catapult", "max_speed") * 0.8)
+			if v == Vector2.ZERO:
+				v = _aim(from, best.global_position, Data.bf("catapult", "max_speed"))
+			if v == Vector2.ZERO:
+				v = Vector2(1, -1).normalized() * Data.bf("catapult", "max_speed")
+			l.fire_hero(v)
+			await _wait(4.0)
+		await _wait(2.0)
+		var left: int = l.archers.filter(func(a: Archer) -> bool: return not a.dead).size()
+		print("PROBE L%02d %-24s guards %d -> %d %s" % [id, String(d["name"]), start, left, "TOO EASY" if left == 0 else ""])
+		l.queue_free()
+		await _wait(0.1)
 
 
 func _first_level_with(kind: String) -> int:
@@ -646,7 +798,8 @@ func _phase_d_tests() -> void:
 	for b: Block in lb.blocks:
 		if b.visible:
 			shown += 1
-	_check(not lb.replay.playing and shown == live, "stopping the replay shows the world again (%d/%d)" % [shown, live])
+	# Burning blocks may break during the replay; every block still standing must be visible again.
+	_check(not lb.replay.playing and shown == lb.blocks.size() and live > 0, "stopping the replay shows the world again (%d/%d)" % [shown, lb.blocks.size()])
 	lb.queue_free()
 	await _wait(0.1)
 	await _material_tests()
@@ -742,6 +895,19 @@ func _wallet_tests() -> void:
 			"migration: blueprints and old upgrades become coins (%d)" % int(old["coins"]))
 	_check(bool(old["owned_weapons"].get("ballista", false)) and not old["owned_weapons"].has("trebuchet"),
 			"migration: engines already unlocked by level stay owned")
+	# v4 -> v5 migration: the 120-level campaign moves old stars, progress and story flags.
+	var v4: Dictionary = {"unlocked": 21, "stars": {"10": 3, "20": 2, "21": 1}, "best": {"10": 50000},
+			"attempts": {"20": 4}, "loadouts": {"12": ["cyclone"]}, "challenges": {"101": {"stars": 2, "best": 9}},
+			"seen": {"story:12": true, "boss:10": true, "mission:103": true, "hint:quake": true}}
+	Save.migrate_v5(v4)
+	_check(int(v4["unlocked"]) == 31 and int(v4["stars"]["15"]) == 3 and int(v4["stars"]["30"]) == 2 and int(v4["stars"]["31"]) == 1
+			and not v4["stars"].has("10") and int(v4["best"]["15"]) == 50000 and int(v4["attempts"]["30"]) == 4
+			and v4["loadouts"].has("17"), "migration v5: stars, best, attempts and loadouts follow their level (%s)" % [v4["stars"]])
+	_check(v4["challenges"].has("201") and not v4["challenges"].has("101") and v4["seen"].has("story:17") and v4["seen"].has("boss:15")
+			and v4["seen"].has("mission:203") and v4["seen"].has("hint:quake"), "migration v5: challenge ids and story flags move too")
+	_check(Save.total_stars() >= 0 and Data.level_count() == 120 and bool(Data.level(15).get("boss", false))
+			and bool(Data.level(120).get("boss", false)) and not bool(Data.level(10).get("boss", false)),
+			"campaign: 120 levels, every realm ends on its boss")
 	Save.data = saved
 	Save.write()
 
@@ -749,7 +915,7 @@ func _wallet_tests() -> void:
 ## Phase D mechanisms: lever, windmill, shield ring, hidden switch, trap door.
 func _mechanism_d_tests() -> void:
 	# Drawbridge: landing must hurt (playtest: "the ramp drops and nothing happens").
-	var lb: Level = _make(4)
+	var lb: Level = _make(5)
 	await _wait(1.0)
 	var alive0: int = lb.archers.filter(func(x: Archer) -> bool: return not x.dead).size()
 	for m: CastleMechanism in lb.mechanisms:
@@ -827,18 +993,18 @@ func _mechanism_d_tests() -> void:
 ## Boss stages: power cores shield the boss, cannons hit soldiers twice, engineers rebuild.
 func _boss_rig_tests() -> void:
 	print("-- phase D: boss rig")
-	for lid: int in [10, 20, 30, 40, 50]:
+	for lid: int in [15, 30, 45, 60, 75]:
 		var d: Dictionary = Data.level(lid)
 		var cores: int = 0
 		for b: Dictionary in d["blocks"]:
 			if b["type"] == "power_core":
 				cores += 1
 		_check(cores >= 1, "boss level %d has a power core (%d)" % [lid, cores])
-	var l: Level = _make(10)
+	var l: Level = _make(15)
 	l.archers_in_test = true
 	await _wait(1.5)
 	_check(l.rig != null and l.rig.cores_total == 1 and l.rig.cannons_total == 1 and l.rig.engineers_total == 1,
-			"level 10 builds its rig (1 core, 1 cannon, 1 engineer)")
+			"level 15 builds its rig (1 core, 1 cannon, 1 engineer)")
 	var hp0: float = l.boss.hp
 	l.boss.take_damage(50.0)
 	_check(is_equal_approx(l.boss.hp, hp0), "the boss is shielded while a core stands")
@@ -882,7 +1048,7 @@ func _boss_rig_tests() -> void:
 	l.queue_free()
 	await _wait(0.1)
 	# Cannon firing loop (archers on in test mode).
-	var l2: Level = _make(30)
+	var l2: Level = _make(45)
 	l2.archers_in_test = true
 	await _wait(1.0)
 	await _wait(Data.bf("soldiers", "march_s") + Data.bf("boss_rig", "cannon_first_s") + 2.5)
@@ -995,7 +1161,7 @@ func _mode_tests() -> void:
 	_check(modes.has("heist") and modes.has("time_attack") and modes.has("one_shot") and modes.has("survival") and modes.has("reverse_siege"),
 			"challenges cover every mode (%s)" % ", ".join(modes.keys()))
 	# Heist: opening chests counts, a chest in the gap is lost, opening enough wins.
-	var lh: Level = _make(101)
+	var lh: Level = _make(201)
 	await _wait(1.0)
 	_check(lh.mode != null and lh.mode.chests_total == 3, "heist finds its 3 chests")
 	var c0: Block = lh.mode.chests[0]
@@ -1013,7 +1179,7 @@ func _mode_tests() -> void:
 	lh.queue_free()
 	await _wait(0.1)
 	# Time attack: the clock runs, heroes refill, time up loses.
-	var lt: Level = _make(103)
+	var lt: Level = _make(203)
 	await _wait(1.0)
 	var t0: float = lt.mode.time_left
 	await _wait(0.5)
@@ -1027,13 +1193,13 @@ func _mode_tests() -> void:
 	_check(lt.state == Level.State.LOST and lt.lose_reason == "Time up!", "time up loses")
 	lt.queue_free()
 	await _wait(0.1)
-	var lo: Level = _make(105)
+	var lo: Level = _make(205)
 	await _wait(0.3)
 	_check(lo.heroes.size() == 1 and lo.mode.kind == "one_shot", "one shot gives a single hero")
 	lo.queue_free()
 	await _wait(0.1)
 	# Survival: clearing a wave brings the next one instead of winning.
-	var ls: Level = _make(106)
+	var ls: Level = _make(206)
 	await _wait(1.0)
 	for a: Archer in ls.archers.duplicate():
 		a.defeat()
@@ -1044,7 +1210,7 @@ func _mode_tests() -> void:
 
 
 	# Reverse siege: engines sail toward the player; defeating a crew sinks the engine.
-	var lr: Level = _make(107)
+	var lr: Level = _make(207)
 	await _wait(1.5)
 	var e0: Dictionary = lr.mode.engines[0]
 	var m: CastleMechanism = e0["m"]
@@ -1061,8 +1227,8 @@ func _mode_tests() -> void:
 	lr.queue_free()
 	await _wait(0.1)
 	# Boss rush: the shared pool replaces the level's heroes.
-	Game.rush = {"levels": [10, 20], "index": 0, "pool": ["bomb", "bomb", "stone", "fire", "quake", "stone"], "soldier_hp": [1, 3, 0, 2], "time": 0.0}
-	var lb: Level = _make(10)
+	Game.rush = {"levels": [15, 30], "index": 0, "pool": ["bomb", "bomb", "stone", "fire", "quake", "stone"], "soldier_hp": [1, 3, 0, 2], "time": 0.0}
+	var lb: Level = _make(15)
 	await _wait(0.3)
 	_check(lb.mode != null and lb.mode.kind == "boss_rush" and lb.heroes.size() == 6, "boss rush uses the shared hero pool")
 	_check(lb.soldiers[0].hp == 1 and lb.soldiers[2].knocked_out, "boss rush carries soldier HP")
@@ -1073,7 +1239,7 @@ func _mode_tests() -> void:
 	var keep_u: int = int(Save.data["unlocked"])
 	var keep_stars: Dictionary = (Save.data["stars"] as Dictionary).duplicate()
 	Save.data["stars"] = {}  # stars on an unlock level also open a mission; start clean
-	Save.data["unlocked"] = 11
+	Save.data["unlocked"] = 16
 	var open_ids: Array = []
 	var icons: Dictionary = {}
 	for c: Dictionary in Data.challenge_list():
@@ -1082,14 +1248,14 @@ func _mode_tests() -> void:
 		icons[String(c.get("icon", ""))] = true
 		_check(int(c.get("unlock_level", 0)) >= int(Data.b("modes", "challenges_unlock_level")) and Art.exists(String(c.get("icon", ""))),
 				"mission %d has an unlock level and its own emblem" % int(c["id"]))
-	_check(open_ids.size() == 1, "after level 10 only one mission is open (%s)" % [open_ids])
+	_check(open_ids.size() == 1, "after level 15 only one mission is open (%s)" % [open_ids])
 	_check(icons.size() == Data.challenge_list().size(), "no two missions share an icon")
-	var locked_id: int = 107
+	var locked_id: int = 207
 	_check(not Game.can_enter_level(locked_id), "a locked mission can't be entered")
 	_check(Save.daily_challenge_id("2026-01-05") in open_ids, "today's mission is always an open one")
-	Save.data["unlocked"] = 45
+	Save.data["unlocked"] = 66
 	_check(Game.can_enter_level(locked_id), "clearing its campaign level opens the mission")
-	Save.data["unlocked"] = 51
+	Save.data["unlocked"] = 76
 	Save.data["stars"] = keep_stars
 	# Daily challenge: picked by date from the list, pays once a day.
 	var d1: int = Save.daily_challenge_id("2026-01-01")
@@ -1103,7 +1269,7 @@ func _mode_tests() -> void:
 	var r1: Dictionary = Save.record_result(daily, true, 1, 1000)
 	var r2: Dictionary = Save.record_result(daily, true, 1, 1000)
 	_check(int(r1["coins"]) - int(r2["coins"]) == int(Data.b("modes", "daily_coins")), "the daily bonus pays once per day")
-	_check(int(Save.data["unlocked"]) == 51, "challenges do not unlock campaign levels")
+	_check(int(Save.data["unlocked"]) == 76, "challenges do not unlock campaign levels")
 	Save.data = saved
 	Save.write()
 
@@ -1112,9 +1278,9 @@ func _mode_tests() -> void:
 func _progression_tests() -> void:
 	# Story scenes only where something new appears (steer: no previews on every level).
 	_check(not Data.novelty(1).is_empty(), "level 1 introduces the game")
-	_check("hero:fire" in Data.novelty(3) and "hero:bomb" in Data.novelty(6) and "hero:cyclone" in Data.novelty(12), "each new hero is flagged where it first appears")
-	_check("mech:rope_load" in Data.novelty(2) and "mech:crusher" in Data.novelty(13), "each new mechanism is flagged where it first appears")
-	_check(Data.novelty(16).is_empty() and Data.novelty(7).is_empty(), "levels with nothing new have no novelty")
+	_check("hero:fire" in Data.novelty(4) and "hero:bomb" in Data.novelty(8) and "hero:cyclone" in Data.novelty(17), "each new hero is flagged where it first appears")
+	_check("mech:rope_load" in Data.novelty(2) and "mech:crusher" in Data.novelty(19), "each new mechanism is flagged where it first appears")
+	_check(Data.novelty(23).is_empty() and Data.novelty(10).is_empty(), "levels with nothing new have no novelty")
 	var stories: PackedStringArray = PackedStringArray()
 	var skipped: int = 0
 	for n: int in range(1, Data.level_count() + 1):
@@ -1135,9 +1301,9 @@ func _progression_tests() -> void:
 	Save.data["weapon"] = "trebuchet"
 	Save.data["owned_weapons"] = {}
 	_check(Progression.weapon() == "catapult", "a locked siege weapon falls back to the catapult")
-	Save.data["unlocked"] = 31
+	Save.data["unlocked"] = 46
 	_check(not Progression.set_weapon("trebuchet") and Progression.weapon() == "catapult",
-			"reaching level 31 only reveals the trebuchet; it still has to be forged")
+			"reaching level 46 only reveals the trebuchet; it still has to be forged")
 	Save.data["coins"] = int(Progression.weapon_cfg("trebuchet")["unlock_cost"]["coins"]) - 1
 	_check(not Progression.buy_weapon("trebuchet"), "forging the trebuchet needs its full coin cost")
 	Save.data["coins"] = 200000
@@ -1171,7 +1337,8 @@ func _progression_tests() -> void:
 	# Realm chests + rank.
 	for id: int in range(1, 11):
 		Save.data["stars"][str(id)] = 3
-	_check(Progression.realm_stars(1) == 30 and Progression.chest_state(1, 2) == "ready", "realm 1 chests open with 30 stars")
+	_check(Progression.realm_stars(1) == 30 and Progression.chest_state(1, 1) == "ready" and Progression.chest_state(1, 2) == "locked",
+			"realm 1: 30 stars open the second chest, the last needs 45")
 	var c0: int = Save.coins()
 	var r: Dictionary = Progression.claim_chest(1, 0)
 	_check(not r.is_empty() and Save.coins() > c0 and Progression.chest_state(1, 0) == "claimed", "claiming a realm chest pays once")
@@ -1690,7 +1857,7 @@ func _ad_flow_tests() -> void:
 	l.queue_free()
 	await _wait(0.1)
 	# Boss level: Hellfire also beats a shielded boss.
-	var lb: Level = _make(10)
+	var lb: Level = _make(15)
 	await _wait(0.2)
 	Save.data["hellfire"] = 1
 	lb.use_hellfire()
@@ -1750,7 +1917,7 @@ func _play_services_tests() -> void:
 	_check(mail.begins_with("mailto:intercoreapp@gmail.com?subject=") and mail.contains(String(ProjectSettings.get_setting("application/config/version", "")).uri_encode()), "Contact Support opens an email with the game version")
 	_check(not Ads.showing(), "no full-screen ad is marked open at rest")
 	# Auto-pause: leaving the app mid-level opens the pause menu.
-	var lp: Level = _make(3)
+	var lp: Level = _make(4)
 	await _wait(0.3)
 	lp.test_mode = false
 	Ads._full_screen(true)
@@ -1806,17 +1973,22 @@ func _notification_tests() -> void:
 		total_s += float(v)
 	_check(total_s <= 1800.0, "empty to full takes 30 min or less (%d s)" % int(total_s))
 	var away: float = float(steps[1]) + float(steps[2]) + 5.0
-	Save.data["energy"] = {"bars": 1, "t": Time.get_unix_time_from_system() - away, "ad_lock": false}
+	Save.data["energy"] = {"bars": 1, "t": Time.get_unix_time_from_system() - away}
 	_check(Energy.bars() == 3, "bars rested while the app was closed are there on the next start")
-	Save.data["energy"] = {"bars": 0, "t": Time.get_unix_time_from_system() - 86400.0, "ad_lock": false}
+	Save.data["energy"] = {"bars": 0, "t": Time.get_unix_time_from_system() - 86400.0}
 	_check(Energy.bars() == Energy.max_bars(), "a day away refills every bar (never above the max)")
+	var hard_id: int = int(Energy.cfg()["free_until_level"]) + 1
+	Save.data["energy"] = {"bars": 0, "t": Time.get_unix_time_from_system()}
+	Energy.ad_refill_and_spend(hard_id)
+	Energy.ad_refill_and_spend(hard_id)
+	_check(Energy.ad_allowed() and Energy.bars() == 0, "the energy video can be watched again for every battle (no ad lock)")
 	_check(a != b, "the same reminder line is never sent twice in a row")
 	# Energy: a "refilled" reminder only after bars were spent, at the moment they are full again.
-	Save.data["energy"] = {"bars": Energy.max_bars(), "t": Time.get_unix_time_from_system(), "ad_lock": false}
+	Save.data["energy"] = {"bars": Energy.max_bars(), "t": Time.get_unix_time_from_system()}
 	_check(not Notifications.plan(now).any(func(n: Dictionary) -> bool: return n["kind"] == "energy_full"), "no energy reminder while the bars are full")
 	var keep_unlocked: int = int(Save.data["unlocked"])
 	Save.data["unlocked"] = int(Energy.cfg()["free_until_level"]) + 3
-	Save.data["energy"] = {"bars": 0, "t": Time.get_unix_time_from_system(), "ad_lock": false}
+	Save.data["energy"] = {"bars": 0, "t": Time.get_unix_time_from_system()}
 	var en: Array = Notifications.plan(now).filter(func(n: Dictionary) -> bool: return n["kind"] == "energy_full")
 	var want: int = maxi(int(cfg["kinds"]["energy_full"]["min_delay_s"]), ceili(Energy.ready_in_s(Energy.max_bars())))
 	# Quiet hours may push it later, never earlier.
@@ -1975,3 +2147,96 @@ func _audio_tests() -> void:
 	cam_host.queue_free()
 	Sound.set_music("menu", "menu")
 	Sound.set_surroundings("blossom", true)
+
+
+## Set-piece probe for the 1.2 levels: plays each level's intended trick directly (no aiming) and prints
+## how many guards it takes down. A trick that takes none is broken.
+const TRICKS: Dictionary = {
+	9: [[0.0, "cut"]], 12: [[0.0, "cut"]], 18: [[0.0, "beam"]], 21: [[0.0, "push", "log"]],
+	27: [[0.0, "legs"]], 29: [[0.0, "cut1"]], 33: [[0.0, "weak"]], 36: [[0.0, "push", "bell"]],
+	42: [[0.0, "flood"], [3.0, "weak"]], 48: [[0.0, "t", "ore_belt"]], 51: [[0.0, "push", "crystal_pillar"]],
+	54: [[0.0, "fuse", "0"]], 57: [[0.0, "t", "crush_belt"]], 59: [[0.0, "latch"]], 63: [[0.0, "fan"]],
+	66: [[0.0, "t", "ice_fan"]], 69: [[0.0, "t", "mill_fan"]], 72: [[0.0, "latch"], [2.0, "cut"]], 74: [[0.0, "fan"]],
+	78: [[0.0, "fuse", "0"]], 81: [[0.0, "t", "plate_belt"]], 84: [[0.0, "fuse", "0"], [3.4, "t", "lamp_lever"]],
+	87: [[0.0, "cut"]], 89: [[0.0, "latch"]], 93: [[0.0, "fan"]], 96: [[0.0, "t", "head_fan"]], 99: [[0.0, "t", "repulse"]],
+	104: [[0.0, "fuse", "0"]], 107: [[0.0, "t", "keg_belt"]], 109: [[0.0, "fuse", "0"]], 110: [[0.0, "t", "pull"]],
+	98: [[0.0, "t", "flip"]], 112: [[0.0, "t", "slip"]], 113: [[0.0, "weak"]], 115: [[0.0, "crystal"]], 116: [[0.0, "t", "fan_brake"]],
+	117: [[0.0, "fuse", "0"], [2.0, "fuse", "1"], [3.5, "fuse", "2"]], 118: [[0.0, "t", "vault_belt"]],
+	119: [[0.0, "fuse", "0"], [0.5, "t", "gauntlet_belt"]],
+}
+
+
+func _trick_probe(span_text: String) -> void:
+	var warm: Level = _make(1)
+	await _wait(1.0)
+	warm.queue_free()
+	await _wait(0.2)
+	for part: String in span_text.split(","):
+		var id: int = int(part)
+		var l: Level = _make(id)
+		await _wait(Data.bf("physics", "damage_grace_s") + 0.3)
+		var start: int = l.archers.size()
+		var t: float = 0.0
+		for step: Array in TRICKS.get(id, []):
+			await _wait(float(step[0]) - t)
+			t = float(step[0])
+			_trick_step(l, step)
+		for k: int in int(9.0 - t):
+			await _wait(1.0)
+			if Game.args.has("debug-gadgets"):
+				print("  t+%d %s" % [k, l.blocks.filter(func(b: Block) -> bool: return b.shape_id in ["cart", "barrel", "iron_ball", "log", "bell", "crystal_pillar", "domino"]).map(
+						func(b: Block) -> String: return "%s@%.0f,%.0f/%.0f" % [b.shape_id.left(4), b.global_position.x, b.global_position.y, rad_to_deg(b.rotation)])])
+		print("TRICK L%d %-20s guards %d -> %d" % [id, String(Data.level(id)["name"]), start, l.archers.size()])
+		l.queue_free()
+		await _wait(0.1)
+
+
+func _trick_step(l: Level, step: Array) -> void:
+	match String(step[1]):
+		"t":
+			l.activate_trigger(String(step[2]))
+		"cut":
+			for m: CastleMechanism in l.mechanisms:
+				if m.kind in ["rope_load", "hanging_platform"]:
+					m.cut_rope(0)
+		"cut1":
+			_mech(l, "hanging_platform").cut_rope(0)
+		"beam":
+			for tt: Tether in l.tethers:
+				if tt.payload != null:
+					tt.a.angular_velocity = 3.0
+		"push":
+			var r: Block = null
+			for b: Block in l.blocks:
+				if b.shape_id == String(step[2]) and (r == null or b.global_position.x < r.global_position.x):
+					r = b
+			if r:
+				r.push(Vector2(r.mass * 300.0, 0.0))
+		"legs":
+			for b: Block in l.blocks:
+				if b.shape_id == "post" and b.global_position.y > -130.0 and b.global_position.x < 1300.0:
+					b.destroy(false)
+		"weak":
+			for b: Block in l.blocks.duplicate():
+				if is_instance_valid(b) and b.is_weak_point():
+					b.take_damage(99999.0)
+		"flood":
+			_mech(l, "flood")._hit()
+		"latch":
+			for tt: Tether in l.tethers:
+				if tt.kind == "rope" and not tt.cut and (bool(tt.cfg.get("lock", false)) or (bool(tt.cfg.get("cuttable", true)) and tt.a.shape_id == "iron_ball")):
+					tt.release(true)
+		"fuse":
+			var fuses: Array = l.gadgets.filter(func(g: Gadget) -> bool: return g.kind == "fuse")
+			(fuses[int(step[2])] as Gadget)._light()
+		"fan":
+			for g: Gadget in l.gadgets:
+				if g.kind == "fan":
+					g.set_on(true)
+					if Game.args.has("debug-gadgets"):
+						var ov: Array = g._area.get_overlapping_bodies()
+						print("FAN overlaps %d sleeping %d override %d" % [ov.size(), ov.filter(func(b: Node2D) -> bool: return b is RigidBody2D and (b as RigidBody2D).sleeping).size(), g._area.gravity_space_override])
+		"crystal":
+			for g: Gadget in l.gadgets:
+				if g.kind == "repair" and is_instance_valid(g._source):
+					g._source.take_damage(99999.0)

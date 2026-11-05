@@ -1,266 +1,188 @@
 {
  "id": 37,
- "name": "Hanging Cages",
- "realm": 4,
+ "name": "Water Spout",
+ "realm": 3,
  "heroes": [
-  "cyclone",
-  "bomb",
+  "quake",
   "fire",
+  "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Hit a cage to swing it into the towers. Cut a rope to drop it.",
- "cinematic": [],
- "callouts": [
+ "strategy": "Shots through the erupting spout get thrown upward.",
+ "cinematic": [
   {
-   "target": "1195,-380",
-   "label": "CUT OR SWING!"
+   "t": "title"
   },
   {
-   "target": "1680,-290",
-   "label": "CUT OR SWING!"
+   "t": "focus",
+   "target": "mech:0",
+   "label": "GEYSER!"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "Ride the spout up to the high perch!"
+  },
+  {
+   "t": "demo",
+   "target": "mech:0",
+   "hero": "stone"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "WATER SPOUT!"
   }
  ],
  "boss": false,
  "star_scores": [
-  30000,
-  36000,
-  55000
+  20000,
+  22000,
+  36000
  ],
- "camera_right": 1970,
- "camera_top": -640,
+ "camera_right": 1720,
+ "camera_top": -1070,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 840,
-    "x1": 1910,
+    "x0": 730,
+    "x1": 1010,
     "top": 0.0
+   },
+   {
+    "x0": 1280,
+    "x1": 1560,
+    "top": -200
    }
   ]
  },
  "blocks": [
   {
-   "type": "stone_block",
-   "x": 922,
-   "y": -32.0
-  },
-  {
-   "type": "stone_block",
-   "x": 922,
-   "y": -96.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1078,
-   "y": -32.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1078,
-   "y": -96.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1000,
-   "y": -141.0
+   "type": "stone_pillar",
+   "x": 800.0,
+   "y": -70.0
   },
   {
    "type": "stone_pillar",
-   "x": 930,
-   "y": -224.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1070,
-   "y": -224.0
+   "x": 940.0,
+   "y": -70.0
   },
   {
    "type": "stone_slab",
-   "x": 1000,
-   "y": -314.0
-  },
-  {
-   "type": "post",
-   "x": 920,
-   "y": -394.0
-  },
-  {
-   "type": "post",
-   "x": 1080,
-   "y": -394.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1000,
-   "y": -467.0
+   "x": 870.0,
+   "y": -160.0
   },
   {
    "type": "roof_tile",
-   "x": 1000,
-   "y": -530.0,
+   "x": 870.0,
+   "y": -230.0,
    "flag": true
   },
   {
-   "type": "cage",
-   "x": 1195,
-   "y": -380.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1312,
-   "y": -32.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1312,
-   "y": -96.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1468,
-   "y": -32.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1468,
-   "y": -96.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1390,
-   "y": -141.0
+   "type": "stone_pillar",
+   "x": 1350.0,
+   "y": -270.0
   },
   {
    "type": "stone_pillar",
-   "x": 1320,
-   "y": -224.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1460,
-   "y": -224.0
+   "x": 1490.0,
+   "y": -270.0
   },
   {
    "type": "stone_slab",
-   "x": 1390,
-   "y": -314.0
+   "x": 1420.0,
+   "y": -360.0
   },
   {
    "type": "post",
-   "x": 1310,
-   "y": -394.0
+   "x": 1340.0,
+   "y": -440.0
   },
   {
    "type": "post",
-   "x": 1470,
-   "y": -394.0
+   "x": 1500.0,
+   "y": -440.0
   },
   {
    "type": "plank_long",
-   "x": 1390,
-   "y": -467.0
+   "x": 1420.0,
+   "y": -513.0
   },
   {
    "type": "roof_tile",
-   "x": 1390,
-   "y": -530.0,
+   "x": 1420.0,
+   "y": -576.0,
    "flag": true
   },
   {
-   "type": "post",
-   "x": 1600,
-   "y": -60.0
-  },
-  {
-   "type": "post",
-   "x": 1760,
-   "y": -60.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1680,
-   "y": -133.0
-  },
-  {
-   "type": "cage",
-   "x": 1680,
-   "y": -290.0
+   "type": "crate",
+   "x": 1207.0,
+   "y": -802
   }
  ],
  "archers": [
   {
-   "x": 1000,
-   "y": -183.5
-  },
-  {
-   "x": 1000,
-   "y": -363.5
-  },
-  {
-   "x": 1390,
-   "y": -183.5
-  },
-  {
-   "x": 1390,
-   "y": -363.5
-  },
-  {
-   "x": 1680,
+   "x": 870.0,
    "y": -29.5
   },
   {
-   "x": 1680,
-   "y": -175.5
+   "x": 1420.0,
+   "y": -409.5
+  },
+  {
+   "x": 1420.0,
+   "y": -229.5
+  },
+  {
+   "x": 1145.0,
+   "y": -799.5
   }
  ],
  "bolts": [],
- "mechanisms": [],
- "captives": [],
- "tethers": [
+ "mechanisms": [
   {
-   "kind": "rope",
-   "a": 12,
-   "x": 1195,
-   "y": -580,
-   "attach": [
-    1195,
-    -426.0
-   ],
-   "frame": {
-    "posts": [
-     1195
-    ],
-    "top": -594,
-    "bottom": 0.0,
-    "beam": [
-     1175,
-     1215
-    ]
-   }
+   "type": "geyser",
+   "x": 1145.0,
+   "y": 0,
+   "height": 560,
+   "period_s": 4.0,
+   "burst_s": 1.6,
+   "phase": 0.0,
+   "width": 90
   },
   {
-   "kind": "rope",
-   "a": 28,
-   "x": 1680,
-   "y": -440,
-   "attach": [
-    1680,
-    -336.0
+   "type": "moving_platform",
+   "x": 1145.0,
+   "y": -745.0,
+   "size": [
+    194,
+    50
    ],
-   "frame": {
-    "posts": [
-     1840
-    ],
-    "top": -454,
-    "bottom": 0.0,
-    "beam": [
-     1660,
-     1860
-    ]
-   }
+   "travel_x": 0,
+   "travel_y": 50,
+   "period_s": 3.0,
+   "phase": 0.0,
+   "chassis": "boss_airship_deck",
+   "chassis_h": 100,
+   "balloon": "boss_airship_balloon",
+   "balloon_size": [
+    271,
+    145
+   ],
+   "balloon_y": -182,
+   "floating": true
   }
- ]
+ ],
+ "captives": []
 }

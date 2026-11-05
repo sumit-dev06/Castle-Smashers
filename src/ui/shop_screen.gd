@@ -2,7 +2,7 @@ class_name ShopScreen
 extends MetaFrame
 ## Shop: Crates (Hellfire, Coin, Gem), Remove Ads, Gold (gems -> coins), Skins, Siege Engines.
 ## Real-money items go through Store; prices are the localized strings from Google Play and a
-## button stays disabled until Play has priced it. Crate contents are fixed (no random rewards).
+## button stays greyed (tap says why) until Play has priced it. Crate contents are fixed (no random rewards).
 ## Every state is spelled out on the button or the status line: Connecting, Processing, Pending,
 ## Owned, Unavailable. In-game items (gold, skins) go through Save.spend.
 
@@ -189,7 +189,8 @@ func _iap_button(id: String) -> Button:
 	else:
 		enabled = Store.busy_product.is_empty()
 	var b: Button = UIKit.button(text, "orange" if enabled else "dark", 26, Vector2(220, 64))
-	b.disabled = not enabled
+	if not enabled:
+		UIKit.locked(b, "You already own this." if text == "OWNED" else Store.buy_block_reason(id))
 	b.pressed.connect(func() -> void:
 		Sound.play("ui_tap")
 		if Store.buy(id):
@@ -248,7 +249,8 @@ func _footer() -> Control:
 	var h: HBoxContainer = HBoxContainer.new()
 	h.add_theme_constant_override("separation", 18)
 	var restore: Button = UIKit.button("Restore Purchases", "blue", 22, Vector2(260, 58))
-	restore.disabled = Store.status != Store.Status.READY
+	if Store.status != Store.Status.READY:
+		UIKit.locked(restore, Store.buy_block_reason(""))
 	restore.pressed.connect(func() -> void:
 		_say("Checking your purchases with Google Play…", Color.WHITE)
 		Store.restore())
@@ -316,10 +318,11 @@ func _skin_card(id: String, c: Dictionary) -> Control:
 	var b: Button
 	if Progression.owns("skins", id):
 		b = UIKit.button("OWNED", "dark", 22, Vector2(170, 54))
-		b.disabled = true
+		UIKit.locked(b, "You already own this skin. Equip it in Skins.")
 	elif (c["price"] as Dictionary).is_empty():
-		b = UIKit.button("Chest reward" if String(c.get("source", "")).begins_with("realm") else "Achievement", "dark", 18, Vector2(170, 54))
-		b.disabled = true
+		var chest: bool = String(c.get("source", "")).begins_with("realm")
+		b = UIKit.button("Chest reward" if chest else "Achievement", "dark", 18, Vector2(170, 54))
+		UIKit.locked(b, "Found in a realm chest on the map." if chest else "Unlocked by an achievement.")
 	else:
 		b = _gem_button(c["price"])
 		b.pressed.connect(func() -> void:

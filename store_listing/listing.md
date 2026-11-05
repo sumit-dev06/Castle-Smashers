@@ -26,7 +26,7 @@ FIVE HEROES, FIVE WAYS TO BREAK A WALL
 • Quaky dives and shakes the ground.
 Tap during the flight to use each hero's trick, and pick the right one for every fortress.
 
-75 LEVELS IN EIGHT REALMS
+120 LEVELS IN EIGHT REALMS
 Cherry blossom valleys, desert canyons, pirate harbours, crystal mines, floating sky islands, the Scarlet Highlands, the Storm Crags and the Iron Citadel. Every realm ends with a boss fortress, and new realms are on the way.
 
 REAL PHYSICS, REAL CHAIN REACTIONS
@@ -61,3 +61,8 @@ New screenshots: see `docs/RELEASE_GUIDE.md` part 9 ("Store listing pictures").
 | Email | intercoreapp@gmail.com |
 | Website | https://stonestorm.pages.dev (needed for app-ads.txt) |
 | Privacy policy | https://stonestorm.pages.dev/privacy/ |
+
+## What's new in 1.2.0 (Play Console release notes, max 500 characters)
+45 new levels! Every realm now has 15 fortresses: 120 in total.
+New gadgets: conveyor belts that carry whole forts off the edge, giant fans that blow shots and towers around, and powder fuses that burn into iron vaults.
+New achievement for winning all 120 levels, more ad partners for steadier rewarded videos, and many fixes and harder early levels.

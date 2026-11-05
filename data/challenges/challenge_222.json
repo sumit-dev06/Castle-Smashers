@@ -1,0 +1,172 @@
+{
+ "id": 222,
+ "name": "Mill of Teeth",
+ "realm": 4,
+ "heroes": [
+  "quake",
+  "stone",
+  "cyclone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Break the mill brake. The wheel must batter the iron room loose.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "JAM THE HUB!"
+  },
+  {
+   "target": "weak",
+   "label": "WEAK POINT"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  15000,
+  19000,
+  34000
+ ],
+ "camera_right": 1990,
+ "camera_top": -520,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 1102,
+    "top": 0.0
+   },
+   {
+    "x0": 1290,
+    "x1": 1860,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 800.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 940.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 870.0,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 790.0,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 950.0,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 870.0,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 870.0,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1020.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1020.0,
+   "y": -96.0
+  },
+  {
+   "type": "crate",
+   "x": 1020.0,
+   "y": -160.0,
+   "weak_point": true,
+   "trigger": "master_mill"
+  },
+  {
+   "type": "iron_block",
+   "x": 1622.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1622.0,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1778.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1778.0,
+   "y": -96
+  },
+  {
+   "type": "iron_beam",
+   "x": 1700.0,
+   "y": -141
+  }
+ ],
+ "archers": [
+  {
+   "x": 870.0,
+   "y": -209.5
+  },
+  {
+   "x": 1700.0,
+   "y": -29.5
+  },
+  {
+   "x": 1700.0,
+   "y": -183.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "windmill",
+   "x": 1370.0,
+   "y": -250,
+   "arms": 6,
+   "arm_len": 230,
+   "arm_w": 34,
+   "dps": -92,
+   "hits_blocks": true,
+   "start_on": "master_mill",
+   "style": "wheel",
+   "phase_deg": 30.0,
+   "frame": {
+    "posts": [
+     1370.0
+    ],
+    "top": -250,
+    "bottom": 0.0
+   }
+  }
+ ],
+ "captives": [],
+ "challenge": true,
+ "special": true,
+ "required_mechanics": [
+  "water_wheel"
+ ]
+}

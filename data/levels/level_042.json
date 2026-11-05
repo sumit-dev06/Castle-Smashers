@@ -1,251 +1,179 @@
 {
  "id": 42,
- "name": "Island Hop",
- "realm": 5,
+ "name": "Sluice and Shelf",
+ "realm": 3,
  "heroes": [
+  "stone",
   "cyclone",
-  "fire",
-  "bomb",
+  "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "The updraft between the islands throws shots upward.",
- "cinematic": [
-  {
-   "t": "title"
-  },
-  {
-   "t": "focus",
-   "target": "mech:0",
-   "label": "UPDRAFT!"
-  },
-  {
-   "t": "enter",
-   "who": "captain",
-   "at": "catapult",
-   "style": "walk"
-  },
-  {
-   "t": "say",
-   "who": "captain",
-   "text": "Ride the updraft to the high islands!"
-  }
- ],
+ "strategy": "Open the sluice for the low sheds, then break the keystone under the pier strongroom.",
+ "cinematic": [],
  "callouts": [
   {
+   "target": "935,-190",
+   "label": "OPEN THE SLUICE!"
+  },
+  {
    "target": "mech:0",
-   "label": "UPDRAFT!"
+   "label": "OPEN THE SLUICE!"
+  },
+  {
+   "target": "mech:1",
+   "label": "TRAP DOOR"
   }
  ],
  "boss": false,
  "star_scores": [
-  35000,
-  39000,
-  54000
+  20000,
+  26000,
+  44000
  ],
- "camera_right": 1920,
- "camera_top": -610,
+ "camera_right": 2250,
+ "camera_top": -230,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 795,
-    "x1": 1005,
+    "x0": 730,
+    "x1": 1772,
     "top": 0.0
-   },
-   {
-    "x0": 1175,
-    "x1": 1385,
-    "top": -80
-   },
-   {
-    "x0": 1495,
-    "x1": 1792,
-    "top": -160
    }
   ]
  },
  "blocks": [
   {
-   "type": "post",
-   "x": 858,
-   "y": -60.0
+   "type": "iron_block",
+   "x": 1192.0,
+   "y": -32
   },
   {
-   "type": "post",
-   "x": 942,
-   "y": -60.0
+   "type": "iron_block",
+   "x": 1192.0,
+   "y": -96
   },
   {
-   "type": "plank_short",
-   "x": 900,
-   "y": -133.0
+   "type": "iron_block",
+   "x": 1348.0,
+   "y": -32
   },
   {
-   "type": "post",
-   "x": 858,
-   "y": -206.0
+   "type": "iron_block",
+   "x": 1348.0,
+   "y": -96
   },
   {
-   "type": "post",
-   "x": 942,
-   "y": -206.0
+   "type": "iron_beam",
+   "x": 1270.0,
+   "y": -141
   },
   {
-   "type": "plank_short",
-   "x": 900,
-   "y": -279.0
+   "type": "iron_block",
+   "x": 1412.0,
+   "y": -32
   },
   {
-   "type": "roof",
-   "x": 900,
-   "y": -327.0,
-   "flag": true
+   "type": "iron_block",
+   "x": 1412.0,
+   "y": -96
   },
   {
-   "type": "post",
-   "x": 1238,
-   "y": -140.0
+   "type": "iron_block",
+   "x": 1568.0,
+   "y": -32
   },
   {
-   "type": "post",
-   "x": 1322,
-   "y": -140.0
+   "type": "iron_block",
+   "x": 1568.0,
+   "y": -96
   },
   {
-   "type": "plank_short",
-   "x": 1280,
-   "y": -213.0
-  },
-  {
-   "type": "post",
-   "x": 1238,
-   "y": -286.0
-  },
-  {
-   "type": "post",
-   "x": 1322,
-   "y": -286.0
-  },
-  {
-   "type": "plank_short",
-   "x": 1280,
-   "y": -359.0
-  },
-  {
-   "type": "post",
-   "x": 1238,
-   "y": -432.0
-  },
-  {
-   "type": "post",
-   "x": 1322,
-   "y": -432.0
-  },
-  {
-   "type": "plank_short",
-   "x": 1280,
-   "y": -505.0
-  },
-  {
-   "type": "roof",
-   "x": 1280,
-   "y": -553.0,
-   "flag": true
-  },
-  {
-   "type": "post",
-   "x": 1558,
-   "y": -220.0
-  },
-  {
-   "type": "post",
-   "x": 1642,
-   "y": -220.0
-  },
-  {
-   "type": "plank_short",
-   "x": 1600,
-   "y": -293.0
-  },
-  {
-   "type": "post",
-   "x": 1558,
-   "y": -366.0
-  },
-  {
-   "type": "post",
-   "x": 1642,
-   "y": -366.0
-  },
-  {
-   "type": "plank_short",
-   "x": 1600,
-   "y": -439.0
-  },
-  {
-   "type": "roof",
-   "x": 1600,
-   "y": -487.0,
-   "flag": true
+   "type": "iron_beam",
+   "x": 1490.0,
+   "y": -141
   },
   {
    "type": "stone_block",
-   "x": 1710,
-   "y": -192.0
+   "x": 1690.0,
+   "y": -32,
+   "weak_point": true,
+   "trigger": "pier_shelf"
+  },
+  {
+   "type": "iron_block",
+   "x": 1822.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1822.0,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1978.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1978.0,
+   "y": -96
+  },
+  {
+   "type": "iron_beam",
+   "x": 1900.0,
+   "y": -141
   }
  ],
  "archers": [
   {
-   "x": 900,
-   "y": -175.5
-  },
-  {
-   "x": 900,
+   "x": 1270.0,
    "y": -29.5
   },
   {
-   "x": 1280,
-   "y": -401.5
+   "x": 1490.0,
+   "y": -29.5
   },
   {
-   "x": 1280,
-   "y": -255.5
+   "x": 1900.0,
+   "y": -29.5
   },
   {
-   "x": 1600,
-   "y": -335.5
-  },
-  {
-   "x": 1600,
-   "y": -189.5
-  },
-  {
-   "x": 1710,
-   "y": -253.5
+   "x": 1900.0,
+   "y": -183.5
   }
  ],
  "bolts": [],
  "mechanisms": [
   {
-   "type": "geyser",
-   "x": 1090,
-   "y": 0,
-   "height": 600,
-   "period_s": 3.5,
-   "burst_s": 1.5,
-   "phase": 0.0,
-   "width": 90
+   "type": "flood",
+   "x": 1050.0,
+   "y": 0.0,
+   "size": [
+    40,
+    170
+   ],
+   "pool": 230,
+   "pool_h": 150,
+   "reach": 560,
+   "depth": 70
+  },
+  {
+   "type": "trapdoor",
+   "x": 1920.0,
+   "y": 25.0,
+   "size": [
+    300,
+    50
+   ],
+   "trigger": "pier_shelf",
+   "hinge": -1,
+   "style": "timber"
   }
  ],
- "captives": [],
- "wind": {
-  "strength": 240,
-  "period_s": 6.5,
-  "gust_s": 3.0,
-  "dir": 1,
-  "alternate": true
- }
+ "captives": []
 }

@@ -1,150 +1,207 @@
 {
  "id": 14,
- "name": "Domino Ruins",
- "realm": 2,
+ "name": "Twin Gondolas",
+ "realm": 1,
  "heroes": [
-  "cyclone",
   "bomb",
+  "fire",
   "stone",
   "stone"
  ],
  "soldiers": 4,
- "power_budget": 8,
- "strategy": "Topple the first slab: the row falls into the keep.",
+ "power_budget": 7,
+ "strategy": "Two cable cars, two heights. Cut a rope on each to tip the guards into the river.",
  "cinematic": [],
  "callouts": [
   {
-   "target": "900,-220",
-   "label": "DOMINOES!"
+   "target": "mech:0",
+   "label": "CUT A ROPE!"
+  },
+  {
+   "target": "bolt:0",
+   "label": "BOLTED"
   }
  ],
  "boss": false,
  "star_scores": [
-  15000,
-  19000,
-  35000
+  35000,
+  38000,
+  52000
  ],
- "camera_right": 2080,
- "camera_top": -450,
+ "camera_right": 2040,
+ "camera_top": -690,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 832,
-    "x1": 1946,
+    "x0": 1500,
+    "x1": 1820,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "domino",
-   "x": 900,
-   "y": -100
+   "type": "crate",
+   "x": 920.0,
+   "y": -347
   },
   {
-   "type": "domino",
-   "x": 1012,
-   "y": -100
+   "type": "barrel",
+   "x": 1240.0,
+   "y": -564
   },
   {
-   "type": "domino",
-   "x": 1124,
-   "y": -100
+   "type": "stone_block",
+   "x": 1582.0,
+   "y": -32.0
   },
   {
-   "type": "domino",
-   "x": 1236,
-   "y": -100
+   "type": "stone_block",
+   "x": 1582.0,
+   "y": -96.0
   },
   {
-   "type": "domino",
-   "x": 1348,
-   "y": -100
+   "type": "stone_block",
+   "x": 1738.0,
+   "y": -32.0
   },
   {
-   "type": "stone_pillar",
-   "x": 1430,
-   "y": -70.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1570,
-   "y": -70.0
-  },
-  {
-   "type": "stone_slab",
-   "x": 1500,
-   "y": -160.0
-  },
-  {
-   "type": "post",
-   "x": 1420,
-   "y": -240.0
-  },
-  {
-   "type": "post",
-   "x": 1580,
-   "y": -240.0
+   "type": "stone_block",
+   "x": 1738.0,
+   "y": -96.0
   },
   {
    "type": "plank_long",
-   "x": 1500,
-   "y": -313.0
+   "x": 1660.0,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1590.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1730.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1660.0,
+   "y": -314.0
+  },
+  {
+   "type": "post",
+   "x": 1580.0,
+   "y": -394.0
+  },
+  {
+   "type": "post",
+   "x": 1740.0,
+   "y": -394.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1660.0,
+   "y": -467.0
   },
   {
    "type": "roof_tile",
-   "x": 1500,
-   "y": -376.0,
+   "x": 1660.0,
+   "y": -530.0,
    "flag": true
   },
   {
-   "type": "stone_block",
-   "x": 1736.0,
-   "y": -32
-  },
-  {
-   "type": "stone_block",
-   "x": 1800.0,
-   "y": -32
-  },
-  {
-   "type": "stone_block",
-   "x": 1864.0,
-   "y": -32
-  },
-  {
-   "type": "stone_block",
-   "x": 1768.0,
-   "y": -96
-  },
-  {
-   "type": "stone_block",
-   "x": 1832.0,
-   "y": -96
-  },
-  {
-   "type": "stone_block",
-   "x": 1800.0,
-   "y": -160
+   "type": "plank_short",
+   "x": 1805.0,
+   "y": -314.0
   }
  ],
  "archers": [
   {
-   "x": 1500,
-   "y": -209.5
+   "x": 850.0,
+   "y": -344.5
   },
   {
-   "x": 1500,
-   "y": -29.5
+   "x": 990.0,
+   "y": -344.5
   },
   {
-   "x": 1800,
-   "y": -221.5
+   "x": 1170.0,
+   "y": -564.5
+  },
+  {
+   "x": 1310.0,
+   "y": -564.5
+  },
+  {
+   "x": 1660.0,
+   "y": -183.5
+  },
+  {
+   "x": 1660.0,
+   "y": -363.5
+  },
+  {
+   "x": 1805.0,
+   "y": -356.5
   }
  ],
- "bolts": [],
- "mechanisms": [],
+ "bolts": [
+  {
+   "a": 9,
+   "b": 14
+  }
+ ],
+ "mechanisms": [
+  {
+   "type": "hanging_platform",
+   "x": 920.0,
+   "y": -420,
+   "size": [
+    240,
+    30
+   ],
+   "span": 200,
+   "drop": 120,
+   "frame": {
+    "posts": [
+     796.0,
+     1044.0
+    ],
+    "top": -434,
+    "bottom": 260,
+    "beam": [
+     780.0,
+     1060.0
+    ]
+   }
+  },
+  {
+   "type": "hanging_platform",
+   "x": 1240.0,
+   "y": -640,
+   "size": [
+    240,
+    30
+   ],
+   "span": 200,
+   "drop": 120,
+   "frame": {
+    "posts": [
+     1116.0,
+     1364.0
+    ],
+    "top": -654,
+    "bottom": 260,
+    "beam": [
+     1100.0,
+     1380.0
+    ]
+   }
+  }
+ ],
  "captives": []
 }

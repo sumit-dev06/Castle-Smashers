@@ -1,212 +1,237 @@
 {
  "id": 26,
- "name": "Two Ships",
- "realm": 3,
+ "name": "Prisoner Well",
+ "realm": 2,
  "heroes": [
-  "bomb",
   "cyclone",
+  "bomb",
   "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Two ships, two rhythms. Knock the towers overboard.",
- "cinematic": [],
+ "strategy": "Flip the lever or break the bridge support to free the captive.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "captive",
+   "at": "fortress",
+   "style": "drop"
+  },
+  {
+   "t": "say",
+   "who": "captive",
+   "text": "The bridge winch opens my cage!"
+  },
+  {
+   "t": "focus",
+   "target": "weak",
+   "label": "BREAK THIS"
+  },
+  {
+   "t": "focus",
+   "target": "captive:0",
+   "label": "RESCUE!"
+  }
+ ],
  "callouts": [
   {
    "target": "mech:0",
-   "label": "MOVING!"
+   "label": "HIT THE LEVER!"
   }
  ],
  "boss": false,
  "star_scores": [
   25000,
-  28000,
-  44000
+  30000,
+  48000
  ],
- "camera_right": 2000,
- "camera_top": -470,
+ "camera_right": 1960,
+ "camera_top": -420,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 1645,
-    "x1": 1855,
+    "x0": 730,
+    "x1": 1899,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "post",
-   "x": 870,
-   "y": -110.0
+   "type": "iron_block",
+   "x": 881.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 881.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1037.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1037.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 959.0,
+   "y": -141.0
   },
   {
    "type": "post",
-   "x": 1030,
-   "y": -110.0
+   "x": 879.0,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1039.0,
+   "y": -214.0
   },
   {
    "type": "plank_long",
-   "x": 950,
-   "y": -183.0
-  },
-  {
-   "type": "post",
-   "x": 870,
-   "y": -256.0
-  },
-  {
-   "type": "post",
-   "x": 1030,
-   "y": -256.0
-  },
-  {
-   "type": "plank_long",
-   "x": 950,
-   "y": -329.0
+   "x": 959.0,
+   "y": -287.0
   },
   {
    "type": "roof_tile",
-   "x": 950,
-   "y": -392.0,
-   "flag": true
-  },
-  {
-   "type": "stone_block",
-   "x": 1302,
-   "y": -82.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1302,
-   "y": -146.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1458,
-   "y": -82.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1458,
-   "y": -146.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1380,
-   "y": -191.0
-  },
-  {
-   "type": "post",
-   "x": 1300,
-   "y": -264.0
-  },
-  {
-   "type": "post",
-   "x": 1460,
-   "y": -264.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1380,
-   "y": -337.0
-  },
-  {
-   "type": "barrel",
-   "x": 1402.0,
-   "y": -79.0
-  },
-  {
-   "type": "roof_tile",
-   "x": 1380,
-   "y": -400.0,
+   "x": 959.0,
+   "y": -350.0,
    "flag": true
   },
   {
    "type": "post",
-   "x": 1708,
-   "y": -60.0
+   "x": 1107.0,
+   "y": -60
   },
   {
    "type": "post",
-   "x": 1792,
-   "y": -60.0
+   "x": 1259.0,
+   "y": -60
   },
   {
-   "type": "plank_short",
-   "x": 1750,
-   "y": -133.0
+   "type": "post",
+   "x": 1411.0,
+   "y": -60
   },
   {
-   "type": "roof",
-   "x": 1750,
-   "y": -181.0,
+   "type": "plank_xl",
+   "x": 1259.0,
+   "y": -133,
+   "weak_point": true,
+   "trigger": "well_span"
+  },
+  {
+   "type": "iron_block",
+   "x": 1481.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1481.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1637.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1637.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1559.0,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 1479.0,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1639.0,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1559.0,
+   "y": -287.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1559.0,
+   "y": -350.0,
    "flag": true
   }
  ],
  "archers": [
   {
-   "x": 950,
-   "y": -225.5
+   "x": 959.0,
+   "y": -29.5
   },
   {
-   "x": 950,
-   "y": -79.5
+   "x": 959.0,
+   "y": -183.5
   },
   {
-   "x": 1380,
-   "y": -233.5
+   "x": 1259.0,
+   "y": -175.5
   },
   {
-   "x": 1357.0,
-   "y": -79.5
+   "x": 1559.0,
+   "y": -183.5
   },
   {
-   "x": 1750,
+   "x": 1559.0,
    "y": -29.5
   }
  ],
  "bolts": [],
  "mechanisms": [
   {
-   "type": "moving_platform",
-   "x": 950,
-   "y": -25.0,
-   "size": [
-    330,
-    50
+   "type": "lever",
+   "x": 814.0,
+   "y": 0,
+   "triggers": [
+    "well_span"
    ],
-   "travel_x": 0,
-   "travel_y": 10,
-   "period_s": 5.5,
-   "phase": 0.0,
-   "chassis": "boss_galleon_hull",
-   "chassis_h": 175,
-   "floating": true
+   "facing": 1
   },
   {
-   "type": "moving_platform",
-   "x": 1380,
-   "y": -25.0,
+   "type": "drawbridge",
+   "x": 1369.0,
+   "y": -165,
    "size": [
-    330,
-    50
+    280,
+    36
    ],
-   "travel_x": 0,
-   "travel_y": 12,
-   "period_s": 6.5,
-   "phase": 2.0,
-   "chassis": "boss_galleon_hull",
-   "chassis_h": 175,
-   "floating": true
+   "trigger": "well_span",
+   "start_angle": -78,
+   "end_angle": 0,
+   "duration_s": 0.9,
+   "counterweight_travel": 100
   }
  ],
- "captives": [],
- "tide": {
-  "amp_px": 45,
-  "period_s": 8.0
- }
+ "captives": [
+  {
+   "x": 1789.0,
+   "y": 0,
+   "trigger": "well_span",
+   "height": 92
+  }
+ ]
 }

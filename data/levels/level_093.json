@@ -1,0 +1,209 @@
+{
+ "id": 93,
+ "name": "Tide Lift",
+ "realm": 7,
+ "heroes": [
+  "cyclone",
+  "bomb",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Flip the lever to wake the sea fan. Shots through its column fly up to the cliff.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "gadget:0",
+   "label": "FAN!"
+  },
+  {
+   "target": "mech:0",
+   "label": "HIT THE LEVER!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  25000,
+  30000,
+  47000
+ ],
+ "camera_right": 2220,
+ "camera_top": -770,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 1104,
+    "top": 0.0
+   },
+   {
+    "x0": 1438,
+    "x1": 2060,
+    "top": -320
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 800.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 940.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 870.0,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 790.0,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 950.0,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 870.0,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 870.0,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "iron_block",
+   "x": 1520.0,
+   "y": -352
+  },
+  {
+   "type": "iron_block",
+   "x": 1520.0,
+   "y": -416
+  },
+  {
+   "type": "iron_block",
+   "x": 1520.0,
+   "y": -480
+  },
+  {
+   "type": "iron_block",
+   "x": 1760.0,
+   "y": -352
+  },
+  {
+   "type": "iron_block",
+   "x": 1760.0,
+   "y": -416
+  },
+  {
+   "type": "iron_block",
+   "x": 1760.0,
+   "y": -480
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1850.0,
+   "y": -390.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1990.0,
+   "y": -390.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1920.0,
+   "y": -480.0
+  },
+  {
+   "type": "post",
+   "x": 1840.0,
+   "y": -560.0
+  },
+  {
+   "type": "post",
+   "x": 2000.0,
+   "y": -560.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1920.0,
+   "y": -633.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1920.0,
+   "y": -696.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 870.0,
+   "y": -209.5
+  },
+  {
+   "x": 1610.0,
+   "y": -349.5
+  },
+  {
+   "x": 1670.0,
+   "y": -349.5
+  },
+  {
+   "x": 1920.0,
+   "y": -529.5
+  },
+  {
+   "x": 1920.0,
+   "y": -349.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "lever",
+   "x": 1020.0,
+   "y": 0,
+   "triggers": [
+    "lift_fan"
+   ],
+   "facing": 1
+  }
+ ],
+ "captives": [],
+ "gadgets": [
+  {
+   "type": "fan",
+   "x": 1240.0,
+   "y": 60,
+   "dir": -90,
+   "reach": 650,
+   "width": 140,
+   "accel": 2200,
+   "start_on": false,
+   "hit_toggles": true,
+   "trigger": "lift_fan"
+  }
+ ],
+ "wind": {
+  "strength": 280,
+  "period_s": 6.0,
+  "gust_s": 3.0,
+  "dir": -1,
+  "alternate": true
+ }
+}

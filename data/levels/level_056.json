@@ -1,224 +1,193 @@
 {
  "id": 56,
- "name": "The Counterweight",
- "realm": 6,
+ "name": "Iron Forge",
+ "realm": 4,
  "heroes": [
-  "cyclone",
+  "quake",
   "stone",
-  "stone",
+  "fire",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Cut the rope: the boulder slams the beam and throws the keg onto the iron vaults.",
- "cinematic": [],
- "callouts": [
+ "strategy": "Break the brake block: the freed mill wheel batters the iron strongroom off the cliff.",
+ "cinematic": [
   {
-   "target": "1324,-192",
-   "label": "SLAM IT!"
+   "t": "title"
   },
   {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "focus",
+   "target": "fortress",
+   "label": "IRON STRONGROOM"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "Stones won't dent that iron. But the mill wheel is only jammed..."
+  },
+  {
+   "t": "focus",
+   "target": "weak",
+   "label": "BREAK THE BRAKE!"
+  },
+  {
+   "t": "demo",
+   "target": "weak",
+   "hero": "stone"
+  }
+ ],
+ "callouts": [
+  {
    "target": "mech:0",
-   "label": "CUT THE ROPE!"
+   "label": "JAM THE HUB!"
   }
  ],
  "boss": false,
  "star_scores": [
-  20000,
-  25000,
-  43000
+  15000,
+  19000,
+  34000
  ],
- "camera_right": 2150,
- "camera_top": -570,
+ "camera_right": 1990,
+ "camera_top": -520,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 740,
-    "x1": 1336,
+    "x0": 730,
+    "x1": 1102,
     "top": 0.0
    },
    {
-    "x0": 1470,
-    "x1": 2020,
-    "top": -120
+    "x0": 1290,
+    "x1": 1860,
+    "top": 0.0
    }
   ]
  },
  "blocks": [
   {
    "type": "stone_pillar",
-   "x": 810,
+   "x": 800.0,
    "y": -70.0
   },
   {
    "type": "stone_pillar",
-   "x": 950,
+   "x": 940.0,
    "y": -70.0
   },
   {
    "type": "stone_slab",
-   "x": 880,
+   "x": 870.0,
    "y": -160.0
   },
   {
    "type": "post",
-   "x": 800,
+   "x": 790.0,
    "y": -240.0
   },
   {
    "type": "post",
-   "x": 960,
+   "x": 950.0,
    "y": -240.0
   },
   {
    "type": "plank_long",
-   "x": 880,
+   "x": 870.0,
    "y": -313.0
   },
   {
    "type": "roof_tile",
-   "x": 880,
+   "x": 870.0,
    "y": -376.0,
    "flag": true
   },
   {
-   "type": "plank_xl",
-   "x": 1182.9,
-   "y": -63.7,
-   "rot": -17.76
+   "type": "stone_block",
+   "x": 1020.0,
+   "y": -32.0
   },
   {
-   "type": "barrel",
-   "x": 1054.9,
-   "y": -70.0,
-   "rot": -17.76
+   "type": "stone_block",
+   "x": 1020.0,
+   "y": -96.0
   },
   {
-   "type": "iron_block",
-   "x": 1552,
-   "y": -152
-  },
-  {
-   "type": "iron_block",
-   "x": 1552,
-   "y": -216
+   "type": "crate",
+   "x": 1020.0,
+   "y": -160.0,
+   "weak_point": true,
+   "trigger": "mill"
   },
   {
    "type": "iron_block",
-   "x": 1708,
-   "y": -152
+   "x": 1622.0,
+   "y": -32
   },
   {
    "type": "iron_block",
-   "x": 1708,
-   "y": -216
+   "x": 1622.0,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1778.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1778.0,
+   "y": -96
   },
   {
    "type": "iron_beam",
-   "x": 1630,
-   "y": -261
-  },
-  {
-   "type": "iron_block",
-   "x": 1782,
-   "y": -152
-  },
-  {
-   "type": "iron_block",
-   "x": 1782,
-   "y": -216
-  },
-  {
-   "type": "iron_block",
-   "x": 1938,
-   "y": -152
-  },
-  {
-   "type": "iron_block",
-   "x": 1938,
-   "y": -216
-  },
-  {
-   "type": "iron_beam",
-   "x": 1860,
-   "y": -261
+   "x": 1700.0,
+   "y": -141
   }
  ],
  "archers": [
   {
-   "x": 880,
+   "x": 870.0,
    "y": -209.5
   },
   {
-   "x": 1630,
-   "y": -149.5
+   "x": 1700.0,
+   "y": -29.5
   },
   {
-   "x": 1600,
-   "y": -303.5
-  },
-  {
-   "x": 1860,
-   "y": -149.5
+   "x": 1700.0,
+   "y": -183.5
   }
  ],
  "bolts": [],
  "mechanisms": [
   {
-   "type": "rope_load",
-   "x": 1160,
-   "y": -520,
-   "length": 260,
-   "load": "boulder",
+   "type": "windmill",
+   "x": 1370.0,
+   "y": -250,
+   "arms": 4,
+   "arm_len": 230,
+   "arm_w": 34,
+   "dps": -80,
+   "hits_blocks": true,
+   "start_on": "mill",
+   "style": "wheel",
+   "phase_deg": 45.0,
    "frame": {
     "posts": [
-     1060
+     1370.0
     ],
-    "top": -534,
-    "bottom": 0.0,
-    "beam": [
-     1048,
-     1172
-    ]
+    "top": -250,
+    "bottom": 0.0
    }
   }
  ],
- "captives": [],
- "ramps": [
-  {
-   "points": [
-    [
-     1194,
-     0
-    ],
-    [
-     1240,
-     -68.0
-    ],
-    [
-     1286,
-     0
-    ]
-   ],
-   "kind": "wood"
-  }
- ],
- "tethers": [
-  {
-   "kind": "pin",
-   "a": 7,
-   "x": 1240,
-   "y": -82.0,
-   "launch": {
-    "payload": 8,
-    "kick": [
-     640.0,
-     -1150.0
-    ],
-    "dir": 1.0
-   }
-  }
- ]
+ "captives": []
 }

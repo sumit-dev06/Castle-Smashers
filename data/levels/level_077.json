@@ -1,0 +1,249 @@
+{
+ "id": 77,
+ "name": "Chain Gallery",
+ "realm": 6,
+ "heroes": [
+  "bomb",
+  "fire",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Kegs on every floor. Start the chain low and the hall brings itself down; the iron hut needs its keg.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "bolt:0",
+   "label": "BOLTED"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  30000,
+  38000,
+  59000
+ ],
+ "camera_right": 2110,
+ "camera_top": -640,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 885,
+    "x1": 1980,
+    "top": -40
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 948,
+   "y": -100
+  },
+  {
+   "type": "post",
+   "x": 1100,
+   "y": -100
+  },
+  {
+   "type": "post",
+   "x": 1252,
+   "y": -100
+  },
+  {
+   "type": "plank_xl",
+   "x": 1100,
+   "y": -173
+  },
+  {
+   "type": "barrel",
+   "x": 1170,
+   "y": -69
+  },
+  {
+   "type": "post",
+   "x": 948,
+   "y": -246
+  },
+  {
+   "type": "post",
+   "x": 1100,
+   "y": -246
+  },
+  {
+   "type": "post",
+   "x": 1252,
+   "y": -246
+  },
+  {
+   "type": "plank_xl",
+   "x": 1100,
+   "y": -319,
+   "banner": true
+  },
+  {
+   "type": "barrel",
+   "x": 1030,
+   "y": -215
+  },
+  {
+   "type": "roof_tile",
+   "x": 1100,
+   "y": -382,
+   "flag": true
+  },
+  {
+   "type": "plank_short",
+   "x": 1320.0,
+   "y": -319
+  },
+  {
+   "type": "barrel",
+   "x": 1360,
+   "y": -69.0
+  },
+  {
+   "type": "barrel",
+   "x": 1360,
+   "y": -127.0
+  },
+  {
+   "type": "barrel",
+   "x": 1360,
+   "y": -185.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1502,
+   "y": -72.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1502,
+   "y": -136.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1658,
+   "y": -72.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1658,
+   "y": -136.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1580,
+   "y": -181.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1510,
+   "y": -264.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1650,
+   "y": -264.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1580,
+   "y": -354.0
+  },
+  {
+   "type": "post",
+   "x": 1500,
+   "y": -434.0
+  },
+  {
+   "type": "post",
+   "x": 1660,
+   "y": -434.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1580,
+   "y": -507.0
+  },
+  {
+   "type": "barrel",
+   "x": 1580,
+   "y": -69.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1580,
+   "y": -570.0,
+   "flag": true
+  },
+  {
+   "type": "iron_block",
+   "x": 1742,
+   "y": -72
+  },
+  {
+   "type": "iron_block",
+   "x": 1742,
+   "y": -136
+  },
+  {
+   "type": "iron_block",
+   "x": 1898,
+   "y": -72
+  },
+  {
+   "type": "iron_block",
+   "x": 1898,
+   "y": -136
+  },
+  {
+   "type": "iron_beam",
+   "x": 1820,
+   "y": -181
+  },
+  {
+   "type": "barrel",
+   "x": 1865,
+   "y": -223
+  }
+ ],
+ "archers": [
+  {
+   "x": 1030,
+   "y": -69.5
+  },
+  {
+   "x": 1170,
+   "y": -215.5
+  },
+  {
+   "x": 1320.0,
+   "y": -361.5
+  },
+  {
+   "x": 1580,
+   "y": -223.5
+  },
+  {
+   "x": 1580,
+   "y": -403.5
+  },
+  {
+   "x": 1790,
+   "y": -223.5
+  }
+ ],
+ "bolts": [
+  {
+   "a": 8,
+   "b": 11
+  }
+ ],
+ "mechanisms": [],
+ "captives": []
+}

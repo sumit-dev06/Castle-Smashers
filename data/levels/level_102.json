@@ -1,0 +1,244 @@
+{
+ "id": 102,
+ "name": "Bounce Gallery",
+ "realm": 7,
+ "heroes": [
+  "fire",
+  "cyclone",
+  "bomb",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Bank off the high mushroom to drop a shot down the walled pit onto the keg.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "gadget:0",
+   "label": "BOUNCE PAD!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  35000,
+  40000,
+  57000
+ ],
+ "camera_right": 2280,
+ "camera_top": -740,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 2113,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 793.0,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 953.0,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 873.0,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 793.0,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 953.0,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 873.0,
+   "y": -279.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 873.0,
+   "y": -342.0,
+   "flag": true
+  },
+  {
+   "type": "iron_block",
+   "x": 1143.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1143.0,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1143.0,
+   "y": -160
+  },
+  {
+   "type": "iron_block",
+   "x": 1143.0,
+   "y": -224
+  },
+  {
+   "type": "iron_block",
+   "x": 1143.0,
+   "y": -288
+  },
+  {
+   "type": "iron_block",
+   "x": 1143.0,
+   "y": -352
+  },
+  {
+   "type": "barrel",
+   "x": 1523.0,
+   "y": -29.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1903.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 2043.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1973.0,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 1893.0,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 2053.0,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1973.0,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1973.0,
+   "y": -376.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 873.0,
+   "y": -175.5
+  },
+  {
+   "x": 873.0,
+   "y": -29.5
+  },
+  {
+   "x": 1143.0,
+   "y": -413.5
+  },
+  {
+   "x": 1474.0,
+   "y": -29.5
+  },
+  {
+   "x": 1572.0,
+   "y": -29.5
+  },
+  {
+   "x": 1973.0,
+   "y": -209.5
+  },
+  {
+   "x": 1973.0,
+   "y": -29.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": [],
+ "ramps": [
+  {
+   "points": [
+    [
+     1440.0,
+     0
+    ],
+    [
+     1370.0,
+     0
+    ],
+    [
+     1370.0,
+     -360
+    ],
+    [
+     1440.0,
+     -360
+    ]
+   ],
+   "kind": "rock"
+  },
+  {
+   "points": [
+    [
+     1606.0,
+     0
+    ],
+    [
+     1676.0,
+     0
+    ],
+    [
+     1676.0,
+     -360
+    ],
+    [
+     1606.0,
+     -360
+    ]
+   ],
+   "kind": "rock"
+  }
+ ],
+ "gadgets": [
+  {
+   "type": "bumper",
+   "x": 1323.0,
+   "y": -640,
+   "radius": 55,
+   "kick": 700,
+   "stem": 0
+  },
+  {
+   "type": "bumper",
+   "x": 1773.0,
+   "y": -300,
+   "radius": 55,
+   "kick": 650,
+   "stem": 270
+  }
+ ]
+}

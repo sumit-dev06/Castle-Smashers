@@ -270,3 +270,61 @@ static func place(c: Control, anchor: Vector2, offset: Vector2, size: Vector2) -
 	c.offset_top = offset.y
 	c.offset_right = offset.x + size.x
 	c.offset_bottom = offset.y + size.y
+
+
+## Owner rule: never disable a button. Instead `locked(b, reason)` keeps it tappable but greyed;
+## a tap shows `reason` and is swallowed (the button's own `pressed` never fires).
+## `locked(b, "")` unlocks it again.
+static func locked(b: BaseButton, reason: String) -> void:
+	b.disabled = false
+	b.set_meta("locked_reason", reason)
+	b.modulate = Color(0.62, 0.62, 0.66) if not reason.is_empty() else Color.WHITE
+	if b.has_meta("locked_hooked"):
+		return
+	b.set_meta("locked_hooked", true)
+	b.gui_input.connect(func(e: InputEvent) -> void:
+		var why: String = String(b.get_meta("locked_reason", ""))
+		if why.is_empty():
+			return
+		var press: bool = (e is InputEventMouseButton and (e as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT) \
+				or e is InputEventScreenTouch
+		if not press:
+			return
+		b.accept_event()
+		if (e is InputEventMouseButton and (e as InputEventMouseButton).pressed) or (e is InputEventScreenTouch and (e as InputEventScreenTouch).pressed):
+			say(why, b)
+	)
+
+
+static func is_locked(b: BaseButton) -> bool:
+	return not String(b.get_meta("locked_reason", "")).is_empty()
+
+
+## Short message over the screen (why a button can't be used, small confirmations).
+static func say(text: String, near: Control = null) -> void:
+	Sound.play("locked")
+	var layer: CanvasLayer = UIFx.overlay()
+	for n: Node in layer.get_children():
+		if n.has_meta("say_toast"):
+			n.queue_free()
+	var p: PanelContainer = chip()
+	p.set_meta("say_toast", true)
+	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var l: Label = label(text, 26, Color.WHITE, 8)
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	l.custom_minimum_size.x = 520
+	p.add_child(l)
+	layer.add_child(p)
+	var vp: Vector2 = layer.get_viewport().get_visible_rect().size
+	p.reset_size()
+	var y: float = vp.y * 0.16
+	if near != null and is_instance_valid(near):
+		y = clampf(near.get_global_rect().position.y - p.size.y - 14.0, 20.0, vp.y - p.size.y - 20.0)
+	p.position = Vector2((vp.x - p.size.x) * 0.5, y)
+	if near != null and is_instance_valid(near):
+		UIFx.shake(near)
+	var tw: Tween = p.create_tween()
+	tw.tween_interval(2.2)
+	tw.tween_property(p, "modulate:a", 0.0, 0.4)
+	tw.tween_callback(p.queue_free)

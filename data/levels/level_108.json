@@ -1,0 +1,284 @@
+{
+ "id": 108,
+ "name": "Ever-Mending Wall",
+ "realm": 8,
+ "heroes": [
+  "bomb",
+  "cyclone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "The crystal rebuilds broken blocks. Time a shot through its shield ring, then attack.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "focus",
+   "target": "gadget:0",
+   "label": "REPAIR CRYSTAL!"
+  },
+  {
+   "t": "enter",
+   "who": "wizard",
+   "at": "catapult",
+   "style": "smoke"
+  },
+  {
+   "t": "say",
+   "who": "wizard",
+   "text": "That crystal mends their walls. Shatter it first, through its ring!"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "gadget:0",
+   "label": "BREAK THE CRYSTAL!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  30000,
+  37000,
+  57000
+ ],
+ "camera_right": 1980,
+ "camera_top": -630,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 1852,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 800.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 940.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 870.0,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 790.0,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 950.0,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 870.0,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 870.0,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1092.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1092.0,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1248.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1248.0,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1170.0,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1100.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1240.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1170.0,
+   "y": -314.0
+  },
+  {
+   "type": "post",
+   "x": 1090.0,
+   "y": -394.0
+  },
+  {
+   "type": "post",
+   "x": 1250.0,
+   "y": -394.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1170.0,
+   "y": -467.0
+  },
+  {
+   "type": "barrel",
+   "x": 1170.0,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1170.0,
+   "y": -530.0,
+   "flag": true
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1370.0,
+   "y": -70
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1500.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1640.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1570.0,
+   "y": -160.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1500.0,
+   "y": -250.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1640.0,
+   "y": -250.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1570.0,
+   "y": -340.0
+  },
+  {
+   "type": "post",
+   "x": 1490.0,
+   "y": -420.0
+  },
+  {
+   "type": "post",
+   "x": 1650.0,
+   "y": -420.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1570.0,
+   "y": -493.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1570.0,
+   "y": -556.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1770.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1770.0,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1770.0,
+   "y": -160.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 870.0,
+   "y": -209.5
+  },
+  {
+   "x": 1170.0,
+   "y": -183.5
+  },
+  {
+   "x": 1170.0,
+   "y": -363.5
+  },
+  {
+   "x": 1570.0,
+   "y": -209.5
+  },
+  {
+   "x": 1570.0,
+   "y": -389.5
+  },
+  {
+   "x": 1770.0,
+   "y": -221.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "shield_ring",
+   "x": 1370.0,
+   "y": -70,
+   "radius": 110,
+   "plates": 2,
+   "dps": 80,
+   "plate_len": 110
+  }
+ ],
+ "captives": [],
+ "gadgets": [
+  {
+   "type": "repair",
+   "x": 1370.0,
+   "y": -70,
+   "source": 20,
+   "radius": 420,
+   "delay_s": 2.2
+  }
+ ]
+}

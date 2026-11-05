@@ -1,19 +1,45 @@
 {
  "id": 11,
- "name": "Sandstone Ruins",
- "realm": 2,
+ "name": "Captive Shrine",
+ "realm": 1,
  "heroes": [
+  "fire",
   "bomb",
   "stone",
-  "stone",
-  "fire"
+  "stone"
  ],
  "soldiers": 4,
- "power_budget": 8,
- "strategy": "Stone shrugs off fire. Knock the logs off the dune: they roll down and ram the ruins.",
+ "power_budget": 7,
+ "strategy": "Stone shrine. Break the marked barrels to free the scout before the last guard falls.",
  "cinematic": [
   {
    "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "captive",
+   "at": "fortress",
+   "style": "smoke"
+  },
+  {
+   "t": "say",
+   "who": "captive",
+   "text": "Help! Get me out of here!"
+  },
+  {
+   "t": "emote",
+   "who": "captive",
+   "e": "scared"
+  },
+  {
+   "t": "focus",
+   "target": "captive:0",
+   "label": "RESCUE!"
+  },
+  {
+   "t": "focus",
+   "target": "weak",
+   "label": "BREAK THIS"
   },
   {
    "t": "enter",
@@ -22,174 +48,192 @@
    "style": "walk"
   },
   {
-   "t": "say",
-   "who": "captain",
-   "text": "Desert stone. Fire won't help here."
-  },
-  {
-   "t": "focus",
-   "target": "fortress",
-   "label": "STONE!"
-  },
-  {
    "t": "emote",
    "who": "captain",
-   "e": "point"
+   "e": "cheer"
   }
  ],
- "callouts": [],
+ "callouts": [
+  {
+   "target": "weak",
+   "label": "WEAK POINT"
+  }
+ ],
  "boss": false,
  "star_scores": [
+  20000,
   25000,
-  29000,
-  45000
+  43000
  ],
- "camera_right": 2200,
- "camera_top": -440,
+ "camera_right": 2100,
+ "camera_top": -450,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 730,
-    "x1": 2070,
+    "x0": 777,
+    "x1": 1813,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "log",
-   "x": 830.0,
-   "y": -212.0
+   "type": "barrel",
+   "x": 850,
+   "y": -29.0
   },
   {
-   "type": "log",
-   "x": 916.0,
-   "y": -212.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1316.0,
-   "y": -32
+   "type": "barrel",
+   "x": 850,
+   "y": -87.0
   },
   {
    "type": "stone_block",
-   "x": 1380.0,
-   "y": -32
+   "x": 972,
+   "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 1444.0,
-   "y": -32
+   "x": 972,
+   "y": -96.0
   },
   {
    "type": "stone_block",
-   "x": 1348.0,
-   "y": -96
+   "x": 1128,
+   "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 1412.0,
-   "y": -96
+   "x": 1128,
+   "y": -96.0
   },
   {
-   "type": "stone_block",
-   "x": 1380.0,
-   "y": -160
+   "type": "plank_long",
+   "x": 1050,
+   "y": -141.0
   },
   {
    "type": "stone_pillar",
-   "x": 1610.0,
-   "y": -70.0
+   "x": 980,
+   "y": -224.0
   },
   {
    "type": "stone_pillar",
-   "x": 1750.0,
-   "y": -70.0
+   "x": 1120,
+   "y": -224.0
   },
   {
    "type": "stone_slab",
-   "x": 1680.0,
-   "y": -160.0
+   "x": 1050,
+   "y": -314.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1240,
+   "y": -32.0
+  },
+  {
+   "type": "barrel",
+   "x": 1240,
+   "y": -93.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1352,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1352,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1508,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1508,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1430,
+   "y": -141.0
   },
   {
    "type": "stone_pillar",
-   "x": 1610.0,
-   "y": -250.0
+   "x": 1360,
+   "y": -224.0
   },
   {
    "type": "stone_pillar",
-   "x": 1750.0,
-   "y": -250.0
+   "x": 1500,
+   "y": -224.0
   },
   {
    "type": "stone_slab",
-   "x": 1680.0,
-   "y": -340.0
+   "x": 1430,
+   "y": -314.0
   },
   {
-   "type": "stone_pillar",
-   "x": 1860.0,
-   "y": -70.0
+   "type": "barrel",
+   "x": 1452.0,
+   "y": -29.0
   },
   {
-   "type": "stone_pillar",
-   "x": 2000.0,
-   "y": -70.0
+   "type": "roof_tile",
+   "x": 1430,
+   "y": -384.0,
+   "flag": true
   },
   {
-   "type": "stone_slab",
-   "x": 1930.0,
-   "y": -160.0
+   "type": "barrel",
+   "x": 1740,
+   "y": -29.0
+  },
+  {
+   "type": "barrel",
+   "x": 1740,
+   "y": -87.0
+  },
+  {
+   "type": "barrel",
+   "x": 1740,
+   "y": -145.0,
+   "weak_point": true,
+   "trigger": "free_scout"
   }
  ],
  "archers": [
   {
-   "x": 1380.0,
-   "y": -221.5
+   "x": 1050,
+   "y": -183.5
   },
   {
-   "x": 1680.0,
-   "y": -209.5
+   "x": 1050,
+   "y": -363.5
   },
   {
-   "x": 1680.0,
-   "y": -389.5
+   "x": 1430,
+   "y": -183.5
   },
   {
-   "x": 1930.0,
+   "x": 1407.0,
    "y": -29.5
-  },
-  {
-   "x": 1930.0,
-   "y": -209.5
   }
  ],
  "bolts": [],
  "mechanisms": [],
- "captives": [],
- "ramps": [
+ "captives": [
   {
-   "points": [
-    [
-     780.0,
-     0
-    ],
-    [
-     780.0,
-     -170
-    ],
-    [
-     960.0,
-     -170
-    ],
-    [
-     1240.0,
-     0
-    ]
-   ],
-   "kind": "rock"
+   "x": 1600,
+   "y": 0,
+   "trigger": "free_scout",
+   "height": 92
   }
  ]
 }

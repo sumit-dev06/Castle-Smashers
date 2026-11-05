@@ -149,6 +149,8 @@ after `--shot-delay` seconds then quits, `--autoshot=angle,power[,ability_s]` fi
 open those screens.
 
 ## Meta UI helpers
+- Never set `Button.disabled`. `UIKit.locked(button, reason)` greys it, swallows the tap and shows the
+  reason (`UIKit.say`); `locked(b, "")` unlocks. Popups use `UIFx.popup_layer()` (never free `overlay()`).
 - `CurrencyBar` (`src/ui/currency_bar.gd`): wallet pills that roll up and pop on
   `Events.currency_changed`; `pill_center(kind)` is the target for flying rewards; `deny(kind)`
   shakes a pill red.
@@ -181,6 +183,8 @@ rebuild queued broken blocks at their deck-adjusted home. `status()` feeds `Hud.
   `Save.special_pack_unlocked()` requires 25 campaign stars, and `Game.can_enter_level()` enforces
   the gate. They use normal challenge results/rewards but can never become the daily challenge.
 - Reverse siege engines are `moving_platform`s with `approach: {speed, dock_x}`; `sink()` drops them.
+- Escaping balloons are `moving_platform`s with `rise: {speed, escape_y, warn_px, lose_text}`: they climb
+  after the first shot and the level is lost if crew is aboard at `escape_y` (`_update_rise`).
 - Boss rush: `Game.start_rush()` → `Game.rush_advance()` carries heroes, soldier HP and time between
   fights; `Save.record_rush()` keeps the best time.
 - Screens: `ChallengesScreen` (`challenges_screen.gd`), `--challenges` and `--challenge=N` flags.

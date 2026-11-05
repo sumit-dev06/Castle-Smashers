@@ -1,43 +1,38 @@
 {
  "id": 7,
- "name": "Seesaw Watch",
+ "name": "Plank Walk",
  "realm": 1,
  "heroes": [
-  "bomb",
+  "fire",
   "stone",
   "fire",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Two guards stand on one end of the seesaw. Knock out the stone under them and they slide off.",
+ "strategy": "All timber, all touching. Light one end and the fire runs along the walk.",
  "cinematic": [],
  "callouts": [
   {
-   "target": "1103,-110",
-   "label": "SEESAW!"
+   "target": "bolt:0",
+   "label": "BOLTED"
   }
  ],
  "boss": false,
  "star_scores": [
-  25000,
-  27000,
-  40000
+  40000,
+  44000,
+  61000
  ],
- "camera_right": 1880,
- "camera_top": -410,
+ "camera_right": 1960,
+ "camera_top": -400,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 730,
-    "x1": 1016,
-    "top": 0.0
-   },
-   {
-    "x0": 1127,
-    "x1": 1716,
+    "x0": 807,
+    "x1": 1810,
     "top": 0.0
    }
   ]
@@ -45,123 +40,176 @@
  "blocks": [
   {
    "type": "post",
-   "x": 793.0,
+   "x": 870,
    "y": -60.0
   },
   {
    "type": "post",
-   "x": 953.0,
+   "x": 1030,
    "y": -60.0
   },
   {
    "type": "plank_long",
-   "x": 873.0,
-   "y": -133.0,
-   "scroll": true
-  },
-  {
-   "type": "roof_tile",
-   "x": 873.0,
-   "y": -196.0,
-   "flag": true
-  },
-  {
-   "type": "stone_block",
-   "x": 1356.0,
-   "y": -32.0
-  },
-  {
-   "type": "plank_xl",
-   "x": 1223.0,
-   "y": -77
-  },
-  {
-   "type": "post",
-   "x": 1493.0,
-   "y": -60.0
-  },
-  {
-   "type": "post",
-   "x": 1653.0,
-   "y": -60.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1573.0,
+   "x": 950,
    "y": -133.0
   },
   {
    "type": "post",
-   "x": 1493.0,
+   "x": 870,
    "y": -206.0
   },
   {
    "type": "post",
-   "x": 1653.0,
+   "x": 1030,
    "y": -206.0
   },
   {
    "type": "plank_long",
-   "x": 1573.0,
+   "x": 950,
    "y": -279.0
   },
   {
+   "type": "post",
+   "x": 1128,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1212,
+   "y": -60.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1170,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 1128,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1212,
+   "y": -206.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1170,
+   "y": -279.0
+  },
+  {
+   "type": "post",
+   "x": 1310,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1470,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1390,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 1310,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1470,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1390,
+   "y": -279.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1060,
+   "y": -305.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1280,
+   "y": -305.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1572,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1572,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1728,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1728,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1650,
+   "y": -141.0
+  },
+  {
    "type": "roof_tile",
-   "x": 1573.0,
-   "y": -342.0,
+   "x": 1650,
+   "y": -204.0,
    "flag": true
   }
  ],
  "archers": [
   {
-   "x": 873.0,
+   "x": 950,
    "y": -29.5
   },
   {
-   "x": 1358.0,
-   "y": -119.5
-  },
-  {
-   "x": 1293.0,
-   "y": -119.5
-  },
-  {
-   "x": 1573.0,
+   "x": 950,
    "y": -175.5
   },
   {
-   "x": 1573.0,
+   "x": 1170,
+   "y": -175.5
+  },
+  {
+   "x": 1390,
+   "y": -29.5
+  },
+  {
+   "x": 1390,
+   "y": -175.5
+  },
+  {
+   "x": 1060,
+   "y": -347.5
+  },
+  {
+   "x": 1280,
+   "y": -347.5
+  },
+  {
+   "x": 1650,
    "y": -29.5
   }
  ],
- "bolts": [],
- "mechanisms": [],
- "captives": [],
- "ramps": [
+ "bolts": [
   {
-   "points": [
-    [
-     1177.0,
-     0
-    ],
-    [
-     1223.0,
-     -64
-    ],
-    [
-     1269.0,
-     0
-    ]
-   ],
-   "kind": "wood"
+   "a": 18,
+   "b": 19
   }
  ],
- "tethers": [
-  {
-   "kind": "pin",
-   "a": 5,
-   "x": 1223.0,
-   "y": -77
-  }
- ]
+ "mechanisms": [],
+ "captives": []
 }

@@ -1,0 +1,239 @@
+{
+ "id": 99,
+ "name": "Repulsor",
+ "realm": 7,
+ "heroes": [
+  "cyclone",
+  "stone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Flip the lever: the lodestone pushes the iron vault off the edge into the sea.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "gadget:0",
+   "label": "MAGNET!"
+  },
+  {
+   "target": "mech:0",
+   "label": "HIT THE LEVER!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  30000,
+  37000,
+  57000
+ ],
+ "camera_right": 2200,
+ "camera_top": -570,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 740,
+    "x1": 1620,
+    "top": 0.0
+   },
+   {
+    "x0": 1740,
+    "x1": 2060,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 810,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 950,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 880,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 800,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 960,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 880,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 880,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "iron_block",
+   "x": 1382,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1382,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1538,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1538,
+   "y": -96
+  },
+  {
+   "type": "iron_beam",
+   "x": 1460,
+   "y": -141
+  },
+  {
+   "type": "iron_block",
+   "x": 1382,
+   "y": -186
+  },
+  {
+   "type": "iron_block",
+   "x": 1382,
+   "y": -250
+  },
+  {
+   "type": "iron_block",
+   "x": 1538,
+   "y": -186
+  },
+  {
+   "type": "iron_block",
+   "x": 1538,
+   "y": -250
+  },
+  {
+   "type": "iron_beam",
+   "x": 1460,
+   "y": -295
+  },
+  {
+   "type": "stone_block",
+   "x": 1822,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1822,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1978,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1978,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1900,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1830,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1970,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1900,
+   "y": -314.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1900,
+   "y": -384.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 880,
+   "y": -209.5
+  },
+  {
+   "x": 1460,
+   "y": -29.5
+  },
+  {
+   "x": 1460,
+   "y": -183.5
+  },
+  {
+   "x": 1460,
+   "y": -337.5
+  },
+  {
+   "x": 1900,
+   "y": -183.5
+  },
+  {
+   "x": 1900,
+   "y": -29.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "lever",
+   "x": 1060,
+   "y": 0,
+   "triggers": [
+    "repulse"
+   ],
+   "facing": 1
+  }
+ ],
+ "captives": [],
+ "gadgets": [
+  {
+   "type": "magnet",
+   "x": 1230,
+   "y": -150,
+   "radius": 380,
+   "accel": 3000,
+   "start_on": false,
+   "push": true,
+   "trigger": "repulse",
+   "post": 0.0
+  }
+ ],
+ "tide": {
+  "amp_px": 55,
+  "period_s": 7.0
+ }
+}

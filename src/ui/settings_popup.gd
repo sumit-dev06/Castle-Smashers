@@ -120,7 +120,7 @@ func _main() -> void:
 			var gb: Button = UIKit.button("Sign in", "green", 20, Vector2(110, 50))
 			gb.pressed.connect(func() -> void:
 				Sound.play("ui_tap")
-				gb.disabled = true
+				UIKit.locked(gb, "Signing in to Google Play Games...")
 				PlayServices.games_changed.connect(func() -> void:
 					if is_inside_tree():
 						_main(), CONNECT_ONE_SHOT)

@@ -1,5 +1,5 @@
 {
-  "level_count": 75,
+  "level_count": 120,
   "layers": {
     "world": 1,
     "blocks": 2,
@@ -8,6 +8,7 @@
     "shield": 16
   },
   "physics": {
+    "cover_lift_px": 6.0,
     "damage_grace_s": 1.2,
     "settle_speed": 12.0,
     "settle_min_s": 1.0,
@@ -588,6 +589,8 @@
     ]
   },
   "ads": {
+    "break_timeout_s": 90.0,
+    "break_resume_grace_s": 1.0,
     "_doc": "Interstitial: one after every interstitial_every_matches matches (a match = a finished level, or one left or restarted after a shot; wins and losses both count; training never). Shown only at the break when the player taps a results or pause button (Next, Retry, Map, Restart), never during play, never with Remove Ads. Counter is saved (Save.data.ad_matches). load_retry_s: retry after a failed ad load.",
     "interstitial_min_level": 3,
     "interstitial_every_matches": 4,
@@ -600,7 +603,7 @@
     "slots": 4,
     "default_power_budget": 8,
     "late_power_budget": 8,
-    "late_budget_level": 31,
+    "late_budget_level": 46,
     "strong_mult": 1.2,
     "fortress_max_chips": 6,
     "dim_alpha": 0.42,
@@ -657,7 +660,7 @@
       {"id": "engines", "title": "New Siege Engines", "art": ["icon_weapon_trebuchet", "icon_weapon_ballista"], "color": "#5ab4ff", "min_level": 6,
        "points": ["Trebuchet: huge arcs over high walls", "Ballista: flat, fast and piercing", "Each engine has its own upgrades"],
        "cta": "SEE ENGINES", "target": "shop", "tab": "weapons"},
-      {"id": "missions", "title": "Special Missions", "badge": "75 LEVELS + MORE", "art": ["icon_challenges"], "color": "#4ad0c0", "min_level": 8,
+      {"id": "missions", "title": "Special Missions", "badge": "120 LEVELS + MORE", "art": ["icon_challenges"], "color": "#4ad0c0", "min_level": 8,
        "points": ["Boss rush, survival, one-shot and heist modes", "Rotating level challenges with gem rewards", "New realms are on the way"],
        "cta": "PLAY NOW", "target": "challenges"}
     ]
@@ -793,8 +796,7 @@
       "tint": "#ffd8c0",
       "stage_tint": "#ffd2b8",
       "haze": "#5a2a20",
-      "weather": "embers",
-      "chest_stars": [5, 10, 15]
+      "weather": "embers"
     }
   ],
   "stage": {
@@ -882,7 +884,7 @@
     "extra_tap_px": 60.0
   },
   "energy": {
-    "_doc": "Army energy (src/game/energy.gd, src/ui/energy_ui.gd). Each campaign attempt costs bars; refill_s[i] is the time for the next bar when i bars are full (fast first, slower after). One rewarded ad can top up a level, then the next level must be paid with rested bars.",
+    "_doc": "Army energy (src/game/energy.gd, src/ui/energy_ui.gd). Each campaign attempt costs bars; refill_s[i] is the time for the next bar when i bars are full (fast first, slower after). A rewarded ad can always top up the bars for one level.",
     "enabled": true,
     "max": 10,
     "refill_s": [60, 90, 120, 150, 180, 200, 220, 240, 260, 280],
@@ -899,7 +901,6 @@
     "how_text": "Each battle costs energy. The first bar comes back quickly, the rest take longer.",
     "full_text": "Your army is fully rested. To battle!",
     "ad_text": "Rest now",
-    "ad_locked_text": "You already rested with a video for the last battle. Let your army rest for this one.",
     "no_ad_text": "No video available right now. Try again in a moment."
   },
   "training": {
@@ -1280,20 +1281,21 @@
     "chest_score": 3000,
     "wave_gap_s": 2.0,
     "wave_drop_px": 520.0,
+    "wave_land_grace_s": 3.0,
     "engine_score": 4000,
     "daily_coins": 100,
-    "challenges_unlock_level": 10,
-    "rush_unlock_level": 50,
+    "challenges_unlock_level": 15,
+    "rush_unlock_level": 75,
     "rush_next_s": 2.5,
     "rush_coins": 1500,
     "rush_gems": 10,
     "boss_rush": {
       "levels": [
-        10,
-        20,
+        15,
         30,
-        40,
-        50
+        45,
+        60,
+        75
       ],
       "heroes": [
         "bomb",
@@ -1326,8 +1328,8 @@
   "special_pack": {
     "_doc": "Master Sieges: ten hard fixed-loadout mechanic puzzles shown on Challenges, unlocked by campaign stars.",
     "star_gate": 25,
-    "first_id": 121,
-    "last_id": 130
+    "first_id": 221,
+    "last_id": 230
   },
   "siege_weapons": {
     "_doc": "Distinct siege engines. Level requirement reveals the engine; unlock_cost buys it. Track effects are real multipliers applied by Progression.",
@@ -1458,7 +1460,7 @@
       "short_name": "Ballista",
       "role": "Fast armor piercer",
       "desc": "A low, fast shot for front walls and iron. Its rail sacrifices blast size for direct damage.",
-      "unlock_level": 21,
+      "unlock_level": 31,
       "unlock_cost": {
         "coins": 18000
       },
@@ -1577,7 +1579,7 @@
       "short_name": "Trebuchet",
       "role": "Heavy high-arc siege",
       "desc": "A towering counterweight engine. Slow to reload, but its heavy lob amplifies every ability.",
-      "unlock_level": 31,
+      "unlock_level": 46,
       "unlock_cost": {
         "coins": 40000
       },
@@ -2000,11 +2002,11 @@
     }
   },
   "realm_chests": {
-    "_doc": "Per realm, claimable on the map at these star counts.",
+    "_doc": "Per realm (15 levels, 45 stars), claimable on the map at these star counts.",
     "stars": [
-      10,
-      20,
-      30
+      15,
+      30,
+      45
     ],
     "rewards": [
       {
@@ -2046,23 +2048,23 @@
   "secrets": {
     "_doc": "One hidden map scroll per realm (a crate with decor 'scroll'). Finding it unlocks that realm's secret level.",
     "levels": {
-      "1": 111,
-      "2": 112,
-      "3": 113,
-      "4": 114,
-      "5": 115
+      "1": 211,
+      "2": 212,
+      "3": 213,
+      "4": 214,
+      "5": 215
     },
     "scroll_score": 2500,
     "scroll_in": {
-      "1": 7,
-      "2": 15,
-      "3": 27,
-      "4": 36,
-      "5": 46
+      "1": 10,
+      "2": 22,
+      "3": 40,
+      "4": 53,
+      "5": 68
     }
   },
   "gadgets": {
-    "_doc": "Round 4 gadgets (src/game/gadget.gd): portals, gravity fields, magnets, bounce pads, pressure plates, relays (timed multi-switch) and repair crystals.",
+    "_doc": "Round 4 gadgets (src/game/gadget.gd): portals, gravity fields, magnets, bounce pads, pressure plates, relays (timed multi-switch) and repair crystals, conveyor belts, fans and fuses.",
     "portal_radius": 62.0,
     "portal_cooldown_s": 0.6,
     "portal_min_speed": 420.0,
@@ -2086,36 +2088,54 @@
     "repair_delay_s": 2.5,
     "repair_max_per_spot": 3,
     "repair_stop_score": 3000,
-    "gadget_score": 1500
+    "gadget_score": 1500,
+    "conveyor_width": 400.0,
+    "conveyor_h": 20.0,
+    "conveyor_speed": 130.0,
+    "conveyor_friction": 1.0,
+    "conveyor_dash_px": 34.0,
+    "conveyor_wake_px": 160.0,
+    "conveyor_score": 1500,
+    "fan_reach": 420.0,
+    "fan_width": 180.0,
+    "fan_accel": 1400.0,
+    "fan_housing_r": 44.0,
+    "fan_spin": 14.0,
+    "fan_hit_cooldown_s": 0.5,
+    "fan_score": 1500,
+    "fuse_light_r": 46.0,
+    "fuse_burn_s": 3.0,
+    "fuse_keg_r": 70.0,
+    "fuse_score": 1500
   },
   "feats": {
     "_doc": "Level challenges on the Achievements screen (src/game/feats.gd). Every max_shots, chain and fast entry was checked winnable with tools/record_trailer.py --search.",
     "show": 4,
     "rotate_hours": 24,
     "pool": [
-      {"id": "f14_two", "name": "Sharp Shooter", "level": 14, "kind": "max_shots", "n": 2, "reward": {"coins": 250}},
-      {"id": "f39_two", "name": "Two to Topple", "level": 39, "kind": "max_shots", "n": 2, "reward": {"coins": 400}},
-      {"id": "f44_two", "name": "Double Tap", "level": 44, "kind": "max_shots", "n": 2, "reward": {"coins": 450}},
-      {"id": "f35_one", "name": "One and Done", "level": 35, "kind": "max_shots", "n": 1, "reward": {"coins": 500, "gems": 1}},
-      {"id": "f35_chain", "name": "Domino Master", "level": 35, "kind": "chain", "n": 12, "reward": {"coins": 350}},
-      {"id": "f44_chain", "name": "Avalanche", "level": 44, "kind": "chain", "n": 18, "reward": {"coins": 400}},
-      {"id": "f14_safe", "name": "Shield Wall", "level": 14, "kind": "all_soldiers", "n": 0, "reward": {"coins": 200}},
-      {"id": "f39_safe", "name": "Not One Lost", "level": 39, "kind": "all_soldiers", "n": 0, "reward": {"coins": 350}},
-      {"id": "f14_fast", "name": "Blitz", "level": 14, "kind": "fast", "n": 25, "reward": {"coins": 250}},
-      {"id": "f44_fast", "name": "Lightning Siege", "level": 44, "kind": "fast", "n": 30, "reward": {"coins": 400}},
-      {"id": "f33_two", "name": "Clean Break", "level": 33, "kind": "max_shots", "n": 2, "reward": {"coins": 350}},
-      {"id": "f52_two", "name": "Gallery Crash", "level": 52, "kind": "max_shots", "n": 2, "reward": {"coins": 600, "gems": 1}},
-      {"id": "f54_two", "name": "Stone Cold", "level": 54, "kind": "max_shots", "n": 2, "reward": {"coins": 600}},
-      {"id": "f56_two", "name": "Balance Breaker", "level": 56, "kind": "max_shots", "n": 2, "reward": {"coins": 600}},
-      {"id": "f61_two", "name": "Raft Wrecker", "level": 61, "kind": "max_shots", "n": 2, "reward": {"coins": 650, "gems": 1}},
-      {"id": "f52_chain", "name": "Chain Reaction", "level": 52, "kind": "chain", "n": 20, "reward": {"coins": 500}},
-      {"id": "f59_chain", "name": "Load Shedding", "level": 59, "kind": "chain", "n": 18, "reward": {"coins": 550}},
-      {"id": "f61_chain", "name": "Shipwreck", "level": 61, "kind": "chain", "n": 20, "reward": {"coins": 550}},
-      {"id": "f67_safe", "name": "Keep Them Safe", "level": 67, "kind": "all_soldiers", "n": 0, "reward": {"coins": 600}},
-      {"id": "f59_safe", "name": "Steady Hands", "level": 59, "kind": "all_soldiers", "n": 0, "reward": {"coins": 550}},
-      {"id": "f72_fast", "name": "Outpace the Crystal", "level": 72, "kind": "fast", "n": 40, "reward": {"coins": 650, "gems": 1}},
-      {"id": "f64_fast", "name": "Thaw Fast", "level": 64, "kind": "fast", "n": 40, "reward": {"coins": 600}},
-      {"id": "f70_three", "name": "Witch Hunter", "level": 70, "kind": "max_shots", "n": 3, "reward": {"coins": 800, "gems": 2}}
+      {"id": "f14_two", "name": "Sharp Shooter", "level": 20, "kind": "max_shots", "n": 2, "reward": {"coins": 250}},
+      {"id": "f39_two", "name": "Two to Topple", "level": 58, "kind": "max_shots", "n": 2, "reward": {"coins": 400}},
+      {"id": "f44_two", "name": "Double Tap", "level": 65, "kind": "max_shots", "n": 2, "reward": {"coins": 450}},
+      {"id": "f35_one", "name": "One and Done", "level": 52, "kind": "max_shots", "n": 1, "reward": {"coins": 500, "gems": 1}},
+      {"id": "f35_chain", "name": "Domino Master", "level": 52, "kind": "chain", "n": 12, "reward": {"coins": 350}},
+      {"id": "f44_chain", "name": "Avalanche", "level": 65, "kind": "chain", "n": 18, "reward": {"coins": 400}},
+      {"id": "f14_safe", "name": "Shield Wall", "level": 20, "kind": "all_soldiers", "n": 0, "reward": {"coins": 200}},
+      {"id": "f39_safe", "name": "Not One Lost", "level": 58, "kind": "all_soldiers", "n": 0, "reward": {"coins": 350}},
+      {"id": "f14_fast", "name": "Blitz", "level": 20, "kind": "fast", "n": 25, "reward": {"coins": 250}},
+      {"id": "f44_fast", "name": "Lightning Siege", "level": 65, "kind": "fast", "n": 30, "reward": {"coins": 400}},
+      {"id": "f33_two", "name": "Clean Break", "level": 49, "kind": "max_shots", "n": 2, "reward": {"coins": 350}},
+      {"id": "f52_two", "name": "Gallery Crash", "level": 77, "kind": "max_shots", "n": 2, "reward": {"coins": 600, "gems": 1}},
+      {"id": "f54_two", "name": "Stone Cold", "level": 80, "kind": "max_shots", "n": 2, "reward": {"coins": 600}},
+      {"id": "f56_two", "name": "Balance Breaker", "level": 83, "kind": "max_shots", "n": 2, "reward": {"coins": 600}},
+      {"id": "f61_two", "name": "Raft Wrecker", "level": 91, "kind": "max_shots", "n": 2, "reward": {"coins": 650, "gems": 1}},
+      {"id": "f52_chain", "name": "Chain Reaction", "level": 77, "kind": "chain", "n": 20, "reward": {"coins": 500}},
+      {"id": "f59_chain", "name": "Load Shedding", "level": 88, "kind": "chain", "n": 18, "reward": {"coins": 550}},
+      {"id": "f61_chain", "name": "Shipwreck", "level": 91, "kind": "chain", "n": 20, "reward": {"coins": 550}},
+      {"id": "f67_safe", "name": "Keep Them Safe", "level": 100, "kind": "all_soldiers", "n": 0, "reward": {"coins": 600}},
+      {"id": "f59_safe", "name": "Steady Hands", "level": 88, "kind": "all_soldiers", "n": 0, "reward": {"coins": 550}},
+      {"id": "f72_fast", "name": "Outpace the Crystal", "level": 108, "kind": "fast", "n": 40, "reward": {"coins": 650, "gems": 1}},
+      {"id": "f64_fast", "name": "Thaw Fast", "level": 95, "kind": "fast", "n": 40, "reward": {"coins": 600}},
+      {"id": "f70_three", "name": "Witch Hunter", "level": 105, "kind": "max_shots", "n": 3, "reward": {"coins": 800, "gems": 2}}
     ]
   },
   "achievements": [
@@ -2151,6 +2171,7 @@
       }
     },
     {"id": "wins_75", "name": "Iron Will", "desc": "Win 75 levels", "stat": "wins", "goal": 75, "reward": {"gems": 5, "coins": 2000}},
+    {"id": "wins_120", "name": "Siege Legend", "desc": "Win 120 levels", "stat": "wins", "goal": 120, "reward": {"gems": 8, "coins": 3000}},
     {
       "id": "stars_30",
       "name": "Star Collector",
@@ -2559,7 +2580,7 @@
     "support_subject": "Stone Storm help (version %s)",
     "support_body": "Hi Intercore,\n\nWhat happened:\n\n\nWhat I expected:\n\n\n---\nGame version: %s\nPhone: %s\nAndroid: %s\nLevel reached: %d\n(Purchase problem? Add the order number from your Google Play receipt, it starts with GPA.)",
     "credits": [
-      "Fonts: Lilita One (Juan Montoreano), Fredoka (Milena Brand\u00e3o), SIL OFL 1.1",
+      "Fonts: Lilita One (Juan Montoreano), Fredoka (Milena Brandão), SIL OFL 1.1",
       "Engine: Godot Engine, MIT licence, Godot contributors",
       "Art, sound and levels: made for Stone Storm"
     ],
@@ -2617,6 +2638,7 @@
     "launch_blast_mult": 1.6
   },
   "ui": {
+    "busy_unlock_s": 1.5,
     "_doc": "Menu feel: finger-drag scrolling of card lists (DragScroll).",
     "drag_scroll_px": 14.0,
     "drag_scroll_friction": 5.0
@@ -2655,7 +2677,7 @@
   },
   "wizard_workshop": {
     "name": "Master Orin",
-    "title": "MASTER ORIN\u2019S SIEGE WORKSHOP",
+    "title": "MASTER ORIN’S SIEGE WORKSHOP",
     "hero_order": [
       "stone",
       "fire",
@@ -2689,5 +2711,86 @@
     "scorch_s": 3.0,
     "from_dx": 420.0,
     "from_dy": 1100.0
+  },
+  "save_migration": {
+    "_doc": "Save v5 (120-level campaign): old level id -> new id for stars, best, attempts, loadouts, unlocked and story keys. Challenge ids moved up by challenge_shift (101-130 -> 201-230). Checked against tools/campaign.py by gen_levels.py.",
+    "challenge_shift": 100,
+    "v5_levels": {
+      "1": 1,
+      "2": 2,
+      "3": 4,
+      "4": 5,
+      "5": 6,
+      "6": 8,
+      "7": 10,
+      "8": 11,
+      "9": 13,
+      "10": 15,
+      "11": 16,
+      "12": 17,
+      "13": 19,
+      "14": 20,
+      "15": 22,
+      "16": 23,
+      "17": 25,
+      "18": 26,
+      "19": 28,
+      "20": 30,
+      "21": 31,
+      "22": 32,
+      "23": 34,
+      "24": 35,
+      "25": 37,
+      "26": 38,
+      "27": 40,
+      "28": 41,
+      "29": 43,
+      "30": 45,
+      "31": 46,
+      "32": 47,
+      "33": 49,
+      "34": 50,
+      "35": 52,
+      "36": 53,
+      "37": 55,
+      "38": 56,
+      "39": 58,
+      "40": 60,
+      "41": 61,
+      "42": 62,
+      "43": 64,
+      "44": 65,
+      "45": 67,
+      "46": 68,
+      "47": 70,
+      "48": 71,
+      "49": 73,
+      "50": 75,
+      "51": 76,
+      "52": 77,
+      "53": 79,
+      "54": 80,
+      "55": 82,
+      "56": 83,
+      "57": 85,
+      "58": 86,
+      "59": 88,
+      "60": 90,
+      "61": 91,
+      "62": 92,
+      "63": 94,
+      "64": 95,
+      "65": 97,
+      "66": 98,
+      "67": 100,
+      "68": 101,
+      "69": 103,
+      "70": 105,
+      "71": 106,
+      "72": 108,
+      "73": 111,
+      "74": 114,
+      "75": 120
+    }
   }
 }

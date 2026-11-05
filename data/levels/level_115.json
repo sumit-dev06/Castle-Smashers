@@ -1,0 +1,321 @@
+{
+ "id": 115,
+ "name": "Portal Forge",
+ "realm": 8,
+ "heroes": [
+  "bomb",
+  "cyclone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "The repair crystal is sealed in iron. Shoot into the orange ring to hit it from the blue one.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "gadget:2",
+   "label": "BREAK THE CRYSTAL!"
+  },
+  {
+   "target": "gadget:0",
+   "label": "PORTALS!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  30000,
+  40000,
+  66000
+ ],
+ "camera_right": 2160,
+ "camera_top": -600,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 1010,
+    "top": 0.0
+   },
+   {
+    "x0": 1148,
+    "x1": 2010,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 800.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 940.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 870.0,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 790.0,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 950.0,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 870.0,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 870.0,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "iron_block",
+   "x": 1230.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1230.0,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1230.0,
+   "y": -160
+  },
+  {
+   "type": "iron_block",
+   "x": 1230.0,
+   "y": -224
+  },
+  {
+   "type": "iron_block",
+   "x": 1390.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1390.0,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1390.0,
+   "y": -160
+  },
+  {
+   "type": "iron_block",
+   "x": 1390.0,
+   "y": -224
+  },
+  {
+   "type": "iron_beam",
+   "x": 1310.0,
+   "y": -269
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1310.0,
+   "y": -70
+  },
+  {
+   "type": "iron_block",
+   "x": 1512.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1512.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1668.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1668.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1590.0,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1520.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1660.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1590.0,
+   "y": -314.0
+  },
+  {
+   "type": "post",
+   "x": 1510.0,
+   "y": -394.0
+  },
+  {
+   "type": "post",
+   "x": 1670.0,
+   "y": -394.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1590.0,
+   "y": -467.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1590.0,
+   "y": -530.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1772.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1772.0,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1928.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1928.0,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1850.0,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1780.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1920.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1850.0,
+   "y": -314.0
+  },
+  {
+   "type": "post",
+   "x": 1770.0,
+   "y": -394.0
+  },
+  {
+   "type": "post",
+   "x": 1930.0,
+   "y": -394.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1850.0,
+   "y": -467.0
+  },
+  {
+   "type": "barrel",
+   "x": 1850.0,
+   "y": -29.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1850.0,
+   "y": -530.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 870.0,
+   "y": -209.5
+  },
+  {
+   "x": 1310.0,
+   "y": -311.5
+  },
+  {
+   "x": 1590.0,
+   "y": -183.5
+  },
+  {
+   "x": 1590.0,
+   "y": -363.5
+  },
+  {
+   "x": 1850.0,
+   "y": -183.5
+  },
+  {
+   "x": 1850.0,
+   "y": -363.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": [],
+ "gadgets": [
+  {
+   "type": "portal",
+   "x": 1040.0,
+   "y": -460,
+   "dir": 180,
+   "radius": 36,
+   "color": "#ff9a2a",
+   "pair": 1
+  },
+  {
+   "type": "portal",
+   "x": 1310.0,
+   "y": -190,
+   "dir": 90,
+   "radius": 36,
+   "color": "#4ab8ff",
+   "pair": 0
+  },
+  {
+   "type": "repair",
+   "x": 1310.0,
+   "y": -70,
+   "source": 16,
+   "radius": 450,
+   "delay_s": 2.0
+  }
+ ]
+}

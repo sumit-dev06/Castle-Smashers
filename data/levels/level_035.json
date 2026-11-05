@@ -1,198 +1,238 @@
 {
  "id": 35,
- "name": "Runaway Wheel",
- "realm": 4,
+ "name": "Harbor Lighthouse",
+ "realm": 3,
  "heroes": [
-  "cyclone",
   "quake",
+  "cyclone",
   "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Hit the giant wheel with Rocky. It rolls down the hill and rams the stone keep.",
+ "strategy": "Twister clears the crow's nests. Knock the front stone off the rune switch, then hit it to drop the back guards.",
  "cinematic": [],
  "callouts": [
   {
-   "target": "920,-460",
-   "label": "RUNAWAY WHEEL!"
+   "target": "mech:0",
+   "label": "TRAP DOOR"
+  },
+  {
+   "target": "mech:1",
+   "label": "?"
+  },
+  {
+   "target": "bolt:0",
+   "label": "BOLTED"
   }
  ],
  "boss": false,
  "star_scores": [
-  20000,
-  24000,
-  40000
+  40000,
+  44000,
+  61000
  ],
- "camera_right": 2160,
- "camera_top": -600,
+ "camera_right": 1880,
+ "camera_top": -750,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 730,
-    "x1": 2003,
+    "x0": 768,
+    "x1": 1753,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "wheel",
-   "x": 920.0,
-   "y": -350.0
-  },
-  {
    "type": "stone_block",
-   "x": 1502.0,
+   "x": 1222,
    "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 1502.0,
+   "x": 1222,
    "y": -96.0
   },
   {
    "type": "stone_block",
-   "x": 1658.0,
+   "x": 1378,
    "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 1658.0,
+   "x": 1378,
    "y": -96.0
   },
   {
    "type": "plank_long",
-   "x": 1580.0,
+   "x": 1300,
    "y": -141.0
   },
   {
    "type": "stone_pillar",
-   "x": 1510.0,
+   "x": 1230,
    "y": -224.0
   },
   {
    "type": "stone_pillar",
-   "x": 1650.0,
+   "x": 1370,
    "y": -224.0
   },
   {
    "type": "stone_slab",
-   "x": 1580.0,
+   "x": 1300,
    "y": -314.0
   },
   {
    "type": "post",
-   "x": 1500.0,
+   "x": 1220,
    "y": -394.0
   },
   {
    "type": "post",
-   "x": 1660.0,
+   "x": 1380,
    "y": -394.0
   },
   {
    "type": "plank_long",
-   "x": 1580.0,
+   "x": 1300,
    "y": -467.0
   },
   {
-   "type": "roof_tile",
-   "x": 1580.0,
-   "y": -530.0,
-   "flag": true
-  },
-  {
-   "type": "stone_block",
-   "x": 1720.0,
-   "y": -32.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1720.0,
-   "y": -96.0
+   "type": "post",
+   "x": 1220,
+   "y": -540.0
   },
   {
    "type": "post",
-   "x": 1780.0,
+   "x": 1380,
+   "y": -540.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1300,
+   "y": -613.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1300,
+   "y": -676.0,
+   "flag": true
+  },
+  {
+   "type": "plank_short",
+   "x": 1155.0,
+   "y": -314.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1445.0,
+   "y": -314.0
+  },
+  {
+   "type": "post",
+   "x": 920,
    "y": -60.0
   },
   {
    "type": "post",
-   "x": 1940.0,
+   "x": 1080,
    "y": -60.0
   },
   {
    "type": "plank_long",
-   "x": 1860.0,
+   "x": 1000,
    "y": -133.0
   },
   {
-   "type": "post",
-   "x": 1780.0,
-   "y": -206.0
-  },
-  {
-   "type": "post",
-   "x": 1940.0,
-   "y": -206.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1860.0,
-   "y": -279.0
-  },
-  {
    "type": "roof_tile",
-   "x": 1860.0,
-   "y": -342.0,
+   "x": 1000,
+   "y": -196.0,
    "flag": true
+  },
+  {
+   "type": "post",
+   "x": 1510,
+   "y": -60
+  },
+  {
+   "type": "post",
+   "x": 1690,
+   "y": -60
+  },
+  {
+   "type": "stone_block",
+   "x": 850,
+   "y": -32
   }
  ],
  "archers": [
   {
-   "x": 1580.0,
+   "x": 1300,
    "y": -183.5
   },
   {
-   "x": 1580.0,
+   "x": 1300,
    "y": -363.5
   },
   {
-   "x": 1860.0,
-   "y": -175.5
+   "x": 1300,
+   "y": -509.5
   },
   {
-   "x": 1860.0,
+   "x": 1155.0,
+   "y": -356.5
+  },
+  {
+   "x": 1445.0,
+   "y": -356.5
+  },
+  {
+   "x": 1000,
    "y": -29.5
+  },
+  {
+   "x": 1560,
+   "y": -171.5
+  },
+  {
+   "x": 1640,
+   "y": -171.5
   }
  ],
- "bolts": [],
- "mechanisms": [],
- "captives": [],
- "ramps": [
+ "bolts": [
   {
-   "points": [
-    [
-     780.0,
-     0
-    ],
-    [
-     780.0,
-     -260
-    ],
-    [
-     1030.0,
-     -260
-    ],
-    [
-     1430.0,
-     0
-    ]
-   ],
-   "kind": "rock"
+   "a": 7,
+   "b": 15
+  },
+  {
+   "a": 7,
+   "b": 16
   }
- ]
+ ],
+ "mechanisms": [
+  {
+   "type": "trapdoor",
+   "x": 1600,
+   "y": -131,
+   "size": [
+    200,
+    22
+   ],
+   "trigger": "light_trap",
+   "hinge": -1
+  },
+  {
+   "type": "rune_switch",
+   "x": 850,
+   "y": -32,
+   "triggers": [
+    "light_trap"
+   ]
+  }
+ ],
+ "captives": []
 }

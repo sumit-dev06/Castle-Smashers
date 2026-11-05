@@ -1,0 +1,245 @@
+{
+ "id": 101,
+ "name": "Bounce House",
+ "realm": 7,
+ "heroes": [
+  "fire",
+  "cyclone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Iron walls block straight shots. Bounce off the high mushroom into the courtyard.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "focus",
+   "target": "gadget:0",
+   "label": "BOUNCE PAD!"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "Bank a shot off the mushroom, over the iron wall!"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "gadget:0",
+   "label": "BOUNCE PAD!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  35000,
+  41000,
+  60000
+ ],
+ "camera_right": 2150,
+ "camera_top": -660,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 737,
+    "x1": 2003,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "post",
+   "x": 800,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 960,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 880,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 800,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 960,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 880,
+   "y": -279.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 880,
+   "y": -342.0,
+   "flag": true
+  },
+  {
+   "type": "iron_block",
+   "x": 1160,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1160,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1160,
+   "y": -160
+  },
+  {
+   "type": "iron_block",
+   "x": 1160,
+   "y": -224
+  },
+  {
+   "type": "iron_block",
+   "x": 1160,
+   "y": -288
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1350,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1490,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1420,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 1340,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 1500,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1420,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1420,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "iron_block",
+   "x": 1660,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1660,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1660,
+   "y": -160
+  },
+  {
+   "type": "iron_block",
+   "x": 1660,
+   "y": -224
+  },
+  {
+   "type": "post",
+   "x": 1780,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1940,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1860,
+   "y": -133.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 880,
+   "y": -175.5
+  },
+  {
+   "x": 880,
+   "y": -29.5
+  },
+  {
+   "x": 1160,
+   "y": -349.5
+  },
+  {
+   "x": 1420,
+   "y": -209.5
+  },
+  {
+   "x": 1420,
+   "y": -29.5
+  },
+  {
+   "x": 1860,
+   "y": -29.5
+  },
+  {
+   "x": 1860,
+   "y": -175.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": [],
+ "gadgets": [
+  {
+   "type": "bumper",
+   "x": 1360,
+   "y": -560,
+   "radius": 60,
+   "kick": 700,
+   "stem": 0
+  },
+  {
+   "type": "bumper",
+   "x": 720,
+   "y": 70,
+   "radius": 70,
+   "kick": 950,
+   "stem": 0
+  }
+ ]
+}

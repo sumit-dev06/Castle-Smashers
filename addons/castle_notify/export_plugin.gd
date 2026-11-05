@@ -28,8 +28,9 @@ class CastleNotifyExport extends EditorExportPlugin:
 	## Firebase Cloud Messaging pushes (GodotX Firebase) use the same white castle small icon and the
 	## same "Siege reminders" channel as local reminders, so one Settings switch covers both.
 	func _get_android_manifest_application_element_contents(_platform: EditorExportPlatform, _debug: bool) -> String:
-		return ('<meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@mipmap/icon_monochrome" />\n'
-				+ '<meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="castle_reminders" />\n'
+		return ('<meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_stat_castle" />\n'
+				+ '<meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/castle_notify_accent" />\n'
+				+ '<meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="castle_reminders_v2" />\n'
 				# Ads fill the whole screen, camera cutout included (Theme.CastleAd lives in castle_notify.aar).
 				+ '<activity android:name="com.google.android.libraries.ads.mobile.sdk.common.AdActivity" android:theme="@style/Theme.CastleAd" tools:replace="android:theme" />\n'
 				# Play Billing opens its purchase sheet from these see-through activities. They declare no

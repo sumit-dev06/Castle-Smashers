@@ -1,236 +1,254 @@
 {
  "id": 8,
- "name": "Captive Shrine",
+ "name": "Moonlit Storehouse",
  "realm": 1,
  "heroes": [
-  "fire",
   "bomb",
+  "fire",
   "stone",
-  "fire"
+  "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Break the marked barrels before the last guard falls.",
+ "strategy": "Only two kegs this time. Blow the storehouse kegs with Boomer, then finish with Rocky.",
  "cinematic": [
   {
    "t": "title"
   },
   {
    "t": "enter",
-   "who": "captive",
+   "who": "enemy",
    "at": "fortress",
    "style": "smoke"
   },
   {
    "t": "say",
-   "who": "captive",
-   "text": "Help! Get me out of here!"
+   "who": "enemy",
+   "text": "Nothing explosive in here. Honest!"
   },
   {
    "t": "emote",
-   "who": "captive",
-   "e": "scared"
-  },
-  {
-   "t": "focus",
-   "target": "captive:0",
-   "label": "RESCUE!"
-  },
-  {
-   "t": "focus",
-   "target": "weak",
-   "label": "BREAK THIS"
+   "who": "enemy",
+   "e": "laugh"
   },
   {
    "t": "enter",
-   "who": "captain",
+   "who": "wizard",
    "at": "catapult",
-   "style": "walk"
+   "style": "smoke"
   },
   {
-   "t": "emote",
-   "who": "captain",
-   "e": "cheer"
-  }
- ],
- "callouts": [
+   "t": "hero",
+   "kind": "bomb"
+  },
   {
-   "target": "weak",
-   "label": "WEAK POINT"
+   "t": "demo",
+   "target": "fortress",
+   "hero": "bomb"
   }
  ],
+ "callouts": [],
  "boss": false,
  "star_scores": [
-  15000,
-  19000,
-  36000
+  25000,
+  31000,
+  51000
  ],
- "camera_right": 2100,
- "camera_top": -420,
+ "camera_right": 1800,
+ "camera_top": -570,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 777,
-    "x1": 1813,
+    "x0": 798,
+    "x1": 1660,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "barrel",
-   "x": 850,
-   "y": -29.0
+   "type": "crate",
+   "x": 880,
+   "y": -32.0
   },
   {
-   "type": "barrel",
-   "x": 850,
-   "y": -87.0
+   "type": "crate",
+   "x": 880,
+   "y": -96.0
   },
   {
-   "type": "post",
-   "x": 970,
-   "y": -60.0
+   "type": "stone_block",
+   "x": 1022,
+   "y": -32.0
   },
   {
-   "type": "post",
-   "x": 1130,
-   "y": -60.0
+   "type": "stone_block",
+   "x": 1022,
+   "y": -96.0
   },
   {
-   "type": "plank_long",
-   "x": 1050,
-   "y": -133.0
+   "type": "stone_block",
+   "x": 1178,
+   "y": -32.0
   },
   {
-   "type": "post",
-   "x": 970,
-   "y": -206.0
-  },
-  {
-   "type": "post",
-   "x": 1130,
-   "y": -206.0
+   "type": "stone_block",
+   "x": 1178,
+   "y": -96.0
   },
   {
    "type": "plank_long",
-   "x": 1050,
-   "y": -279.0
+   "x": 1100,
+   "y": -141.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1022,
+   "y": -186.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1022,
+   "y": -250.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1178,
+   "y": -186.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1178,
+   "y": -250.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1100,
+   "y": -295.0
+  },
+  {
+   "type": "post",
+   "x": 1020,
+   "y": -368.0
+  },
+  {
+   "type": "post",
+   "x": 1180,
+   "y": -368.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1100,
+   "y": -441.0
   },
   {
    "type": "barrel",
-   "x": 1050,
+   "x": 1100,
    "y": -29.0
   },
   {
    "type": "roof_tile",
-   "x": 1050,
-   "y": -342.0,
+   "x": 1100,
+   "y": -504.0,
    "flag": true
   },
   {
-   "type": "crate",
-   "x": 1240,
+   "type": "stone_block",
+   "x": 1300,
    "y": -32.0
   },
   {
    "type": "barrel",
-   "x": 1240,
+   "x": 1300,
    "y": -93.0
   },
   {
    "type": "stone_block",
-   "x": 1352,
+   "x": 1422,
    "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 1352,
+   "x": 1422,
    "y": -96.0
   },
   {
    "type": "stone_block",
-   "x": 1508,
+   "x": 1578,
    "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 1508,
+   "x": 1578,
    "y": -96.0
   },
   {
    "type": "plank_long",
-   "x": 1430,
+   "x": 1500,
    "y": -141.0
   },
   {
-   "type": "post",
-   "x": 1350,
-   "y": -214.0
+   "type": "stone_block",
+   "x": 1422,
+   "y": -186.0
   },
   {
-   "type": "post",
-   "x": 1510,
-   "y": -214.0
+   "type": "stone_block",
+   "x": 1422,
+   "y": -250.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1578,
+   "y": -186.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1578,
+   "y": -250.0
   },
   {
    "type": "plank_long",
-   "x": 1430,
-   "y": -287.0
+   "x": 1500,
+   "y": -295.0
   },
   {
    "type": "barrel",
-   "x": 1452.0,
+   "x": 1522.0,
    "y": -29.0
   },
   {
    "type": "roof_tile",
-   "x": 1430,
-   "y": -350.0,
+   "x": 1500,
+   "y": -358.0,
    "flag": true
-  },
-  {
-   "type": "barrel",
-   "x": 1740,
-   "y": -29.0
-  },
-  {
-   "type": "barrel",
-   "x": 1740,
-   "y": -87.0
-  },
-  {
-   "type": "barrel",
-   "x": 1740,
-   "y": -145.0,
-   "weak_point": true,
-   "trigger": "free_scout"
   }
  ],
  "archers": [
   {
-   "x": 1050,
-   "y": -175.5
+   "x": 880,
+   "y": -157.5
   },
   {
-   "x": 1430,
+   "x": 1100,
    "y": -183.5
   },
   {
-   "x": 1407.0,
+   "x": 1100,
+   "y": -337.5
+  },
+  {
+   "x": 1477.0,
    "y": -29.5
+  },
+  {
+   "x": 1500,
+   "y": -183.5
   }
  ],
  "bolts": [],
  "mechanisms": [],
- "captives": [
-  {
-   "x": 1600,
-   "y": 0,
-   "trigger": "free_scout",
-   "height": 92
-  }
- ]
+ "captives": []
 }

@@ -1,0 +1,255 @@
+{
+ "id": 85,
+ "name": "Turning Shields",
+ "realm": 6,
+ "heroes": [
+  "bomb",
+  "cyclone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Fire through the gaps in the orbiting plates. The lever on the ground stops the big ring.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "focus",
+   "target": "fortress",
+   "label": "SHIELD RINGS!"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "Shoot through the gaps. The lever stops the far ring!"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "TIME THE GAP!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  35000,
+  40000,
+  58000
+ ],
+ "camera_right": 1930,
+ "camera_top": -710,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 740,
+    "x1": 1760,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_block",
+   "x": 822,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 822,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 978,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 978,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 900,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 820,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 980,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 900,
+   "y": -287.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 900,
+   "y": -350.0,
+   "flag": true
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1130,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1270,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1200,
+   "y": -160.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1130,
+   "y": -250.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1270,
+   "y": -250.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1200,
+   "y": -340.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1522,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1522,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1678,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1678,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1600,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1530,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1670,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1600,
+   "y": -314.0
+  },
+  {
+   "type": "post",
+   "x": 1520,
+   "y": -394.0
+  },
+  {
+   "type": "post",
+   "x": 1680,
+   "y": -394.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1600,
+   "y": -467.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 900,
+   "y": -183.5
+  },
+  {
+   "x": 900,
+   "y": -29.5
+  },
+  {
+   "x": 1200,
+   "y": -209.5
+  },
+  {
+   "x": 1200,
+   "y": -389.5
+  },
+  {
+   "x": 1600,
+   "y": -183.5
+  },
+  {
+   "x": 1600,
+   "y": -363.5
+  },
+  {
+   "x": 1600,
+   "y": -509.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "shield_ring",
+   "x": 1200,
+   "y": -390.0,
+   "radius": 125,
+   "plates": 3,
+   "dps": 60,
+   "plate_len": 120
+  },
+  {
+   "type": "lever",
+   "x": 1390,
+   "y": 0,
+   "triggers": [
+    "far_ring"
+   ],
+   "facing": 1
+  },
+  {
+   "type": "shield_ring",
+   "x": 1600,
+   "y": -520.0,
+   "trigger": "far_ring",
+   "radius": 150,
+   "plates": 4,
+   "dps": -70,
+   "plate_len": 120
+  }
+ ],
+ "captives": []
+}

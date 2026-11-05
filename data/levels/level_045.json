@@ -1,173 +1,306 @@
 {
  "id": 45,
- "name": "Windmill Isle",
- "realm": 5,
+ "name": "The Iron Galleon",
+ "realm": 3,
  "heroes": [
+  "quake",
   "bomb",
-  "cyclone",
   "fire",
   "stone"
  ],
  "soldiers": 4,
- "power_budget": 8,
- "strategy": "Gusts change direction. Wait for calm or use them.",
- "cinematic": [],
+ "power_budget": 9,
+ "strategy": "Boss: two cannons hit twice. The powder core in the front keep holds his shield.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "baron",
+   "at": "boss",
+   "style": "smoke"
+  },
+  {
+   "t": "say",
+   "who": "baron",
+   "text": "Sink my galleon? Ha!"
+  },
+  {
+   "t": "boss"
+  },
+  {
+   "t": "emote",
+   "who": "baron",
+   "e": "laugh"
+  },
+  {
+   "t": "focus",
+   "target": "cannon",
+   "label": "CANNONS!"
+  },
+  {
+   "t": "enter",
+   "who": "wizard",
+   "at": "catapult",
+   "style": "smoke"
+  },
+  {
+   "t": "say",
+   "who": "wizard",
+   "text": "Blow the powder core and stop his engineers!"
+  }
+ ],
  "callouts": [
   {
    "target": "mech:0",
-   "label": "WRECKING BALL"
+   "label": "MOVING!"
   }
  ],
- "boss": false,
+ "boss": true,
  "star_scores": [
-  20000,
-  23000,
-  37000
+  39000,
+  46000,
+  67000
  ],
- "camera_right": 1840,
- "camera_top": -650,
+ "camera_right": 1930,
+ "camera_top": -580,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 885,
-    "x1": 1712,
-    "top": -60
+    "x0": 730,
+    "x1": 1010,
+    "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "post",
-   "x": 948,
-   "y": -120
+   "type": "stone_pillar",
+   "x": 800.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 940.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 870.0,
+   "y": -160.0
   },
   {
    "type": "post",
-   "x": 1100,
-   "y": -120
+   "x": 790.0,
+   "y": -240.0
   },
   {
    "type": "post",
-   "x": 1252,
-   "y": -120
-  },
-  {
-   "type": "plank_xl",
-   "x": 1100,
-   "y": -193
-  },
-  {
-   "type": "post",
-   "x": 948,
-   "y": -266
-  },
-  {
-   "type": "post",
-   "x": 1100,
-   "y": -266
-  },
-  {
-   "type": "post",
-   "x": 1252,
-   "y": -266
-  },
-  {
-   "type": "plank_xl",
-   "x": 1100,
-   "y": -339,
-   "banner": true
-  },
-  {
-   "type": "roof_tile",
-   "x": 1100,
-   "y": -402,
-   "flag": true
-  },
-  {
-   "type": "post",
-   "x": 1380,
-   "y": -120.0
-  },
-  {
-   "type": "post",
-   "x": 1540,
-   "y": -120.0
+   "x": 950.0,
+   "y": -240.0
   },
   {
    "type": "plank_long",
-   "x": 1460,
-   "y": -193.0
-  },
-  {
-   "type": "post",
-   "x": 1380,
-   "y": -266.0
-  },
-  {
-   "type": "post",
-   "x": 1540,
-   "y": -266.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1460,
-   "y": -339.0
+   "x": 870.0,
+   "y": -313.0
   },
   {
    "type": "roof_tile",
-   "x": 1460,
-   "y": -402.0,
+   "x": 870.0,
+   "y": -376.0,
    "flag": true
   },
   {
    "type": "stone_block",
-   "x": 1630,
-   "y": -92.0
+   "x": 1262.0,
+   "y": -82.0
   },
   {
    "type": "stone_block",
-   "x": 1630,
-   "y": -156.0
+   "x": 1262.0,
+   "y": -146.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1418.0,
+   "y": -82.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1418.0,
+   "y": -146.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1340.0,
+   "y": -191.0
+  },
+  {
+   "type": "post",
+   "x": 1260.0,
+   "y": -264.0
+  },
+  {
+   "type": "post",
+   "x": 1420.0,
+   "y": -264.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1340.0,
+   "y": -337.0
+  },
+  {
+   "type": "post",
+   "x": 1260.0,
+   "y": -410.0
+  },
+  {
+   "type": "post",
+   "x": 1420.0,
+   "y": -410.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1340.0,
+   "y": -483.0
+  },
+  {
+   "type": "power_core",
+   "x": 1340.0,
+   "y": -86.0
+  },
+  {
+   "type": "post",
+   "x": 1520.0,
+   "y": -110.0
+  },
+  {
+   "type": "post",
+   "x": 1680.0,
+   "y": -110.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1600.0,
+   "y": -183.0
+  },
+  {
+   "type": "post",
+   "x": 1520.0,
+   "y": -256.0
+  },
+  {
+   "type": "post",
+   "x": 1680.0,
+   "y": -256.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1600.0,
+   "y": -329.0
+  },
+  {
+   "type": "cannon_turret",
+   "x": 1300.0,
+   "y": -526.0
+  },
+  {
+   "type": "cannon_turret",
+   "x": 1545.0,
+   "y": -372.0
   }
  ],
  "archers": [
   {
-   "x": 1050,
-   "y": -89.5
+   "x": 870.0,
+   "y": -209.5
   },
   {
-   "x": 1150,
-   "y": -235.5
+   "x": 1340.0,
+   "y": -233.5
   },
   {
-   "x": 1460,
-   "y": -235.5
+   "x": 1340.0,
+   "y": -379.5
   },
   {
-   "x": 1630,
-   "y": -217.5
+   "x": 1600.0,
+   "y": -225.5
   }
  ],
  "bolts": [],
  "mechanisms": [
   {
-   "type": "swing",
-   "x": 1760,
-   "y": -600,
-   "length": 250,
-   "diameter": 76,
-   "arc_deg": 30,
-   "period_s": 3.4
+   "type": "moving_platform",
+   "x": 1470.0,
+   "y": -25.0,
+   "size": [
+    520,
+    50
+   ],
+   "travel_x": 20,
+   "travel_y": 10,
+   "period_s": 7.0,
+   "phase": 0.0,
+   "chassis": "boss_galleon_hull",
+   "chassis_h": 190,
+   "floating": true
   }
  ],
  "captives": [],
- "wind": {
-  "strength": 240,
-  "period_s": 6.5,
-  "gust_s": 3.0,
-  "dir": 1,
-  "alternate": true
+ "boss_unit": {
+  "name": "Captain Ironhook",
+  "hp": 150,
+  "phases": [
+   {
+    "at": 0.7,
+    "do": [
+     "reinforce"
+    ]
+   },
+   {
+    "at": 0.4,
+    "do": [
+     "shield",
+     "charge"
+    ]
+   },
+   {
+    "at": 0.15,
+    "do": [
+     "enrage"
+    ]
+   }
+  ],
+  "x": 1650.0,
+  "y": -371.5,
+  "reinforce": [
+   [
+    1290.0,
+    -496.0
+   ],
+   [
+    1390.0,
+    -496.0
+   ]
+  ]
+ },
+ "engineers": [
+  {
+   "x": 1410.0,
+   "y": -525.5
+  },
+  {
+   "x": 1480.0,
+   "y": -79.5
+  }
+ ],
+ "tide": {
+  "amp_px": 30,
+  "period_s": 9.0
  }
 }

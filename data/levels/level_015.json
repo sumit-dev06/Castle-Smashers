@@ -1,164 +1,248 @@
 {
  "id": 15,
- "name": "Boulder Run",
- "realm": 2,
+ "name": "The Siege Tower",
+ "realm": 1,
  "heroes": [
-  "cyclone",
   "bomb",
+  "fire",
   "stone",
-  "stone"
+  "fire"
  ],
  "soldiers": 4,
- "power_budget": 8,
- "strategy": "Push the boulder off the hilltop. It rolls through both towers.",
- "cinematic": [],
- "callouts": [
+ "power_budget": 9,
+ "strategy": "Boss: the war drum in the base shields him. Break it, topple the cannon, stop the engineer.",
+ "cinematic": [
   {
-   "target": "930,-330",
-   "label": "ROLL IT!"
+   "t": "title"
+  },
+  {
+   "t": "enter",
+   "who": "baron",
+   "at": "boss",
+   "style": "smoke"
+  },
+  {
+   "t": "say",
+   "who": "baron",
+   "text": "My siege tower will roll right over you!"
+  },
+  {
+   "t": "boss"
+  },
+  {
+   "t": "emote",
+   "who": "baron",
+   "e": "laugh"
+  },
+  {
+   "t": "focus",
+   "target": "core",
+   "label": "BREAK THE CORE!"
+  },
+  {
+   "t": "enter",
+   "who": "wizard",
+   "at": "catapult",
+   "style": "smoke"
+  },
+  {
+   "t": "say",
+   "who": "wizard",
+   "text": "That war drum shields him. Smash it, then him!"
   }
  ],
- "boss": false,
- "star_scores": [
-  20000,
-  23000,
-  37000
+ "callouts": [
+  {
+   "target": "mech:0",
+   "label": "MOVING!"
+  }
  ],
- "camera_right": 2060,
- "camera_top": -450,
+ "boss": true,
+ "star_scores": [
+  27000,
+  33000,
+  52000
+ ],
+ "camera_right": 1800,
+ "camera_top": -650,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
     "x0": 730,
-    "x1": 1900,
+    "x1": 1675,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "boulder",
-   "x": 930.0,
-   "y": -265.0
-  },
-  {
-   "type": "post",
-   "x": 1400.0,
-   "y": -60.0
-  },
-  {
-   "type": "post",
-   "x": 1560.0,
-   "y": -60.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1480.0,
-   "y": -133.0,
-   "scroll": true
-  },
-  {
-   "type": "post",
-   "x": 1400.0,
-   "y": -206.0
-  },
-  {
-   "type": "post",
-   "x": 1560.0,
-   "y": -206.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1480.0,
-   "y": -279.0
-  },
-  {
-   "type": "roof_tile",
-   "x": 1480.0,
-   "y": -342.0,
-   "flag": true
-  },
-  {
    "type": "stone_pillar",
-   "x": 1690.0,
+   "x": 800.0,
    "y": -70.0
   },
   {
    "type": "stone_pillar",
-   "x": 1830.0,
+   "x": 940.0,
    "y": -70.0
   },
   {
    "type": "stone_slab",
-   "x": 1760.0,
+   "x": 870.0,
    "y": -160.0
   },
   {
    "type": "post",
-   "x": 1680.0,
+   "x": 790.0,
    "y": -240.0
   },
   {
    "type": "post",
-   "x": 1840.0,
+   "x": 950.0,
    "y": -240.0
   },
   {
    "type": "plank_long",
-   "x": 1760.0,
+   "x": 870.0,
    "y": -313.0
   },
   {
    "type": "roof_tile",
-   "x": 1760.0,
+   "x": 870.0,
    "y": -376.0,
    "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1292.0,
+   "y": -186.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1292.0,
+   "y": -250.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1448.0,
+   "y": -186.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1448.0,
+   "y": -250.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1370.0,
+   "y": -295.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1300.0,
+   "y": -378.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1440.0,
+   "y": -378.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1370.0,
+   "y": -468.0
+  },
+  {
+   "type": "post",
+   "x": 1290.0,
+   "y": -548.0
+  },
+  {
+   "type": "post",
+   "x": 1450.0,
+   "y": -548.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1370.0,
+   "y": -621.0
+  },
+  {
+   "type": "power_core",
+   "x": 1370.0,
+   "y": -190.0
+  },
+  {
+   "type": "cannon_turret",
+   "x": 1195.0,
+   "y": -184.0
   }
  ],
  "archers": [
   {
-   "x": 830.0,
-   "y": -249.5
-  },
-  {
-   "x": 1480.0,
-   "y": -175.5
-  },
-  {
-   "x": 1480.0,
-   "y": -29.5
-  },
-  {
-   "x": 1760.0,
+   "x": 870.0,
    "y": -209.5
+  },
+  {
+   "x": 1370.0,
+   "y": -337.5
   }
  ],
  "bolts": [],
- "mechanisms": [],
- "captives": [],
- "ramps": [
+ "mechanisms": [
   {
-   "points": [
-    [
-     780.0,
-     0
-    ],
-    [
-     780.0,
-     -220
-    ],
-    [
-     980.0,
-     -220
-    ],
-    [
-     1330.0,
-     0
-    ]
+   "type": "moving_platform",
+   "x": 1370.0,
+   "y": -129.0,
+   "size": [
+    430,
+    50
    ],
-   "kind": "rock"
+   "travel_x": 40,
+   "period_s": 8.0,
+   "travel_y": 0,
+   "phase": 0.0,
+   "chassis": "boss_siege_wheels",
+   "chassis_h": 110
+  }
+ ],
+ "captives": [],
+ "boss_unit": {
+  "name": "Siege Warlord",
+  "hp": 120,
+  "phases": [
+   {
+    "at": 0.6,
+    "do": [
+     "reinforce"
+    ]
+   },
+   {
+    "at": 0.3,
+    "do": [
+     "enrage",
+     "charge"
+    ]
+   }
+  ],
+  "x": 1370.0,
+  "y": -663.5,
+  "reinforce": [
+   [
+    1300.0,
+    -634.0
+   ],
+   [
+    1440.0,
+    -634.0
+   ]
+  ]
+ },
+ "engineers": [
+  {
+   "x": 1525.0,
+   "y": -183.5
   }
  ]
 }

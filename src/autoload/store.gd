@@ -125,6 +125,20 @@ func product(product_id: String) -> Dictionary:
 
 
 ## Localized price from Google Play, "" until loaded (the shop never invents a price).
+## Why `product_id` can't be bought right now ("" = it can). Shown when a shop button is tapped.
+func buy_block_reason(product_id: String) -> String:
+	if not busy_product.is_empty():
+		return "A purchase is already in progress. Please wait a moment."
+	match status:
+		Status.OFF, Status.CONNECTING:
+			return "Connecting to Google Play... try again in a moment."
+		Status.UNAVAILABLE:
+			return "Google Play Store is not available. Check your internet and Play Store sign-in."
+	if price_text(product_id).is_empty():
+		return "Loading the price from Google Play... try again in a moment."
+	return ""
+
+
 func price_text(product_id: String) -> String:
 	return String((products.get(product_id, {}) as Dictionary).get("price_text", ""))
 

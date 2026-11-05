@@ -25,6 +25,7 @@ BASE_MARGIN = 50
 ISLAND_SPLIT = 200
 MIN_GAP = 260
 CAPTIVE_W = 120
+CONVEYOR_OVERHANG = 24  # an edge belt sticks out this far over the gap, so its load drops clear
 
 
 class Fort:
@@ -92,6 +93,70 @@ class Fort:
 
     def relay(self, x, y, inputs, triggers, window=4.0):
         return self.gadget("relay", x, y, inputs=list(inputs), triggers=list(triggers), window_s=window)
+
+    def conveyor(self, x0, x1, surface=0.0, speed=130, start_on=False, trigger="", edge=False, height=8):
+        """Conveyor belt from x0 to x1 whose top is `height` px above `surface`. Returns that top y: build the
+        load on it. While running it carries blocks and guards along at `speed` px/s (+ = right). edge=True:
+        the island ends exactly at x1, so whatever the belt carries drops into the gap."""
+        top = surface - height
+        kw = {"width": x1 - x0, "speed": speed, "start_on": start_on}
+        if trigger:
+            kw["trigger"] = trigger
+        self.extra_spans.append((x0, x1 - BASE_MARGIN - CONVEYOR_OVERHANG if edge else x1))
+        self.gadget("conveyor", (x0 + x1) / 2, top, **kw)
+        return top
+
+    def fan(self, x, y, dir=0, reach=420, width=180, accel=1400, start_on=False, trigger="", post_ground=None,
+            hit_toggles=True):
+        """Blower at (x, y) facing `dir` degrees. While on, its stream pushes shots, blocks and guards along
+        dir at `accel` px/s². A hit on the housing jams it or starts it (hit_toggles); `trigger` toggles it."""
+        kw = {"dir": dir, "reach": reach, "width": width, "accel": accel, "start_on": start_on, "hit_toggles": hit_toggles}
+        if trigger:
+            kw["trigger"] = trigger
+        if post_ground is not None:
+            kw["post"] = post_ground
+            self.extra_spans.append((x - 24, x + 24))
+        return self.gadget("fan", x, y, **kw)
+
+    def fuse(self, points, burn=3.0, triggers=(), blast=True):
+        """Powder trail through `points` (first = the end you light). Fire or a blast at the start lights it;
+        `burn` s later it fires `triggers` and, with blast, sets off the kegs at the far end."""
+        x, y = points[0]
+        rel = [[round(px - x, 1), round(py - y, 1)] for px, py in points[1:]]
+        kw = {"points": rel, "burn_s": burn, "blast": blast}
+        if triggers:
+            kw["triggers"] = list(triggers)
+        return self.gadget("fuse", x, y, **kw)
+
+    # ---- castle architecture (crenellated tops, keeps, curtain walls)
+    def crenels(self, plank_index, kind="stone_block"):
+        """Two merlons on the ends of a floor plank: guards on that floor need a lob, not a flat shot."""
+        p = self.blocks[plank_index]
+        w = SIZE[p["type"]][0]
+        mh = SIZE[kind][1]
+        top = p["y"] - SIZE[p["type"]][1] / 2
+        for side in (-1, 1):
+            self.b(kind, p["x"] + side * (w / 2 - SIZE[kind][0] / 2), top - mh / 2)
+        return top
+
+    def keep(self, x, floors, archers=(), inside=None, banners=(), top_guard=True, merlon="stone_block"):
+        """Tower with a crenellated fighting top instead of a roof (an extra guard stands between the merlons)."""
+        top = self.tower(x, floors, archers=list(archers) + ([len(floors)] if top_guard else []), roof=False,
+                         inside=inside, banners=banners)
+        self.crenels(self.tops[-1], merlon)
+        return top
+
+    def curtain(self, x0, count, rows=2, kind="stone_block", guard=True):
+        """Curtain wall `count` blocks wide, `rows` high, with merlons on every other top block."""
+        h = SIZE[kind][1]
+        for r in range(rows):
+            for i in range(count):
+                self.b(kind, x0 + i * 64, -h / 2 - h * r)
+        for i in range(0, count, 2):
+            self.b(kind, x0 + i * 64, -h / 2 - h * rows)
+        if guard and count >= 2:
+            self.archer(x0 + 64, -h * rows)
+        return -h * rows
 
     def repair(self, source_index, radius=300, delay=2.5):
         b = self.blocks[source_index]
@@ -391,6 +456,48 @@ class Fort:
     def _bi(self):
         return len(self.blocks) - 1
 
+    def pit(self, x, gap=110, depth=360, wall=70, kind="rock", archers=1, keg=True):
+        """Walled pit: two tall unbreakable rock walls with a narrow aisle at `x`. The guards stand on the
+        floor of the aisle next to a powder keg; only a shot lobbed straight down the aisle reaches them."""
+        bw = SIZE["barrel"][0]
+        gap = max(gap, archers * (ARCHER_W + 6) + (bw + 10 if keg else 0) + 10)
+        for side in (-1, 1):
+            inner = x + side * gap / 2
+            outer = inner + side * wall
+            self.ramp([(inner, 0), (outer, 0), (outer, -depth), (inner, -depth)], kind)
+        # Keg dead centre under the aisle (a falling shot lands on it), guards beside it.
+        if keg:
+            self.b("barrel", x, -SIZE["barrel"][1] / 2)
+        off = (bw / 2 + 4 + ARCHER_W / 2) if keg else (ARCHER_W / 2 + 3)
+        for i in range(archers):
+            side = -1 if i % 2 == 0 else 1
+            self.archer(x + side * (off + (i // 2) * (ARCHER_W + 6)), 0)
+
+    def balloon_guard(self, x, y, guards=1, travel_y=0, travel_x=0, period_s=4.0, phase=0.0, rise=None,
+                      crate=True):
+        """A guard in a small hot-air balloon basket at height `y` (deck surface). travel_y/x bob it;
+        `rise` = {"speed", "escape_y", "lose_text"} makes it climb away (level lost if it escapes)."""
+        def basket():
+            for i in range(guards):
+                self.archer(x + (i - (guards - 1) / 2) * 44, 0)
+            if crate:
+                self.b("crate", x + (guards * 22 + 40), -32)
+        w = 150 + guards * 44
+        motion = {"travel_x": travel_x, "travel_y": travel_y, "period_s": period_s, "phase": phase}
+        if rise:
+            motion["rise"] = rise
+        self.deck(x, w, basket, floating=True, chassis="boss_airship_deck", chassis_h=100,
+                  balloon="boss_airship_balloon", balloon_size=[int(w * 1.4), int(w * 0.75)],
+                  balloon_y=-(25 + int(w * 0.75) // 2 + 85), **motion)
+        # The deck is built at y = 0: lift the basket (and its riders) to `y`.
+        m = self.mechanisms[-1]
+        m["y"] = round(m["y"] + y, 1)
+        m["_air"] = True  # high above the fortress: may hang over a base
+        for item in self.archers[-guards:] + (self.blocks[-1:] if crate else []):
+            item["y"] = round(item["y"] + y, 1)
+            item["_air"] = True  # rides the balloon: terraces must not lift it
+        return m
+
     def ramp(self, points, kind="rock"):
         self.ramps.append({"points": [[round(x, 1), round(y, 1)] for x, y in points], "kind": kind})
 
@@ -619,6 +726,8 @@ class Fort:
                 bh = m["balloon_size"][1]
                 by = m.get("balloon_y", -m["size"][1] / 2 - bh / 2 - 300)
                 ys.append(m["y"] + by - bh / 2 - abs(m.get("travel_y", 0)))
+            if "rise" in m:
+                ys.append(m["rise"]["escape_y"] - 80)
             if m["type"] in ("swing", "rope_load", "hanging_platform"):
                 ys.append(m["y"] - 30)
             if m["type"] == "windmill":
@@ -634,9 +743,8 @@ class Fort:
 
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from campaign import LEVELS, T, H, B  # noqa: E402
+from campaign import LEVELS, T, H, B, BOSS_LEVELS, OLD_TO_NEW  # noqa: E402
 
-BOSS_LEVELS = {10, 20, 30, 40, 50, 60, 70, 75}
 BOSS_POWER_BUDGET = 9
 POWER_BUDGET = 8
 CALLOUT_LABELS = {"rope_load": "CUT THE ROPE!", "hanging_platform": "CUT A ROPE!", "crusher": "CRUSHER!",
@@ -647,7 +755,8 @@ CALLOUT_LABELS = {"rope_load": "CUT THE ROPE!", "hanging_platform": "CUT A ROPE!
 GEYSER_LABELS = {1: "GEYSER!", 2: "GEYSER!", 3: "WATER SPOUT!", 4: "LAVA PLUME!", 5: "UPDRAFT!", 6: "GEYSER!", 7: "WATER SPOUT!",
                  8: "LAVA PLUME!"}
 GADGET_LABELS = {"portal": "PORTALS!", "gravity": "GRAVITY FIELD!", "magnet": "MAGNET!", "bumper": "BOUNCE PAD!",
-                 "plate": "PRESSURE PLATE!", "relay": "HIT BOTH IN TIME!", "repair": "BREAK THE CRYSTAL!"}
+                 "plate": "PRESSURE PLATE!", "relay": "HIT BOTH IN TIME!", "repair": "BREAK THE CRYSTAL!",
+                 "conveyor": "CONVEYOR!", "fan": "FAN!", "fuse": "LIGHT THE FUSE!"}
 
 
 PROJ = json.load(open(os.path.join(ROOT, "data", "projectiles.json")))
@@ -704,9 +813,11 @@ def apply_terraces(f):
     for x0, x1, dy in f.raises:
         for collection in (f.blocks, f.archers, f.mechanisms, f.captives, f.markers, f.gadgets):
             for item in collection:
-                if x0 <= item["x"] <= x1 and not item.get("floating"):
+                if x0 <= item["x"] <= x1 and not item.get("floating") and not item.get("_air"):
                     item["y"] = round(item["y"] - dy, 1)
                     item["_top"] = -dy
+                    if "post" in item:
+                        item["post"] = round(item["post"] - dy, 1)
         f.extra_spans = [(a, b, -dy if x0 <= (a + b) / 2 <= x1 else t) for a, b, t in f.extra_spans]
 
 
@@ -715,7 +826,7 @@ def make_stage(f, lid):
     dropped because the gap itself is now the hazard."""
     spans = grounded_spans(f)
     floats = [(m["x"] - m["size"][0] / 2 - abs(m.get("travel_x", 0)), m["x"] + m["size"][0] / 2 + abs(m.get("travel_x", 0)))
-              for m in f.mechanisms if m.get("floating")]
+              for m in f.mechanisms if m.get("floating") and not m.get("_air")]
     floats += [(m["x"] - m["span"] / 2 - 40, m["x"] + m["span"] / 2 + 40) for m in f.mechanisms if m["type"] == "hanging_platform"]
     floats += [(m["x"] - 50, m["x"] + 50) for m in f.mechanisms if m["type"] == "geyser"]
     first_x = min([s[0] for s in spans] + [a for a, _ in floats])
@@ -774,6 +885,7 @@ def strip_private(f):
         for item in collection:
             item.pop("_top", None)
             item.pop("_deck", None)
+            item.pop("_air", None)
 
 
 def resolve_target(t, f):
@@ -868,6 +980,7 @@ def build(lid, entry=None):
         mode, mode_cfg = extras.get("mode", ""), extras.get("mode_cfg", {})
     boss_level = lid in BOSS_LEVELS
     budget = BOSS_POWER_BUDGET if boss_level else POWER_BUDGET
+    budget = extras.get("power_budget", budget)  # tighter plans make a level a puzzle
     if not challenge and mode != "one_shot":
         check_loadout(lid, heroes, budget)
     f = Fort()
@@ -971,7 +1084,7 @@ def write_challenges():
         with open(os.path.join(out, "challenge_%03d.json" % cid), "w") as fh:
             json.dump(d, fh, indent=1)
         index.append({"id": cid, "name": e[0], "realm": e[1], "mode": e[5], "rule": e[7], "heroes": e[3],
-                      "unlock_level": MISSION_UNLOCK[cid], "icon": "icon_mission_%d" % cid})
+                      "unlock_level": MISSION_UNLOCK[cid], "icon": "icon_mission_%d" % (cid - 100)})
         print(f"challenge {cid} {e[0]:20s} {e[5]:14s} b{len(d['blocks']):2d} a{len(d['archers'])}")
     specials = []
     expected = list(range(int(BAL["special_pack"]["first_id"]), int(BAL["special_pack"]["last_id"]) + 1))
@@ -1001,6 +1114,9 @@ if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
     assert sorted(LEVELS) == list(range(1, len(LEVELS) + 1)), "level ids must be 1..N"
     assert len(LEVELS) == BAL["level_count"], "balance.json level_count must match LEVELS"
+    # Save migration v5 (src/autoload/save.gd) moves old stars and progress with this map.
+    assert {int(k): v for k, v in BAL["save_migration"]["v5_levels"].items()} == OLD_TO_NEW, \
+        "balance.save_migration.v5_levels must match campaign.OLD_TO_NEW"
     for lid in sorted(LEVELS):
         d = build(lid)
         with open(os.path.join(OUT, "level_%03d.json" % d["id"]), "w") as fh:

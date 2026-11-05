@@ -47,9 +47,13 @@ func _init_sdk() -> void:
 	if ready:
 		return
 	var listener: OnInitializationCompleteListener = OnInitializationCompleteListener.new()
-	listener.on_initialization_complete = func(_s: InitializationStatus) -> void:
+	listener.on_initialization_complete = func(st: InitializationStatus) -> void:
 		ready = true
 		print("Ads: AdMob ready")
+		# One line per network (AdMob + mediation adapters): state 2 = ready on the Android SDK (the same value AdMob itself reports when initialized).
+		for key: Variant in st.adapter_status_map:
+			var a: AdapterStatus = st.adapter_status_map[key]
+			print("Ads: adapter %s state=%d %s" % [str(key), int(a.initialization_state), a.description])
 		load_interstitial()
 		load_rewarded()
 	var cfg: RequestConfiguration = RequestConfiguration.new()

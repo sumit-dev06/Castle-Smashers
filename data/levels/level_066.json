@@ -1,260 +1,212 @@
 {
  "id": 66,
- "name": "Upside Down",
- "realm": 7,
+ "name": "Ice Fan",
+ "realm": 5,
  "heroes": [
-  "quake",
+  "fire",
   "cyclone",
   "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Uncover and hit the rune: the keep floats up, then crashes down. Finish what's left.",
- "cinematic": [
-  {
-   "t": "title"
-  },
-  {
-   "t": "focus",
-   "target": "gadget:0",
-   "label": "GRAVITY FIELD!"
-  },
-  {
-   "t": "enter",
-   "who": "wizard",
-   "at": "catapult",
-   "style": "smoke"
-  },
-  {
-   "t": "say",
-   "who": "wizard",
-   "text": "Wake the rune and the keep floats up... then falls."
-  }
- ],
+ "strategy": "The lever at the back starts the fan. It drives the ice train into the crystal tower.",
+ "cinematic": [],
  "callouts": [
   {
    "target": "gadget:0",
-   "label": "GRAVITY FIELD!"
+   "label": "FAN!"
+  },
+  {
+   "target": "mech:0",
+   "label": "HIT THE LEVER!"
   }
  ],
  "boss": false,
  "star_scores": [
   30000,
-  36000,
-  56000
+  35000,
+  51000
  ],
- "camera_right": 2020,
- "camera_top": -800,
+ "camera_right": 2230,
+ "camera_top": -520,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 740,
-    "x1": 1890,
+    "x0": 730,
+    "x1": 1050,
     "top": 0.0
+   },
+   {
+    "x0": 1176,
+    "x1": 2102,
+    "top": -80
    }
   ]
  },
  "blocks": [
   {
-   "type": "stone_pillar",
-   "x": 810,
-   "y": -70.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 950,
-   "y": -70.0
-  },
-  {
-   "type": "stone_slab",
-   "x": 880,
-   "y": -160.0
-  },
-  {
-   "type": "post",
-   "x": 800,
-   "y": -240.0
-  },
-  {
-   "type": "post",
-   "x": 960,
-   "y": -240.0
-  },
-  {
-   "type": "plank_long",
-   "x": 880,
-   "y": -313.0
-  },
-  {
-   "type": "roof_tile",
-   "x": 880,
-   "y": -376.0,
-   "flag": true
-  },
-  {
-   "type": "stone_block",
-   "x": 1060,
-   "y": -32
-  },
-  {
    "type": "iron_block",
-   "x": 1282,
+   "x": 812.0,
    "y": -32.0
   },
   {
    "type": "iron_block",
-   "x": 1282,
+   "x": 812.0,
    "y": -96.0
   },
   {
    "type": "iron_block",
-   "x": 1438,
+   "x": 968.0,
    "y": -32.0
   },
   {
    "type": "iron_block",
-   "x": 1438,
+   "x": 968.0,
    "y": -96.0
   },
   {
    "type": "iron_beam",
-   "x": 1360,
+   "x": 890.0,
    "y": -141.0
   },
   {
-   "type": "stone_pillar",
-   "x": 1290,
-   "y": -224.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1430,
-   "y": -224.0
-  },
-  {
-   "type": "stone_slab",
-   "x": 1360,
-   "y": -314.0
+   "type": "post",
+   "x": 810.0,
+   "y": -214.0
   },
   {
    "type": "post",
-   "x": 1280,
-   "y": -394.0
-  },
-  {
-   "type": "post",
-   "x": 1440,
-   "y": -394.0
+   "x": 970.0,
+   "y": -214.0
   },
   {
    "type": "plank_long",
-   "x": 1360,
-   "y": -467.0
+   "x": 890.0,
+   "y": -287.0
   },
   {
    "type": "roof_tile",
-   "x": 1360,
-   "y": -530.0,
+   "x": 890.0,
+   "y": -350.0,
    "flag": true
   },
   {
-   "type": "stone_block",
-   "x": 1652,
-   "y": -32.0
+   "type": "ice_block",
+   "x": 1330.0,
+   "y": -112
   },
   {
-   "type": "stone_block",
-   "x": 1652,
-   "y": -96.0
+   "type": "ice_block",
+   "x": 1394.0,
+   "y": -112
   },
   {
-   "type": "stone_block",
-   "x": 1808,
-   "y": -32.0
+   "type": "ice_block",
+   "x": 1458.0,
+   "y": -112
   },
   {
-   "type": "stone_block",
-   "x": 1808,
-   "y": -96.0
+   "type": "crystal_pillar",
+   "x": 1600.0,
+   "y": -150.0
   },
   {
-   "type": "plank_long",
-   "x": 1730,
-   "y": -141.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1660,
-   "y": -224.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1800,
-   "y": -224.0
+   "type": "crystal_pillar",
+   "x": 1740.0,
+   "y": -150.0
   },
   {
    "type": "stone_slab",
-   "x": 1730,
-   "y": -314.0
+   "x": 1670.0,
+   "y": -240.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1600.0,
+   "y": -330.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1740.0,
+   "y": -330.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1670.0,
+   "y": -420.0
+  },
+  {
+   "type": "ice_block",
+   "x": 2020.0,
+   "y": -112.0
+  },
+  {
+   "type": "ice_block",
+   "x": 2020.0,
+   "y": -176.0
   }
  ],
  "archers": [
   {
-   "x": 880,
-   "y": -209.5
-  },
-  {
-   "x": 1360,
+   "x": 890.0,
    "y": -183.5
   },
   {
-   "x": 1360,
-   "y": -363.5
-  },
-  {
-   "x": 1360,
+   "x": 890.0,
    "y": -29.5
   },
   {
-   "x": 1730,
-   "y": -183.5
+   "x": 1394.0,
+   "y": -173.5
   },
   {
-   "x": 1730,
-   "y": -363.5
+   "x": 1670.0,
+   "y": -289.5
+  },
+  {
+   "x": 1670.0,
+   "y": -469.5
+  },
+  {
+   "x": 2020.0,
+   "y": -237.5
   }
  ],
  "bolts": [],
  "mechanisms": [
   {
-   "type": "rune_switch",
-   "x": 1060,
-   "y": -32,
+   "type": "lever",
+   "x": 1920.0,
+   "y": -80,
    "triggers": [
-    "flip"
-   ]
+    "ice_fan"
+   ],
+   "facing": 1
   }
  ],
  "captives": [],
  "gadgets": [
   {
-   "type": "gravity",
-   "x": 1360,
-   "y": -380,
-   "size": [
-    420,
-    760
-   ],
-   "g": [
-    0,
-    -760
-   ],
+   "type": "fan",
+   "x": 1250.0,
+   "y": -130,
+   "dir": 0,
+   "reach": 280,
+   "width": 110,
+   "accel": 1400,
    "start_on": false,
-   "duration_s": 2.6,
-   "trigger": "flip"
+   "hit_toggles": false,
+   "trigger": "ice_fan",
+   "post": -80
   }
- ]
+ ],
+ "wind": {
+  "strength": 200,
+  "period_s": 6.0,
+  "gust_s": 3.0,
+  "dir": 1
+ }
 }

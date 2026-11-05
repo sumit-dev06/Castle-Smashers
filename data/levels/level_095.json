@@ -1,0 +1,221 @@
+{
+ "id": 95,
+ "name": "Frozen Stilts",
+ "realm": 7,
+ "heroes": [
+  "fire",
+  "quake",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Melt or shatter the ice pillars and the iron vault drops. Crystal shatters into its neighbours.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "focus",
+   "target": "fortress",
+   "label": "ICE STILTS!"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "That vault stands on ice. Warm it up!"
+  }
+ ],
+ "callouts": [],
+ "boss": false,
+ "star_scores": [
+  35000,
+  42000,
+  62000
+ ],
+ "camera_right": 1950,
+ "camera_top": -440,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 740,
+    "x1": 1822,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "iron_block",
+   "x": 822,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 822,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 978,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 978,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 900,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 820,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 980,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 900,
+   "y": -287.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 900,
+   "y": -350.0,
+   "flag": true
+  },
+  {
+   "type": "ice_pillar",
+   "x": 1170,
+   "y": -70
+  },
+  {
+   "type": "ice_pillar",
+   "x": 1330,
+   "y": -70
+  },
+  {
+   "type": "ice_slab",
+   "x": 1250,
+   "y": -160
+  },
+  {
+   "type": "iron_block",
+   "x": 1172,
+   "y": -212
+  },
+  {
+   "type": "iron_block",
+   "x": 1172,
+   "y": -276
+  },
+  {
+   "type": "iron_block",
+   "x": 1328,
+   "y": -212
+  },
+  {
+   "type": "iron_block",
+   "x": 1328,
+   "y": -276
+  },
+  {
+   "type": "iron_beam",
+   "x": 1250,
+   "y": -321
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1480,
+   "y": -70.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1620,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1550,
+   "y": -160.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1480,
+   "y": -250.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1620,
+   "y": -250.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1550,
+   "y": -340.0
+  },
+  {
+   "type": "ice_block",
+   "x": 1740,
+   "y": -32.0
+  },
+  {
+   "type": "ice_block",
+   "x": 1740,
+   "y": -96.0
+  },
+  {
+   "type": "ice_block",
+   "x": 1740,
+   "y": -160.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 900,
+   "y": -29.5
+  },
+  {
+   "x": 900,
+   "y": -183.5
+  },
+  {
+   "x": 1250,
+   "y": -209.5
+  },
+  {
+   "x": 1250,
+   "y": -363.5
+  },
+  {
+   "x": 1550,
+   "y": -209.5
+  },
+  {
+   "x": 1550,
+   "y": -389.5
+  },
+  {
+   "x": 1740,
+   "y": -221.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": []
+}

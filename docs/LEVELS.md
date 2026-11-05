@@ -1,6 +1,14 @@
 # Levels
 
 ## Campaign
+**120 levels in 8 realms, 15 per realm, each realm ends on its boss (15, 30, ... 120).** Version 1.2 slotted
+five new levels into every realm (ten into the Iron Citadel); their builders are `N1`-`N45` in
+`tools/campaign.py`, and `REALM_ORDER` there sets the order and numbering. Old ids map to new ones in
+`balance.save_migration.v5_levels` (save v5 moves stars, best, attempts, loadouts, unlocked and story
+flags). Challenge ids moved from 101-130 to 201-230 (`Data.CHALLENGE_BASE` = 200). Hero unlocks are now
+Blaze 4, Boomer 8, Twister 17, Quaky 32. The level lists below still use the 1.1 numbers (old id -> new
+id: see the map). Older text follows:
+
 75 levels in 8 realms (10 per realm, the last realm has 5). Levels 51–75 are the expansion (git
 branch `expansion-75`); see "Expansion" below. Levels 1–50: 10 per realm. Designed in `tools/campaign.py` and built by `tools/gen_levels.py`
 (pieces: floors in wood/stone/crystal/iron, towers with tiled roofs + flags, stacks, walls,
@@ -63,6 +71,15 @@ Their own stage, foreground and background art is used whenever the file exists
 | `plate` | Fires `triggers` once `mass` of blocks or heroes rests on it | `f.plate(x, surface, triggers, mass)` |
 | `relay` | Fires `triggers` when all `inputs` fire within `window_s` | `f.relay(x, y, inputs, triggers, window)` |
 | `repair` | Crystal block that rebuilds broken blocks in `radius` until it breaks | `f.repair(block_index, radius, delay)` |
+| `conveyor` (1.2) | Belt that carries what rests on it at `speed` px/s once its trigger fires; `edge=True` ends the island at the belt so the load drops into the gap | `f.conveyor(x0, x1, surface, speed, trigger=, edge=)` |
+| `fan` (1.2) | Blower: its stream pushes shots, blocks and guards along `dir`; a hit on the housing (or its trigger) toggles it | `f.fan(x, y, dir, reach, width, accel, trigger=, post_ground=)` |
+| `fuse` (1.2) | Powder trail lit by Blaze, a burning piece or a blast at its start; after `burn_s` it fires `triggers` and sets off kegs at its end | `f.fuse(points, burn, triggers, blast)` |
+
+Gravity fields and fans push with forces every step (`Gadget._push_bodies`), not an Area2D override: an
+override switched on later never reached bodies already resting inside it (level 98 "Upside Down" did
+nothing when its rune fired). Castle pieces added in 1.2: `f.crenels(plank)`, `f.keep(...)` (merlon top
+instead of a roof), `f.curtain(x0, count, rows)`. Checks: `--run-tests=gadgets` (conveyor, fuse, fan) and
+`--run-tests=trick:48,54,...` (plays each new level's set piece directly, prints guards left).
 
 Scene targets: `@@portal` (first gadget of that type) resolves to `gadget:<i>`.
 

@@ -41,7 +41,7 @@
     "bounce": 0.1,
     "ability": "Fire dash: accelerate, then ignite nearby timber",
     "strategy": "Burns wooden rooms and chains through touching supports.",
-    "unlock_level": 3,
+    "unlock_level": 4,
     "power_cost": 2,
     "max_per_loadout": 2,
     "accent": "#ff8a36",
@@ -75,7 +75,7 @@
     "bounce": 0.15,
     "ability": "Boom: detonate on command or shortly after impact",
     "strategy": "Wide burst. Save it for dense rooms and powder barrels.",
-    "unlock_level": 6,
+    "unlock_level": 8,
     "power_cost": 3,
     "max_per_loadout": 1,
     "accent": "#5c668d",
@@ -111,7 +111,7 @@
     "bounce": 0.2,
     "ability": "Whirlwind: lift light pieces and fling exposed guards",
     "strategy": "Controls moving platforms and top-heavy timber towers.",
-    "unlock_level": 12,
+    "unlock_level": 17,
     "power_cost": 2,
     "max_per_loadout": 1,
     "accent": "#76d9d0",
@@ -164,7 +164,7 @@
     "bounce": 0.08,
     "ability": "Earthbreak: tap to dive, the landing shakes the whole fort",
     "strategy": "Damages low supports across a wide area. One per assault.",
-    "unlock_level": 22,
+    "unlock_level": 32,
     "power_cost": 3,
     "max_per_loadout": 1,
     "accent": "#75d9ff",
@@ -198,6 +198,7 @@
   },
   "common": {
     "rest_speed": 18.0,
+    "keg_detonate_speed": 450.0,
     "rest_s": 1.0,
     "fade_s": 0.4
   }

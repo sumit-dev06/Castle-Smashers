@@ -353,6 +353,7 @@ Siege engines (same rules, files `weapon_<id>_base.png` / `weapon_<id>_arm.png` 
   caps, taut rope bowstring, crank winch at the back, bolt groove on top"
 - **Trebuchet**: "tall counterweight trebuchet on a wide wheeled frame, iron-banded stone
   counterweight box, long throwing arm with a rope sling and leather pouch"
+F
 
 # Levels 51–75: three new realms, bosses and gadgets (added 2026-11-01)
 These are for the expansion (git branch `expansion-75`, not the 1.0.0 release). Until a file

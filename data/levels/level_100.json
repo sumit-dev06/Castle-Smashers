@@ -1,0 +1,238 @@
+{
+ "id": 100,
+ "name": "Portal Keep",
+ "realm": 7,
+ "heroes": [
+  "bomb",
+  "cyclone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "The keep has an iron roof. Shoot into the orange ring: you come out of the blue one above the keep.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "focus",
+   "target": "gadget:0",
+   "label": "PORTALS!"
+  },
+  {
+   "t": "enter",
+   "who": "wizard",
+   "at": "catapult",
+   "style": "smoke"
+  },
+  {
+   "t": "say",
+   "who": "wizard",
+   "text": "Orange in, blue out. Through the ring and down into their keep!"
+  }
+ ],
+ "callouts": [
+  {
+   "target": "gadget:0",
+   "label": "PORTALS!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  25000,
+  31000,
+  50000
+ ],
+ "camera_right": 2160,
+ "camera_top": -500,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 740,
+    "x1": 1020,
+    "top": 0.0
+   },
+   {
+    "x0": 1378,
+    "x1": 2010,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 810,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 950,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 880,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 800,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 960,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 880,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 880,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "iron_block",
+   "x": 1460,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1460,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1460,
+   "y": -160
+  },
+  {
+   "type": "iron_block",
+   "x": 1660,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1660,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1660,
+   "y": -160
+  },
+  {
+   "type": "iron_beam",
+   "x": 1560,
+   "y": -205
+  },
+  {
+   "type": "iron_block",
+   "x": 1560,
+   "y": -250
+  },
+  {
+   "type": "stone_block",
+   "x": 1772,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1772,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1928,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1928,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1850,
+   "y": -141.0
+  },
+  {
+   "type": "post",
+   "x": 1770,
+   "y": -214.0
+  },
+  {
+   "type": "post",
+   "x": 1930,
+   "y": -214.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1850,
+   "y": -287.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1850,
+   "y": -350.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 880,
+   "y": -209.5
+  },
+  {
+   "x": 1518,
+   "y": -29.5
+  },
+  {
+   "x": 1602,
+   "y": -29.5
+  },
+  {
+   "x": 1850,
+   "y": -183.5
+  },
+  {
+   "x": 1850,
+   "y": -29.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [],
+ "captives": [],
+ "gadgets": [
+  {
+   "type": "portal",
+   "x": 1050,
+   "y": -420,
+   "dir": 180,
+   "radius": 40,
+   "color": "#ff9a2a",
+   "pair": 1
+  },
+  {
+   "type": "portal",
+   "x": 1560,
+   "y": -135,
+   "dir": 90,
+   "radius": 40,
+   "color": "#4ab8ff",
+   "pair": 0
+  }
+ ],
+ "tide": {
+  "amp_px": 45,
+  "period_s": 8.0
+ }
+}

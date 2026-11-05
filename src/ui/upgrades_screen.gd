@@ -174,7 +174,8 @@ func _show_weapon() -> void:
 	_wizard_line.text = String(Data.balance["wizard_workshop"]["owned_line"])
 	var equipped: bool = Progression.weapon() == weapon_id
 	var equip: Button = UIKit.button("EQUIPPED" if equipped else "EQUIP ENGINE", "dark" if equipped else "blue", 24, Vector2(0, 58))
-	equip.disabled = equipped
+	if equipped:
+		UIKit.locked(equip, "This siege engine is already equipped.")
 	equip.pressed.connect(func() -> void:
 		Progression.set_weapon(weapon_id)
 		Sound.play("lever", 0.9)
@@ -271,7 +272,7 @@ func _upgrade_row(title: String, desc: String, icon: String, level: int, maximum
 	var button: Button
 	if cost.is_empty():
 		button = UIKit.button("MAX", "dark", 20, Vector2(140, 52))
-		button.disabled = true
+		UIKit.locked(button, "Already at the maximum level.")
 	else:
 		button = _coin_button(CurrencyBar._fmt(int(cost["coins"])), int(cost["coins"]))
 		button.pressed.connect(func() -> void:

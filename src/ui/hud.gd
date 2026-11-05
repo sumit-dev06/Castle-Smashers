@@ -652,11 +652,11 @@ func show_result(won: bool, stars: int, score: int, earned: Dictionary, has_next
 	btns.add_theme_constant_override("separation", 18)
 	var mp: Button = UIKit.icon_button("icon_levels", "blue", 84)
 	mp.pressed.connect(func() -> void:
-		mp.disabled = true
+		_busy(mp, "Opening the map...")
 		Ads.match_break(level.level_id, func() -> void: Game.goto_back_from(level.level_id)))
 	var rs: Button = UIKit.icon_button("icon_restart", "orange", 84)
 	rs.pressed.connect(func() -> void:
-		rs.disabled = true
+		_busy(rs, "Restarting the battle...")
 		Analytics.event("level_retry", {"level_id": level.level_id})
 		Ads.match_break(level.level_id, level.restart))
 	btns.add_child(mp)
@@ -668,7 +668,7 @@ func show_result(won: bool, stars: int, score: int, earned: Dictionary, has_next
 	if won and has_next:
 		var nx: Button = UIKit.button("NEXT", "green", 40, Vector2(200, 84))
 		nx.pressed.connect(func() -> void:
-			nx.disabled = true
+			_busy(nx, "Loading the next battle...")
 			var next_id: int = level.level_id + 1
 			Ads.match_break(level.level_id, func() -> void: Game.goto_level_entry(next_id)))
 		btns.add_child(nx)
@@ -676,7 +676,7 @@ func show_result(won: bool, stars: int, score: int, earned: Dictionary, has_next
 		# Last campaign level: the next step is the "new realms coming soon" screen.
 		var wn: Button = UIKit.button("WHAT'S NEXT?", "green", 32, Vector2(250, 84))
 		wn.pressed.connect(func() -> void:
-			wn.disabled = true
+			_busy(wn, "Loading...")
 			Ads.match_break(level.level_id, Game.goto_campaign_end))
 		btns.add_child(wn)
 	v.add_child(btns)
@@ -961,15 +961,25 @@ func _ad_button(text: String, color: String, size: Vector2) -> Button:
 	return b
 
 
+## Locks a results button for a moment after it is pressed (no double taps while an ad or the next
+## screen loads). If the screen is still here after `results.busy_s` (an energy popup opened, an ad
+## failed), the button unlocks so it never stays stuck.
+func _busy(b: Button, reason: String) -> void:
+	UIKit.locked(b, reason)
+	get_tree().create_timer(Data.bf("ui", "busy_unlock_s"), true).timeout.connect(func() -> void:
+		if is_instance_valid(b):
+			UIKit.locked(b, ""))
+
+
 ## Win screen: optional rewarded ad that pays the level's coins again (once).
 func _double_coins_button(coins: int, wallet: CurrencyBar) -> Button:
 	var bonus: int = coins * (int(Data.b("coins", "post_win_ad_mult")) - 1)
 	var b: Button = _ad_button(ad_label("+%s coins" % fmt(bonus)), "green", Vector2(420, 70))
 	b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	var on_reward: Callable = func(id: String) -> void:
-		if id != "double_coins" or not is_instance_valid(b) or b.disabled:
+		if id != "double_coins" or not is_instance_valid(b) or UIKit.is_locked(b):
 			return
-		b.disabled = true
+		UIKit.locked(b, "Coins already doubled for this battle.")
 		b.text = "COINS DOUBLED!"
 		b.icon = null
 		Save.add("coins", bonus, true, false)
@@ -1020,10 +1030,10 @@ func show_second_chance(rocky_available: bool) -> void:
 	else:
 		var price: String = Store.price_text("hellfire_crate")
 		hf = UIKit.button("  BUY HELLFIRE x3  " + (price if not price.is_empty() else ""), "orange", 24, Vector2(440, 76))
-		hf.disabled = Store.status != Store.Status.READY or price.is_empty() or not Store.busy_product.is_empty()
+		UIKit.locked(hf, Store.buy_block_reason("hellfire_crate"))
 		hf.pressed.connect(func() -> void:
 			if Store.buy("hellfire_crate"):
-				hf.disabled = true
+				UIKit.locked(hf, "Opening Google Play...")
 				hf.text = "  Opening Google Play…")
 		var refresh: Callable = func(_a: Variant = null, _b: Variant = null) -> void:
 			if level.second_chance_open and _popup:

@@ -1,0 +1,262 @@
+{
+ "id": 78,
+ "name": "Slow Match",
+ "realm": 6,
+ "heroes": [
+  "fire",
+  "fire",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Time Blaze through the gap in the shield to light the trail. It burns to the vault floor.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "gadget:0",
+   "label": "LIGHT THE FUSE!"
+  },
+  {
+   "target": "mech:0",
+   "label": "TIME THE GAP!"
+  },
+  {
+   "target": "mech:1",
+   "label": "TRAP DOOR"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  35000,
+  41000,
+  60000
+ ],
+ "camera_right": 2270,
+ "camera_top": -450,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 760,
+    "x1": 1202,
+    "top": 0.0
+   },
+   {
+    "x0": 1402,
+    "x1": 1542,
+    "top": 0.0
+   },
+   {
+    "x0": 1658,
+    "x1": 2140,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 830,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 970,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 900,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 820,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 980,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 900,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 900,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1120,
+   "y": -32
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1472,
+   "y": -70
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1728,
+   "y": -70
+  },
+  {
+   "type": "iron_block",
+   "x": 1522,
+   "y": -194
+  },
+  {
+   "type": "iron_block",
+   "x": 1522,
+   "y": -258
+  },
+  {
+   "type": "iron_block",
+   "x": 1678,
+   "y": -194
+  },
+  {
+   "type": "iron_block",
+   "x": 1678,
+   "y": -258
+  },
+  {
+   "type": "iron_beam",
+   "x": 1600,
+   "y": -303
+  },
+  {
+   "type": "stone_block",
+   "x": 1902,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1902,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 2058,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 2058,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1980,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1910,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 2050,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1980,
+   "y": -314.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1922.0,
+   "y": -366.0
+  },
+  {
+   "type": "stone_block",
+   "x": 2038.0,
+   "y": -366.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 900,
+   "y": -209.5
+  },
+  {
+   "x": 1577,
+   "y": -191.5
+  },
+  {
+   "x": 1623,
+   "y": -191.5
+  },
+  {
+   "x": 1600,
+   "y": -345.5
+  },
+  {
+   "x": 1980,
+   "y": -183.5
+  },
+  {
+   "x": 1980,
+   "y": -29.5
+  },
+  {
+   "x": 1980,
+   "y": -363.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "shield_ring",
+   "x": 1120,
+   "y": -80,
+   "radius": 78,
+   "plates": 3,
+   "dps": 60,
+   "plate_len": 95
+  },
+  {
+   "type": "trapdoor",
+   "x": 1600,
+   "y": -151,
+   "size": [
+    300,
+    22
+   ],
+   "trigger": "slow_vault",
+   "hinge": 1
+  }
+ ],
+ "captives": [],
+ "gadgets": [
+  {
+   "type": "fuse",
+   "x": 1120,
+   "y": -66,
+   "points": [
+    [
+     35,
+     60
+    ],
+    [
+     330,
+     60
+    ]
+   ],
+   "burn_s": 3.0,
+   "blast": false,
+   "triggers": [
+    "slow_vault"
+   ]
+  }
+ ]
+}

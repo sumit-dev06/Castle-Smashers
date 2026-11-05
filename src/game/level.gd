@@ -1504,6 +1504,13 @@ func hit_mechanisms_near(pos: Vector2, radius: float) -> void:
 			m.on_blast(pos, radius)
 
 
+## Blasts and fire bursts light fuses.
+func _heat_gadgets(pos: Vector2, radius: float) -> void:
+	for g: Gadget in gadgets:
+		if is_instance_valid(g):
+			g.on_heat(pos, radius)
+
+
 func _wake_near(pos: Vector2, r: float) -> void:
 	for b: Block in blocks:
 		if is_instance_valid(b) and b.global_position.distance_to(pos) < r + maxf(b.size.x, b.size.y) * 0.5:
@@ -1594,6 +1601,15 @@ func splash(pos: Vector2, size: float) -> void:
 
 
 # ------------------------------------------------------------------------------------ effects on the world
+## True when solid ground or a rock wall (world layer: stage, ramps) stands between two points, so a
+## blast or fire burst cannot reach behind it (walled pits, hills). Endpoints are lifted a little so
+## things standing on the ground are not hidden by the ground itself.
+func _behind_cover(from: Vector2, to: Vector2) -> bool:
+	var lift: Vector2 = Vector2(0.0, -Data.bf("physics", "cover_lift_px"))
+	var q: PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.create(from + lift, to + lift, int(Data.b("layers", "world")))
+	return not world.get_world_2d().direct_space_state.intersect_ray(q).is_empty()
+
+
 func explode(pos: Vector2, radius: float, impulse: float, damage: float) -> void:
 	fx.flash(pos, radius)
 	replay.event("explode", pos, radius)
@@ -1601,6 +1617,7 @@ func explode(pos: Vector2, radius: float, impulse: float, damage: float) -> void
 	cut_ropes_near(pos, radius * Data.bf("ropes", "explosion_cut_mult"))
 	_snap_bolts_near(pos, radius * Data.bf("bolts", "explosion_break_mult"))
 	hit_mechanisms_near.call_deferred(pos, radius * 0.6)
+	_heat_gadgets(pos, radius * 0.6)
 	Sound.play_at("explosion", pos)
 	camera.add_shake(Data.bf("camera", "shake_max_px"))
 	Game.haptic(60)
@@ -1610,7 +1627,7 @@ func explode(pos: Vector2, radius: float, impulse: float, damage: float) -> void
 			continue
 		var d: float = maxf(0.0, b.global_position.distance_to(pos) - minf(b.size.x, b.size.y) * 0.5)
 		if d < radius:
-			if b.absorb("blast"):
+			if b.absorb("blast") or _behind_cover(pos, b.global_position):
 				continue
 			var f: float = 1.0 - d / radius
 			var dir: Vector2 = ((b.global_position - pos).normalized() + Vector2(0, -0.35)).normalized()
@@ -1623,7 +1640,7 @@ func explode(pos: Vector2, radius: float, impulse: float, damage: float) -> void
 		if not is_instance_valid(a) or a.dead:
 			continue
 		var d2: float = a.global_position.distance_to(pos)
-		if d2 < radius:
+		if d2 < radius and not _behind_cover(pos, a.global_position):
 			var f2: float = 1.0 - d2 / radius
 			a.push(((a.global_position - pos).normalized() + Vector2(0, -0.5)).normalized() * impulse * 0.4 * f2)
 			a.take_damage(damage * f2)
@@ -1637,19 +1654,20 @@ func fire_burst(pos: Vector2, radius: float, damage: float) -> void:
 	fx.flash(pos, radius * 0.6)
 	cut_ropes_near(pos, Data.bf("ropes", "fire_cut_radius_px"))
 	hit_mechanisms_near.call_deferred(pos, radius * 0.5)
+	_heat_gadgets(pos, radius * 0.5)
 	var burn: float = Data.bf("fire", "burn_s")
 	for b: Block in blocks.duplicate():
 		if not is_instance_valid(b) or b.dead:
 			continue
 		var d: float = maxf(0.0, b.global_position.distance_to(pos) - minf(b.size.x, b.size.y) * 0.5)
 		if d < radius:
-			if b.absorb("fire"):
+			if b.absorb("fire") or _behind_cover(pos, b.global_position):
 				continue
 			b.sleeping = false
 			b.ignite(burn)
 			b.take_damage(damage * (1.0 - d / radius) * float(Data.projectiles["fire"]["material_mult"].get(b.mat_id, 1.0)))
 	for a: Archer in archers.duplicate():
-		if is_instance_valid(a) and a.global_position.distance_to(pos) < radius:
+		if is_instance_valid(a) and a.global_position.distance_to(pos) < radius and not _behind_cover(pos, a.global_position):
 			a.ignite(burn)
 			a.take_damage(damage * 0.5)
 	hurt_soldiers(pos, radius, int(Data.b("friendly_fire", "fire_hits")))

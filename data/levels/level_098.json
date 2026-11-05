@@ -1,0 +1,260 @@
+{
+ "id": 98,
+ "name": "Upside Down",
+ "realm": 7,
+ "heroes": [
+  "quake",
+  "cyclone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Uncover and hit the rune: the keep floats up, then crashes down. Finish what's left.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "focus",
+   "target": "gadget:0",
+   "label": "GRAVITY FIELD!"
+  },
+  {
+   "t": "enter",
+   "who": "wizard",
+   "at": "catapult",
+   "style": "smoke"
+  },
+  {
+   "t": "say",
+   "who": "wizard",
+   "text": "Wake the rune and the keep floats up... then falls."
+  }
+ ],
+ "callouts": [
+  {
+   "target": "gadget:0",
+   "label": "GRAVITY FIELD!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  30000,
+  36000,
+  56000
+ ],
+ "camera_right": 2020,
+ "camera_top": -800,
+ "bg_variant": 1,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 740,
+    "x1": 1890,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 810,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 950,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 880,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 800,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 960,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 880,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 880,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1060,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1282,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1282,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1438,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1438,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1360,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1290,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1430,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1360,
+   "y": -314.0
+  },
+  {
+   "type": "post",
+   "x": 1280,
+   "y": -394.0
+  },
+  {
+   "type": "post",
+   "x": 1440,
+   "y": -394.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1360,
+   "y": -467.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1360,
+   "y": -530.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1652,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1652,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1808,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1808,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1730,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1660,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1800,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1730,
+   "y": -314.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 880,
+   "y": -209.5
+  },
+  {
+   "x": 1360,
+   "y": -183.5
+  },
+  {
+   "x": 1360,
+   "y": -363.5
+  },
+  {
+   "x": 1360,
+   "y": -29.5
+  },
+  {
+   "x": 1730,
+   "y": -183.5
+  },
+  {
+   "x": 1730,
+   "y": -363.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "rune_switch",
+   "x": 1060,
+   "y": -32,
+   "triggers": [
+    "flip"
+   ]
+  }
+ ],
+ "captives": [],
+ "gadgets": [
+  {
+   "type": "gravity",
+   "x": 1360,
+   "y": -380,
+   "size": [
+    420,
+    760
+   ],
+   "g": [
+    0,
+    -760
+   ],
+   "start_on": false,
+   "duration_s": 2.6,
+   "trigger": "flip"
+  }
+ ]
+}

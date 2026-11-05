@@ -141,7 +141,7 @@ func _refresh() -> void:
 	var b: Button
 	if equipped:
 		b = UIKit.button("Equipped", "dark", 34, Vector2(320, 84))
-		b.disabled = true
+		UIKit.locked(b, "Already equipped.")
 	elif owned:
 		b = UIKit.button("Equip", "green", 40, Vector2(320, 84))
 		b.pressed.connect(func() -> void:
@@ -153,7 +153,7 @@ func _refresh() -> void:
 	elif (c["price"] as Dictionary).is_empty():
 		var src: String = String(c.get("source", ""))
 		b = UIKit.button("From a realm chest" if src.begins_with("realm") else "Achievement reward", "dark", 22, Vector2(320, 84))
-		b.disabled = true
+		UIKit.locked(b, "Found in a realm chest on the map." if src.begins_with("realm") else "Unlocked by an achievement.")
 	else:
 		var price: Dictionary = c["price"]
 		var k: String = "gems" if price.has("gems") else "coins"

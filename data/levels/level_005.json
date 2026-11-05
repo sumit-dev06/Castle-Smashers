@@ -1,40 +1,19 @@
 {
  "id": 5,
- "name": "Bolted Balconies",
+ "name": "Petal Bridge",
  "realm": 1,
  "heroes": [
   "fire",
   "stone",
-  "fire",
+  "stone",
   "stone"
  ],
  "soldiers": 4,
- "power_budget": 8,
- "strategy": "Bolts break when a piece takes a beating or a blast.",
+ "power_budget": 6,
+ "strategy": "The hall guards are walled in. Break the glowing crate: the bridge slams through the hall roof.",
  "cinematic": [
   {
    "t": "title"
-  },
-  {
-   "t": "enter",
-   "who": "enemy",
-   "at": "fortress",
-   "style": "drop"
-  },
-  {
-   "t": "say",
-   "who": "enemy",
-   "text": "Our balconies are bolted on!"
-  },
-  {
-   "t": "emote",
-   "who": "enemy",
-   "e": "laugh"
-  },
-  {
-   "t": "focus",
-   "target": "bolt:0",
-   "label": "BOLTS!"
   },
   {
    "t": "enter",
@@ -43,37 +22,47 @@
    "style": "walk"
   },
   {
+   "t": "focus",
+   "target": "weak",
+   "label": "WEAK POINT!"
+  },
+  {
    "t": "say",
    "who": "captain",
-   "text": "Hit them hard and the bolts pop."
+   "text": "Crack that glowing crate..."
+  },
+  {
+   "t": "focus",
+   "target": "mech:0",
+   "label": "BRIDGE DROPS!"
+  },
+  {
+   "t": "demo",
+   "target": "weak",
+   "hero": "stone"
   }
  ],
  "callouts": [
   {
-   "target": "bolt:0",
-   "label": "BOLTED"
+   "target": "mech:0",
+   "label": "DRAWBRIDGE"
   }
  ],
  "boss": false,
  "star_scores": [
   35000,
-  39000,
-  56000
+  41000,
+  60000
  ],
- "camera_right": 1800,
- "camera_top": -710,
+ "camera_right": 1920,
+ "camera_top": -570,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 890,
-    "x1": 1210,
-    "top": 0.0
-   },
-   {
-    "x0": 1357,
-    "x1": 1643,
+    "x0": 730,
+    "x1": 1772,
     "top": 0.0
    }
   ]
@@ -81,190 +70,221 @@
  "blocks": [
   {
    "type": "stone_block",
-   "x": 972,
+   "x": 934.0,
    "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 972,
+   "x": 934.0,
    "y": -96.0
   },
   {
    "type": "stone_block",
-   "x": 1128,
+   "x": 1090.0,
    "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 1128,
+   "x": 1090.0,
    "y": -96.0
   },
   {
    "type": "plank_long",
-   "x": 1050,
+   "x": 1012.0,
    "y": -141.0
   },
   {
    "type": "post",
-   "x": 970,
+   "x": 932.0,
    "y": -214.0
   },
   {
    "type": "post",
-   "x": 1130,
+   "x": 1092.0,
    "y": -214.0
   },
   {
    "type": "plank_long",
-   "x": 1050,
+   "x": 1012.0,
    "y": -287.0
   },
   {
    "type": "post",
-   "x": 970,
+   "x": 932.0,
    "y": -360.0
   },
   {
    "type": "post",
-   "x": 1130,
+   "x": 1092.0,
    "y": -360.0
   },
   {
    "type": "plank_long",
-   "x": 1050,
+   "x": 1012.0,
    "y": -433.0
   },
   {
-   "type": "post",
-   "x": 970,
-   "y": -506.0
-  },
-  {
-   "type": "post",
-   "x": 1130,
-   "y": -506.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1050,
-   "y": -579.0
-  },
-  {
    "type": "barrel",
-   "x": 1050,
+   "x": 1012.0,
    "y": -29.0
   },
   {
    "type": "roof_tile",
-   "x": 1050,
-   "y": -642.0,
+   "x": 1012.0,
+   "y": -496.0,
    "flag": true
   },
   {
-   "type": "plank_short",
-   "x": 885.0,
-   "y": -141.0
-  },
-  {
-   "type": "plank_short",
-   "x": 1215.0,
-   "y": -141.0
-  },
-  {
-   "type": "plank_short",
-   "x": 1215.0,
-   "y": -433.0
+   "type": "post",
+   "x": 1160.0,
+   "y": -60
   },
   {
    "type": "post",
-   "x": 1420,
-   "y": -60.0
+   "x": 1312.0,
+   "y": -60
   },
   {
    "type": "post",
-   "x": 1580,
-   "y": -60.0
+   "x": 1464.0,
+   "y": -60
+  },
+  {
+   "type": "plank_xl",
+   "x": 1312.0,
+   "y": -133,
+   "banner": true
+  },
+  {
+   "type": "crate",
+   "x": 812.0,
+   "y": -32,
+   "weak_point": true,
+   "trigger": "twin_bridge"
+  },
+  {
+   "type": "stone_block",
+   "x": 1534.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1534.0,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1690.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1690.0,
+   "y": -96.0
   },
   {
    "type": "plank_long",
-   "x": 1500,
-   "y": -133.0
+   "x": 1612.0,
+   "y": -141.0
   },
   {
-   "type": "post",
-   "x": 1420,
-   "y": -206.0
+   "type": "stone_block",
+   "x": 1534.0,
+   "y": -186.0
   },
   {
-   "type": "post",
-   "x": 1580,
-   "y": -206.0
+   "type": "stone_block",
+   "x": 1534.0,
+   "y": -250.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1690.0,
+   "y": -186.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1690.0,
+   "y": -250.0
   },
   {
    "type": "plank_long",
-   "x": 1500,
-   "y": -279.0
+   "x": 1612.0,
+   "y": -295.0
+  },
+  {
+   "type": "post",
+   "x": 1532.0,
+   "y": -368.0
+  },
+  {
+   "type": "post",
+   "x": 1692.0,
+   "y": -368.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1612.0,
+   "y": -441.0
+  },
+  {
+   "type": "barrel",
+   "x": 1612.0,
+   "y": -29.0
   },
   {
    "type": "roof_tile",
-   "x": 1500,
-   "y": -342.0,
+   "x": 1612.0,
+   "y": -504.0,
    "flag": true
-  },
-  {
-   "type": "plank_short",
-   "x": 1335.0,
-   "y": -133.0
   }
  ],
  "archers": [
   {
-   "x": 1050,
+   "x": 1012.0,
    "y": -183.5
   },
   {
-   "x": 1050,
-   "y": -475.5
+   "x": 1012.0,
+   "y": -329.5
   },
   {
-   "x": 885.0,
-   "y": -183.5
+   "x": 1242.0,
+   "y": -29.5
   },
   {
-   "x": 1215.0,
-   "y": -183.5
+   "x": 1382.0,
+   "y": -29.5
   },
   {
-   "x": 1215.0,
-   "y": -475.5
-  },
-  {
-   "x": 1500,
+   "x": 1312.0,
    "y": -175.5
   },
   {
-   "x": 1335.0,
-   "y": -175.5
+   "x": 1612.0,
+   "y": -183.5
+  },
+  {
+   "x": 1612.0,
+   "y": -337.5
   }
  ],
- "bolts": [
+ "bolts": [],
+ "mechanisms": [
   {
-   "a": 4,
-   "b": 16
-  },
-  {
-   "a": 4,
-   "b": 17
-  },
-  {
-   "a": 10,
-   "b": 18
-  },
-  {
-   "a": 21,
-   "b": 26
+   "type": "drawbridge",
+   "x": 1122.0,
+   "y": -168,
+   "size": [
+    360,
+    36
+   ],
+   "trigger": "twin_bridge",
+   "start_angle": -68,
+   "end_angle": 0,
+   "duration_s": 0.85,
+   "counterweight_travel": 92
   }
  ],
- "mechanisms": [],
  "captives": []
 }

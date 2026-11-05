@@ -289,9 +289,11 @@ func stop() -> void:
 	for pair: Array in _ghosts:
 		(pair[0] as Node2D).queue_free()
 	_ghosts.clear()
-	for nd: Node2D in _hidden:
+	# Untyped: a block destroyed during the replay (fire) is a freed instance here, and a typed loop
+	# variable errors on it and leaves the rest of the fortress hidden.
+	for nd: Variant in _hidden:
 		if is_instance_valid(nd):
-			nd.visible = true
+			(nd as Node2D).visible = true
 	_hidden.clear()
 	if _ui:
 		_ui.queue_free()

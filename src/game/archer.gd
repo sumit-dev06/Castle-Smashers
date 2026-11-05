@@ -166,9 +166,16 @@ func _process(delta: float) -> void:
 	_sprite.scale = Vector2(_base_scale * (2.0 - s), _base_scale * s)
 
 
+## Seconds of landing grace: archers dropped in by a wave take no fall or rubble damage until it
+## runs out (hero hits still count). Set by ModeRules._spawn_wave.
+var land_grace: float = 0.0
+
+
 func _physics_process(delta: float) -> void:
 	if dead:
 		return
+	if land_grace > 0.0:
+		land_grace -= delta
 	if shield_left > 0.0:
 		shield_left -= delta
 		if shield_left <= 0.0 and _shield:
@@ -180,10 +187,13 @@ func _physics_process(delta: float) -> void:
 		var min_imp: float = Data.bf("damage", "archer_min_impulse")
 		if impulse > min_imp and level.damage_enabled():
 			var mult: float = 1.0
+			var by_hero: bool = false
 			for body: Node in get_colliding_bodies():
 				if body is Projectile:
 					mult = Data.bf("damage", "projectile_bonus")
-			take_damage((impulse - min_imp) * Data.bf("damage", "archer_per_impulse") * mult)
+					by_hero = true
+			if land_grace <= 0.0 or by_hero:
+				take_damage((impulse - min_imp) * Data.bf("damage", "archer_per_impulse") * mult)
 	_prev_vel = v
 	if _burn_left > 0.0:
 		_burn_left -= delta

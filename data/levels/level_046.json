@@ -1,149 +1,198 @@
 {
  "id": 46,
- "name": "Sky Seesaws",
- "realm": 5,
+ "name": "Crystal Cavern",
+ "realm": 4,
  "heroes": [
-  "quake",
-  "fire",
-  "fire",
+  "stone",
+  "cyclone",
+  "bomb",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Melt the ice under the first seesaw with Blaze. Smash the crate under the second.",
- "cinematic": [],
- "callouts": [
+ "strategy": "Break one crystal next to others: the shards do the rest. The chute guards need a shot lobbed straight down the chute onto the keg.",
+ "cinematic": [
   {
-   "target": "1100,-110",
-   "label": "SEESAW!"
+   "t": "title"
   },
   {
-   "target": "1790,-110",
-   "label": "SEESAW!"
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "Crystal! It shatters and cuts its neighbours."
+  },
+  {
+   "t": "focus",
+   "target": "fortress",
+   "label": "CRYSTAL SHATTERS!"
+  },
+  {
+   "t": "demo",
+   "target": "fortress",
+   "hero": "stone"
   }
  ],
+ "callouts": [],
  "boss": false,
  "star_scores": [
-  30000,
-  32000,
-  46000
+  35000,
+  40000,
+  58000
  ],
- "camera_right": 2180,
+ "camera_right": 2110,
  "camera_top": -450,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 730,
-    "x1": 1010,
-    "top": 0.0
-   },
-   {
-    "x0": 1124,
-    "x1": 1766,
-    "top": 0.0
-   },
-   {
-    "x0": 1888,
-    "x1": 2052,
+    "x0": 860,
+    "x1": 1980,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "stone_pillar",
-   "x": 800.0,
+   "type": "crystal_pillar",
+   "x": 930,
    "y": -70.0
   },
   {
-   "type": "stone_pillar",
-   "x": 940.0,
+   "type": "crystal_pillar",
+   "x": 1070,
    "y": -70.0
   },
   {
    "type": "stone_slab",
-   "x": 870.0,
+   "x": 1000,
    "y": -160.0
   },
   {
    "type": "post",
-   "x": 790.0,
+   "x": 920,
    "y": -240.0
   },
   {
    "type": "post",
-   "x": 950.0,
+   "x": 1080,
    "y": -240.0
   },
   {
    "type": "plank_long",
-   "x": 870.0,
+   "x": 1000,
    "y": -313.0
   },
   {
    "type": "roof_tile",
-   "x": 870.0,
+   "x": 1000,
    "y": -376.0,
    "flag": true
   },
   {
-   "type": "ice_block",
-   "x": 1353.0,
+   "type": "crystal_block",
+   "x": 1160,
    "y": -32.0
   },
   {
-   "type": "plank_xl",
-   "x": 1220.0,
-   "y": -77
-  },
-  {
-   "type": "crate",
-   "x": 1537.0,
-   "y": -32.0,
-   "scroll": true
-  },
-  {
-   "type": "plank_xl",
-   "x": 1670.0,
-   "y": -77
-  },
-  {
-   "type": "ice_block",
-   "x": 1970.0,
-   "y": -32.0
-  },
-  {
-   "type": "ice_block",
-   "x": 1970.0,
+   "type": "rune_crystal",
+   "x": 1160,
    "y": -96.0
+  },
+  {
+   "type": "barrel",
+   "x": 1360,
+   "y": -29.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1530,
+   "y": -70.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1670,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1600,
+   "y": -160.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1530,
+   "y": -250.0
+  },
+  {
+   "type": "crystal_pillar",
+   "x": 1670,
+   "y": -250.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1600,
+   "y": -340.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1742,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1742,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1898,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1898,
+   "y": -96
+  },
+  {
+   "type": "iron_beam",
+   "x": 1820,
+   "y": -141
   }
  ],
  "archers": [
   {
-   "x": 870.0,
+   "x": 1000,
    "y": -209.5
   },
   {
-   "x": 1355.0,
-   "y": -119.5
+   "x": 1000,
+   "y": -29.5
   },
   {
-   "x": 1290.0,
-   "y": -119.5
+   "x": 1311.0,
+   "y": -29.5
   },
   {
-   "x": 1535.0,
-   "y": -119.5
+   "x": 1409.0,
+   "y": -29.5
   },
   {
-   "x": 1600.0,
-   "y": -119.5
+   "x": 1600,
+   "y": -209.5
   },
   {
-   "x": 1970.0,
-   "y": -157.5
+   "x": 1600,
+   "y": -389.5
+  },
+  {
+   "x": 1820,
+   "y": -29.5
   }
  ],
  "bolts": [],
@@ -153,50 +202,44 @@
   {
    "points": [
     [
-     1174.0,
+     1277.0,
      0
     ],
     [
-     1220.0,
-     -64
+     1207.0,
+     0
     ],
     [
-     1266.0,
-     0
+     1207.0,
+     -380
+    ],
+    [
+     1277.0,
+     -380
     ]
    ],
-   "kind": "wood"
+   "kind": "rock"
   },
   {
    "points": [
     [
-     1624.0,
+     1443.0,
      0
     ],
     [
-     1670.0,
-     -64
+     1513.0,
+     0
     ],
     [
-     1716.0,
-     0
+     1513.0,
+     -380
+    ],
+    [
+     1443.0,
+     -380
     ]
    ],
-   "kind": "wood"
-  }
- ],
- "tethers": [
-  {
-   "kind": "pin",
-   "a": 8,
-   "x": 1220.0,
-   "y": -77
-  },
-  {
-   "kind": "pin",
-   "a": 10,
-   "x": 1670.0,
-   "y": -77
+   "kind": "rock"
   }
  ]
 }

@@ -1,239 +1,198 @@
 {
  "id": 52,
- "name": "Chain Gallery",
- "realm": 6,
+ "name": "Runaway Wheel",
+ "realm": 4,
  "heroes": [
-  "bomb",
-  "fire",
+  "cyclone",
+  "quake",
   "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Kegs on every floor. Start the chain low and the hall brings itself down; the iron hut needs its keg.",
+ "strategy": "Hit the giant wheel with Rocky. It rolls down the hill and rams the stone keep.",
  "cinematic": [],
  "callouts": [
   {
-   "target": "bolt:0",
-   "label": "BOLTED"
+   "target": "920,-460",
+   "label": "RUNAWAY WHEEL!"
   }
  ],
  "boss": false,
  "star_scores": [
-  30000,
-  36000,
-  56000
+  20000,
+  24000,
+  40000
  ],
- "camera_right": 2110,
- "camera_top": -630,
+ "camera_right": 2160,
+ "camera_top": -600,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 885,
-    "x1": 1980,
-    "top": -40
+    "x0": 730,
+    "x1": 2003,
+    "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "post",
-   "x": 948,
-   "y": -100
+   "type": "wheel",
+   "x": 920.0,
+   "y": -350.0
   },
   {
-   "type": "post",
-   "x": 1100,
-   "y": -100
+   "type": "stone_block",
+   "x": 1502.0,
+   "y": -32.0
   },
   {
-   "type": "post",
-   "x": 1252,
-   "y": -100
+   "type": "stone_block",
+   "x": 1502.0,
+   "y": -96.0
   },
   {
-   "type": "plank_xl",
-   "x": 1100,
-   "y": -173
+   "type": "stone_block",
+   "x": 1658.0,
+   "y": -32.0
   },
   {
-   "type": "barrel",
-   "x": 1170,
-   "y": -69
+   "type": "stone_block",
+   "x": 1658.0,
+   "y": -96.0
   },
   {
-   "type": "post",
-   "x": 948,
-   "y": -246
-  },
-  {
-   "type": "post",
-   "x": 1100,
-   "y": -246
-  },
-  {
-   "type": "post",
-   "x": 1252,
-   "y": -246
-  },
-  {
-   "type": "plank_xl",
-   "x": 1100,
-   "y": -319,
-   "banner": true
-  },
-  {
-   "type": "barrel",
-   "x": 1030,
-   "y": -215
-  },
-  {
-   "type": "roof_tile",
-   "x": 1100,
-   "y": -382,
-   "flag": true
-  },
-  {
-   "type": "plank_short",
-   "x": 1320.0,
-   "y": -319
-  },
-  {
-   "type": "barrel",
-   "x": 1360,
-   "y": -69.0
-  },
-  {
-   "type": "barrel",
-   "x": 1360,
-   "y": -127.0
-  },
-  {
-   "type": "barrel",
-   "x": 1360,
-   "y": -185.0
+   "type": "plank_long",
+   "x": 1580.0,
+   "y": -141.0
   },
   {
    "type": "stone_pillar",
-   "x": 1510,
-   "y": -110.0
+   "x": 1510.0,
+   "y": -224.0
   },
   {
    "type": "stone_pillar",
-   "x": 1650,
-   "y": -110.0
+   "x": 1650.0,
+   "y": -224.0
   },
   {
    "type": "stone_slab",
-   "x": 1580,
-   "y": -200.0
+   "x": 1580.0,
+   "y": -314.0
   },
   {
    "type": "post",
-   "x": 1500,
-   "y": -280.0
+   "x": 1500.0,
+   "y": -394.0
   },
   {
    "type": "post",
-   "x": 1660,
-   "y": -280.0
+   "x": 1660.0,
+   "y": -394.0
   },
   {
    "type": "plank_long",
-   "x": 1580,
-   "y": -353.0
-  },
-  {
-   "type": "post",
-   "x": 1500,
-   "y": -426.0
-  },
-  {
-   "type": "post",
-   "x": 1660,
-   "y": -426.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1580,
-   "y": -499.0
-  },
-  {
-   "type": "barrel",
-   "x": 1580,
-   "y": -69.0
+   "x": 1580.0,
+   "y": -467.0
   },
   {
    "type": "roof_tile",
-   "x": 1580,
-   "y": -562.0,
+   "x": 1580.0,
+   "y": -530.0,
    "flag": true
   },
   {
-   "type": "iron_block",
-   "x": 1742,
-   "y": -72
+   "type": "stone_block",
+   "x": 1720.0,
+   "y": -32.0
   },
   {
-   "type": "iron_block",
-   "x": 1742,
-   "y": -136
+   "type": "stone_block",
+   "x": 1720.0,
+   "y": -96.0
   },
   {
-   "type": "iron_block",
-   "x": 1898,
-   "y": -72
+   "type": "post",
+   "x": 1780.0,
+   "y": -60.0
   },
   {
-   "type": "iron_block",
-   "x": 1898,
-   "y": -136
+   "type": "post",
+   "x": 1940.0,
+   "y": -60.0
   },
   {
-   "type": "iron_beam",
-   "x": 1820,
-   "y": -181
+   "type": "plank_long",
+   "x": 1860.0,
+   "y": -133.0
   },
   {
-   "type": "barrel",
-   "x": 1865,
-   "y": -223
+   "type": "post",
+   "x": 1780.0,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1940.0,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1860.0,
+   "y": -279.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1860.0,
+   "y": -342.0,
+   "flag": true
   }
  ],
  "archers": [
   {
-   "x": 1030,
-   "y": -69.5
+   "x": 1580.0,
+   "y": -183.5
   },
   {
-   "x": 1170,
-   "y": -215.5
+   "x": 1580.0,
+   "y": -363.5
   },
   {
-   "x": 1320.0,
-   "y": -361.5
+   "x": 1860.0,
+   "y": -175.5
   },
   {
-   "x": 1580,
-   "y": -249.5
-  },
-  {
-   "x": 1580,
-   "y": -395.5
-  },
-  {
-   "x": 1790,
-   "y": -223.5
+   "x": 1860.0,
+   "y": -29.5
   }
  ],
- "bolts": [
-  {
-   "a": 8,
-   "b": 11
-  }
- ],
+ "bolts": [],
  "mechanisms": [],
- "captives": []
+ "captives": [],
+ "ramps": [
+  {
+   "points": [
+    [
+     780.0,
+     0
+    ],
+    [
+     780.0,
+     -260
+    ],
+    [
+     1030.0,
+     -260
+    ],
+    [
+     1430.0,
+     0
+    ]
+   ],
+   "kind": "rock"
+  }
+ ]
 }

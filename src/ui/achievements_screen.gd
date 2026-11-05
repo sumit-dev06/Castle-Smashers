@@ -203,10 +203,10 @@ func _row(a: Dictionary) -> Control:
 				tw.tween_callback(_fill))
 		"claimed":
 			b = UIKit.button("DONE", "dark", 22, Vector2(150, 62))
-			b.disabled = true
+			UIKit.locked(b, "Reward already claimed.")
 		_:
 			b = UIKit.button("LOCKED", "dark", 20, Vector2(150, 62))
-			b.disabled = true
+			UIKit.locked(b, "Finish this goal first to claim its reward.")
 	UIFx.press_juice(b)
 	h.add_child(b)
 	return p

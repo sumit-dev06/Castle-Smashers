@@ -15,6 +15,17 @@ static func flying(kind: String) -> int:
 	return int(_flying.get(kind, 0))
 
 
+## A new layer for one popup, just under the shared overlay (so reward icons fly above it).
+## Free it when the popup closes. Never queue_free() overlay(): flying rewards live there.
+static func popup_layer() -> CanvasLayer:
+	var tree: SceneTree = Engine.get_main_loop() as SceneTree
+	var layer: CanvasLayer = CanvasLayer.new()
+	layer.layer = 49
+	layer.add_to_group("ui_popup")
+	tree.root.add_child(layer)
+	return layer
+
+
 ## Top overlay layer for effects that must draw above every screen.
 static func overlay() -> CanvasLayer:
 	var tree: SceneTree = Engine.get_main_loop() as SceneTree
@@ -47,6 +58,9 @@ static func fly_reward(from: Vector2, kind: String, amount: int, bar: CurrencyBa
 		icon.position = from - icon.pivot_offset
 		icon.scale = Vector2.ZERO
 		layer.add_child(icon)
+		# Count down when the icon leaves the tree for any reason (landed or freed early), so the
+		# wallet bar never waits forever for an icon that is gone.
+		icon.tree_exited.connect(func() -> void: _flying[kind] = maxi(0, flying(kind) - 1), CONNECT_ONE_SHOT)
 		var ang: float = TAU * float(i) / float(n) + randf() * 0.6
 		var burst: Vector2 = from + Vector2.from_angle(ang) * cfg("fly_burst_px") * randf_range(0.5, 1.0) - icon.pivot_offset
 		var target: Vector2 = (bar.pill_center(kind) if is_instance_valid(bar) else Vector2(1200, 40)) - icon.pivot_offset
@@ -61,7 +75,6 @@ static func fly_reward(from: Vector2, kind: String, amount: int, bar: CurrencyBa
 		var k: int = i
 		tw.tween_callback(func() -> void:
 			icon.queue_free()
-			_flying[kind] = maxi(0, flying(kind) - 1)
 			# Every other coin tinks (a full burst stacked into one loud rattle).
 			if k % 2 == 0 or k == n - 1:
 				Sound.play(sound, 0.7, 1.0 + cfg("tink_pitch_step") * float(k))

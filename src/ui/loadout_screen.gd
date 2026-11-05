@@ -189,7 +189,8 @@ func _hero_card(kind: String) -> Control:
 	art.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
 	art.custom_minimum_size = Vector2(222, 150)
 	art.modulate = Color.WHITE if open else Color(0.25, 0.25, 0.3, 0.9)
-	art.disabled = not open
+	if not open:
+		UIKit.locked(art, "%s joins at level %d." % [String(cfg["name"]), int(cfg["unlock_level"])])
 	art.pressed.connect(_add_kind.bind(kind))
 	v.add_child(art)
 	var plaque: PanelContainer = PanelContainer.new()
@@ -226,8 +227,9 @@ func _hero_card(kind: String) -> Control:
 	_minus[kind] = minus
 	_plus[kind] = plus
 	if not open:
-		minus.disabled = true
-		plus.disabled = true
+		var why: String = "%s joins at level %d." % [String(cfg["name"]), int(cfg["unlock_level"])]
+		UIKit.locked(minus, why)
+		UIKit.locked(plus, why)
 	v.add_child(plaque)
 	return v
 
@@ -414,8 +416,14 @@ func _refresh() -> void:
 		var n: int = _selection.count(kind)
 		(_counts[kind] as Label).text = str(n)
 		if _available(kind):
-			(_minus[kind] as Button).disabled = n == 0
-			(_plus[kind] as Button).disabled = n >= int(Data.projectiles[kind]["max_per_loadout"]) or _selection.size() >= LoadoutRules.slots()
+			var hero: String = String(Data.projectiles[kind]["name"])
+			UIKit.locked(_minus[kind] as Button, "No %s in the plan yet." % hero if n == 0 else "")
+			var full: String = ""
+			if n >= int(Data.projectiles[kind]["max_per_loadout"]):
+				full = "The wizard can prepare only %d %s." % [int(Data.projectiles[kind]["max_per_loadout"]), hero]
+			elif _selection.size() >= LoadoutRules.slots():
+				full = "All %d slots are full. Use − to free one." % LoadoutRules.slots()
+			UIKit.locked(_plus[kind] as Button, full)
 	for c: Node in _order.get_children():
 		c.queue_free()
 	for i: int in LoadoutRules.slots():
@@ -447,7 +455,7 @@ func _refresh() -> void:
 		_shots.text = "%d / %d" % [_selection.size(), LoadoutRules.slots()]
 	var err: String = LoadoutRules.error(_selection, level_id, _level_data)
 	_message.text = err
-	_battle.disabled = not err.is_empty()
+	UIKit.locked(_battle, err)
 
 
 func _start() -> void:

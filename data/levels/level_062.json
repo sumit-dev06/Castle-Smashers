@@ -1,182 +1,282 @@
 {
  "id": 62,
- "name": "Double Sluice",
- "realm": 7,
+ "name": "Island Hop",
+ "realm": 5,
  "heroes": [
-  "stone",
   "cyclone",
-  "stone",
+  "fire",
+  "bomb",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Smash the low sluice to flood the sheds. Flip the lever to open the upper sluice on the terrace.",
- "cinematic": [],
+ "strategy": "The updraft between the islands throws shots upward.",
+ "cinematic": [
+  {
+   "t": "title"
+  },
+  {
+   "t": "focus",
+   "target": "mech:0",
+   "label": "UPDRAFT!"
+  },
+  {
+   "t": "enter",
+   "who": "captain",
+   "at": "catapult",
+   "style": "walk"
+  },
+  {
+   "t": "say",
+   "who": "captain",
+   "text": "Ride the updraft to the high islands!"
+  }
+ ],
  "callouts": [
   {
-   "target": "935,-190",
-   "label": "OPEN THE SLUICE!"
-  },
-  {
-   "target": "1905,-170",
-   "label": "OPEN THE SLUICE!"
-  },
-  {
    "target": "mech:0",
-   "label": "OPEN THE SLUICE!"
+   "label": "UPDRAFT!"
   }
  ],
  "boss": false,
  "star_scores": [
-  20000,
-  24000,
-  41000
+  40000,
+  44000,
+  60000
  ],
- "camera_right": 2420,
- "camera_top": -380,
+ "camera_right": 1920,
+ "camera_top": -1130,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 730,
-    "x1": 1650,
+    "x0": 795,
+    "x1": 1005,
     "top": 0.0
    },
    {
-    "x0": 1760,
-    "x1": 2290,
-    "top": -150
+    "x0": 1175,
+    "x1": 1385,
+    "top": -80
+   },
+   {
+    "x0": 1495,
+    "x1": 1792,
+    "top": -160
    }
   ]
  },
  "blocks": [
   {
-   "type": "iron_block",
-   "x": 1192.0,
-   "y": -32
+   "type": "post",
+   "x": 858,
+   "y": -60.0
   },
   {
-   "type": "iron_block",
-   "x": 1192.0,
-   "y": -96
+   "type": "post",
+   "x": 942,
+   "y": -60.0
   },
   {
-   "type": "iron_block",
-   "x": 1348.0,
-   "y": -32
+   "type": "plank_short",
+   "x": 900,
+   "y": -133.0
   },
   {
-   "type": "iron_block",
-   "x": 1348.0,
-   "y": -96
+   "type": "post",
+   "x": 858,
+   "y": -206.0
   },
   {
-   "type": "iron_beam",
-   "x": 1270.0,
-   "y": -141
+   "type": "post",
+   "x": 942,
+   "y": -206.0
   },
   {
-   "type": "iron_block",
-   "x": 1412.0,
-   "y": -32
+   "type": "plank_short",
+   "x": 900,
+   "y": -279.0
   },
   {
-   "type": "iron_block",
-   "x": 1412.0,
-   "y": -96
+   "type": "roof",
+   "x": 900,
+   "y": -327.0,
+   "flag": true
   },
   {
-   "type": "iron_block",
-   "x": 1568.0,
-   "y": -32
+   "type": "post",
+   "x": 1238,
+   "y": -140.0
   },
   {
-   "type": "iron_block",
-   "x": 1568.0,
-   "y": -96
+   "type": "post",
+   "x": 1322,
+   "y": -140.0
   },
   {
-   "type": "iron_beam",
-   "x": 1490.0,
-   "y": -141
+   "type": "plank_short",
+   "x": 1280,
+   "y": -213.0
   },
   {
-   "type": "stone_pillar",
-   "x": 2080.0,
-   "y": -220
+   "type": "post",
+   "x": 1238,
+   "y": -286.0
   },
   {
-   "type": "stone_pillar",
-   "x": 2220.0,
-   "y": -220
+   "type": "post",
+   "x": 1322,
+   "y": -286.0
   },
   {
-   "type": "stone_slab",
-   "x": 2150.0,
-   "y": -310
+   "type": "plank_short",
+   "x": 1280,
+   "y": -359.0
+  },
+  {
+   "type": "post",
+   "x": 1238,
+   "y": -432.0
+  },
+  {
+   "type": "post",
+   "x": 1322,
+   "y": -432.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1280,
+   "y": -505.0
+  },
+  {
+   "type": "roof",
+   "x": 1280,
+   "y": -553.0,
+   "flag": true
+  },
+  {
+   "type": "post",
+   "x": 1558,
+   "y": -220.0
+  },
+  {
+   "type": "post",
+   "x": 1642,
+   "y": -220.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1600,
+   "y": -293.0
+  },
+  {
+   "type": "post",
+   "x": 1558,
+   "y": -366.0
+  },
+  {
+   "type": "post",
+   "x": 1642,
+   "y": -366.0
+  },
+  {
+   "type": "plank_short",
+   "x": 1600,
+   "y": -439.0
+  },
+  {
+   "type": "roof",
+   "x": 1600,
+   "y": -487.0,
+   "flag": true
+  },
+  {
+   "type": "stone_block",
+   "x": 1710,
+   "y": -192.0
+  },
+  {
+   "type": "crate",
+   "x": 1152,
+   "y": -862
   }
  ],
  "archers": [
   {
-   "x": 1270.0,
+   "x": 900,
+   "y": -175.5
+  },
+  {
+   "x": 900,
    "y": -29.5
   },
   {
-   "x": 1490.0,
-   "y": -29.5
+   "x": 1280,
+   "y": -401.5
   },
   {
-   "x": 2150.0,
-   "y": -179.5
+   "x": 1280,
+   "y": -255.5
   },
   {
-   "x": 2150.0,
-   "y": -333.5
+   "x": 1600,
+   "y": -335.5
+  },
+  {
+   "x": 1600,
+   "y": -189.5
+  },
+  {
+   "x": 1710,
+   "y": -253.5
+  },
+  {
+   "x": 1090.0,
+   "y": -859.5
   }
  ],
  "bolts": [],
  "mechanisms": [
   {
-   "type": "flood",
-   "x": 1050.0,
-   "y": 0.0,
-   "size": [
-    40,
-    170
-   ],
-   "pool": 230,
-   "pool_h": 150,
-   "reach": 640,
-   "depth": 70
-  },
-  {
-   "type": "lever",
-   "x": 1160.0,
+   "type": "geyser",
+   "x": 1090,
    "y": 0,
-   "triggers": [
-    "upper_sluice"
-   ],
-   "facing": 1
+   "height": 600,
+   "period_s": 3.5,
+   "burst_s": 1.5,
+   "phase": 0.0,
+   "width": 90
   },
   {
-   "type": "flood",
-   "x": 1960.0,
-   "y": -150.0,
+   "type": "moving_platform",
+   "x": 1090,
+   "y": -805.0,
    "size": [
-    40,
-    170
+    194,
+    50
    ],
-   "trigger": "upper_sluice",
-   "pool": 110,
-   "pool_h": 130,
-   "reach": 420,
-   "depth": 70
+   "travel_x": 60,
+   "travel_y": 50,
+   "period_s": 3.0,
+   "phase": 0.0,
+   "chassis": "boss_airship_deck",
+   "chassis_h": 100,
+   "balloon": "boss_airship_balloon",
+   "balloon_size": [
+    271,
+    145
+   ],
+   "balloon_y": -182,
+   "floating": true
   }
  ],
  "captives": [],
- "tide": {
-  "amp_px": 45,
-  "period_s": 8.0
+ "wind": {
+  "strength": 240,
+  "period_s": 6.5,
+  "gust_s": 3.0,
+  "dir": 1,
+  "alternate": true
  }
 }

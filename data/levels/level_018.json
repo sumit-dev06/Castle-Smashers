@@ -1,213 +1,225 @@
 {
  "id": 18,
- "name": "Prisoner Well",
+ "name": "Mangonel Ruins",
  "realm": 2,
  "heroes": [
   "cyclone",
-  "bomb",
+  "stone",
   "stone",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Flip the lever or break the bridge support to free the captive.",
- "cinematic": [
-  {
-   "t": "title"
-  },
-  {
-   "t": "enter",
-   "who": "captive",
-   "at": "fortress",
-   "style": "drop"
-  },
-  {
-   "t": "say",
-   "who": "captive",
-   "text": "The bridge winch opens my cage!"
-  },
-  {
-   "t": "focus",
-   "target": "weak",
-   "label": "BREAK THIS"
-  },
-  {
-   "t": "focus",
-   "target": "captive:0",
-   "label": "RESCUE!"
-  }
- ],
+ "strategy": "The wall stops flat shots. Slam the beam: it lobs its boulder over the wall onto the hall.",
+ "cinematic": [],
  "callouts": [
   {
-   "target": "mech:0",
-   "label": "HIT THE LEVER!"
+   "target": "1099,-192",
+   "label": "SLAM IT!"
   }
  ],
  "boss": false,
  "star_scores": [
-  20000,
-  23000,
-  38000
+  30000,
+  34000,
+  51000
  ],
- "camera_right": 1960,
- "camera_top": -450,
+ "camera_right": 2290,
+ "camera_top": -480,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
     "x0": 730,
-    "x1": 1899,
+    "x1": 1435,
     "top": 0.0
+   },
+   {
+    "x0": 1543,
+    "x1": 2160,
+    "top": -140
    }
   ]
  },
  "blocks": [
   {
    "type": "stone_pillar",
-   "x": 889.0,
+   "x": 1225.0,
    "y": -70.0
   },
   {
    "type": "stone_pillar",
-   "x": 1029.0,
+   "x": 1365.0,
    "y": -70.0
   },
   {
    "type": "stone_slab",
-   "x": 959.0,
+   "x": 1295.0,
    "y": -160.0
   },
   {
    "type": "post",
-   "x": 879.0,
+   "x": 1215.0,
    "y": -240.0
   },
   {
    "type": "post",
-   "x": 1039.0,
+   "x": 1375.0,
    "y": -240.0
   },
   {
    "type": "plank_long",
-   "x": 959.0,
+   "x": 1295.0,
    "y": -313.0
   },
   {
    "type": "roof_tile",
-   "x": 959.0,
+   "x": 1295.0,
    "y": -376.0,
    "flag": true
-  },
-  {
-   "type": "post",
-   "x": 1107.0,
-   "y": -60
-  },
-  {
-   "type": "post",
-   "x": 1259.0,
-   "y": -60
-  },
-  {
-   "type": "post",
-   "x": 1411.0,
-   "y": -60
   },
   {
    "type": "plank_xl",
-   "x": 1259.0,
-   "y": -133,
-   "weak_point": true,
-   "trigger": "well_span"
+   "x": 957.9,
+   "y": -63.7,
+   "rot": -17.76
   },
   {
-   "type": "stone_pillar",
-   "x": 1489.0,
-   "y": -70.0
+   "type": "boulder",
+   "x": 825.0,
+   "y": -85.2,
+   "rot": -17.76
   },
   {
-   "type": "stone_pillar",
-   "x": 1629.0,
-   "y": -70.0
+   "type": "stone_block",
+   "x": 1625.0,
+   "y": -172.0
   },
   {
-   "type": "stone_slab",
-   "x": 1559.0,
-   "y": -160.0
+   "type": "stone_block",
+   "x": 1689.0,
+   "y": -172.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1625.0,
+   "y": -236.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1689.0,
+   "y": -236.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1625.0,
+   "y": -300.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1689.0,
+   "y": -300.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1625.0,
+   "y": -364.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1689.0,
+   "y": -364.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1625.0,
+   "y": -428.0
   },
   {
    "type": "post",
-   "x": 1479.0,
-   "y": -240.0
+   "x": 1793.0,
+   "y": -200
   },
   {
    "type": "post",
-   "x": 1639.0,
-   "y": -240.0
+   "x": 1945.0,
+   "y": -200
   },
   {
-   "type": "plank_long",
-   "x": 1559.0,
-   "y": -313.0
+   "type": "post",
+   "x": 2097.0,
+   "y": -200
   },
   {
-   "type": "roof_tile",
-   "x": 1559.0,
-   "y": -376.0,
-   "flag": true
+   "type": "plank_xl",
+   "x": 1945.0,
+   "y": -273,
+   "banner": true
   }
  ],
  "archers": [
   {
-   "x": 959.0,
+   "x": 1295.0,
    "y": -209.5
   },
   {
-   "x": 1259.0,
-   "y": -175.5
-  },
-  {
-   "x": 1559.0,
-   "y": -209.5
-  },
-  {
-   "x": 1559.0,
+   "x": 1295.0,
    "y": -29.5
+  },
+  {
+   "x": 1689.0,
+   "y": -425.5
+  },
+  {
+   "x": 1869.0,
+   "y": -169.5
+  },
+  {
+   "x": 2021.0,
+   "y": -169.5
+  },
+  {
+   "x": 1945.0,
+   "y": -315.5
   }
  ],
  "bolts": [],
- "mechanisms": [
+ "mechanisms": [],
+ "captives": [],
+ "ramps": [
   {
-   "type": "lever",
-   "x": 814.0,
-   "y": 0,
-   "triggers": [
-    "well_span"
+   "points": [
+    [
+     969.0,
+     0
+    ],
+    [
+     1015.0,
+     -68.0
+    ],
+    [
+     1061.0,
+     0
+    ]
    ],
-   "facing": 1
-  },
-  {
-   "type": "drawbridge",
-   "x": 1369.0,
-   "y": -165,
-   "size": [
-    280,
-    36
-   ],
-   "trigger": "well_span",
-   "start_angle": -78,
-   "end_angle": 0,
-   "duration_s": 0.9,
-   "counterweight_travel": 100
+   "kind": "wood"
   }
  ],
- "captives": [
+ "tethers": [
   {
-   "x": 1789.0,
-   "y": 0,
-   "trigger": "well_span",
-   "height": 92
+   "kind": "pin",
+   "a": 7,
+   "x": 1015.0,
+   "y": -82.0,
+   "launch": {
+    "payload": 8,
+    "kick": [
+     630.0,
+     -1150.0
+    ],
+    "dir": 1.0
+   }
   }
  ]
 }

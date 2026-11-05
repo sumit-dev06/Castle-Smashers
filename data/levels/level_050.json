@@ -1,54 +1,24 @@
 {
  "id": 50,
- "name": "The Baron's Airship",
- "realm": 5,
+ "name": "Lava Plume",
+ "realm": 4,
  "heroes": [
   "quake",
-  "bomb",
   "fire",
-  "stone"
+  "stone",
+  "fire"
  ],
  "soldiers": 4,
- "power_budget": 9,
- "strategy": "Final boss: two cores, armor, two cannons, two engineers. Disable the defences, then finish him.",
+ "power_budget": 8,
+ "strategy": "A messenger balloon is climbing away: bring it down before it escapes, or the siege fails. The plume lifts shots.",
  "cinematic": [
   {
    "t": "title"
   },
   {
-   "t": "enter",
-   "who": "baron",
-   "at": "boss",
-   "style": "smoke"
-  },
-  {
-   "t": "say",
-   "who": "baron",
-   "text": "My airship rules the sky!"
-  },
-  {
-   "t": "boss"
-  },
-  {
-   "t": "emote",
-   "who": "baron",
-   "e": "laugh"
-  },
-  {
    "t": "focus",
-   "target": "core",
-   "label": "TWO BALLOON CORES"
-  },
-  {
-   "t": "enter",
-   "who": "wizard",
-   "at": "catapult",
-   "style": "smoke"
-  },
-  {
-   "t": "say",
-   "who": "wizard",
-   "text": "Both cores, then the Baron!"
+   "target": "mech:0",
+   "label": "LAVA PLUME!"
   },
   {
    "t": "enter",
@@ -59,33 +29,35 @@
   {
    "t": "say",
    "who": "captain",
-   "text": "Vanguard! End this siege!"
-  },
-  {
-   "t": "march"
+   "text": "It burns and it lifts. Use it!"
   }
  ],
  "callouts": [
   {
    "target": "mech:0",
-   "label": "TIME THE GAP!"
+   "label": "LAVA PLUME!"
   }
  ],
- "boss": true,
+ "boss": false,
  "star_scores": [
-  39000,
-  48000,
-  72000
+  30000,
+  35000,
+  52000
  ],
- "camera_right": 1940,
- "camera_top": -950,
+ "camera_right": 2060,
+ "camera_top": -1150,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 730,
-    "x1": 1082,
+    "x0": 760,
+    "x1": 1040,
+    "top": 0.0
+   },
+   {
+    "x0": 1210,
+    "x1": 1920,
     "top": 0.0
    }
   ]
@@ -93,252 +65,203 @@
  "blocks": [
   {
    "type": "stone_pillar",
-   "x": 800.0,
+   "x": 830,
    "y": -70.0
   },
   {
    "type": "stone_pillar",
-   "x": 940.0,
+   "x": 970,
    "y": -70.0
   },
   {
    "type": "stone_slab",
-   "x": 870.0,
+   "x": 900,
    "y": -160.0
   },
   {
    "type": "post",
-   "x": 790.0,
+   "x": 820,
    "y": -240.0
   },
   {
    "type": "post",
-   "x": 950.0,
+   "x": 980,
    "y": -240.0
   },
   {
    "type": "plank_long",
-   "x": 870.0,
+   "x": 900,
    "y": -313.0
   },
   {
-   "type": "cannon_turret",
-   "x": 870.0,
-   "y": -356.0
+   "type": "roof_tile",
+   "x": 900,
+   "y": -376.0,
+   "flag": true
   },
   {
-   "type": "stone_block",
-   "x": 1262.0,
-   "y": -82.0
+   "type": "crystal_pillar",
+   "x": 1280,
+   "y": -70.0
   },
   {
-   "type": "stone_block",
-   "x": 1262.0,
-   "y": -146.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1418.0,
-   "y": -82.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1418.0,
-   "y": -146.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1340.0,
-   "y": -191.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1270.0,
-   "y": -274.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1410.0,
-   "y": -274.0
+   "type": "crystal_pillar",
+   "x": 1420,
+   "y": -70.0
   },
   {
    "type": "stone_slab",
-   "x": 1340.0,
-   "y": -364.0
+   "x": 1350,
+   "y": -160.0
   },
   {
    "type": "post",
-   "x": 1260.0,
-   "y": -444.0
+   "x": 1270,
+   "y": -240.0
   },
   {
    "type": "post",
-   "x": 1420.0,
-   "y": -444.0
+   "x": 1430,
+   "y": -240.0
   },
   {
    "type": "plank_long",
-   "x": 1340.0,
-   "y": -517.0
+   "x": 1350,
+   "y": -313.0
   },
   {
-   "type": "barrel",
-   "x": 1340.0,
-   "y": -79.0
+   "type": "roof_tile",
+   "x": 1350,
+   "y": -376.0,
+   "flag": true
   },
   {
-   "type": "post",
-   "x": 1520.0,
-   "y": -110.0
+   "type": "stone_block",
+   "x": 1682,
+   "y": -32.0
   },
   {
-   "type": "post",
-   "x": 1680.0,
-   "y": -110.0
+   "type": "stone_block",
+   "x": 1682,
+   "y": -96.0
   },
   {
-   "type": "plank_long",
-   "x": 1600.0,
-   "y": -183.0
+   "type": "stone_block",
+   "x": 1838,
+   "y": -32.0
   },
   {
-   "type": "post",
-   "x": 1520.0,
-   "y": -256.0
-  },
-  {
-   "type": "post",
-   "x": 1680.0,
-   "y": -256.0
+   "type": "stone_block",
+   "x": 1838,
+   "y": -96.0
   },
   {
    "type": "plank_long",
-   "x": 1600.0,
-   "y": -329.0
+   "x": 1760,
+   "y": -141.0
   },
   {
-   "type": "power_core",
-   "x": 1285.0,
-   "y": -566.0
+   "type": "stone_pillar",
+   "x": 1690,
+   "y": -224.0
   },
   {
-   "type": "cannon_turret",
-   "x": 1390.0,
-   "y": -560.0
+   "type": "stone_pillar",
+   "x": 1830,
+   "y": -224.0
   },
   {
-   "type": "power_core",
-   "x": 1545.0,
-   "y": -378.0
+   "type": "stone_slab",
+   "x": 1760,
+   "y": -314.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1760,
+   "y": -384.0,
+   "flag": true
+  },
+  {
+   "type": "crate",
+   "x": 1622,
+   "y": -642
   }
  ],
  "archers": [
   {
-   "x": 870.0,
+   "x": 900,
    "y": -209.5
   },
   {
-   "x": 1340.0,
-   "y": -233.5
+   "x": 1350,
+   "y": -209.5
   },
   {
-   "x": 1340.0,
-   "y": -413.5
+   "x": 1350,
+   "y": -29.5
   },
   {
-   "x": 1600.0,
-   "y": -225.5
+   "x": 1760,
+   "y": -29.5
+  },
+  {
+   "x": 1760,
+   "y": -183.5
+  },
+  {
+   "x": 1560.0,
+   "y": -639.5
   }
  ],
  "bolts": [],
  "mechanisms": [
   {
-   "type": "shield_ring",
-   "x": 1545.0,
-   "y": -378.0,
-   "radius": 100,
-   "plates": 3,
-   "dps": 50,
-   "plate_len": 105,
-   "follow": 1
+   "type": "geyser",
+   "x": 1125,
+   "y": 0,
+   "height": 520,
+   "period_s": 4.5,
+   "burst_s": 1.5,
+   "phase": 0.0,
+   "width": 90
+  },
+  {
+   "type": "spikes",
+   "x": 1560,
+   "y": -22,
+   "size": [
+    180,
+    44
+   ]
   },
   {
    "type": "moving_platform",
-   "x": 1470.0,
-   "y": -25.0,
+   "x": 1560,
+   "y": -585.0,
    "size": [
-    520,
+    194,
     50
    ],
-   "travel_x": 30,
-   "travel_y": 18,
-   "period_s": 7.0,
+   "travel_x": 0,
+   "travel_y": 0,
+   "period_s": 4.0,
    "phase": 0.0,
+   "rise": {
+    "speed": 22,
+    "escape_y": -1050,
+    "warn_px": 260,
+    "lose_text": "The messenger escaped to warn the Forgemaster!"
+   },
    "chassis": "boss_airship_deck",
-   "chassis_h": 150,
+   "chassis_h": 100,
    "balloon": "boss_airship_balloon",
    "balloon_size": [
-    620,
-    250
+    271,
+    145
    ],
-   "balloon_y": -760,
+   "balloon_y": -182,
    "floating": true
   }
  ],
- "captives": [],
- "boss_unit": {
-  "name": "The Iron Baron",
-  "hp": 200,
-  "phases": [
-   {
-    "at": 0.75,
-    "do": [
-     "reinforce"
-    ]
-   },
-   {
-    "at": 0.5,
-    "do": [
-     "shield",
-     "charge"
-    ]
-   },
-   {
-    "at": 0.25,
-    "do": [
-     "enrage",
-     "reinforce"
-    ]
-   }
-  ],
-  "x": 1655.0,
-  "y": -371.5,
-  "reinforce": [
-   [
-    1290.0,
-    -530.0
-   ],
-   [
-    1390.0,
-    -530.0
-   ]
-  ]
- },
- "engineers": [
-  {
-   "x": 1010.0,
-   "y": -29.5
-  },
-  {
-   "x": 1480.0,
-   "y": -79.5
-  }
- ],
- "wind": {
-  "strength": 240,
-  "period_s": 6.5,
-  "gust_s": 3.0,
-  "dir": 1,
-  "alternate": true
- }
+ "captives": []
 }

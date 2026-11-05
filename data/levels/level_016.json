@@ -1,29 +1,19 @@
 {
  "id": 16,
- "name": "Powder Caravan",
+ "name": "Sandstone Ruins",
  "realm": 2,
  "heroes": [
-  "fire",
   "bomb",
-  "cyclone",
-  "stone"
+  "stone",
+  "stone",
+  "fire"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "The front barrels hold the crusher. Pop them and it falls through the keep.",
+ "strategy": "Stone shrugs off fire. Knock the logs off the dune: they roll down and ram the ruins.",
  "cinematic": [
   {
    "t": "title"
-  },
-  {
-   "t": "focus",
-   "target": "mech:0",
-   "label": "DROP THE CRUSHER!"
-  },
-  {
-   "t": "focus",
-   "target": "weak",
-   "label": "TRIGGER"
   },
   {
    "t": "enter",
@@ -34,277 +24,172 @@
   {
    "t": "say",
    "who": "captain",
-   "text": "Blow the barrels, drop the stone!"
-  }
- ],
- "callouts": [
+   "text": "Desert stone. Fire won't help here."
+  },
   {
-   "target": "mech:0",
-   "label": "DROP THE CRUSHER!"
+   "t": "focus",
+   "target": "fortress",
+   "label": "STONE!"
+  },
+  {
+   "t": "emote",
+   "who": "captain",
+   "e": "point"
   }
  ],
+ "callouts": [],
  "boss": false,
  "star_scores": [
   25000,
-  32000,
-  53000
+  29000,
+  45000
  ],
- "camera_right": 1900,
- "camera_top": -820,
+ "camera_right": 2200,
+ "camera_top": -440,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 787,
-    "x1": 1750,
+    "x0": 730,
+    "x1": 2070,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "barrel",
-   "x": 860,
-   "y": -29.0
+   "type": "log",
+   "x": 830.0,
+   "y": -212.0
   },
   {
-   "type": "barrel",
-   "x": 860,
-   "y": -87.0,
-   "weak_point": true,
-   "trigger": "drop_crusher"
-  },
-  {
-   "type": "stone_block",
-   "x": 972,
-   "y": -32.0
+   "type": "log",
+   "x": 916.0,
+   "y": -212.0
   },
   {
    "type": "stone_block",
-   "x": 972,
-   "y": -96.0
+   "x": 1316.0,
+   "y": -32
   },
   {
    "type": "stone_block",
-   "x": 1128,
-   "y": -32.0
+   "x": 1380.0,
+   "y": -32
   },
   {
    "type": "stone_block",
-   "x": 1128,
-   "y": -96.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1050,
-   "y": -141.0
-  },
-  {
-   "type": "post",
-   "x": 970,
-   "y": -214.0
-  },
-  {
-   "type": "post",
-   "x": 1130,
-   "y": -214.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1050,
-   "y": -287.0
-  },
-  {
-   "type": "barrel",
-   "x": 1072.0,
-   "y": -29.0
-  },
-  {
-   "type": "roof_tile",
-   "x": 1050,
-   "y": -350.0,
-   "flag": true
+   "x": 1444.0,
+   "y": -32
   },
   {
    "type": "stone_block",
-   "x": 1242,
-   "y": -32.0
+   "x": 1348.0,
+   "y": -96
   },
   {
    "type": "stone_block",
-   "x": 1242,
-   "y": -96.0
+   "x": 1412.0,
+   "y": -96
   },
   {
    "type": "stone_block",
-   "x": 1398,
-   "y": -32.0
+   "x": 1380.0,
+   "y": -160
   },
   {
-   "type": "stone_block",
-   "x": 1398,
-   "y": -96.0
+   "type": "stone_pillar",
+   "x": 1610.0,
+   "y": -70.0
   },
   {
-   "type": "plank_long",
-   "x": 1320,
-   "y": -141.0
+   "type": "stone_pillar",
+   "x": 1750.0,
+   "y": -70.0
   },
   {
-   "type": "stone_block",
-   "x": 1242,
-   "y": -186.0
+   "type": "stone_slab",
+   "x": 1680.0,
+   "y": -160.0
   },
   {
-   "type": "stone_block",
-   "x": 1242,
+   "type": "stone_pillar",
+   "x": 1610.0,
    "y": -250.0
   },
   {
-   "type": "stone_block",
-   "x": 1398,
-   "y": -186.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1398,
+   "type": "stone_pillar",
+   "x": 1750.0,
    "y": -250.0
   },
   {
-   "type": "plank_long",
-   "x": 1320,
-   "y": -295.0
+   "type": "stone_slab",
+   "x": 1680.0,
+   "y": -340.0
   },
   {
-   "type": "post",
-   "x": 1240,
-   "y": -368.0
+   "type": "stone_pillar",
+   "x": 1860.0,
+   "y": -70.0
   },
   {
-   "type": "post",
-   "x": 1400,
-   "y": -368.0
+   "type": "stone_pillar",
+   "x": 2000.0,
+   "y": -70.0
   },
   {
-   "type": "plank_long",
-   "x": 1320,
-   "y": -441.0
-  },
-  {
-   "type": "barrel",
-   "x": 1320,
-   "y": -29.0
-  },
-  {
-   "type": "roof_tile",
-   "x": 1320,
-   "y": -504.0,
-   "flag": true
-  },
-  {
-   "type": "stone_block",
-   "x": 1512,
-   "y": -32.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1512,
-   "y": -96.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1668,
-   "y": -32.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1668,
-   "y": -96.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1590,
-   "y": -141.0
-  },
-  {
-   "type": "post",
-   "x": 1510,
-   "y": -214.0
-  },
-  {
-   "type": "post",
-   "x": 1670,
-   "y": -214.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1590,
-   "y": -287.0
-  },
-  {
-   "type": "barrel",
-   "x": 1590,
-   "y": -29.0
-  },
-  {
-   "type": "roof_tile",
-   "x": 1590,
-   "y": -350.0,
-   "flag": true
+   "type": "stone_slab",
+   "x": 1930.0,
+   "y": -160.0
   }
  ],
  "archers": [
   {
-   "x": 1050,
-   "y": -183.5
+   "x": 1380.0,
+   "y": -221.5
   },
   {
-   "x": 1027.0,
+   "x": 1680.0,
+   "y": -209.5
+  },
+  {
+   "x": 1680.0,
+   "y": -389.5
+  },
+  {
+   "x": 1930.0,
    "y": -29.5
   },
   {
-   "x": 1320,
-   "y": -337.5
-  },
-  {
-   "x": 1320,
-   "y": -183.5
-  },
-  {
-   "x": 1590,
-   "y": -183.5
+   "x": 1930.0,
+   "y": -209.5
   }
  ],
  "bolts": [],
- "mechanisms": [
+ "mechanisms": [],
+ "captives": [],
+ "ramps": [
   {
-   "type": "crusher",
-   "x": 1320,
-   "y": -674.0,
-   "size": [
-    240,
-    100
-   ],
-   "trigger": "drop_crusher",
-   "travel_y": 624.0,
-   "mode": "trigger",
-   "phase": 0.0,
-   "hold_k": 1.0,
-   "chain_px": 60,
-   "frame": {
-    "posts": [
-     1182.0,
-     1458.0
+   "points": [
+    [
+     780.0,
+     0
     ],
-    "top": -794.0,
-    "bottom": 0.0,
-    "beam": [
-     1166.0,
-     1474.0
+    [
+     780.0,
+     -170
+    ],
+    [
+     960.0,
+     -170
+    ],
+    [
+     1240.0,
+     0
     ]
-   }
+   ],
+   "kind": "rock"
   }
- ],
- "captives": []
+ ]
 }

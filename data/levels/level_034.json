@@ -1,63 +1,38 @@
 {
  "id": 34,
- "name": "Lava Plume",
- "realm": 4,
+ "name": "Harbor Bell",
+ "realm": 3,
  "heroes": [
   "quake",
-  "fire",
+  "bomb",
   "stone",
-  "fire"
+  "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "The plume lifts shots and burns anything thrown into it.",
- "cinematic": [
-  {
-   "t": "title"
-  },
-  {
-   "t": "focus",
-   "target": "mech:0",
-   "label": "LAVA PLUME!"
-  },
-  {
-   "t": "enter",
-   "who": "captain",
-   "at": "catapult",
-   "style": "walk"
-  },
-  {
-   "t": "say",
-   "who": "captain",
-   "text": "It burns and it lifts. Use it!"
-  }
- ],
+ "strategy": "Hit the bronze bell hard: it swings into the right tower.",
+ "cinematic": [],
  "callouts": [
   {
-   "target": "mech:0",
-   "label": "LAVA PLUME!"
+   "target": "1265,-300",
+   "label": "RING THE BELL!"
   }
  ],
  "boss": false,
  "star_scores": [
-  25000,
-  29000,
-  46000
+  20000,
+  24000,
+  41000
  ],
- "camera_right": 2060,
- "camera_top": -450,
+ "camera_right": 1800,
+ "camera_top": -630,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 760,
-    "x1": 1040,
-    "top": 0.0
-   },
-   {
-    "x0": 1210,
-    "x1": 1920,
+    "x0": 900,
+    "x1": 1630,
     "top": 0.0
    }
   ]
@@ -65,166 +40,160 @@
  "blocks": [
   {
    "type": "stone_pillar",
-   "x": 830,
-   "y": -70.0
-  },
-  {
-   "type": "stone_pillar",
    "x": 970,
    "y": -70.0
   },
   {
-   "type": "stone_slab",
-   "x": 900,
-   "y": -160.0
-  },
-  {
-   "type": "post",
-   "x": 820,
-   "y": -240.0
-  },
-  {
-   "type": "post",
-   "x": 980,
-   "y": -240.0
-  },
-  {
-   "type": "plank_long",
-   "x": 900,
-   "y": -313.0
-  },
-  {
-   "type": "roof_tile",
-   "x": 900,
-   "y": -376.0,
-   "flag": true
-  },
-  {
-   "type": "crystal_pillar",
-   "x": 1280,
+   "type": "stone_pillar",
+   "x": 1110,
    "y": -70.0
   },
   {
-   "type": "crystal_pillar",
+   "type": "stone_slab",
+   "x": 1040,
+   "y": -160.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 970,
+   "y": -250.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1110,
+   "y": -250.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1040,
+   "y": -340.0
+  },
+  {
+   "type": "post",
+   "x": 960,
+   "y": -420.0
+  },
+  {
+   "type": "post",
+   "x": 1120,
+   "y": -420.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1040,
+   "y": -493.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1040,
+   "y": -556.0,
+   "flag": true
+  },
+  {
+   "type": "bell",
+   "x": 1265,
+   "y": -300.0
+  },
+  {
+   "type": "stone_pillar",
    "x": 1420,
    "y": -70.0
   },
   {
+   "type": "stone_pillar",
+   "x": 1560,
+   "y": -70.0
+  },
+  {
    "type": "stone_slab",
-   "x": 1350,
+   "x": 1490,
    "y": -160.0
   },
   {
    "type": "post",
-   "x": 1270,
+   "x": 1410,
    "y": -240.0
   },
   {
    "type": "post",
-   "x": 1430,
+   "x": 1570,
    "y": -240.0
   },
   {
    "type": "plank_long",
-   "x": 1350,
+   "x": 1490,
    "y": -313.0
   },
   {
-   "type": "roof_tile",
-   "x": 1350,
-   "y": -376.0,
-   "flag": true
-  },
-  {
-   "type": "stone_block",
-   "x": 1682,
-   "y": -32.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1682,
-   "y": -96.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1838,
-   "y": -32.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1838,
-   "y": -96.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1760,
-   "y": -141.0
+   "type": "post",
+   "x": 1410,
+   "y": -386.0
   },
   {
    "type": "post",
-   "x": 1680,
-   "y": -214.0
-  },
-  {
-   "type": "post",
-   "x": 1840,
-   "y": -214.0
+   "x": 1570,
+   "y": -386.0
   },
   {
    "type": "plank_long",
-   "x": 1760,
-   "y": -287.0
+   "x": 1490,
+   "y": -459.0
   },
   {
    "type": "roof_tile",
-   "x": 1760,
-   "y": -350.0,
+   "x": 1490,
+   "y": -522.0,
    "flag": true
   }
  ],
  "archers": [
   {
-   "x": 900,
+   "x": 1040,
    "y": -209.5
   },
   {
-   "x": 1350,
+   "x": 1040,
+   "y": -389.5
+  },
+  {
+   "x": 1490,
    "y": -209.5
   },
   {
-   "x": 1350,
-   "y": -29.5
-  },
-  {
-   "x": 1760,
-   "y": -29.5
-  },
-  {
-   "x": 1760,
-   "y": -183.5
+   "x": 1490,
+   "y": -355.5
   }
  ],
  "bolts": [],
- "mechanisms": [
+ "mechanisms": [],
+ "captives": [],
+ "tethers": [
   {
-   "type": "geyser",
-   "x": 1125,
-   "y": 0,
-   "height": 520,
-   "period_s": 4.5,
-   "burst_s": 1.5,
-   "phase": 0.0,
-   "width": 90
-  },
-  {
-   "type": "spikes",
-   "x": 1560,
-   "y": -22,
-   "size": [
-    180,
-    44
-   ]
+   "kind": "rope",
+   "a": 10,
+   "x": 1265,
+   "y": -470,
+   "attach": [
+    1265,
+    -356.0
+   ],
+   "cuttable": false,
+   "frame": {
+    "posts": [
+     1175,
+     1355
+    ],
+    "top": -484,
+    "bottom": 0.0,
+    "beam": [
+     1155,
+     1375
+    ]
+   }
   }
  ],
- "captives": []
+ "tide": {
+  "amp_px": 45,
+  "period_s": 8.0
+ }
 }

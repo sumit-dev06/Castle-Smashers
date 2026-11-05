@@ -52,6 +52,11 @@ var _geyser_on: bool = false
 var _warned: bool = false
 var _sensor: Area2D
 var _approach_x: float = 0.0
+## Escaping platform (cfg "rise": {speed, escape_y}): climbs while the level is in PLAY; if any of
+## its crew is still aboard when the deck passes escape_y, the level is lost.
+var _rise_y: float = 0.0
+var _rise_crew: Array[Archer] = []
+var _rise_warned: bool = false
 var _sinking: bool = false
 var _sink_y: float = 0.0
 var _handle: Sprite2D
@@ -266,6 +271,9 @@ func _physics_process(delta: float) -> void:
 				else:
 					_sink_y += Data.bf("modes", "sink_speed") * delta
 				p += Vector2(_approach_x, _sink_y)
+			if cfg.has("rise"):
+				_update_rise(delta)
+				p.y += _rise_y
 			body.position = p
 		"rope_load":
 			_update_rope_load()
@@ -699,6 +707,34 @@ func _build_frame(fr: Dictionary) -> void:
 
 # ------------------------------------------------------------------------------------ Phase D
 ## Reverse siege: the engine stops and goes down into the gap, taking its cargo with it.
+func _update_rise(delta: float) -> void:
+	# Takes off when the alarm is raised: the player's first shot.
+	if level.state != Level.State.PLAY or level.hero_index == 0:
+		return
+	var r: Dictionary = cfg["rise"]
+	if _rise_crew.is_empty():
+		var half: float = float(cfg["size"][0]) * 0.5 + 20.0
+		for a: Archer in level.archers:
+			if absf(a.global_position.x - body.global_position.x) < half and a.global_position.y < body.global_position.y:
+				_rise_crew.append(a)
+	var aboard: int = 0
+	for a: Archer in _rise_crew:
+		if is_instance_valid(a) and not a.dead and a.global_position.y < body.global_position.y + 40.0:
+			aboard += 1
+	if aboard == 0:
+		return  # crew gone: the balloon drifts away harmlessly
+	_rise_y -= float(r["speed"]) * delta * speed_mult
+	var escape_y: float = float(r["escape_y"])
+	var y: float = body.global_position.y
+	if not _rise_warned and y < escape_y + float(r.get("warn_px", 260.0)):
+		_rise_warned = true
+		level.fx.float_text(body.global_position + Vector2(0, -160), "IT'S GETTING AWAY!", Color("#ff8a7a"), 40)
+		Sound.play("enemy_laugh", 0.8)
+	if y < escape_y and not level.is_finished():
+		level.lose_reason = String(r.get("lose_text", "The guard flew away!"))
+		level.force_finish(false)
+
+
 func sink() -> void:
 	if _sinking:
 		return

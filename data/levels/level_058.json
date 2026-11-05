@@ -1,212 +1,189 @@
 {
  "id": 58,
- "name": "Hanging Fortress",
- "realm": 6,
+ "name": "Wrecking Ball",
+ "realm": 4,
  "heroes": [
-  "fire",
+  "bomb",
   "cyclone",
-  "stone",
+  "fire",
   "stone"
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Cut the gondola ropes to dump its guards, then drop the iron ball on the keep.",
+ "strategy": "Cut the latch rope: the iron ball swings through the keep.",
  "cinematic": [],
  "callouts": [
   {
-   "target": "mech:0",
-   "label": "CUT A ROPE!"
-  },
-  {
-   "target": "mech:1",
-   "label": "CUT THE ROPE!"
+   "target": "910,-459",
+   "label": "CUT THE LATCH!"
   }
  ],
  "boss": false,
  "star_scores": [
-  35000,
-  38000,
-  54000
+  20000,
+  23000,
+  38000
  ],
- "camera_right": 2030,
- "camera_top": -720,
+ "camera_right": 1920,
+ "camera_top": -700,
  "bg_variant": 1,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 740,
-    "x1": 1020,
+    "x0": 730,
+    "x1": 870,
     "top": 0.0
    },
    {
-    "x0": 1540,
-    "x1": 1970,
+    "x0": 1160,
+    "x1": 1753,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "stone_pillar",
-   "x": 810,
-   "y": -70.0
-  },
-  {
-   "type": "stone_pillar",
-   "x": 950,
-   "y": -70.0
-  },
-  {
-   "type": "stone_slab",
-   "x": 880,
-   "y": -160.0
-  },
-  {
-   "type": "post",
-   "x": 800,
-   "y": -240.0
-  },
-  {
-   "type": "post",
-   "x": 960,
-   "y": -240.0
-  },
-  {
-   "type": "plank_long",
-   "x": 880,
-   "y": -313.0
-  },
-  {
-   "type": "roof_tile",
-   "x": 880,
-   "y": -376.0,
-   "flag": true
-  },
-  {
-   "type": "crate",
-   "x": 1250,
-   "y": -547.0
-  },
-  {
-   "type": "barrel",
-   "x": 1250,
-   "y": -608.0
+   "type": "iron_ball",
+   "x": 980.8,
+   "y": -428.0
   },
   {
    "type": "stone_block",
-   "x": 1622,
+   "x": 1242.0,
    "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 1622,
+   "x": 1242.0,
    "y": -96.0
   },
   {
    "type": "stone_block",
-   "x": 1778,
+   "x": 1398.0,
    "y": -32.0
   },
   {
    "type": "stone_block",
-   "x": 1778,
+   "x": 1398.0,
    "y": -96.0
   },
   {
    "type": "plank_long",
-   "x": 1700,
+   "x": 1320.0,
    "y": -141.0
   },
   {
-   "type": "stone_pillar",
-   "x": 1630,
-   "y": -224.0
+   "type": "post",
+   "x": 1240.0,
+   "y": -214.0
   },
   {
-   "type": "stone_pillar",
-   "x": 1770,
-   "y": -224.0
+   "type": "post",
+   "x": 1400.0,
+   "y": -214.0
   },
   {
-   "type": "stone_slab",
-   "x": 1700,
-   "y": -314.0
+   "type": "plank_long",
+   "x": 1320.0,
+   "y": -287.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1320.0,
+   "y": -350.0,
+   "flag": true
+  },
+  {
+   "type": "post",
+   "x": 1530.0,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 1690.0,
+   "y": -60.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1610.0,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 1530.0,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 1690.0,
+   "y": -206.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1610.0,
+   "y": -279.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1610.0,
+   "y": -342.0,
+   "flag": true
   }
  ],
  "archers": [
   {
-   "x": 880,
-   "y": -209.5
-  },
-  {
-   "x": 880,
-   "y": -29.5
-  },
-  {
-   "x": 1160,
-   "y": -544.5
-  },
-  {
-   "x": 1340,
-   "y": -544.5
-  },
-  {
-   "x": 1250,
-   "y": -666.5
-  },
-  {
-   "x": 1700,
+   "x": 1320.0,
    "y": -183.5
   },
   {
-   "x": 1700,
-   "y": -363.5
+   "x": 1320.0,
+   "y": -29.5
+  },
+  {
+   "x": 1610.0,
+   "y": -175.5
+  },
+  {
+   "x": 1610.0,
+   "y": -29.5
   }
  ],
  "bolts": [],
- "mechanisms": [
+ "mechanisms": [],
+ "captives": [],
+ "tethers": [
   {
-   "type": "hanging_platform",
-   "x": 1250,
+   "kind": "rope",
+   "a": 0,
+   "x": 1320.0,
    "y": -640,
-   "size": [
-    340,
-    30
+   "attach": [
+    980.8,
+    -428.0
    ],
-   "span": 300,
-   "drop": 140,
+   "cuttable": false,
    "frame": {
     "posts": [
-     1076.0,
-     1424.0
+     800.0
     ],
     "top": -654,
-    "bottom": 260,
+    "bottom": 0.0,
     "beam": [
-     1060.0,
-     1440.0
+     780.0,
+     1350.0
     ]
    }
   },
   {
-   "type": "rope_load",
-   "x": 1700,
-   "y": -674.0,
-   "length": 170,
-   "load": "iron_ball",
-   "frame": {
-    "posts": [
-     1900
-    ],
-    "top": -688.0,
-    "bottom": 0.0,
-    "beam": [
-     1688,
-     1912
-    ]
-   }
+   "kind": "rope",
+   "a": 0,
+   "x": 840.0,
+   "y": -470,
+   "attach": [
+    980.8,
+    -428.0
+   ]
   }
- ],
- "captives": []
+ ]
 }

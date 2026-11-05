@@ -1,0 +1,352 @@
+{
+ "id": 119,
+ "name": "Citadel Gauntlet",
+ "realm": 8,
+ "heroes": [
+  "fire",
+  "bomb",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Light the trail to drop the crusher, then flip the lever to run the iron sheds off the edge.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "gadget:1",
+   "label": "CONVEYOR!"
+  },
+  {
+   "target": "gadget:0",
+   "label": "LIGHT THE FUSE!"
+  },
+  {
+   "target": "mech:0",
+   "label": "DROP THE CRUSHER!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  40000,
+  51000,
+  77000
+ ],
+ "camera_right": 2610,
+ "camera_top": -850,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 730,
+    "x1": 2028,
+    "top": 0.0
+   },
+   {
+    "x0": 2142,
+    "x1": 2462,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_block",
+   "x": 812.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 876.0,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 812.0,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 876.0,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 812.0,
+   "y": -160.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1012.0,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1274.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1274.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1430.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1430.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1352.0,
+   "y": -141.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1274.0,
+   "y": -186.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1274.0,
+   "y": -250.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1430.0,
+   "y": -186.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1430.0,
+   "y": -250.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1352.0,
+   "y": -295.0
+  },
+  {
+   "type": "post",
+   "x": 1272.0,
+   "y": -368.0
+  },
+  {
+   "type": "post",
+   "x": 1432.0,
+   "y": -368.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1352.0,
+   "y": -441.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 1352.0,
+   "y": -504.0,
+   "flag": true
+  },
+  {
+   "type": "iron_block",
+   "x": 1724.0,
+   "y": -40.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1724.0,
+   "y": -104.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1880.0,
+   "y": -40.0
+  },
+  {
+   "type": "iron_block",
+   "x": 1880.0,
+   "y": -104.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 1802.0,
+   "y": -149.0
+  },
+  {
+   "type": "crate",
+   "x": 1962.0,
+   "y": -40.0
+  },
+  {
+   "type": "iron_block",
+   "x": 2224.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 2224.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_block",
+   "x": 2380.0,
+   "y": -32.0
+  },
+  {
+   "type": "iron_block",
+   "x": 2380.0,
+   "y": -96.0
+  },
+  {
+   "type": "iron_beam",
+   "x": 2302.0,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 2232.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 2372.0,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 2302.0,
+   "y": -314.0
+  },
+  {
+   "type": "post",
+   "x": 2222.0,
+   "y": -394.0
+  },
+  {
+   "type": "post",
+   "x": 2382.0,
+   "y": -394.0
+  },
+  {
+   "type": "plank_long",
+   "x": 2302.0,
+   "y": -467.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 2302.0,
+   "y": -530.0,
+   "flag": true
+  }
+ ],
+ "archers": [
+  {
+   "x": 876.0,
+   "y": -157.5
+  },
+  {
+   "x": 1352.0,
+   "y": -183.5
+  },
+  {
+   "x": 1352.0,
+   "y": -337.5
+  },
+  {
+   "x": 1802.0,
+   "y": -37.5
+  },
+  {
+   "x": 1802.0,
+   "y": -191.5
+  },
+  {
+   "x": 1962.0,
+   "y": -101.5
+  },
+  {
+   "x": 2302.0,
+   "y": -183.5
+  },
+  {
+   "x": 2302.0,
+   "y": -363.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "crusher",
+   "x": 1352.0,
+   "y": -704.0,
+   "size": [
+    230,
+    100
+   ],
+   "trigger": "gauntlet_crusher",
+   "travel_y": 644.0,
+   "mode": "trigger",
+   "phase": 0.0,
+   "hold_k": 1.0,
+   "chain_px": 60,
+   "frame": {
+    "posts": [
+     1219.0,
+     1485.0
+    ],
+    "top": -824.0,
+    "bottom": 0.0,
+    "beam": [
+     1203.0,
+     1501.0
+    ]
+   }
+  },
+  {
+   "type": "lever",
+   "x": 1532.0,
+   "y": 0,
+   "triggers": [
+    "gauntlet_belt"
+   ],
+   "facing": 1
+  }
+ ],
+ "captives": [],
+ "gadgets": [
+  {
+   "type": "fuse",
+   "x": 1012.0,
+   "y": -66,
+   "points": [
+    [
+     30,
+     60
+    ],
+    [
+     240,
+     60
+    ]
+   ],
+   "burn_s": 3.0,
+   "blast": false,
+   "triggers": [
+    "gauntlet_crusher"
+   ]
+  },
+  {
+   "type": "conveyor",
+   "x": 1832.0,
+   "y": -8.0,
+   "width": 440,
+   "speed": 140,
+   "start_on": false,
+   "trigger": "gauntlet_belt"
+  }
+ ]
+}

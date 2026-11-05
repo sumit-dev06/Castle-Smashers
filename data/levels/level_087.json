@@ -1,0 +1,261 @@
+{
+ "id": 87,
+ "name": "Ringed Rope",
+ "realm": 6,
+ "heroes": [
+  "bomb",
+  "cyclone",
+  "stone",
+  "stone"
+ ],
+ "soldiers": 4,
+ "power_budget": 8,
+ "strategy": "Shoot the rope through the turning shield. The rock lands on the plate and the gate lifts.",
+ "cinematic": [],
+ "callouts": [
+  {
+   "target": "gadget:0",
+   "label": "PRESSURE PLATE!"
+  },
+  {
+   "target": "mech:0",
+   "label": "CUT THE ROPE!"
+  },
+  {
+   "target": "mech:1",
+   "label": "TIME THE GAP!"
+  }
+ ],
+ "boss": false,
+ "star_scores": [
+  35000,
+  41000,
+  60000
+ ],
+ "camera_right": 2090,
+ "camera_top": -610,
+ "bg_variant": 0,
+ "stage": {
+  "ledge_right": 470.0,
+  "bases": [
+   {
+    "x0": 760,
+    "x1": 1960,
+    "top": 0.0
+   }
+  ]
+ },
+ "blocks": [
+  {
+   "type": "stone_pillar",
+   "x": 830,
+   "y": -70.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 970,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 900,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 820,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 980,
+   "y": -240.0
+  },
+  {
+   "type": "plank_long",
+   "x": 900,
+   "y": -313.0
+  },
+  {
+   "type": "roof_tile",
+   "x": 900,
+   "y": -376.0,
+   "flag": true
+  },
+  {
+   "type": "iron_block",
+   "x": 1442,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1442,
+   "y": -96
+  },
+  {
+   "type": "iron_block",
+   "x": 1598,
+   "y": -32
+  },
+  {
+   "type": "iron_block",
+   "x": 1598,
+   "y": -96
+  },
+  {
+   "type": "iron_beam",
+   "x": 1520,
+   "y": -141
+  },
+  {
+   "type": "stone_block",
+   "x": 1722,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1722,
+   "y": -96.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1878,
+   "y": -32.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1878,
+   "y": -96.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1800,
+   "y": -141.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1730,
+   "y": -224.0
+  },
+  {
+   "type": "stone_pillar",
+   "x": 1870,
+   "y": -224.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 1800,
+   "y": -314.0
+  },
+  {
+   "type": "post",
+   "x": 1720,
+   "y": -394.0
+  },
+  {
+   "type": "post",
+   "x": 1880,
+   "y": -394.0
+  },
+  {
+   "type": "plank_long",
+   "x": 1800,
+   "y": -467.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1722.0,
+   "y": -512.0
+  },
+  {
+   "type": "stone_block",
+   "x": 1878.0,
+   "y": -512.0
+  }
+ ],
+ "archers": [
+  {
+   "x": 900,
+   "y": -209.5
+  },
+  {
+   "x": 1497,
+   "y": -29.5
+  },
+  {
+   "x": 1543,
+   "y": -29.5
+  },
+  {
+   "x": 1520,
+   "y": -183.5
+  },
+  {
+   "x": 1800,
+   "y": -183.5
+  },
+  {
+   "x": 1800,
+   "y": -363.5
+  },
+  {
+   "x": 1800,
+   "y": -509.5
+  }
+ ],
+ "bolts": [],
+ "mechanisms": [
+  {
+   "type": "rope_load",
+   "x": 1200,
+   "y": -560,
+   "length": 200,
+   "load": "boulder",
+   "frame": {
+    "posts": [
+     1050
+    ],
+    "top": -574,
+    "bottom": 0.0,
+    "beam": [
+     1038,
+     1212
+    ]
+   }
+  },
+  {
+   "type": "shield_ring",
+   "x": 1200,
+   "y": -470,
+   "radius": 95,
+   "plates": 3,
+   "dps": 70,
+   "plate_len": 110
+  },
+  {
+   "type": "gate",
+   "x": 1350,
+   "y": -85,
+   "size": [
+    60,
+    170
+   ],
+   "trigger": "ring_gate",
+   "travel_y": 175,
+   "duration_s": 0.5
+  }
+ ],
+ "captives": [],
+ "gadgets": [
+  {
+   "type": "plate",
+   "x": 1200,
+   "y": 0,
+   "triggers": [
+    "ring_gate"
+   ],
+   "mass": 6.0,
+   "width": 130
+  }
+ ]
+}

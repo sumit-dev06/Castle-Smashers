@@ -102,6 +102,8 @@ func _switch(node: Node) -> void:
 	if fx:
 		for c: Node in fx.get_children():
 			c.queue_free()
+	for popup: Node in get_tree().get_nodes_in_group("ui_popup"):
+		popup.queue_free()
 	current = node
 	_root.add_child(node)
 

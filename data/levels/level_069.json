@@ -1,7 +1,7 @@
 {
  "id": 69,
- "name": "Storm Vault",
- "realm": 7,
+ "name": "Pinwheel",
+ "realm": 5,
  "heroes": [
   "bomb",
   "cyclone",
@@ -10,196 +10,224 @@
  ],
  "soldiers": 4,
  "power_budget": 8,
- "strategy": "Light all three lamps within 6 seconds: lever, plate (knock the stone down) and the rune.",
+ "strategy": "Jam the windmill hub: its brake line starts the fan, which blows the shed off the island.",
  "cinematic": [],
  "callouts": [
   {
-   "target": "gadget:1",
-   "label": "HIT BOTH IN TIME!"
-  },
-  {
    "target": "gadget:0",
-   "label": "PRESSURE PLATE!"
+   "label": "FAN!"
   },
   {
    "target": "mech:0",
-   "label": "HIT THE LEVER!"
+   "label": "JAM THE HUB!"
   }
  ],
  "boss": false,
  "star_scores": [
-  20000,
-  24000,
-  39000
+  30000,
+  34000,
+  51000
  ],
- "camera_right": 1950,
- "camera_top": -560,
+ "camera_right": 2320,
+ "camera_top": -540,
  "bg_variant": 0,
  "stage": {
   "ledge_right": 470.0,
   "bases": [
    {
-    "x0": 746,
-    "x1": 1818,
+    "x0": 730,
+    "x1": 1010,
+    "top": 0.0
+   },
+   {
+    "x0": 1236,
+    "x1": 1802,
+    "top": 0.0
+   },
+   {
+    "x0": 1965,
+    "x1": 2175,
     "top": 0.0
    }
   ]
  },
  "blocks": [
   {
-   "type": "post_tall",
-   "x": 940,
-   "y": -100.0
+   "type": "stone_pillar",
+   "x": 800.0,
+   "y": -70.0
   },
   {
-   "type": "post_tall",
-   "x": 1100,
-   "y": -100.0
+   "type": "stone_pillar",
+   "x": 940.0,
+   "y": -70.0
+  },
+  {
+   "type": "stone_slab",
+   "x": 870.0,
+   "y": -160.0
+  },
+  {
+   "type": "post",
+   "x": 790.0,
+   "y": -240.0
+  },
+  {
+   "type": "post",
+   "x": 950.0,
+   "y": -240.0
   },
   {
    "type": "plank_long",
-   "x": 1020,
-   "y": -213.0
+   "x": 870.0,
+   "y": -313.0
   },
   {
-   "type": "post_tall",
-   "x": 940,
-   "y": -326.0
+   "type": "roof_tile",
+   "x": 870.0,
+   "y": -376.0,
+   "flag": true
   },
   {
-   "type": "post_tall",
-   "x": 1100,
-   "y": -326.0
-  },
-  {
-   "type": "plank_long",
-   "x": 1020,
-   "y": -439.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1070,
-   "y": -484.0
-  },
-  {
-   "type": "stone_block",
-   "x": 1360,
+   "type": "iron_block",
+   "x": 1492.0,
    "y": -32
   },
   {
-   "type": "stone_pillar",
-   "x": 1512,
-   "y": -70
-  },
-  {
-   "type": "stone_pillar",
-   "x": 1748,
-   "y": -70
+   "type": "iron_block",
+   "x": 1492.0,
+   "y": -96
   },
   {
    "type": "iron_block",
-   "x": 1552,
-   "y": -194
+   "x": 1648.0,
+   "y": -32
   },
   {
    "type": "iron_block",
-   "x": 1552,
-   "y": -258
-  },
-  {
-   "type": "iron_block",
-   "x": 1708,
-   "y": -194
-  },
-  {
-   "type": "iron_block",
-   "x": 1708,
-   "y": -258
+   "x": 1648.0,
+   "y": -96
   },
   {
    "type": "iron_beam",
-   "x": 1630,
-   "y": -303
+   "x": 1570.0,
+   "y": -141
+  },
+  {
+   "type": "crate",
+   "x": 1720.0,
+   "y": -32.0
+  },
+  {
+   "type": "crate",
+   "x": 1720.0,
+   "y": -96.0
+  },
+  {
+   "type": "post",
+   "x": 2028.0,
+   "y": -60.0
+  },
+  {
+   "type": "post",
+   "x": 2112.0,
+   "y": -60.0
+  },
+  {
+   "type": "plank_short",
+   "x": 2070.0,
+   "y": -133.0
+  },
+  {
+   "type": "post",
+   "x": 2028.0,
+   "y": -206.0
+  },
+  {
+   "type": "post",
+   "x": 2112.0,
+   "y": -206.0
+  },
+  {
+   "type": "plank_short",
+   "x": 2070.0,
+   "y": -279.0
+  },
+  {
+   "type": "roof",
+   "x": 2070.0,
+   "y": -327.0,
+   "flag": true
   }
  ],
  "archers": [
   {
-   "x": 1020,
-   "y": -255.5
+   "x": 870.0,
+   "y": -209.5
   },
   {
-   "x": 1607,
-   "y": -191.5
+   "x": 1570.0,
+   "y": -29.5
   },
   {
-   "x": 1653,
-   "y": -191.5
+   "x": 1570.0,
+   "y": -183.5
   },
   {
-   "x": 1630,
-   "y": -345.5
+   "x": 1720.0,
+   "y": -157.5
+  },
+  {
+   "x": 2070.0,
+   "y": -175.5
+  },
+  {
+   "x": 2070.0,
+   "y": -29.5
   }
  ],
  "bolts": [],
  "mechanisms": [
   {
-   "type": "lever",
-   "x": 830,
-   "y": 0,
+   "type": "windmill",
+   "x": 1120.0,
+   "y": -330,
+   "arms": 4,
+   "arm_len": 170,
+   "dps": 40,
    "triggers": [
-    "lamp_1"
+    "mill_fan"
    ],
-   "facing": 1
-  },
-  {
-   "type": "rune_switch",
-   "x": 1360,
-   "y": -32,
-   "triggers": [
-    "lamp_3"
-   ]
-  },
-  {
-   "type": "trapdoor",
-   "x": 1630,
-   "y": -151,
-   "size": [
-    280,
-    22
-   ],
-   "trigger": "storm_vault",
-   "hinge": 1
+   "frame": {
+    "posts": [
+     1120.0
+    ],
+    "top": -330,
+    "bottom": 0
+   }
   }
  ],
  "captives": [],
  "gadgets": [
   {
-   "type": "plate",
-   "x": 1190,
-   "y": 0,
-   "triggers": [
-    "lamp_2"
-   ],
-   "mass": 6.0,
-   "width": 140
-  },
-  {
-   "type": "relay",
-   "x": 1590,
-   "y": -520,
-   "inputs": [
-    "lamp_1",
-    "lamp_2",
-    "lamp_3"
-   ],
-   "triggers": [
-    "storm_vault"
-   ],
-   "window_s": 6.0
+   "type": "fan",
+   "x": 1310.0,
+   "y": -60,
+   "dir": 0,
+   "reach": 480,
+   "width": 150,
+   "accel": 1600,
+   "start_on": false,
+   "hit_toggles": false,
+   "trigger": "mill_fan",
+   "post": 0
   }
  ],
- "tide": {
-  "amp_px": 45,
-  "period_s": 8.0
+ "wind": {
+  "strength": 240,
+  "period_s": 6.5,
+  "gust_s": 3.0,
+  "dir": 1,
+  "alternate": true
  }
 }
