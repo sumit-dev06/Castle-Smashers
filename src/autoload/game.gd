@@ -78,8 +78,53 @@ func boot(root: Node) -> void:
 		goto_level(Data.CHALLENGE_BASE + int(args["challenge"]))
 	elif args.has("intro") or (IntroScript.due() and not args.has("no-intro")):
 		goto_intro()
-	else:
+	elif args.has("no-intro"):
 		goto_menu()
+	else:
+		goto_splash()
+
+
+## Ordinary launch: the Stone Storm splash, then the home screen.
+func goto_splash() -> void:
+	var splash: Node = IntroScript.new()
+	splash.set("splash_only", true)
+	splash.connect("finished", goto_menu, CONNECT_ONE_SHOT)
+	_switch(splash)
+
+
+## Android back button / back gesture: never quits on the first press. A second press within
+## back_exit_s quits; otherwise a "press back again" toast shows.
+var _back_at_ms: int = -100000
+
+
+func _notification(what: int) -> void:
+	if what != NOTIFICATION_WM_GO_BACK_REQUEST:
+		return
+	var now: int = Time.get_ticks_msec()
+	if now - _back_at_ms <= int(Data.bf("ui", "back_exit_s") * 1000.0):
+		get_tree().quit()
+		return
+	_back_at_ms = now
+	_back_toast()
+
+
+func _back_toast() -> void:
+	var layer: CanvasLayer = CanvasLayer.new()
+	layer.layer = 128
+	layer.process_mode = Node.PROCESS_MODE_ALWAYS
+	get_tree().root.add_child(layer)
+	var view: Vector2 = get_viewport().get_visible_rect().size
+	var bubble: PanelContainer = UIKit.dark_bubble()
+	bubble.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var l: Label = UIKit.label("Press back again to exit", 26, Color.WHITE, 0)
+	bubble.add_child(l)
+	layer.add_child(bubble)
+	bubble.reset_size()
+	bubble.position = Vector2((view.x - bubble.size.x) * 0.5, view.y - bubble.size.y - 60.0)
+	var t: Tween = layer.create_tween()
+	t.tween_interval(Data.bf("ui", "back_exit_s"))
+	t.tween_property(bubble, "modulate:a", 0.0, 0.25)
+	t.tween_callback(layer.queue_free)
 
 
 ## Studio intro: on first launch after install and after each update, then the home screen.
@@ -170,6 +215,9 @@ func goto_loadout(id: int) -> void:
 ## Authored cinematic, then the level (flyover skipped, plan screen opens).
 func goto_story(id: int) -> void:
 	Analytics.set_crash_key("phase", "loading")
+	if id >= 1 and id <= Data.level_count():
+		# The map opens on the last campaign level played, not the furthest one unlocked.
+		Save.data["last_level"] = id
 	var lvl: Node = LevelScript.new()
 	lvl.set("level_id", clampi(id, 1, Data.level_count()))
 	lvl.set("cinematic_mode", true)
@@ -194,6 +242,9 @@ func goto_level(id: int) -> void:
 		goto_challenges()
 		return
 	Analytics.set_crash_key("phase", "loading")
+	if id >= 1 and id <= Data.level_count():
+		# The map opens on the last campaign level played, not the furthest one unlocked.
+		Save.data["last_level"] = id
 	var lvl: Node = LevelScript.new()
 	lvl.set("level_id", id if id > Data.CHALLENGE_BASE else clampi(id, 1, Data.level_count()))
 	_switch(lvl)

@@ -63,6 +63,8 @@ OVERRIDES = {
     "hero_cyclone_idle": {"tol": 16, "fit": "bbox"},
     "hero_stone_idle": {"tol": 22},
     "hero_stone_hit": {"tol": 22},
+    # The rope fence posts set the flat top; the grass units stand on is well below it.
+    "stage_ledge_sky": {"walk_frac": 0.14},
 }
 # Output names match the SVG names the game already uses.
 RENAME = {"hero_stone_idle": "hero_stone", "hero_fire_idle": "hero_fire", "hero_bomb_idle": "hero_bomb",
@@ -281,7 +283,7 @@ def process_piece(name, path):
     m = {"w": img.width, "h": img.height, "kind": pfx.rstrip("_")}
     if pfx == "stage_":
         m["top_y"] = flat_top(img)
-        m["walk_y"] = m["top_y"] + round(WALK_FRAC * img.height)
+        m["walk_y"] = m["top_y"] + round(OVERRIDES.get(name, {}).get("walk_frac", WALK_FRAC) * img.height)
     return img, m
 
 

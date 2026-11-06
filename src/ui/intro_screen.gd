@@ -11,6 +11,8 @@ const AUDIO: String = "res://assets/intro/intro.wav"
 signal finished
 
 var skippable: bool = false
+## Show only the Stone Storm splash, then emit `finished` (ordinary launches).
+var splash_only: bool = false
 var _video: VideoStreamPlayer
 var _done: bool = false
 
@@ -46,6 +48,10 @@ func _ready() -> void:
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)
+	if splash_only:
+		_fit_self()
+		_show_splash(func() -> void: finished.emit())
+		return
 	_video = VideoStreamPlayer.new()
 	_video.stream = load(VIDEO)
 	_video.expand = true
@@ -66,14 +72,51 @@ func _ready() -> void:
 
 ## Letterboxed, never stretched: the 1600x720 frame keeps its proportions on any screen.
 func _fit() -> void:
-	var view: Vector2 = get_viewport_rect().size
-	# The parent is a plain Node, so anchors cannot size this control: do it explicitly.
-	position = Vector2.ZERO
-	size = view
+	var view: Vector2 = _fit_self()
 	var src: Vector2 = Vector2(1600, 720)
 	var k: float = minf(view.x / src.x, view.y / src.y)
 	_video.size = src * k
 	_video.position = (view - _video.size) * 0.5
+
+
+func _fit_self() -> Vector2:
+	var view: Vector2 = get_viewport_rect().size
+	# The parent is a plain Node, so anchors cannot size this control: do it explicitly.
+	position = Vector2.ZERO
+	size = view
+	return view
+
+
+## Stone Storm splash (the brand image, letterboxed on black): fade in, hold, fade out, then `next`.
+## The OS boot splash is plain black (project.godot), so this is the splash on every launch:
+## after the studio intro on the first launch, before the home screen on later ones.
+const SPLASH: String = "res://assets/art/brand/splash.png"
+const SPLASH_FADE_S: float = 0.35
+const SPLASH_HOLD_S: float = 1.6
+
+
+func _show_splash(next: Callable) -> void:
+	if not ResourceLoader.exists(SPLASH):
+		next.call()
+		return
+	var view: Vector2 = get_viewport_rect().size
+	var tex: Texture2D = load(SPLASH)
+	var art: TextureRect = TextureRect.new()
+	art.texture = tex
+	art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	art.stretch_mode = TextureRect.STRETCH_SCALE
+	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var k: float = minf(view.x / tex.get_width(), view.y / tex.get_height())
+	art.size = tex.get_size() * k
+	art.position = (view - art.size) * 0.5
+	art.modulate.a = 0.0
+	add_child(art)
+	var t: Tween = create_tween()
+	t.tween_property(art, "modulate:a", 1.0, SPLASH_FADE_S)
+	t.tween_interval(SPLASH_HOLD_S)
+	t.tween_property(art, "modulate:a", 0.0, SPLASH_FADE_S)
+	t.tween_callback(art.queue_free)
+	t.tween_callback(next)
 
 
 func _gui_input(e: InputEvent) -> void:
@@ -95,7 +138,7 @@ func _finish() -> void:
 		return
 	_video.stop()
 	_video.visible = false
-	_show_title()
+	_show_splash(_show_title)
 
 
 ## Title card after the studio intro: fades in from black, slow push-in, tap (or wait) to continue.
@@ -137,7 +180,7 @@ func _show_title() -> void:
 		pulse.tween_property(tap, "modulate:a", 1.0, 0.6)
 		pulse.tween_property(tap, "modulate:a", 0.45, 0.6))
 	Sound.play("screen_whoosh", 0.4)
-	get_tree().create_timer(TITLE_HOLD_S).timeout.connect(_leave_title)
+	# Stays until the player taps (TAP TO PLAY).
 
 
 var _left_title: bool = false

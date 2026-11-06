@@ -76,7 +76,7 @@ func _scene() -> void:
 	for i: int in 2:
 		var ar: Sprite2D = Art.unit_sprite("archer_idle", 110)
 		ar.position = Vector2(690 + i * 100, 0)
-		ar.flip_h = true
+		ar.flip_h = false  # the archer art faces left: toward the blue army
 		add_child(ar)
 
 

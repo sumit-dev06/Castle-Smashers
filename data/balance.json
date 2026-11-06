@@ -914,13 +914,13 @@
       "stone": {
         "title": "Rocky's SLAM",
         "steps": [
-          "Drag back on the catapult and let go to fling Rocky.",
+          "Drag anywhere on the screen to stretch the catapult, then let go to fling Rocky.",
           "While he is flying over the tower, tap anywhere on the screen.",
           "Rocky drops straight down like a boulder and crushes stone and the guards below."
         ],
         "best": "Best on: stone towers and guards under a roof.",
         "tap_dx": 30,
-        "aim": "This is Rocky! Drag back and let go to fling him at the stone tower.",
+        "aim": "This is Rocky! Drag anywhere on the screen to stretch the catapult, then let go to fling him at the stone tower.",
         "tap": "Rocky is over the tower. Tap to slam down!",
         "done": "The slam smashes through stone and the guards under it.",
         "again": "Fly above the tower, then tap to slam down."
@@ -2641,6 +2641,7 @@
     "busy_unlock_s": 1.5,
     "_doc": "Menu feel: finger-drag scrolling of card lists (DragScroll).",
     "drag_scroll_px": 14.0,
+    "back_exit_s": 2.0,
     "drag_scroll_friction": 5.0
   },
   "friendly_fire": {

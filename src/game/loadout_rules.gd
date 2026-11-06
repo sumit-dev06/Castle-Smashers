@@ -16,13 +16,17 @@ static func power_budget(level_data: Dictionary, level_id: int) -> int:
 
 static func unlocked_kinds(level_id: int, level_data: Dictionary = {}) -> Array[String]:
 	var allowed: Array = level_data.get("allowed_heroes", [])
+	# Special missions (ids above CHALLENGE_BASE) only offer heroes the campaign has unlocked.
+	var reach: int = level_id
+	if level_id > Data.CHALLENGE_BASE:
+		reach = int(Save.data.get("unlocked", 1))
 	var out: Array[String] = []
 	for key: Variant in Data.projectiles.keys():
 		var kind: String = String(key)
 		var cfg: Variant = Data.projectiles[kind]
 		if not (cfg is Dictionary) or not (cfg as Dictionary).has("name"):
 			continue
-		if int((cfg as Dictionary).get("unlock_level", 999)) > level_id:
+		if int((cfg as Dictionary).get("unlock_level", 999)) > reach:
 			continue
 		if not allowed.is_empty() and not allowed.has(kind):
 			continue

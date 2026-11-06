@@ -38,7 +38,7 @@ func _ready() -> void:
 	_build_path()
 	_build_extras()
 	_build_ui()
-	var cur: int = clampi(int(Save.data["unlocked"]), 1, Data.level_count())
+	var cur: int = clampi(int(Save.data.get("last_level", Save.data["unlocked"])), 1, Data.level_count())
 	_scroll_to(_nodes[cur - 1]["pos"].x - _view.x * 0.45)
 	_sound_realm = -1
 

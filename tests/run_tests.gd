@@ -1350,7 +1350,7 @@ func _progression_tests() -> void:
 	for a: Dictionary in Progression.achievements():
 		if String(a["id"]) == "chain_20":
 			chain_ach = a
-	_check(Progression.achievements().size() == 23 and Progression.ach_state(chain_ach) == "ready", "23 achievements; a chain of 22 completes Chain of 20")
+	_check(Progression.achievements().size() == 24 and Progression.ach_state(chain_ach) == "ready", "24 achievements; a chain of 22 completes Chain of 20")
 	Progression.claim_achievement("chain_20")
 	_check(Progression.ach_state(chain_ach) == "claimed" and Progression.owns("skins", "sky"), "the Chain of 20 reward grants the Sky skin")
 	# Secrets: the scroll crate in level 7 reveals realm 1's secret level.
